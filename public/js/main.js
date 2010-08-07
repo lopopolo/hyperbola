@@ -5,7 +5,7 @@ $(document).ready(function() {
 //	// listener for url change
 	$('#header a').click(function(event) {
 		event.preventDefault();
-		$.history.load($(this).html())
+		$.history.load($(this).href.replace('#', ''));
 	});
 	$.history.init(change_content);
 	
