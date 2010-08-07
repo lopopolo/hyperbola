@@ -24,7 +24,7 @@ body {
 	text-align: center;
 }
 #content {
-	overflow: scroll;
+	overflow: auto;
 }
 /* hide content sections */
 #index { display: none; }
