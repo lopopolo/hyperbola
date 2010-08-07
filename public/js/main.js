@@ -35,6 +35,7 @@ function change_content() {
 			break;
 		case 'index':
 		case '':
+		default:
 			$('#content').html($('#index').html());
 			break;
 		}
