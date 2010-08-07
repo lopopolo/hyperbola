@@ -28,7 +28,7 @@ function change_content() {
 		$('#content').innerHTML = $('#about').innerHTML;
 		break;
 	case 'index':
-	case default:
+	default:
 		$('#content').innerHTML = $('#index').innerHTML;
 		break;
 	}
