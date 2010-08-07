@@ -26,7 +26,7 @@ function fireGlobalEvent(name) {
 function change_content(hash) {
 	$('#content').fadeOut('slow', function() {
 //		var hash = location.hash;
-//		hash = hash.replace('#', '');
+		hash = hash.replace('#', '');
 		switch (hash) {
 		case 'contact':
 			$('#content').html($('#contact').html());
