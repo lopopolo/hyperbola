@@ -2,6 +2,9 @@ $(document).ready(function() {
 	// 9grid the background bezel
 	$('#content_pane').scale9Grid({top:40,bottom:40,left:40,right:40});
 	
+	// make back button work
+	window.onbeforeunload = function() {};
+	
 	// listener for url change
 	window.addEventListener("hash_change", change_content, false); //false to get it in bubble
 	fireGlobalEvent("hash_change");
