@@ -19,21 +19,20 @@ function fireGlobalEvent(name) {
 function change_content() {
 	var hash = location.hash;
 	hash = hash.replace('#', '');
-	alert(hash);
 	$('#content').fadeOut();
 	switch (hash) {
 	case 'contact':
-		$('#content').innerHTML = $('#contact').innerHTML;
+		$('#content').html($('#contact').html());
 		break;
 	case 'portfolio':
-		$('#content').innerHTML = $('#portfolio').innerHTML;
+		$('#content').html($('#portfolio').html());
 		break;
 	case 'about':
-		$('#content').innerHTML = $('#about').innerHTML;
+		$('#content').html($('#about').html());
 		break;
 	case 'index':
-	default:
-		$('#content').innerHTML = $('#index').innerHTML;
+	case '':
+		$('#content').html($('#index').html());
 		break;
 	}
 	$('#content').fadeIn();
