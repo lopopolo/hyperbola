@@ -17,23 +17,24 @@ function fireGlobalEvent(name) {
 }
 
 function change_content() {
-	var hash = location.hash;
-	hash = hash.replace('#', '');
-	$('#content').fadeOut();
-	switch (hash) {
-	case 'contact':
-		$('#content').html($('#contact').html());
-		break;
-	case 'portfolio':
-		$('#content').html($('#portfolio').html());
-		break;
-	case 'about':
-		$('#content').html($('#about').html());
-		break;
-	case 'index':
-	case '':
-		$('#content').html($('#index').html());
-		break;
-	}
-	$('#content').fadeIn();
+	$('#content').fadeOut('slow', function() {
+		var hash = location.hash;
+		hash = hash.replace('#', '');
+		switch (hash) {
+		case 'contact':
+			$('#content').html($('#contact').html());
+			break;
+		case 'portfolio':
+			$('#content').html($('#portfolio').html());
+			break;
+		case 'about':
+			$('#content').html($('#about').html());
+			break;
+		case 'index':
+		case '':
+			$('#content').html($('#index').html());
+			break;
+		}
+		$('#content').fadeIn('slow');
+	});
 }
