@@ -1,0 +1,33 @@
+@CHARSET "ISO-8859-1";
+body { 	
+	background-color: #222222;
+	color: darkgray;
+	font-family: sans-serif;
+	/* allow vertical and horizontal centering */
+	height: 100%;
+	width: 100%;
+	/* prevent overflow in firefox */
+	overflow: hidden;
+}
+#content_pane {
+	/* vertically center div on page */
+	position: absolute;
+	top: 10%;
+	left: 25%;
+	width: 50%;
+	height: 80%;
+}
+#header {
+	width: 90%;
+	margin: auto;
+	margin-top: 20px;
+	text-align: center;
+}
+#content {
+	overflow: scroll;
+}
+/* hide content sections */
+#index { display: none; }
+#contact { display: none; }
+#portfolio { display: none; }
+#about { display: none; }
