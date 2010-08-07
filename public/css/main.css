@@ -9,6 +9,10 @@ body {
 	/* prevent overflow in firefox */
 	overflow: hidden;
 }
+a {
+	color: rgb(40, 220, 220);
+	text-decoration: none;
+}
 #content_pane {
 	/* vertically center div on page */
 	position: absolute;
