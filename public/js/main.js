@@ -2,6 +2,9 @@ $(document).ready(function() {
 	// listener for url change
 	window.addEventListener("hash_change", change_content, false); //false to get it in bubble
 	fireGlobalEvent("hash_change");
+	$('#header a').click(function() {
+		fireGlobalEvent("hash_change");
+	})
 });
 
 function fireGlobalEvent(name) {
@@ -16,6 +19,7 @@ function fireGlobalEvent(name) {
 function change_content() {
 	var hash = location.hash;
 	hash = hash.replace('#', '');
+	alert(hash);
 	$('#content').fadeOut();
 	switch (hash) {
 	case 'contact':
