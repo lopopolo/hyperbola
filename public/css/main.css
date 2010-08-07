@@ -21,6 +21,7 @@ a {
 	width: 50%;
 	height: 80%;
 	background-image: url('http://assets.hyperbo.la/public/images/bezelblack.png');
+	background-repeat: no-repeat;
 }
 #header {
 	width: 90%;

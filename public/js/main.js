@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	// 9grid the background bezel
+	$('#content_pane').scale9Grid({top:30,bottom:30,left:30,right:30});
+	
 	// listener for url change
 	window.addEventListener("hash_change", change_content, false); //false to get it in bubble
 	fireGlobalEvent("hash_change");
