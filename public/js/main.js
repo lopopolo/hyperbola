@@ -24,7 +24,7 @@ function fireGlobalEvent(name) {
 }
 
 function change_content(hash) {
-	trace(hash);
+	alert(hash);
 	$('#content').fadeOut('slow', function() {
 //		var hash = location.hash;
 		hash = hash.replace('#', '');
