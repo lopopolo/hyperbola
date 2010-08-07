@@ -6,8 +6,8 @@ $(document).ready(function() {
 //	window.addEventListener("hash_change", change_content, false); //false to get it in bubble
 //	fireGlobalEvent("hash_change");
 	$('#header a').click(function(event) {
-		$.history.load($(this).html())
 		event.preventDefault();
+		$.history.load($(this).html())
 	});
 	
 	$.history.init(change_content)
