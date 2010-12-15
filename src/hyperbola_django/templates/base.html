@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		{% block extrahead %}{% endblock %}
+	</head>
+	<body>
+		<div id="header">
+			HYPERBOLA<br />
+			<!-- navigation -->
+			<a href="/">home</a> :: <a href="/contact/">Contact</a>
+		</div>
+		<div id="content">
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>
