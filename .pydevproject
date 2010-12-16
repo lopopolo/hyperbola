@@ -7,6 +7,8 @@
 <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
 <key>DJANGO_MANAGE_LOCATION</key>
 <value>src/hyperbola_django/manage.py</value>
+<key>DJANGO_SETTINGS_MODULE</key>
+<value>hyperbola_django.settings</value>
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/hyperbola_django/src</path>

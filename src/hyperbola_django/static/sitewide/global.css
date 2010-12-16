@@ -19,15 +19,14 @@ a {
 #header {
 	background-color: #444444;
 	color: white;
-	padding: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 	width: 100%;
 	position: relative;
-	height: 4em;
+	height: 56px;
 }
 
 #logo {
-	position: absolute;
-	left: 0px;
 	float: left;
 }
 
@@ -36,6 +35,7 @@ a {
 	right: 0px;
 	top: 0px;
 	white-space: nowrap;
+	margin: 0px;
 }
 
 #navbar li {
@@ -51,16 +51,23 @@ a {
 	display: block;
 	padding: 2em 16px 5px;
 	text-align: center;
+	font-weight: bold;
 }
 
 #navbar li a:hover {
-	background: #666666;
+	background: #AAAAAA;
 }
 
 .contact #navbar li#contact a {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#666666'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#666666)); /* for webkit browsers */
-	background: -moz-linear-gradient(top,  #444444,  #666666); /* for firefox 3.6+ */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
+}
+
+.frontpage #navbar li#home a {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
 }
 
 #content {
@@ -68,8 +75,67 @@ a {
 	color: darkgray;
 	padding: 5px;
 	width: 100%;
+	position: relative;
 }
 
+/* contact CSS */
 .contact_table  td {
 	min-width: 200px;
+}
+
+/* frontpage CSS */
+.blurb {
+	border: 3px solid rgb(40, 220, 220);
+	margin-bottom: 10px;
+	padding-left: 5px;
+	padding-right: 5px;	
+	-webkit-border-radius: 10px;    /* for Safari */
+    -moz-border-radius: 10px;       /* for Firefox */
+}
+
+#blurbs {
+	width: 69%;
+	float: left;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+}
+
+#newsfeed {
+	width: 30%;
+	float: right;
+	background-color: #AAAAAA;
+	padding: 2px;
+	margin: 0px;
+	position: relative;
+	left: 5px; /* combat padding of content container */
+}
+
+.news {
+	font-size: 10pt;
+	padding: 2px;
+}
+
+.pubdate {
+	font-size: 8pt;
+}
+
+.row1 {
+	background-color: #222222;
+}
+.row2 {
+	background-color: #666666;
+	color: #111111;
+}
+
+#news_title {
+	color: #111111;
+	margin: 0px;
+	padding: 0px;
+	font-size:12pt;
+	text-align: center; 
+}
+
+.floatfix {
+	clear: both;
 }
