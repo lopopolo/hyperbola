@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load email_obfuscate %}
+
 {% block active_app %}contact{% endblock %}
 
 {% block title %} hyperbo.la :: Contact {% endblock %}
@@ -14,7 +16,7 @@
 		  {% for name, value in contacts_for_type %}
 		  	<tr>
 		  		<td>{{name}}</td>
-		  		<td>{{value|safe}}</td>
+		  		<td>{{value|obfuscate}}</td>
 		  	</tr>
 		  {% endfor %}
 		</table>

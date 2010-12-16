@@ -13,7 +13,7 @@ def index(request):
         contacts = []
         for email in all_email:
             if email.type == type:
-                contacts.append((email.name, '<a href="mailto:'+email.value+'">'+email.value+'</a>'))
+                contacts.append((email.name, email.value))
         for phone in all_phone:
             if phone.type == type:
                 contacts.append((phone.name, phone.value))
