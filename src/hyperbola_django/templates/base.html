@@ -1,16 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html>
 	<head>
 		<title>{% block title %}{% endblock %}</title>
+		
+		<link rel="stylesheet" href="/static/sitewide/global.css" type="text/css" />
 		{% block extrahead %}{% endblock %}
 	</head>
-	<body>
-		<div id="header">
-			HYPERBOLA<br />
-			<!-- navigation -->
-			<a href="/">home</a> :: <a href="/contact/">Contact</a>
-		</div>
-		<div id="content">
-			{% block content %}{% endblock %}
+	<body class="{% block active_app %}{% endblock %}">
+		<div id="site_container">
+			<div id="header">
+				<h1 id="logo">HYPERBOLA</h1>
+				<ul id="navbar">
+					<li id="home"><a href="/">home</a></li>
+					<li id="contact"><a href="/contact/">contact</a></li>
+				</ul>
+			</div>
+			<div id="content">
+				{% block content %}{% endblock %}
+			</div>
 		</div>
 	</body>
 </html>

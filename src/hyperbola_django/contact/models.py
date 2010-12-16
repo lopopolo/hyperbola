@@ -34,6 +34,9 @@ class PhoneContact(Contact):
 class WebContact(Contact):
     value = models.URLField(verify_exists=False, max_length=200)
 
+class IMContact(Contact):
+    value = models.CharField(max_length=100)
+
 class Resume(models.Model):
     version = models.AutoField(primary_key=True)
     resume = models.FileField(upload_to="resume")

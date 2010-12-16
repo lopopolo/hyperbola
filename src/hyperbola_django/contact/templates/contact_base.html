@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
+{% block active_app %}contact{% endblock %}
+
 {% block title %} hyperbo.la :: Contact {% endblock %}
 
 {% block content %}
 	<h1>Contact {{name}}</h1>
 	
-	{% for type_and_contacts in contacts %}
-		<h2>{{type_and_contacts.0}}</h2>
+	{% for type, contacts_for_type in contacts %}
+		<h2>{{type}}</h2>
 		
-		<table>
-		  {% for name_and_value in type_and_contacts.1 %}
+		<table class="contact_table">
+		  {% for name, value in contacts_for_type %}
 		  	<tr>
-		  		<td>{{name_and_value.0}}</td>
-		  		<td>{{name_and_value.1}}</td>
+		  		<td>{{name}}</td>
+		  		<td>{{value|safe}}</td>
 		  	</tr>
 		  {% endfor %}
 		</table>
