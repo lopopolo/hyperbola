@@ -153,6 +153,11 @@ a {
 
 .blurb img {
 	max-width: 80%;
+	margin: auto;
+}
+
+.fullwidth {
+	width: 100%;
 }
 
 #next {
