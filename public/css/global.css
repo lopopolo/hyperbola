@@ -70,6 +70,12 @@ a {
 	background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
 }
 
+.lifestream #navbar li#lifestream a {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
+}
+
 #content {
 	background-color: #222222;
 	color: darkgray;
@@ -96,9 +102,6 @@ a {
 #blurbs {
 	width: 69%;
 	float: left;
-	position: absolute;
-	top: 5px;
-	left: 5px;
 }
 
 #newsfeed {
@@ -134,6 +137,26 @@ a {
 	padding: 0px;
 	font-size:12pt;
 	text-align: center; 
+}
+
+#archive {
+	width: 30%;
+	float: right;
+	position: relative;
+	left: 5px; /* combat padding of content container */
+	background-color: #222222;
+}
+
+.lifestream_entry_header {
+	font-size: 8pt;
+}
+
+#next {
+	float: right;
+}
+
+#prev {
+	float: left;
 }
 
 .floatfix {
