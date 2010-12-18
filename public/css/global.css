@@ -151,6 +151,10 @@ a {
 	font-size: 8pt;
 }
 
+.blurb img {
+	max-width: 80%;
+}
+
 #next {
 	float: right;
 }
