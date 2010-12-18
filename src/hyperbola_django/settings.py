@@ -96,4 +96,5 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'contact',
     'frontpage',
+    'lifestream',
 )

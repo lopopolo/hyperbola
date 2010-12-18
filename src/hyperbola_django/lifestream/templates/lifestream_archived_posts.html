@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block active_app %}lifestream{% endblock %}
+
+{% block title %} hyperbo.la :: lifestream :: archive{% endblock %}
+
+{% block content %}
+	<div id="blurbs">
+		<h2>Posts from {{month}} {{year}}</h2>
+		{% for pub_date,blurb,picture_url,pk in posts %}
+			<div class="blurb">
+				<p class="lifestream_entry_header">{{pub_date|date:"H:i b d Y"}} <a href="/lifestream/{{pk}}/">permalink</a></p>
+				{% if picture_url %}
+				<p><img src="{{picture_url}}" />
+				{% endif %}
+				<p>{{blurb|urlize}}</p>
+			</div>
+		{% endfor %}
+	</div>
+	<div id="archive">
+		{% include "lifestream_archive.html" %}
+	</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block active_app %}lifestream{% endblock %}
+
+{% block title %} hyperbo.la :: lifestream 
+	{% if page != 1 %}
+		:: page {{page}}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<div id="blurbs">
+		{% for pub_date,blurb,picture_url,pk in posts %}
+			<div class="blurb">
+				<p class="lifestream_entry_header">{{pub_date|date:"H:i b d Y"}} <a href="/lifestream/{{pk}}/">permalink</a></p>
+				{% if picture_url %}
+				<p><img src="{{picture_url}}" />
+				{% endif %}
+				<p>{{blurb|urlize}}</p>
+			</div>
+		{% endfor %}
+		<div id="page_links">
+			{% if prev_page %}
+			<div id="prev"><a href="page/{{prev_page}}/">newer</a></div>
+			{% endif %}
+			{% if next_page %}
+			<div id="next"><a href="page/{{next_page}}/">older</a></div>
+			{% endif %}
+		</div>
+	</div>
+	<div id="archive">
+		{% include "lifestream_archive.html" %}
+	</div>
+{% endblock %}

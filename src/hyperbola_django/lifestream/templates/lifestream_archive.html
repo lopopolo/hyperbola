@@ -1,0 +1,8 @@
+{% for year,months in dates %}
+	<h3>{{year}}</h3>
+	<ul>
+		{% for monthnum,month in months %}
+			<li><a href="/lifestream/archive/{{year}}/{{monthnum}}/">{{month}}</a></li>
+		{% endfor %}
+	</ul>
+{% endfor %}
