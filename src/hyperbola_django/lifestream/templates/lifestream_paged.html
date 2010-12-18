@@ -14,7 +14,7 @@
 			<div class="blurb">
 				<p class="lifestream_entry_header">{{pub_date|date:"H:i b d Y"}} <a href="/lifestream/{{pk}}/">permalink</a></p>
 				{% if picture_url %}
-				<p><img src="{{picture_url}}" />
+				<div class="fullwidth"><img src="{{picture_url}}" /></div>
 				{% endif %}
 				<p>{{blurb|urlize}}</p>
 			</div>
