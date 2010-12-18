@@ -154,6 +154,7 @@ a {
 .blurb img {
 	max-width: 80%;
 	margin: auto;
+	display: block;
 }
 
 .fullwidth {
