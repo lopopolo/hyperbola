@@ -28,6 +28,9 @@ a {
 
 #logo {
 	float: left;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
 }
 
 #navbar {
