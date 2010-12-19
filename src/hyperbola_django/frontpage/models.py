@@ -46,7 +46,7 @@ def obj_saved(**kwargs):
     if "Contact" in str(kwargs['sender']) or "Resume" in str(kwargs['sender']):
         link = "/contact/"
     elif "LifeStream" in str(kwargs['sender']):
-        link = "/lifestream/" + kwargs['instance'].pk + "/"
+        link = "/lifestream/" + str(kwargs['instance'].pk) + "/"
     
     update = SiteNewsItem(blurb=blurb, link=link)
     update.save()
