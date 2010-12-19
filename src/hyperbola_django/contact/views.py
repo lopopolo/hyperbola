@@ -36,9 +36,9 @@ def index(request):
 def resume(request):
     if len(Resume.objects.all()) > 0:
         newest = Resume.objects.all()[0]
-        fsock = newest.resume.open(mode="r")
-        response = HttpResponse(fsock, mimetype="application/pdf")
+        response = HttpResponse(mimetype="application/pdf")
         response['Content-Disposition'] = 'attachment; filename="Ryan Lopopolo.pdf"'
+        response['X-Sendfile'] = newest.resume.path
         return response
     else:
         raise Http404
