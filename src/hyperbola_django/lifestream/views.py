@@ -114,6 +114,6 @@ def permalink(request, id):
                                "next_page" : older,
                                "pub_date" : post.pub_date,
                                "blurb" : post.blurb,
-                               "pic" : pic,
+                               "picture_url" : pic,
                                "pk" : post.pk,
                                "dates" : get_archive_range()})
