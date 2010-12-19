@@ -1,5 +1,8 @@
 # Create your views here.
+# -*- coding: latin-1 -*-
+
 from django.shortcuts import render_to_response
+from django.http import HttpResponse, Http404
 from models import EmailContact, PhoneContact, WebContact, IMContact, Resume, ContactType
 
 def index(request):
@@ -26,5 +29,15 @@ def index(request):
                 contacts.append((im.name, im.value))
         
         all_contacts.append((type.type, contacts))
+    all_contacts.append((u"Résumé", [(u"Résumé", '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
     return render_to_response("contact_base.html", {"name" : "Ryan Lopopolo",
                                                     "contacts" : all_contacts })
+    
+def resume(request):
+    if len(Resume.objects.all()) > 0:
+        newest = Resume.objects.all()[0]
+        response = HttpResponse(newest.resume.url, mimetype="application/pdf")
+        response['Content-Disposition'] = 'attachment; filename=Ryan Lopopolo.pdf'
+        return response
+    else:
+        raise Http404
