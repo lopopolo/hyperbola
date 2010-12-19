@@ -44,7 +44,7 @@ def obj_saved(**kwargs):
     else:
         blurb += "%s updated." % (what[kwargs['sender']])
     if "Contact" in str(kwargs['sender']) or "Resume" in str(kwargs['sender']):
-        link = "/contact"
+        link = "/contact/"
     elif "LifeStream" in str(kwargs['sender']):
         link = "/lifestream/" + kwargs['instance'].pk + "/"
     
