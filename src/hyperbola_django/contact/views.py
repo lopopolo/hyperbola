@@ -29,7 +29,8 @@ def index(request):
                 contacts.append((im.name, im.value))
         
         all_contacts.append((type.type, contacts))
-    all_contacts.append((u"Résumé", [(u"Résumé", '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
+    resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
+    all_contacts.append((u"Résumé", [(u"As of " + resume_as_of, '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
     return render_to_response("contact_base.html", {"name" : "Ryan Lopopolo",
                                                     "contacts" : all_contacts })
     
