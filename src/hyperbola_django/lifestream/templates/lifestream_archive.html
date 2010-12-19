@@ -1,4 +1,9 @@
 {% for year,months in dates %}
+	<h3>Syndication</h3>
+	<ul>
+		<li><a href="/lifestream/rss/">RSS</a>
+		<li><a href="/lifestream/atom/">Atom</a>
+	</ul>
 	<h3>{{year}}</h3>
 	<ul>
 		{% for monthnum,month in months %}
