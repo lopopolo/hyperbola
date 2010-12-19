@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404
 from hyperbola_django.lifestream.models import *
 
-NUM_PER_PAGE = 2
+NUM_PER_PAGE = 20
 
 def page(request, page_num):
     page_num = int(page_num)
