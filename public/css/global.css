@@ -37,6 +37,7 @@ a {
 #logo img {
 	display: block;
 	margin: auto;
+	border-style: none;
 }
 
 #navbar {
