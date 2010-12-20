@@ -180,7 +180,7 @@ a {
 }
 
 ul.syndication {
-	list-style-image("http://assets.hyperbo.la/public/images/feed-icon-14x14.png");
+	list-style-image: url("http://assets.hyperbo.la/public/images/feed-icon-14x14.png");
 }
 
 .floatfix {
