@@ -28,6 +28,15 @@ a {
 
 #logo {
 	float: left;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	height: 100%;
+}
+
+#logo img {
+	display: block;
+	margin: auto;
 }
 
 #navbar {
@@ -149,6 +158,16 @@ a {
 
 .lifestream_entry_header {
 	font-size: 8pt;
+}
+
+.blurb img {
+	max-width: 80%;
+	margin: auto;
+	display: block;
+}
+
+.fullwidth {
+	width: 100%;
 }
 
 #next {

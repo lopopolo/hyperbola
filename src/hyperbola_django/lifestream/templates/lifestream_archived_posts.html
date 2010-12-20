@@ -6,6 +6,7 @@
 
 {% block content %}
 	<div id="blurbs">
+		{% if posts %}
 		<h2>Posts from {{month}} {{year}}</h2>
 		{% for pub_date,blurb,picture_url,pk in posts %}
 			<div class="blurb">
@@ -16,6 +17,9 @@
 				<p>{{blurb|urlize}}</p>
 			</div>
 		{% endfor %}
+		{% else %}
+		<h2>No posts from {{month}} {{year}}</h2>
+		{% endif %}
 	</div>
 	<div id="archive">
 		{% include "lifestream_archive.html" %}

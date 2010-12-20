@@ -85,6 +85,9 @@ def archive(request, year, month):
             print "post is not a picture"
         posts.append((post.pub_date, post.blurb, pic, post.pk))
     
+    if posts is []:
+        posts = None
+    
     return render_to_response("lifestream_archived_posts.html",
                               {"posts" : posts,
                                "month" : month_names[month],
