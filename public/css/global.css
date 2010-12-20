@@ -23,7 +23,7 @@ a {
 	padding-right: 5px;
 	width: 100%;
 	position: relative;
-	height: 56px;
+	height: 100%;
 }
 
 #logo {
@@ -58,7 +58,10 @@ a {
 
 #navbar li a {
 	display: block;
-	padding: 2em 16px 5px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-bottom: 5px;
+	height: 100%;
 	text-align: center;
 	font-weight: bold;
 }
