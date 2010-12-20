@@ -31,6 +31,12 @@ a {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
+	height: 100%;
+}
+
+#logo img {
+	display: block;
+	margin: auto;
 }
 
 #navbar {
