@@ -5,6 +5,6 @@ Created on Dec 16, 2010
 '''
 from django.conf.urls.defaults import patterns
 
-urlpatterns = patterns('frontpage.views',
+urlpatterns = patterns('hyperbola_django.frontpage.views',
     (r'^$', 'index'),
 )

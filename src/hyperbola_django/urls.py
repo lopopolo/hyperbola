@@ -13,9 +13,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^ssb/', include(admin.site.urls)),
-    (r'^$', include('frontpage.urls')),
-    (r'^contact/', include('contact.urls')),
-    (r'^lifestream/', include('lifestream.urls')),
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': 'c:/webdev/hyperbola_django/src/hyperbola_django/static'}),
+    (r'^$', include('hyperbola_django.frontpage.urls')),
+    (r'^contact/', include('hyperbola_django.contact.urls')),
+    (r'^lifestream/', include('hyperbola_django.lifestream.urls')),
 )

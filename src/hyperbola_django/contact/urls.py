@@ -5,7 +5,7 @@ Created on Dec 15, 2010
 '''
 from django.conf.urls.defaults import patterns
 
-urlpatterns = patterns('contact.views',
+urlpatterns = patterns('hyperbola_django.contact.views',
     (r'^$', 'index'),
     (r'^resume/$', 'resume'),
 )
