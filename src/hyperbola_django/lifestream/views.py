@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404
-from hyperbola_django.lifestream.models import *
+from hyperbola_django.lifestream.models import LifeStreamItem, LifeStreamPicture
 
 NUM_PER_PAGE = 20
 
@@ -95,10 +95,6 @@ def archive(request, year, month):
                                "dates" : get_archive_range()})
 
 def permalink(request, id):
-    max_id = LifeStreamItem.objects.all()[0].pk
-    min_id = LifeStreamItem.objects.all()[len(LifeStreamItem.objects.all())-1].pk
-    
-    
     post = get_object_or_404(LifeStreamItem, pk=id)
     pic = None
     newer = None

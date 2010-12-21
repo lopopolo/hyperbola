@@ -4,7 +4,7 @@ Created on Dec 18, 2010
 @author: Ryan Lopopolo
 '''
 from django.conf.urls.defaults import patterns
-from hyperbola_django.lifestream.syndication import *
+from hyperbola_django.lifestream.syndication import LatestEntriesFeed, AtomLatestEntriesFeed
 
 urlpatterns = patterns('hyperbola_django.lifestream.views',
     (r'^$', 'page', {"page_num" : 1}),

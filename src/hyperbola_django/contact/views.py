@@ -3,7 +3,7 @@
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, Http404
-from models import *
+from models import EmailContact, PhoneContact, WebContact, IMContact, Resume, ContactType, AboutMe
 
 def index(request):
     all_email = EmailContact.objects.all()

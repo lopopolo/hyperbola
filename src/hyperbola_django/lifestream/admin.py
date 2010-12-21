@@ -4,7 +4,7 @@ Created on Dec 18, 2010
 @author: Ryan Lopopolo
 '''
 from django.contrib import admin
-from hyperbola_django.lifestream.models import *
+from hyperbola_django.lifestream.models import LifeStreamItem, LifeStreamPicture
 
 
 admin.site.register(LifeStreamItem)

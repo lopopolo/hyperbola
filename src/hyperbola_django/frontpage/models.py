@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from hyperbola_django.contact.models import EmailContact, PhoneContact, WebContact, IMContact, Resume
-from hyperbola_django.lifestream.models import *
+from hyperbola_django.lifestream.models import LifeStreamItem, LifeStreamPicture
 
 # Create your models here.
 class Blurb(models.Model):
