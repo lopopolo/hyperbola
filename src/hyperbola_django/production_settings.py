@@ -11,12 +11,10 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/lopopolo/hyperbola-django/hyperbola_django/production-sqlite.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'OPTIONS' : {
+		'read_default_file': '/home/lopopolo/hyperbola/my.cnf',
+	},
     }
 }
 
@@ -81,7 +79,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/home/lopopolo/hyperbola-django/hyperbola_django/src/hyperbola_django/templates/",
+    "/home/lopopolo/hyperbola/hyperbola_django/templates/",
 )
 
 INSTALLED_APPS = (
