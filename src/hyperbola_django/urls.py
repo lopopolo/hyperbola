@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -17,3 +18,10 @@ urlpatterns = patterns('',
     (r'^contact/', include('hyperbola_django.contact.urls')),
     (r'^lifestream/', include('hyperbola_django.lifestream.urls')),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve',
+            {'document_root': 'c:/webdev/hyperbola_django/src/hyperbola_django/static/'}),
+    )
+
