@@ -44,3 +44,17 @@ class Resume(models.Model):
     
     def __unicode__(self):
         return "version %s as of %s" % (self.version, self.date)
+    
+    class Meta:
+        ordering = ['-version']
+
+class AboutMe(models.Model):
+    version = models.AutoField(primary_key=True)
+    photo = models.ImageField(upload_to="about/photo")
+    blurb = models.TextField()
+    
+    def __unicode__(self):
+        return "version %s: %s..." % (self.version, self.blurb[:50])
+    
+    class Meta:
+        ordering = ['-version']

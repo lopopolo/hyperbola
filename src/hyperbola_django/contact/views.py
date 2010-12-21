@@ -3,7 +3,7 @@
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, Http404
-from models import EmailContact, PhoneContact, WebContact, IMContact, Resume, ContactType
+from models import *
 
 def index(request):
     all_email = EmailContact.objects.all()
@@ -31,9 +31,18 @@ def index(request):
         all_contacts.append((type.type, contacts))
     resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
     all_contacts.append((u"Résumé", [(u"As of " + resume_as_of, '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
-    return render_to_response("contact_base.html", {"name" : "Ryan Lopopolo",
-                                                    "contacts" : all_contacts })
     
+    return render_to_response("contact_base.html", {"name" : "Ryan Lopopolo",
+                                                    "contacts" : all_contacts,
+                                                    "about" : about() })
+ 
+def about():
+    about_me = None
+    if len(AboutMe.objects.all()) > 0:
+        newest = AboutMe.objects.all()[0]
+        about_me = (newest.photo.url, newest.blurb)
+    return about_me
+   
 def resume(request):
     if len(Resume.objects.all()) > 0:
         newest = Resume.objects.all()[0]
