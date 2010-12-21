@@ -107,10 +107,14 @@ def permalink(request, id):
         pic = post.lifestreampicture.picture.url
     except LifeStreamPicture.DoesNotExist:
         print "post is not a picture"
-    if post.pk < max_id:
+    try:
         newer = post.get_next_by_pub_date().pk
-    if post.pk > min_id:
+    except LifeStreamItem.DoesNotExist:
+        pass
+    try:
         older = post.get_previous_by_pub_date().pk
+    except LifeStreamItem.DoesNotExist:
+        pass
     
     return render_to_response("lifestream_entry.html",
                               {"prev_page" : newer,
