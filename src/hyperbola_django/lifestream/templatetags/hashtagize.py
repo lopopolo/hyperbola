@@ -19,9 +19,19 @@ def hashtagize(blurb, linktext=None, autoescape=None):
     else:
         esc = lambda x: x
     print blurb
-    blurb = re.sub('(?P<space>\s)#(?P<tag>[^\s]+)(?P<end_space>\s)',
-                   '\g<space><a href="' + TAG_BASE + '\g<tag>/">#\g<tag>\g<end_space></a>', 
+    
+    blurb = re.sub('(?P<space>\s)#',
+                   ' \g<space>#', 
                    esc(blurb))
-    print blurb
+    
+    blurb = re.sub('(?P<space>\s)#(?P<tag>[^\s]+)(?P<end_space>\s)',
+                   '\g<space><a href="' + TAG_BASE + '\g<tag>/">#\g<tag></a>\g<end_space>', 
+                   esc(blurb))
+    blurb = re.sub('(?P<space>\s)#(?P<tag>[^\s]+)$',
+                   '\g<space><a href="' + TAG_BASE + '\g<tag>/">#\g<tag></a>', 
+                   blurb)
+    blurb = re.sub('^#(?P<tag>[^\s]+)(?P<end_space>\s)',
+                   '<a href="' + TAG_BASE + '\g<tag>/">#\g<tag></a>\g<end_space>', 
+                   blurb)
     return mark_safe(blurb)
 hashtagize.needs_autoescape = True
