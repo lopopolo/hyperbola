@@ -156,14 +156,14 @@ a {
 	font-size: 8pt;
 }
 
-.blurb img {
+.fullwidth {
+	width: 100%;
+}
+
+.fullwidth img {
 	max-width: 80%;
 	margin: auto;
 	display: block;
-}
-
-.fullwidth {
-	width: 100%;
 }
 
 #next {
