@@ -109,19 +109,22 @@ a {
     -moz-border-radius: 10px;       /* for Firefox */
 }
 
-#blurbs {
+#left_col {
 	width: 69%;
 	float: left;
 }
 
-#newsfeed {
+#right_col {
 	width: 30%;
 	float: right;
+	position: relative;
+	left: 5px; /* combat padding of content container */
+}
+
+.newsfeed {
 	background-color: #AAAAAA;
 	padding: 2px;
 	margin: 0px;
-	position: relative;
-	left: 5px; /* combat padding of content container */
 }
 
 .news {
@@ -147,14 +150,6 @@ a {
 	padding: 0px;
 	font-size:12pt;
 	text-align: center; 
-}
-
-#archive {
-	width: 30%;
-	float: right;
-	position: relative;
-	left: 5px; /* combat padding of content container */
-	background-color: #222222;
 }
 
 .lifestream_entry_header {
