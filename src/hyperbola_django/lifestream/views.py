@@ -122,8 +122,8 @@ def permalink(request, id):
                                "dates" : get_archive_range()})
     
 def tag_page(request, page_num, tag):
-    hashedtag = "#%s " % (tag)
-    hashedtagns = "#%s" % (tag)
+    hashedtag = " #%s " % (tag)
+    hashedtagns = " #%s" % (tag)
     display_posts = LifeStreamItem.objects.filter(blurb__contains=hashedtag) | \
                     LifeStreamItem.objects.filter(blurb__endswith=hashedtagns)
     
