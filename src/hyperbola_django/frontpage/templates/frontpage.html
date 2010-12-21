@@ -5,7 +5,7 @@
 {% block title %} hyperbo.la {% endblock %}
 
 {% block content %}
-	<div id="blurbs">
+	<div id="left_col">
 		{% for title,blurb in blurbs %}
 			<div class="blurb">
 				<h2>{{title}}</h2>
@@ -14,7 +14,7 @@
 		{% endfor %}
 	</div>
 	
-	<div id="newsfeed">
+	<div id="right_col" class="newsfeed">
 		<h2 id="news_title">Site news</h2>
 		{% for blurb,link,pubdate in news %}
 			<div class="news {% cycle 'row1' 'row2' %}">

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-	<div id="blurbs">
+	<div id="left_col">
 		{% for pub_date,blurb,picture_url,pk in posts %}
 			{% include "blurb.html" %}
 		{% endfor %}
@@ -22,7 +22,7 @@
 			{% endif %}
 		</div>
 	</div>
-	<div id="archive">
+	<div id="right_col">
 		{% include "lifestream_archive.html" %}
 	</div>
 {% endblock %}

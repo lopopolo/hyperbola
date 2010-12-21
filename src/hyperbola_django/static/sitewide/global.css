@@ -23,7 +23,7 @@ a {
 	padding-right: 5px;
 	width: 100%;
 	position: relative;
-	height: 56px;
+	height: 60px;
 }
 
 #logo {
@@ -37,6 +37,7 @@ a {
 #logo img {
 	display: block;
 	margin: auto;
+	border-style: none;
 }
 
 #navbar {
@@ -58,7 +59,7 @@ a {
 
 #navbar li a {
 	display: block;
-	padding: 2em 16px 5px;
+	padding: 36px 16px 5px;
 	text-align: center;
 	font-weight: bold;
 }
@@ -100,7 +101,7 @@ a {
 
 /* frontpage CSS */
 .blurb {
-	border: 3px solid rgb(40, 220, 220);
+	border: 2px solid rgb(40, 220, 220);
 	margin-bottom: 10px;
 	padding-left: 5px;
 	padding-right: 5px;	
@@ -108,19 +109,22 @@ a {
     -moz-border-radius: 10px;       /* for Firefox */
 }
 
-#blurbs {
+#left_col {
 	width: 69%;
 	float: left;
 }
 
-#newsfeed {
+#right_col {
 	width: 30%;
 	float: right;
+	position: relative;
+	left: 5px; /* combat padding of content container */
+}
+
+.newsfeed {
 	background-color: #AAAAAA;
 	padding: 2px;
 	margin: 0px;
-	position: relative;
-	left: 5px; /* combat padding of content container */
 }
 
 .news {
@@ -148,14 +152,6 @@ a {
 	text-align: center; 
 }
 
-#archive {
-	width: 30%;
-	float: right;
-	position: relative;
-	left: 5px; /* combat padding of content container */
-	background-color: #222222;
-}
-
 .lifestream_entry_header {
 	font-size: 8pt;
 }
@@ -176,6 +172,10 @@ a {
 
 #prev {
 	float: left;
+}
+
+ul.syndication {
+	list-style-image: url("http://assets.hyperbo.la/public/images/feed-icon-14x14.png");
 }
 
 .floatfix {

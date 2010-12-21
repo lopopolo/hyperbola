@@ -11,7 +11,7 @@
 {% block content %}
 	{% if posts %}
 	<h2>Results for #{{tag}}</h2>
-	<div id="blurbs">
+	<div id="left_col">
 		{% for pub_date,blurb,picture_url,pk in posts %}
 			{% include "blurb.html" %}
 		{% endfor %}
@@ -27,7 +27,7 @@
 	{% else %}
 	<h2>No results for #{{tag}}</h2>
 	{% endif %}
-	<div id="archive">
+	<div id="right_col">
 		{% include "lifestream_archive.html" %}
 	</div>
 {% endblock %}

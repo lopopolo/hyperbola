@@ -5,7 +5,7 @@
 {% block title %} hyperbo.la :: lifestream {% endblock %}
 
 {% block content %}
-	<div id="blurbs">
+	<div id="left_col">
 		{% include "blurb.html" %}
 		<div id="page_links">
 			{% if prev_page %}
@@ -16,7 +16,7 @@
 			{% endif %}
 		</div>
 	</div>
-	<div id="archive">
+	<div id="right_col">
 		{% include "lifestream_archive.html" %}
 	</div>
 {% endblock %}
