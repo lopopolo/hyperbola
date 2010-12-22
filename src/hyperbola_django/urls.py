@@ -17,11 +17,14 @@ urlpatterns = patterns('',
     (r'^$', include('hyperbola_django.frontpage.urls')),
     (r'^contact/', include('hyperbola_django.contact.urls')),
     (r'^lifestream/', include('hyperbola_django.lifestream.urls')),
+    (r'^projects/', include('hyperbola_django.appstore.urls')),
 )
 
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^static/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': 'c:/webdev/hyperbola_django/src/hyperbola_django/static/'}),
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+            {'document_root': 'c:/webdev/hyperbola_django/src/hyperbola_django/media/', 'show_indexes': True}),
     )
 
