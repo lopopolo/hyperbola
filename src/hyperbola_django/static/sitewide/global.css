@@ -178,6 +178,43 @@ ul.syndication {
 	list-style-image: url("http://assets.hyperbo.la/public/images/feed-icon-14x14.png");
 }
 
+
+.category {
+	width: 100%;
+	border: 2px solid rgb(40, 220, 220);
+	margin-bottom: 10px;
+	-webkit-border-radius: 0 10px 10px 10px;    /* for Safari */
+    -moz-border-radius: 0 10px 10px 10px;       /* for Firefox */
+}
+
+.category h3 {
+	background-color: #666666;
+	width: 50%;
+	margin: 0px;
+	padding-left: 5px;
+}
+
+.category .project {
+	padding: 5px;
+}
+
+.category .project h4 {
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.category .project img {
+	display: block;
+	float: left;
+	width: 20%;
+	padding-right: 5px;
+}
+
+.category .project p {
+	margin-top: 0px;
+}
+	
+
 .floatfix {
 	clear: both;
 }

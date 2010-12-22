@@ -1,0 +1,9 @@
+<div class="project">
+	<h4><a href="{% url appstore.views.app category=slug name=project_slug %}">{{title}}</a></h4>						
+	{% if image_url %}
+	<img src="{{image_url}}" />
+	{% endif %}
+	
+	{{desc|linebreaks|truncatewords_html:50}}
+	<div class="floatfix"></div>
+</div>

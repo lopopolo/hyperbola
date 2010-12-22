@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block active_app %}appstore{% endblock %}
+
+{% block title %} hyperbo.la :: Projects :: #{{tag}}{% endblock %}
+
+{% block content %}
+	<div id="left_col">
+		<h2>Results for #{{tag}}</h2>
+		<div class="category">
+			<a href="{% url appstore.views.tag tag=tag %}"><h3>#{{tag}}</h3></a>
+			{% for title,project_slug,desc,slug,image_url in projects %}
+				{% include "project_listing.html" %}
+			{% endfor %}
+		
+		</div>
+		
+	</div>
+	
+	<div id="right_col">
+		
+	</div>
+{% endblock %}
