@@ -14,6 +14,7 @@ body {
 a {
 	color: rgb(40, 220, 220);
 	text-decoration: none;
+	outline: none;
 }
 
 #header {
