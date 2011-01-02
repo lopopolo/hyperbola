@@ -14,7 +14,6 @@ body {
 a {
 	color: rgb(40, 220, 220);
 	text-decoration: none;
-	outline: none;
 }
 
 #header {
@@ -25,6 +24,10 @@ a {
 	width: 100%;
 	position: relative;
 	height: 60px;
+}
+
+#header a {
+	outline: none;
 }
 
 #logo {
@@ -60,7 +63,7 @@ a {
 
 #navbar li a {
 	display: block;
-	padding: 36px 16px 5px;
+	padding: 38px 16px 5px;
 	text-align: center;
 	font-weight: bold;
 }
