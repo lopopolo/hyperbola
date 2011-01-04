@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 
 def video(request, id):
-    subprocess.call(['/home/lopopolo/hyperbola/hyperbola_django/youtuberip/youtube-dl', '-o', '"%s"' % (id), '"%s%s"' % (YOUTUBE_URL, id)])
+    subprocess.call(['/home/lopopolo/hyperbola/hyperbola_django/youtuberip/youtube-dl', '-o', '%s' % (id), '%s%s' % (YOUTUBE_URL, id)])
     ffm = FFMPEG_CMD.replace('FILENAME', id)
     ff = ffm.split()
     subprocess.call(ff)
