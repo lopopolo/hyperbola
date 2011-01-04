@@ -95,4 +95,5 @@ INSTALLED_APPS = (
     'hyperbola_django.contact',
     'hyperbola_django.frontpage',
     'hyperbola_django.lifestream',
+    'hyperbola_django.youtuberip',
 )

@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     (r'^$', include('hyperbola_django.frontpage.urls')),
     (r'^contact/', include('hyperbola_django.contact.urls')),
     (r'^lifestream/', include('hyperbola_django.lifestream.urls')),
+    (r'^yt/', include('hyperbola_django.youtuberip.urls')),
     (r'^projects/', include('hyperbola_django.appstore.urls')),
 )
 
