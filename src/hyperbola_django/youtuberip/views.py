@@ -20,7 +20,7 @@ def video(request, id):
     subprocess.call(ff)
     subprocess.call(['mv', '/tmp/%s.mp3' % (id), '%s/%s.mp3' % (MP3_DIR, id)])
     
-    entry = yt_service.GetYouTubeVideoEntry(video_id='the0KZLEacs')
+    entry = yt_service.GetYouTubeVideoEntry(video_id=id)
     
     return render_to_response("json.html", {"link" : 'http://media.hyperbo.la/mp3s/%s.mp3' % (id),
                                            "title" : entry.media.title.text,
