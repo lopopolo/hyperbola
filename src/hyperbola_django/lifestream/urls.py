@@ -2,8 +2,8 @@
 Created on Dec 18, 2010
 
 @author: Ryan Lopopolo
-'''8
-from django.conf.urls.defaults import *
+'''
+from django.conf.urls.defaults import patterns
 from hyperbola_django.lifestream.syndication import LatestEntriesFeed, AtomLatestEntriesFeed
 
 urlpatterns = patterns('hyperbola_django.lifestream.views',
