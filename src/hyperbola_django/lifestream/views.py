@@ -124,8 +124,10 @@ def permalink(request, id):
 def tag_page(request, page_num, tag):
     hashedtag = " #%s " % (tag)
     hashedtagns = " #%s" % (tag)
+    hashedtagnfs = "#%s " % (tag)
     display_posts = LifeStreamItem.objects.filter(blurb__contains=hashedtag) | \
-                    LifeStreamItem.objects.filter(blurb__endswith=hashedtagns)
+                    LifeStreamItem.objects.filter(blurb__endswith=hashedtagns)|\
+                    LifeStreamItem.objects.filter(blurb__startswith=hashedtagnfs)
     
     page_num = int(page_num)
     next_page = None
