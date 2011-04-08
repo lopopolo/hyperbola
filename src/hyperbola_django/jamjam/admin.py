@@ -6,6 +6,9 @@ Created on Apr 8, 2011
 from django.contrib import admin
 from models import Station, Song
 
+class SongAdmin(admin.ModelAdmin):
+    date_hierarchy = 'air_time'
+
 
 admin.site.register(Station)
-admin.site.register(Song)
+admin.site.register(SongAdmin)
