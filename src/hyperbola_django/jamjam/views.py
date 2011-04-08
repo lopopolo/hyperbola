@@ -12,7 +12,7 @@ def station_list(request):
     return HttpResponse(ret)
 
 def station(request, id):
-    songs = Song.objects.filter(identifier=id)[0:3]
+    songs = Song.objects.filter(station__identifier=id)[0:3]
     
     ret = ''
     for song in songs:

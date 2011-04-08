@@ -23,7 +23,7 @@ class Song(models.Model):
     air_time = models.DateTimeField(auto_now=True)
     
     def __unicode__(self):
-        return '%s - %s' % (self.artist, self.title)
+        return '%s: %s - %s' % (self.station, self.artist, self.title)
     
     class Meta:
         ordering = ['-air_time']
