@@ -14,7 +14,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'hyperbola_django.production_settings'
 
 import urllib
 import re
-from models import Station, Song
+from hyperbola_django.jamjam.models import Station, Song
 
 class iplaylistScraper():
     def __self__(self, station, url):
