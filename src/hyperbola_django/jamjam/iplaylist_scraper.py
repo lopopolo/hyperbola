@@ -17,7 +17,7 @@ import re
 from hyperbola_django.jamjam.models import Station, Song
 
 class iplaylistScraper():
-    def __self__(self, station, url):
+    def __init__(self, station, url):
         self.url = url
         self.station = station
         
