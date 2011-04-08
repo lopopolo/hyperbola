@@ -42,7 +42,9 @@ class iplaylistScraper():
     def is_song_in_db(self, song):
         (artist, title) = song
         
-        most_recent_song = Song.objects.filter(station=self.station)[0]
+        most_recent_song = Song.objects.filter(station=self.station)
+        if len(most_recent_song > 0):
+            most_recent_song = most_recent_song[0]
         if artist == most_recent_song.artist and title == most_recent_song.title:
             return True
         else:
