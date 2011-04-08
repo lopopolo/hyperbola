@@ -3,6 +3,14 @@ Created on Apr 8, 2011
 
 @author: Ryan Lopopolo
 '''
+import os
+import sys
+
+sys.path.append('/home/lopopolo/hyperbola/')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'hyperbola_django.production_settings'
+
+
 
 import urllib
 import re
