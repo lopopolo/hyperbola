@@ -8,7 +8,7 @@ from models import Station, Song
 
 class SongAdmin(admin.ModelAdmin):
     date_hierarchy = 'air_time'
-    list_display = ('__unicode__', 'air_time')
+    #list_display = ('__unicode__', 'air_time')
 
 
 admin.site.register(Station)
