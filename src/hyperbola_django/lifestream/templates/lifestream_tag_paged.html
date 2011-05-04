@@ -10,8 +10,8 @@
 
 {% block content %}
 	{% if posts %}
-	<h2>Results for #{{tag}}</h2>
 	<div id="left_col">
+		<h2>Results for #{{tag}}</h2>
 		{% for pub_date,blurb,picture_url,pk in posts %}
 			{% include "blurb.html" %}
 		{% endfor %}
