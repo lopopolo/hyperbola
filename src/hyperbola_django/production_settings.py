@@ -4,7 +4,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    # ('Ryan Lopopolo', 'rjl@hyperbo.la'),
 )
 
 MANAGERS = ADMINS
@@ -63,6 +63,10 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+	'django.core.context_processors.debug',
 )
 
 MIDDLEWARE_CLASSES = (
