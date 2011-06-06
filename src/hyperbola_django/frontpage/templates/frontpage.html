@@ -18,7 +18,7 @@
 		<h2 id="news_title">Site news</h2>
 		{% for blurb,link,pubdate in news %}
 			<div class="news {% cycle 'row1' 'row2' %}">
-				<h3 class="pubdate">{{pubdate|date:'H:i b d Y'}}</h3>
+				<h3 class="pubdate">{{pubdate|date:'H:i T b d Y'|lower}}</h3>
 				<p>{{blurb}} Check it out <a href="{{link}}">here</a>.</p>
 			</div>
 		{% endfor %}
