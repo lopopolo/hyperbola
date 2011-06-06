@@ -28,7 +28,7 @@ def page(request, page_num):
         try:
             pic = post.lifestreampicture.picture.url
         except LifeStreamPicture.DoesNotExist:
-            print "post is not a picture"
+            #print "post is not a picture"
         posts.append((post.pub_date, post.blurb, pic, post.pk))
     
     return render_to_response("lifestream_paged.html",
