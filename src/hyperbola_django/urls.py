@@ -18,8 +18,8 @@ urlpatterns = patterns('',
     (r'^contact/', include('hyperbola_django.contact.urls')),
     (r'^lifestream/', include('hyperbola_django.lifestream.urls')),
     (r'^yt/', include('hyperbola_django.youtuberip.urls')),
-    (r'^projects/', include('hyperbola_django.appstore.urls')),
-    (r'^jamjam/', include('hyperbola_django.jamjam.urls')),
+    #(r'^projects/', include('hyperbola_django.appstore.urls')),
+    #(r'^jamjam/', include('hyperbola_django.jamjam.urls')),
 )
 
 if settings.DEBUG:
