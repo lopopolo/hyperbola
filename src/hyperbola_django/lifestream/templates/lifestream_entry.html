@@ -5,18 +5,18 @@
 {% block title %} hyperbo.la :: lifestream {% endblock %}
 
 {% block content %}
-	<div id="left_col">
-		{% include "blurb.html" %}
-		<div id="page_links">
-			{% if prev_page %}
-			<div id="prev"><a href="/lifestream/{{prev_page}}/">newer</a></div>
-			{% endif %}
-			{% if next_page %}
-			<div id="next"><a href="/lifestream/{{next_page}}/">older</a></div>
-			{% endif %}
-		</div>
-	</div>
-	<div id="right_col">
-		{% include "lifestream_archive.html" %}
-	</div>
+  <div id="left_col">
+    {% include "blurb.html" %}
+    <div id="page_links">
+      {% if prev_page %}
+      <div id="prev"><a href="/lifestream/{{prev_page}}/">newer</a></div>
+      {% endif %}
+      {% if next_page %}
+      <div id="next"><a href="/lifestream/{{next_page}}/">older</a></div>
+      {% endif %}
+    </div>
+  </div>
+  <div id="right_col">
+    {% include "lifestream_archive.html" %}
+  </div>
 {% endblock %}

@@ -3,26 +3,26 @@
 {% block active_app %}lifestream{% endblock %}
 
 {% block title %} hyperbo.la :: lifestream 
-	{% if page != 1 %}
-		:: page {{page}}
-	{% endif %}
+  {% if page != 1 %}
+    :: page {{page}}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
-	<div id="left_col">
-		{% for pub_date,blurb,picture_url,pk in posts %}
-			{% include "blurb.html" %}
-		{% endfor %}
-		<div id="page_links">
-			{% if prev_page %}
-			<div id="prev"><a href="/lifestream/page/{{prev_page}}/">newer</a></div>
-			{% endif %}
-			{% if next_page %}
-			<div id="next"><a href="/lifestream/page/{{next_page}}/">older</a></div>
-			{% endif %}
-		</div>
-	</div>
-	<div id="right_col">
-		{% include "lifestream_archive.html" %}
-	</div>
+  <div id="left_col">
+    {% for pub_date,blurb,picture_url,pk in posts %}
+      {% include "blurb.html" %}
+    {% endfor %}
+    <div id="page_links">
+      {% if prev_page %}
+      <div id="prev"><a href="/lifestream/page/{{prev_page}}/">newer</a></div>
+      {% endif %}
+      {% if next_page %}
+      <div id="next"><a href="/lifestream/page/{{next_page}}/">older</a></div>
+      {% endif %}
+    </div>
+  </div>
+  <div id="right_col">
+    {% include "lifestream_archive.html" %}
+  </div>
 {% endblock %}

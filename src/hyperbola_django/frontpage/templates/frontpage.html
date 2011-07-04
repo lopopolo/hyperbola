@@ -5,22 +5,22 @@
 {% block title %} hyperbo.la {% endblock %}
 
 {% block content %}
-	<div id="left_col">
-		{% for title,blurb in blurbs %}
-			<div class="blurb">
-				<h2>{{title}}</h2>
-				<p>{{blurb}}</p>
-			</div>
-		{% endfor %}
-	</div>
-	
-	<div id="right_col" class="newsfeed">
-		<h2 id="news_title">Site news</h2>
-		{% for blurb,link,pubdate in news %}
-			<div class="news {% cycle 'row1' 'row2' %}">
-				<h3 class="pubdate">{{pubdate|date:'H:i T b d Y'|lower}}</h3>
-				<p>{{blurb}} Check it out <a href="{{link}}">here</a>.</p>
-			</div>
-		{% endfor %}
-	</div>
+  <div id="left_col">
+    {% for title,blurb in blurbs %}
+      <div class="blurb">
+        <h2>{{title}}</h2>
+        <p>{{blurb}}</p>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div id="right_col" class="newsfeed">
+    <h2 id="news_title">Site news</h2>
+    {% for blurb,link,pubdate in news %}
+      <div class="news {% cycle 'row1' 'row2' %}">
+        <h3 class="pubdate">{{pubdate|date:'H:i T b d Y'|lower}}</h3>
+        <p>{{blurb}} Check it out <a href="{{link}}">here</a>.</p>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

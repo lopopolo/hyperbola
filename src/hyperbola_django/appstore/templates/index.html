@@ -5,22 +5,22 @@
 {% block title %} hyperbo.la :: Projects {% endblock %}
 
 {% block content %}
-	<div id="left_col">
-		<h2>Projects</h2>
-	
-		{% for category,slug,project_list in projects %}
-			<div class="category">
-				<a href="{% url appstore.views.category category=slug %}"><h3>{{category}}</h3></a>
-				{% for title,project_slug,desc,image_url in project_list %}
-					{% include "project_listing.html" %}
-				{% endfor %}
-			
-			</div>
-		{% endfor %}
-		
-	</div>
-	
-	<div id="right_col">
-		
-	</div>
+  <div id="left_col">
+    <h2>Projects</h2>
+  
+    {% for category,slug,project_list in projects %}
+      <div class="category">
+        <a href="{% url appstore.views.category category=slug %}"><h3>{{category}}</h3></a>
+        {% for title,project_slug,desc,image_url in project_list %}
+          {% include "project_listing.html" %}
+        {% endfor %}
+      
+      </div>
+    {% endfor %}
+    
+  </div>
+  
+  <div id="right_col">
+    
+  </div>
 {% endblock %}

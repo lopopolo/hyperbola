@@ -13,8 +13,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'OPTIONS' : {
-		'read_default_file': '/home/lopopolo/hyperbola/my.cnf',
-	},
+    'read_default_file': '/home/lopopolo/hyperbola/my.cnf',
+  },
     }
 }
 
@@ -66,8 +66,8 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	'django.core.context_processors.debug',
-	'django.contrib.auth.context_processors.auth',
+  'django.core.context_processors.debug',
+  'django.contrib.auth.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (

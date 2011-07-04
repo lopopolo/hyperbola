@@ -1,30 +1,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html>
-	<head>
-		<title>{% block title %}{% endblock %}</title>
-		{% if not debug  %}
-		<link rel="stylesheet" href="http://assets.hyperbo.la/public/css/global.css" type="text/css" />
-		{% else %}
-		<link rel="stylesheet" href="/static/sitewide/global.css" type="text/css" />
-		{% endif %}
-		{% block extrahead %}{% endblock %}
-	</head>
-	<body class="{% block active_app %}{% endblock %}">
-		<div id="site_container">
-			<div id="header">
-				<div id="logo"><a href="/"><img src="http://assets.hyperbo.la/public/images/logov1.png" /></a></div>
-				<ul id="navbar">
-					<li id="home"><a href="/">home</a></li>
-					<li id="contact"><a href="/contact/">contact</a></li>
-					<li id="lifestream"><a href="/lifestream/">lifestream</a></li>
-				</ul>
-				<div class="floatfix"></div>
-			</div>
-			<div id="content">
-				{% block content %}{% endblock %}
-				<div class="floatfix"></div>
-			</div>
-		</div>
-	</body>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    {% if not debug  %}
+    <link rel="stylesheet" href="http://assets.hyperbo.la/public/css/global.css" type="text/css" />
+    {% else %}
+    <link rel="stylesheet" href="/static/sitewide/global.css" type="text/css" />
+    {% endif %}
+    {% block extrahead %}{% endblock %}
+  </head>
+  <body class="{% block active_app %}{% endblock %}">
+    <div id="site_container">
+      <div id="header">
+        <div id="logo"><a href="/"><img src="http://assets.hyperbo.la/public/images/logov1.png" /></a></div>
+        <ul id="navbar">
+          <li id="home"><a href="/">home</a></li>
+          <li id="contact"><a href="/contact/">contact</a></li>
+          <li id="lifestream"><a href="/lifestream/">lifestream</a></li>
+        </ul>
+        <div class="floatfix"></div>
+      </div>
+      <div id="content">
+        {% block content %}{% endblock %}
+        <div class="floatfix"></div>
+      </div>
+    </div>
+  </body>
 </html>

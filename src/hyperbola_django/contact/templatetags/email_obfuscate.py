@@ -9,10 +9,10 @@ register = Library()
 def obfuscate(email, linktext=None, autoescape=None):
     """
     Given a string representing an email address,
-	returns a mailto link with rot13 JavaScript obfuscation.
-	
+  returns a mailto link with rot13 JavaScript obfuscation.
+  
     Accepts an optional argument to use as the link text;
-	otherwise uses the email address itself.
+  otherwise uses the email address itself.
     """
     if '@' in email:
         if autoescape:

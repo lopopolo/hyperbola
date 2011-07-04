@@ -7,27 +7,27 @@
 {% block title %} hyperbo.la :: Contact {% endblock %}
 
 {% block content %}
-	<div id="left_col">
-		<h1>Contact {{name}}</h1>
-	
-		{% for type, contacts_for_type in contacts %}
-			<h2>{{type}}</h2>
-			
-			<table class="contact_table">
-			  {% for name, value in contacts_for_type %}
-			  	<tr>
-			  		<td>{{name}}</td>
-			  		<td>{{value|obfuscate}}</td>
-			  	</tr>
-			  {% endfor %}
-			</table>
-		{% endfor %}
-		
-	</div>
-	
-	<div id="right_col">
-		<h2>About</h2>
-		<div class="fullwidth"><img src="{{about.0}}" /></div>
-		<p>{{about.1}}</p>
-	</div>
+  <div id="left_col">
+    <h1>Contact {{name}}</h1>
+  
+    {% for type, contacts_for_type in contacts %}
+      <h2>{{type}}</h2>
+      
+      <table class="contact_table">
+        {% for name, value in contacts_for_type %}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{value|obfuscate}}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endfor %}
+    
+  </div>
+  
+  <div id="right_col">
+    <h2>About</h2>
+    <div class="fullwidth"><img src="{{about.0}}" /></div>
+    <p>{{about.1}}</p>
+  </div>
 {% endblock %}

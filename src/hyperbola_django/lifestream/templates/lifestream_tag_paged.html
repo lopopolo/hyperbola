@@ -3,31 +3,31 @@
 {% block active_app %}lifestream{% endblock %}
 
 {% block title %} hyperbo.la :: lifestream :: #{{tag}}
-	{% if page != 1 %}
-		:: page {{page}}
-	{% endif %}
+  {% if page != 1 %}
+    :: page {{page}}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
-	{% if posts %}
-	<div id="left_col">
-		<h2>Results for #{{tag}}</h2>
-		{% for pub_date,blurb,picture_url,pk in posts %}
-			{% include "blurb.html" %}
-		{% endfor %}
-		<div id="page_links">
-			{% if prev_page %}
-			<div id="prev"><a href="/lifestream/hashtag/{{tag}}/page/{{prev_page}}/">newer</a></div>
-			{% endif %}
-			{% if next_page %}
-			<div id="next"><a href="/lifestream/hashtag/{{tag}}/page/{{next_page}}/">older</a></div>
-			{% endif %}
-		</div>
-	</div>
-	{% else %}
-	<h2>No results for #{{tag}}</h2>
-	{% endif %}
-	<div id="right_col">
-		{% include "lifestream_archive.html" %}
-	</div>
+  {% if posts %}
+  <div id="left_col">
+    <h2>Results for #{{tag}}</h2>
+    {% for pub_date,blurb,picture_url,pk in posts %}
+      {% include "blurb.html" %}
+    {% endfor %}
+    <div id="page_links">
+      {% if prev_page %}
+      <div id="prev"><a href="/lifestream/hashtag/{{tag}}/page/{{prev_page}}/">newer</a></div>
+      {% endif %}
+      {% if next_page %}
+      <div id="next"><a href="/lifestream/hashtag/{{tag}}/page/{{next_page}}/">older</a></div>
+      {% endif %}
+    </div>
+  </div>
+  {% else %}
+  <h2>No results for #{{tag}}</h2>
+  {% endif %}
+  <div id="right_col">
+    {% include "lifestream_archive.html" %}
+  </div>
 {% endblock %}

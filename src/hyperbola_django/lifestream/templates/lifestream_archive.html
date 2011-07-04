@@ -1,13 +1,13 @@
 <h3>Syndication</h3>
 <ul class="syndication">
-	<li><a href="/lifestream/rss/">RSS</a>
-	<li><a href="/lifestream/atom/">Atom</a>
+  <li><a href="/lifestream/rss/">RSS</a>
+  <li><a href="/lifestream/atom/">Atom</a>
 </ul>
-{% for year,months in dates  %}	
-	<h3>{{year}}</h3>
-	<ul>
-		{% for monthnum,month in months %}
-			<li><a href="/lifestream/archive/{{year}}/{{monthnum}}/">{{month}}</a></li>
-		{% endfor %}
-	</ul>
+{% for year,months in dates  %} 
+  <h3>{{year}}</h3>
+  <ul>
+    {% for monthnum,month in months %}
+      <li><a href="/lifestream/archive/{{year}}/{{monthnum}}/">{{month}}</a></li>
+    {% endfor %}
+  </ul>
 {% endfor %}
