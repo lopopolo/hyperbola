@@ -66,7 +66,7 @@ def get_archive_range():
         if year == oldest.year:
             month_min = oldest.month
         months_in_year = []
-        for month in range(month_min, month_max+1, 1):
+        for month in range(month_max, month_min-1,- 1):
             months_in_year.append((month, month_names[month]))
         dates.append((year, months_in_year))
     return dates
