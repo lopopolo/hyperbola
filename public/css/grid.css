@@ -1,9 +1,9 @@
 /*
-	Variable Grid System.
-	Learn more ~ http://www.spry-soft.com/grids/
-	Based on 960 Grid System - http://960.gs/
+  Variable Grid System.
+  Learn more ~ http://www.spry-soft.com/grids/
+  Based on 960 Grid System - http://960.gs/
 
-	Licensed under GPL and MIT.
+  Licensed under GPL and MIT.
 */
 
 /*
@@ -21,9 +21,9 @@ body {
 /* Containers
 ----------------------------------------------------------------------------------------------------*/
 .container_5 {
-	margin-left: auto;
-	margin-right: auto;
-	width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
 }
 
 /* Grid >> Global
@@ -35,11 +35,11 @@ body {
 .grid_3,
 .grid_4,
 .grid_5 {
-	display:inline;
-	float: left;
-	position: relative;
-	margin-left: 11px;
-	margin-right: 11px;
+  display:inline;
+  float: left;
+  position: relative;
+  margin-left: 11px;
+  margin-right: 11px;
 }
 
 
@@ -49,7 +49,7 @@ body {
 .push_3, .pull_3,
 .push_4, .pull_4,
 .push_5, .pull_5 {
-	position:relative;
+  position:relative;
 }
 
 
@@ -57,11 +57,11 @@ body {
 ----------------------------------------------------------------------------------------------------*/
 
 .alpha {
-	margin-left: 0;
+  margin-left: 0;
 }
 
 .omega {
-	margin-right: 0;
+  margin-right: 0;
 }
 
 /* Grid >> 5 Columns
@@ -69,23 +69,23 @@ body {
 
 
 .container_5 .grid_1 {
-	width:170px;
+  width:170px;
 }
 
 .container_5 .grid_2 {
-	width:362px;
+  width:362px;
 }
 
 .container_5 .grid_3 {
-	width:554px;
+  width:554px;
 }
 
 .container_5 .grid_4 {
-	width:746px;
+  width:746px;
 }
 
 .container_5 .grid_5 {
-	width:938px;
+  width:938px;
 }
 
 
@@ -96,19 +96,19 @@ body {
 
 
 .container_5 .prefix_1 {
-	padding-left:192px;
+  padding-left:192px;
 }
 
 .container_5 .prefix_2 {
-	padding-left:384px;
+  padding-left:384px;
 }
 
 .container_5 .prefix_3 {
-	padding-left:576px;
+  padding-left:576px;
 }
 
 .container_5 .prefix_4 {
-	padding-left:768px;
+  padding-left:768px;
 }
 
 
@@ -118,19 +118,19 @@ body {
 
 
 .container_5 .suffix_1 {
-	padding-right:192px;
+  padding-right:192px;
 }
 
 .container_5 .suffix_2 {
-	padding-right:384px;
+  padding-right:384px;
 }
 
 .container_5 .suffix_3 {
-	padding-right:576px;
+  padding-right:576px;
 }
 
 .container_5 .suffix_4 {
-	padding-right:768px;
+  padding-right:768px;
 }
 
 
@@ -140,19 +140,19 @@ body {
 
 
 .container_5 .push_1 {
-	left:192px;
+  left:192px;
 }
 
 .container_5 .push_2 {
-	left:384px;
+  left:384px;
 }
 
 .container_5 .push_3 {
-	left:576px;
+  left:576px;
 }
 
 .container_5 .push_4 {
-	left:768px;
+  left:768px;
 }
 
 
@@ -162,19 +162,19 @@ body {
 
 
 .container_5 .pull_1 {
-	left:-192px;
+  left:-192px;
 }
 
 .container_5 .pull_2 {
-	left:-384px;
+  left:-384px;
 }
 
 .container_5 .pull_3 {
-	left:-576px;
+  left:-576px;
 }
 
 .container_5 .pull_4 {
-	left:-768px;
+  left:-768px;
 }
 
 
