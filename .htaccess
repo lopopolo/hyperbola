@@ -1,4 +1,0 @@
-RewriteEngine on
-RewriteCond %{HTTP_REFERER} !^$
-RewriteCond %{HTTP_REFERER} !^http://(.*\.)?hyperbo.la/.*$ [NC]
-RewriteRule \.(gif|png|jpg|js|css)$ - [F]
