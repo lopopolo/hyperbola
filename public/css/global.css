@@ -1,14 +1,22 @@
 @CHARSET "ISO-8859-1";
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: black;
   color: darkgray;
+  height: 100%;
+  margin: 0px;
 }
 
 #site_container {
   font-family: sans-serif;
   width: 960px;
   margin: auto;
+  min-height: 100%;
+  background-color: #222222;
 }
 
 a {
@@ -19,8 +27,6 @@ a {
 #header {
   background-color: #444444;
   color: white;
-  padding-left: 5px;
-  padding-right: 5px;
   width: 100%;
   position: relative;
   height: 60px;
@@ -93,8 +99,10 @@ a {
 #content {
   background-color: #222222;
   color: darkgray;
-  padding: 5px;
-  width: 100%;
+  width: auto;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   position: relative;
 }
 
@@ -122,7 +130,6 @@ a {
   width: 30%;
   float: right;
   position: relative;
-  left: 5px; /* combat padding of content container */
 }
 
 .newsfeed {
