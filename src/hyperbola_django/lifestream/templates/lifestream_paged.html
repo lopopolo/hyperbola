@@ -15,10 +15,12 @@
     {% endfor %}
     <div id="page_links">
       {% if prev_page %}
-      <div id="prev"><a href="/lifestream/page/{{prev_page}}/">newer</a></div>
+      {% url lifestream.views.page prev_page as newer  %}
+      <div id="prev"><a href="{{ newer }}">&laquo; newer</a></div>
       {% endif %}
       {% if next_page %}
-      <div id="next"><a href="/lifestream/page/{{next_page}}/">older</a></div>
+      {% url lifestream.views.page next_page as older  %}
+      <div id="next"><a href="{{ older  }}">older &raquo;</a></div>
       {% endif %}
     </div>
   </div>
