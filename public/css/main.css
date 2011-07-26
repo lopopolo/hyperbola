@@ -1,0 +1,39 @@
+@CHARSET "ISO-8859-1";
+body {  
+  background-color: #222222;
+  color: darkgray;
+  font-family: sans-serif;
+  /* allow vertical and horizontal centering */
+  height: 100%;
+  width: 100%;
+  /* prevent overflow in firefox */
+  overflow: hidden;
+}
+a {
+  color: rgb(40, 220, 220);
+  text-decoration: none;
+}
+#content_pane {
+  /* vertically center div on page */
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  width: 50%;
+  height: 80%;
+  background-image: url('http://assets.hyperbo.la/public/images/bezelblack.png');
+  background-repeat: no-repeat;
+}
+#header {
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+}
+#content {
+  overflow: auto;
+}
+/* hide content sections */
+#index { display: none; }
+#contact { display: none; }
+#portfolio { display: none; }
+#about { display: none; }
