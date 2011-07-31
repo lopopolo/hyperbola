@@ -4,17 +4,20 @@
   <head>
     <title>{% block title %}{% endblock %}</title>
     {% if not debug  %}
-    <link rel="stylesheet" href="http://assets.hyperbo.la/public/css/global.css" type="text/css" />
+    {% load value_from_settings %}
+
+    {% value_from_settings "ASSETS_URL" as asset_url %}
+    <link rel="stylesheet" href="{{asset_url}}/public/css/global.css" type="text/css" />
     {% else %}
     <link rel="stylesheet" href="/static/sitewide/global.css" type="text/css" />
     {% endif %}
-    <link rel="shortcut icon" href="http://assets.hyperbo.la/public/images/favicon.png" />
+    <link rel="shortcut icon" href="{{asset_url}}/public/images/favicon.png" />
     {% block extrahead %}{% endblock %}
   </head>
   <body class="{% block active_app %}{% endblock %}">
     <div id="site_container">
       <div id="header">
-        <div id="logo"><a href="/"><img src="http://assets.hyperbo.la/public/images/logov1.png" /></a></div>
+        <div id="logo"><a href="/"><img src="{{asset_url}}/public/images/logov1.png" /></a></div>
         <ul id="navbar">
           <li id="home"><a href="/">home</a></li>
           <li id="contact"><a href="/contact/">contact</a></li>

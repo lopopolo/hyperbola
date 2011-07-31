@@ -1,4 +1,4 @@
-from models import SiteNewsItem, Blurb
+from models import *
 from django.shortcuts import render_to_response
 
 # Create your views here.

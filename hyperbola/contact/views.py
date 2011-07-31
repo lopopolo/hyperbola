@@ -17,12 +17,14 @@ def index(request):
   for phone in all_phone:
     all_contacts.append[phone.type]((phone.name, phone.value))
   for web in all_web:
-    all_contacts[web.type].append((web.name, '<a href="'web.value+'">'+web.value+'</a>'))
+    all_contacts[web.type].append((web.name, '<a href="'+web.value+'">'+web.value+'</a>'))
   for im in all_im:
     all_contacts[im.type].append((im.name, im.value))
-
-  resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
-  all_contacts.append((u"Résumé", [(u"As of " + resume_as_of, '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
+  if Resume.objects.count() > 0:
+    resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
+    all_contacts.append((u"Résumé",
+      [(u"As of " + resume_as_of,
+        '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
 
   return render_to_response("contact_base.html",
       { "name" : "Ryan Lopopolo", "contacts" : all_contacts,
