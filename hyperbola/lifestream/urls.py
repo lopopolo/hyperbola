@@ -1,8 +1,3 @@
-'''
-Created on Dec 18, 2010
-
-@author: Ryan Lopopolo
-'''
 from django.conf.urls.defaults import patterns
 from hyperbola.lifestream.syndication import *
 

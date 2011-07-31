@@ -1,13 +1,8 @@
-'''
-Created on Dec 15, 2010
-
-@author: Ryan Lopopolo
-'''
 from django.contrib import admin
-from models import EmailContact, PhoneContact, WebContact, IMContact, Resume, ContactType, AboutMe
+from models import *
     
 class TypeAdmin(admin.ModelAdmin):
-    fields = ["display_order", "type"]
+  fields = ["display_order", "type"]
 
 admin.site.register(EmailContact)
 admin.site.register(PhoneContact)
