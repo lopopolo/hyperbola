@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hyperbola_django.lifestream.models *
+from hyperbola.lifestream.models *
 
 
 admin.site.register(LifeStreamItem)

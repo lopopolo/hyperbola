@@ -1,6 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
-from hyperbola_django.lifestream.models import *
+from hyperbola.lifestream.models import *
 
 class LatestEntriesFeed(Feed):
   title = "hyperbo.la lifestream microblog"

@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns
 from hyperbola.lifestream.syndication import *
 
-urlpatterns = patterns('hyperbola_django.lifestream.views',
+urlpatterns = patterns('hyperbola.lifestream.views',
   (r'^$', 'page', {"page_num" : 1}),
   (r'^page/(?P<page_num>\d+)/$', 'page'),
   (r'^archive/(?P<year>\d+)/(?P<month>\d+)/$', 'archive'),
