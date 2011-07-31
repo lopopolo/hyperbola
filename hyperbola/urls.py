@@ -14,6 +14,5 @@ urlpatterns = patterns('',
   (r'^$', include('hyperbola.frontpage.urls')),
   (r'^contact/', include('hyperbola.contact.urls')),
   (r'^lifestream/', include('hyperbola.lifestream.urls')),
-  # (r'^projects/', include('hyperbola.appstore.urls')),
 )
 
