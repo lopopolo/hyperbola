@@ -133,7 +133,7 @@ def tag_page(request, page_num, tag):
   prev_page = None
   if page_num > 1:
     prev_page = page_num - 1
-  if NUM_PER_PAGE * page_num < len(display_posts):
+  if NUM_PER_PAGE * page_num < len(matches):
     next_page = page_num + 1
   grab_min = (page_num-1) * NUM_PER_PAGE
   grab_max = page_num * NUM_PER_PAGE
