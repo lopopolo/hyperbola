@@ -11,10 +11,10 @@
     <h1>Contact {{name}}</h1>
 
     {% load dict_filters %}
-    {% filter sorted_dict_keys display_order as keys %}
-    {% for order in display_order|sorted_dict_keys %}
-      {% filter display_order|dict_get:order as type %}
-      {% filter contacts|dict_get:type as contacts_of_type %}
+    {% sorted_dict_keys display_order as keys %}
+    {% for order in keys %}
+      {% dict_get display_order order as type %}
+      {% dict_get contacts type as contacts_of_type %}
       <h2>{{contacts_of_type.0}}</h2>
       
       <table class="contact_table">
