@@ -12,6 +12,8 @@ def index(request):
   all_im = IMContact.objects.all()
   contact_types = ContactType.objects.all()
   all_contacts = dict([(type, []) for type in contact_types])
+  contact_order = dict([(type.display_order, type) for type in 
+    contact_types])
   for email in all_email:
     all_contacts[email.type].append((email.name, email.value))
   for phone in all_phone:
@@ -22,13 +24,12 @@ def index(request):
     all_contacts[im.type].append((im.name, im.value))
   if Resume.objects.count() > 0:
     resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
-    all_contacts.append((u"Résumé",
-      [(u"As of " + resume_as_of,
-        '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
+    all_contacts[u"Résumé"] = [(u"As of " + resume_as_of,
+        '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]
 
   return render_to_response("contact_base.html",
       { "name" : "Ryan Lopopolo", "contacts" : all_contacts,
-        "about" : about() })
+        "display_order" : contact_order, "about" : about() })
  
 def about():
   about_me = None
