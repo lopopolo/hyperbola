@@ -30,11 +30,11 @@ def index(request):
   # Resume is always last
   if Resume.objects.count() > 0:
     resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
-    all_contacts[u"Résumé"] = [(u"As of " + resume_as_of,
-        '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]
+    grouped_and_ordered_contacts.append((u"Résumé", [(u"As of " + resume_as_of,
+        '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
 
   return render_to_response("contact_base.html",
-      { "name" : "Ryan Lopopolo", "contacts" : all_contacts,
+      { "name" : "Ryan Lopopolo", "contacts" : grouped_and_ordered_contacts,
         "about" : about() })
  
 def about():
