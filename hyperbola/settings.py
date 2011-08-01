@@ -60,12 +60,7 @@ MEDIA_ROOT = os.path.join(REPO_PATH, 'media')
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = 'http://linode-media.hyperbo.la/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = 'http://linode-assets.hyperbo.la/django-media/'
-
-ASSETS_URL = 'http://linode-assets.hyperbo.la'
+STATIC_URL = ASSETS_URL = 'http://linode-assets.hyperbo.la'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'y$6axl8$tcm)&h!s2i0y3dvy8fdyz(mty&_!w3pr@5)if-rj@2'
