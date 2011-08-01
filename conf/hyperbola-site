@@ -1,0 +1,56 @@
+# NameVirtualHost *:80
+<VirtualHost *:80>
+  ServerName linode.hyperbo.la
+  DocumentRoot /var/www/hyperbola/hyperbola/
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  WSGIScriptAlias / /var/www/hyperbola/conf/django.wsgi
+  # redirect www to naked domain always
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ http://%1$1 [R=301,L]
+  
+  XSendFile on
+  XSendFilePath /var/www/hyperbola/media/
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName linode-assets.hyperbo.la
+  DocumentRoot /var/www/hyperbola/assets/
+  <Directory />
+    Options -Indexes FollowSymLinks
+    AllowOverride all
+    order allow,deny
+    allow from all
+  </Directory>
+  <Directory /var/www/hyperbola/assets/>
+    Options -Indexes FollowSymLinks
+    AllowOverride all
+    order allow,deny
+    allow from all
+  </Directory>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 week"  
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName linode-media.hyperbo.la
+  DocumentRoot /var/www/hyperbola/media/
+  <Directory />
+    Options -Indexes FollowSymLinks
+    AllowOverride all
+    order allow,deny
+    allow from all
+  </Directory>
+  <Directory /var/www/hyperbola/media/>
+    Options -Indexes FollowSymLinks
+    AllowOverride all
+    order allow,deny
+    allow from all
+  </Directory>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 week"
+</VirtualHost>
+
