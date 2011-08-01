@@ -8,9 +8,19 @@
   <div id="left_col">
     {% if posts %}
     <h2>Posts from {{month}} {{year}}</h2>
-    {% for pub_date,blurb,picture_url,pk in posts %}
+    {% for post in posts %}
       {% include "blurb.html" %}
     {% endfor %}
+    <div id="page_links">
+      {% if posts.has_previous %}
+      {% url lifestream.views.archive year, month_num, posts.previous_page_number as newer  %}
+      <div id="prev"><a href="{{ newer }}">&laquo; newer</a></div>
+      {% endif %}
+      {% if posts.has_next %}
+      {% url lifestream.views.archive year, month_num, posts.next_page_number as older %}
+      <div id="next"><a href="{{ older }}">older &raquo;</a></div>
+      {% endif %}
+    </div>
     {% else %}
     <h2>No posts from {{month}} {{year}}</h2>
     {% endif %}

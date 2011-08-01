@@ -10,16 +10,16 @@
 
 {% block content %}
   <div id="left_col">
-    {% for pub_date,blurb,picture_url,pk in posts %}
+    {% for post in posts %}
       {% include "blurb.html" %}
     {% endfor %}
     <div id="page_links">
-      {% if prev_page %}
-      {% url lifestream.views.page prev_page as newer  %}
+      {% if posts.has_previous %}
+      {% url lifestream.views.page posts.previous_page_number as newer  %}
       <div id="prev"><a href="{{ newer }}">&laquo; newer</a></div>
       {% endif %}
-      {% if next_page %}
-      {% url lifestream.views.page next_page as older  %}
+      {% if posts.has_next %}
+      {% url lifestream.views.page posts.next_page_number as older  %}
       <div id="next"><a href="{{ older  }}">older &raquo;</a></div>
       {% endif %}
     </div>

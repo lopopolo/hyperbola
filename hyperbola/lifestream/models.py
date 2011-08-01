@@ -4,6 +4,9 @@ class LifeStreamItem(models.Model):
   pub_date = models.DateTimeField(auto_now=True, editable=False)
   blurb = models.CharField(max_length=200)
 
+  def has_picture(self):
+    return False
+
   def __unicode__(self):
     return "%s - %s" % (self.pk, self.blurb[:50])
   class Meta:
@@ -12,3 +15,5 @@ class LifeStreamItem(models.Model):
 class LifeStreamPicture(LifeStreamItem):
   picture = models.ImageField(upload_to="lifestream/photos")
 
+  def has_picture(self):
+    return True

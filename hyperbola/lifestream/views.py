@@ -1,40 +1,26 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from hyperbola.lifestream.models import *
+from hyperbola.helpers.inheritance_query_set import *
 
 NUM_PER_PAGE = 20
 
+def paginate(page_num, objects):
+  paginator = Paginator(objects, NUM_PER_PAGE)
+  try:
+    return paginator.page(page_num)
+  except PageNotAnInteger:
+    # if page is not an integer, deliver first page
+    return paginator.page(1)
+  except EmptyPage:
+    # If page is out of range, deliver last page
+    return paginator.page(paginator.num_pages)
+
 def page(request, page_num):
-  page_num = int(page_num)
-  if not page_num > 0:
-    raise Http404
-
-  # setup page links
-  next_page = None
-  prev_page = None
-  if page_num > 1:
-    prev_page = page_num - 1
-  if NUM_PER_PAGE * page_num < LifeStreamItem.objects.count():
-    next_page = page_num + 1
-
-  grab_min = (page_num-1) * NUM_PER_PAGE
-  grab_max = page_num * NUM_PER_PAGE
-  if grab_min < 0 or grab_min > LifeStreamItem.objects.count():
-    raise Http404
-
-  display_posts = LifeStreamItem.objects.all()[grab_min:grab_max]
-  posts = []
-  for post in display_posts:
-    pic = None
-    try:
-      pic = post.lifestreampicture.picture.url
-    except LifeStreamPicture.DoesNotExist:
-      pass
-    posts.append((post.pub_date, post.blurb, pic, post.pk))
-    
+  display_posts = paginate(page_num, InheritanceQuerySet(model=LifeStreamItem).select_subclasses())
   return render_to_response("lifestream_paged.html",
-      { "prev_page" : prev_page, "next_page" : next_page,
-        "page" : page_num, "posts" : posts,
+      { "posts" : display_posts,
         "dates" : get_archive_range() })
     
 month_names = {
@@ -72,89 +58,46 @@ def get_archive_range():
     dates.append((year, months_in_year))
   return dates
 
-def archive(request, year, month):
+def archive(request, year, month, page_num):
   year = int(year)
   month = int(month)
   if year < 0 or year > 9999 or month < 1 or month > 12:
     raise Http404
-  matches = LifeStreamItem.objects.filter(pub_date__year=year).filter(pub_date__month=month)
-  posts = []
-  for post in matches:
-    pic = None
-    try:
-      pic = post.lifestreampicture.picture.url
-    except LifeStreamPicture.DoesNotExist:
-      pass  
-    posts.append((post.pub_date, post.blurb, pic, post.pk))
-  if posts is []:
-    posts = None
+  posts = paginate(page_num, InheritanceQuerySet(model=LifeStreamItem).select_subclasses().filter(pub_date__year=year).filter(pub_date__month=month))
 
   return render_to_response("lifestream_archived_posts.html",
       { "posts" : posts, "month" : month_names[month], "year" : year,
-        "dates" : get_archive_range() })
+        "month_num" : month, "dates" : get_archive_range() })
 
 def permalink(request, id):
-  post = get_object_or_404(LifeStreamItem, pk=id)
-  pic = None
-  newer = None
-  older = None
+  post = InheritanceQuerySet(model=LifeStreamItem).select_subclasses().filter(pk=id)
+  post_generic = LifeStreamItem.objects.filter(pk=id)
+  if post.count() < 1:
+    raise Http404
   try:
-    pic = post.lifestreampicture.picture.url
-  except LifeStreamPicture.DoesNotExist:
-    pass
-  try:
-    newer = post.get_next_by_pub_date().pk
+    newer = post_generic[0].get_next_by_pub_date().pk
   except LifeStreamItem.DoesNotExist:
-    pass
+    newer = None
   try:
-    older = post.get_previous_by_pub_date().pk
+    older = post_generic[0].get_previous_by_pub_date().pk
   except LifeStreamItem.DoesNotExist:
-    pass
+    older = None
 
   return render_to_response("lifestream_entry.html", 
       { "prev_page" : newer, "next_page" : older,
-        "pub_date" : post.pub_date, "blurb" : post.blurb,
-        "picture_url" : pic,
-        "pk" : post.pk, "dates" : get_archive_range() })
+        "post" : post[0], "dates" : get_archive_range() })
     
 def tag_page(request, page_num, tag):
   hashedtag = " #%s " % (tag)
   hashedtagns = " #%s" % (tag)
   hashedtagnfs = "#%s " % (tag)
-  matches = LifeStreamItem.objects.filter(blurb__contains=hashedtag) | \
-      LifeStreamItem.objects.filter(blurb__endswith=hashedtagns)|\
-      LifeStreamItem.objects.filter(blurb__startswith=hashedtagnfs)
+  qs = InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
+  matches = qs.filter(blurb__contains=hashedtag) | \
+      qs.filter(blurb__endswith=hashedtagns) | \
+      qs.filter(blurb__startswith=hashedtagnfs)
     
-  page_num = int(page_num)
-  if not page_num > 0:
-    raise Http404
-  # setup pagination
-  next_page = None
-  prev_page = None
-  if page_num > 1:
-    prev_page = page_num - 1
-  if NUM_PER_PAGE * page_num < len(matches):
-    next_page = page_num + 1
-  grab_min = (page_num-1) * NUM_PER_PAGE
-  grab_max = page_num * NUM_PER_PAGE
-  if grab_min < 0 or grab_min > len(LifeStreamItem.objects.all()):
-    raise Http404
-
-  matches = matches[grab_min:grab_max]
-  posts = []
-  for post in matches:
-    pic = None
-    try:
-      pic = post.lifestreampicture.picture.url
-    except LifeStreamPicture.DoesNotExist:
-      pass  
-    posts.append((post.pub_date, post.blurb, pic, post.pk))
-
-  if posts is []:
-    posts = None
 
   return render_to_response("lifestream_tag_paged.html",
-      { "prev_page" : prev_page, "next_page" : next_page,
-        "page" : page_num, "tag" : tag, "posts" : posts,
+      { "tag" : tag, "posts" : posts,
         "dates" : get_archive_range() })
 

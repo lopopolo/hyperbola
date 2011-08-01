@@ -1,9 +1,9 @@
 {% load hashtagize %}
 
 <div class="blurb">
-  <p class="lifestream_entry_header">{{pub_date|date:"H:i T b d Y"|lower}} <a href="/lifestream/{{pk}}/">permalink</a></p>
-  {% if picture_url %}
-  <div class="fullwidth"><img src="{{picture_url}}" /></div>
+  <p class="lifestream_entry_header">{{post.pub_date|date:"H:i T b d Y"|lower}} <a href="/lifestream/{{post.pk}}/">permalink</a></p>
+  {% if post.has_picture %}
+  <div class="fullwidth"><img src="{{post.picture.url}}" /></div>
   {% endif %}
-  <p>{{blurb|urlize|hashtagize}}</p>
+  <p>{{post.blurb|urlize|hashtagize}}</p>
 </div>
