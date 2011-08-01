@@ -53,7 +53,7 @@ USE_L10N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(REPO_PATH, 'media')
+MEDIA_ROOT = '/var/www/hyperbola/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -61,6 +61,8 @@ MEDIA_ROOT = os.path.join(REPO_PATH, 'media')
 MEDIA_URL = 'http://linode-media.hyperbo.la/'
 
 STATIC_URL = ASSETS_URL = 'http://linode-assets.hyperbo.la'
+
+FILE_UPLOAD_PERMISSIONS = 0644
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'y$6axl8$tcm)&h!s2i0y3dvy8fdyz(mty&_!w3pr@5)if-rj@2'
