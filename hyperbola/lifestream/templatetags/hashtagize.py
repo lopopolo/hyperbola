@@ -11,6 +11,9 @@ def hashtagize(blurb):
   blurb = re.sub('(?P<leader>[^&])#(?P<tag>[A-Za-z0-9]+)',
       '<a href="' + TAG_BASE + '\g<tag>/">\g<leader>#\g<tag></a>',
       blurb)
+  blurb = re.sub('^#(?P<tag>[A-Za-z0-9]+)',
+      '<a href="' + TAG_BASE + '\g<tag>/">#\g<tag></a>',
+      blurb)
 
   return mark_safe(blurb)
 
