@@ -12,15 +12,17 @@
   {% if posts %}
   <div id="left_col">
     <h2>Results for #{{tag}}</h2>
-    {% for pub_date,blurb,picture_url,pk in posts %}
+    {% for post in posts %}
       {% include "blurb.html" %}
     {% endfor %}
     <div id="page_links">
-      {% if prev_page %}
-      <div id="prev"><a href="/lifestream/hashtag/{{tag}}/page/{{prev_page}}/">newer</a></div>
+      {% if posts.has_previous %}
+      {% url lifestream.views.tag_page page_num=posts.previous_page_number tag=tag as newer %}
+      <div id="prev"><a href="{{ newer }}">&laquo; newer</a></div>
       {% endif %}
-      {% if next_page %}
-      <div id="next"><a href="/lifestream/hashtag/{{tag}}/page/{{next_page}}/">older</a></div>
+      {% if posts.has_next %}
+      {% url lifestream.views.tag_page page_num=posts.next_page_number tag=tag as older %}
+      <div id="next"><a href="{{ older }}">older &raquo;</a></div>
       {% endif %}
     </div>
   </div>

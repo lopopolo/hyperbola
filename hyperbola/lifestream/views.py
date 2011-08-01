@@ -95,9 +95,9 @@ def tag_page(request, page_num, tag):
   matches = qs.filter(blurb__contains=hashedtag) | \
       qs.filter(blurb__endswith=hashedtagns) | \
       qs.filter(blurb__startswith=hashedtagnfs)
-    
+  matches = paginate(page_num, matches)
 
   return render_to_response("lifestream_tag_paged.html",
-      { "tag" : tag, "posts" : posts,
+      { "tag" : tag, "posts" : matches,
         "dates" : get_archive_range() })
 
