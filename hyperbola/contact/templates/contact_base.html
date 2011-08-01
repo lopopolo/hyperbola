@@ -10,15 +10,11 @@
   <div id="left_col">
     <h1>Contact {{name}}</h1>
 
-    {% load dict_filters %}
-    {% sorted_dict_keys display_order as keys %}
-    {% for order in keys %}
-      {% dict_get display_order order as type %}
-      {% dict_get contacts type as contacts_of_type %}
-      <h2>{{contacts_of_type.0}}</h2>
+    {% for category, contacts_of_category in contacts %}
+      <h2>{{category}}</h2>
       
       <table class="contact_table">
-        {% for name, value in contacts_of_type.1 %}
+        {% for name, value in contacts_of_category %}
           <tr>
             <td>{{name}}</td>
             <td>{{value|obfuscate}}</td>
