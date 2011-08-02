@@ -3,6 +3,7 @@
 
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, Http404
+from django.core.urlresolvers import reverse
 from models import *
 
 def index(request):
@@ -29,9 +30,10 @@ def index(request):
     grouped_and_ordered_contacts.append((category.type, all_contacts[category]))
   # Resume is always last
   if Resume.objects.count() > 0:
+    resume_link = reverse(resume, args=[])
     resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
     grouped_and_ordered_contacts.append((u"Résumé", [(u"As of " + resume_as_of,
-        '<a href="resume/">http://hyperbo.la/contact/resume/</a>')]))
+      '<a href="'+resume_link+'">http://'+request.META['HTTP_HOST'] + resume_link+'</a>')]))
 
   return render_to_response("contact_base.html",
       { "name" : "Ryan Lopopolo", "contacts" : grouped_and_ordered_contacts,
@@ -39,13 +41,13 @@ def index(request):
  
 def about():
   about_me = None
-  if len(AboutMe.objects.all()) > 0:
+  if AboutMe.objects.count() > 0:
     newest = AboutMe.objects.all()[0]
     about_me = (newest.photo.url, newest.blurb)
   return about_me
    
 def resume(request):
-  if len(Resume.objects.all()) > 0:
+  if Resume.objects.count() > 0:
     newest = Resume.objects.all()[0]
     response = HttpResponse(mimetype="application/pdf")
     response['Content-Disposition'] = 'attachment; filename="Ryan Lopopolo.pdf"'
