@@ -103,6 +103,7 @@ a {
   width: auto;
   padding: 5px;
   position: relative;
+  min-height: 150px;
 }
 
 /* contact CSS */
