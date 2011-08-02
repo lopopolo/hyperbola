@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-  {% if posts %}
   <div id="left_col">
+  {% if posts %}
     <h2>Results for #{{tag}}</h2>
     {% for post in posts %}
       {% include "blurb.html" %}
@@ -25,10 +25,10 @@
       <div id="next"><a href="{{ older }}">older &raquo;</a></div>
       {% endif %}
     </div>
-  </div>
   {% else %}
   <h2>No results for #{{tag}}</h2>
   {% endif %}
+  </div>
   <div id="right_col">
     {% include "lifestream_archive.html" %}
   </div>
