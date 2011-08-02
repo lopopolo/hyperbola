@@ -76,16 +76,18 @@ def permalink(request, id):
     raise Http404
   try:
     newer = post_generic[0].get_next_by_pub_date().pk
+    post.has_previous = True
   except LifeStreamItem.DoesNotExist:
     newer = None
   try:
     older = post_generic[0].get_previous_by_pub_date().pk
+    post.has_next = True
   except LifeStreamItem.DoesNotExist:
     older = None
-
+  
   return render_to_response("lifestream_entry.html", 
       { "prev_page" : newer, "next_page" : older,
-        "post" : post[0], "dates" : get_archive_range() })
+        "posts" : post, "dates" : get_archive_range() })
     
 def tag_page(request, page_num, tag):
   hashedtag = "#%s" % (tag)

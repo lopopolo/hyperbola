@@ -11,18 +11,11 @@
 {% block content %}
   <div id="left_col">
     {% for post in posts %}
-      {% include "blurb.html" %}
+    {% include "blurb.html" %}
     {% endfor %}
-    <div id="page_links">
-      {% if posts.has_previous %}
-      {% url lifestream.views.page posts.previous_page_number as newer  %}
-      <div id="prev"><a href="{{ newer }}">&laquo; newer</a></div>
-      {% endif %}
-      {% if posts.has_next %}
-      {% url lifestream.views.page posts.next_page_number as older  %}
-      <div id="next"><a href="{{ older  }}">older &raquo;</a></div>
-      {% endif %}
-    </div>
+    {% url lifestream.views.page posts.previous_page_number as newer  %}
+    {% url lifestream.views.page posts.next_page_number as older  %}
+    {% include "page_links.html" %}
   </div>
   <div id="right_col">
     {% include "lifestream_archive.html" %}

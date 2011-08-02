@@ -6,15 +6,12 @@
 
 {% block content %}
   <div id="left_col">
+    {% for post in posts %}
     {% include "blurb.html" %}
-    <div id="page_links">
-      {% if prev_page %}
-      <div id="prev"><a href="/lifestream/{{prev_page}}/">newer</a></div>
-      {% endif %}
-      {% if next_page %}
-      <div id="next"><a href="/lifestream/{{next_page}}/">older</a></div>
-      {% endif %}
-    </div>
+    {% endfor %}
+    {% url lifestream.views.permalink prev_page as newer %}
+    {% url lifestream.views.permalink next_page as older %}
+    {% include "page_links.html" %}
   </div>
   <div id="right_col">
     {% include "lifestream_archive.html" %}
