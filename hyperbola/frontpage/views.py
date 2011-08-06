@@ -3,7 +3,8 @@ from django.shortcuts import render_to_response
 
 # Create your views here.
 def index(request):
-  all_blurbs = Blurb.objects.all()
-  blurbs = [(b.title, b.blurb) for b in all_blurbs]
+  blurbs = Blurb.objects.filter(display=True)
+  schedule = Schedule.objects.filter(display=True)
 
-  return render_to_response("frontpage.html", { "blurbs" : blurbs })
+  return render_to_response("frontpage.html",
+      { "blurbs" : blurbs, "schedule" : schedule })

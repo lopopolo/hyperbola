@@ -1,14 +1,25 @@
 from django.db import models
 
-# Create your models here.
 class Blurb(models.Model):
   title = models.CharField(max_length=200)
-  blurb = models.TextField()
-  display_order = models.IntegerField(unique=True)
+  body = models.TextField()
+  display_order = models.IntegerField()
+  display = models.BooleanField(default=True)
 
   class Meta:
     ordering = ['display_order']
     
   def __unicode__(self):
-    return "%s - %s" % (self.display_order, self.title)
+    return "%d - %s" % (self.display_order, self.title)
+
+class Schedule(models.Model):
+  body = models.TextField()
+  display_order = models.IntegerField()
+  display = models.BooleanField(default=True)
+
+  class Meta:
+    ordering = ['display_order']
+
+  def __unicode__(self):
+    return "%d - %s" % (self.display_order, self.body[:50])
 

@@ -5,16 +5,22 @@
 {% block title %} hyperbo.la {% endblock %}
 
 {% block content %}
+{% load markup %}
   <div id="left_col">
-    {% for title,body in blurbs %}
-      <div class="blurb">
-        <h2>{{title}}</h2>
-        <p>{{body}}</p>
-      </div>
+    {% for blurb in blurbs %}
+    <div class="blurb">
+      <h2>{{blurb.title}}</h2>
+      {{blurb.body|markdown}}
+    </div>
     {% endfor %}
   </div>
   
-  <div id="right_col">
-    put something here
+  <div id="right_col" class="newsfeed">
+    <h2 id="news_title">What I'm into right now</h2>
+    {% for sched in schedule %}
+    <div class="news {% cycle 'row1' 'row2' %}">
+      {{sched.body|markdown}}
+    </div>
+    {% endfor %}
   </div>
 {% endblock %}
