@@ -4,7 +4,8 @@ import os
 import socket
 
 # Set DEBUG = True if on the production server
-if socket.gethostname() == 'hyperbox':
+production_hosts = ['li246-117']
+if socket.gethostname() in production_hosts:
   DEBUG = False
 else:
   DEBUG = True
@@ -58,9 +59,9 @@ MEDIA_ROOT = '/var/www/hyperbola/media/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://linode-media.hyperbo.la/'
+MEDIA_URL = 'http://media.hyperbo.la/'
 
-STATIC_URL = ASSETS_URL = 'http://linode-assets.hyperbo.la'
+STATIC_URL = ASSETS_URL = 'http://assets.hyperbo.la'
 
 FILE_UPLOAD_PERMISSIONS = 0644
 
@@ -110,3 +111,10 @@ INSTALLED_APPS = (
   'hyperbola.lifestream',
   'hyperbola.helpers',
 )
+
+# try to import local settings
+try:
+  from local_settings import *
+except ImportError:
+  pass
+

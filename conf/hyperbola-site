@@ -1,10 +1,12 @@
 # NameVirtualHost *:80
 <VirtualHost *:80>
-  ServerName linode.hyperbo.la
-  DocumentRoot /var/www/hyperbola/hyperbola/
+  ServerName hyperbo.la
+  DocumentRoot /var/www/hyperbola/
   <Directory />
-    Options FollowSymLinks
-    AllowOverride None
+    Options -Indexes FollowSymLinks
+    AllowOverride none
+    order allow,deny
+    allow from all
   </Directory>
   WSGIScriptAlias / /var/www/hyperbola/conf/django.wsgi
   # redirect www to naked domain always
@@ -17,17 +19,17 @@
 </VirtualHost>
 
 <VirtualHost *:80>
-  ServerName linode-assets.hyperbo.la
+  ServerName assets.hyperbo.la
   DocumentRoot /var/www/hyperbola/assets/
   <Directory />
     Options -Indexes FollowSymLinks
-    AllowOverride all
+    AllowOverride none
     order allow,deny
     allow from all
   </Directory>
   <Directory /var/www/hyperbola/assets/>
     Options -Indexes FollowSymLinks
-    AllowOverride all
+    AllowOverride none
     order allow,deny
     allow from all
   </Directory>
@@ -36,7 +38,7 @@
 </VirtualHost>
 
 <VirtualHost *:80>
-  ServerName linode-media.hyperbo.la
+  ServerName media.hyperbo.la
   DocumentRoot /var/www/hyperbola/media/
   <Directory />
     Options -Indexes FollowSymLinks
