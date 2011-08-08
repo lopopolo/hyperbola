@@ -61,7 +61,7 @@ MEDIA_ROOT = '/var/www/hyperbola/media/'
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = 'http://media.hyperbo.la/'
 
-STATIC_URL = ASSETS_URL = 'http://assets.hyperbo.la'
+STATIC_URL = ASSETS_URL = 'http://assets.hyperbo.la/'
 
 FILE_UPLOAD_PERMISSIONS = 0644
 
