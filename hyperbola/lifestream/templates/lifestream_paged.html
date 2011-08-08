@@ -3,8 +3,8 @@
 {% block active_app %}lifestream{% endblock %}
 
 {% block title %} hyperbo.la :: lifestream 
-  {% if page != 1 %}
-    :: page {{page}}
+  {% if posts.number != 1 %}
+    :: page {{posts.number}}
   {% endif %}
 {% endblock %}
 
