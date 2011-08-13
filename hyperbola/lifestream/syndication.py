@@ -1,6 +1,10 @@
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from hyperbola.lifestream.models import *
+from hyperbola.lifestream import views
+from hyperbola.helpers.inheritance_query_set import *
+from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse
 
 class LatestEntriesFeed(Feed):
   title = "hyperbo.la lifestream microblog"
@@ -8,25 +12,17 @@ class LatestEntriesFeed(Feed):
   description = "Most recent posts made to Ryan Lopopolo's lifestreaming microblog."
 
   def items(self):
-    return LifeStreamItem.objects.order_by('-pub_date')[:5]
+    return InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
 
   def item_title(self, item):
     return "Post #%s" % (item.pk)
 
   def item_description(self, item):
-    desc = "Text"
-    try:
-      item.lifestreampicture.picture.url
-      desc = "Picture"
-    except LifeStreamPicture.DoesNotExist:
-      pass
-    desc = "%s: %s" % (desc, item.blurb[:50])
-    if len(item.blurb) > 50:
-      desc += "..."
-    return desc
+    post = render_to_response("blurb.html", { "post" : item })
+    return post.content
 
   def item_link(self, item):
-    return "/lifestream/%s/" % (item.pk)
+    return reverse(views.permalink, args=[item.pk])
 
 class AtomLatestEntriesFeed(LatestEntriesFeed):
   feed_type = Atom1Feed
