@@ -42,7 +42,7 @@ def index(request):
 def about():
   about_me = None
   if AboutMe.objects.count() > 0:
-    newest = AboutMe.objects.all()[0]
+    newest = AboutMe.objects.latest("id")
     about_me = (newest.photo.url, newest.blurb)
   return about_me
    
