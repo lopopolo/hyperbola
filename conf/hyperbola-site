@@ -58,3 +58,13 @@
   ExpiresDefault "access plus 1 week"
 </VirtualHost>
 
+<VirtualHost *:80>
+  ServerName wiki.hyperbo.la
+  DocumentRoot /var/lib/gems/1.8/gems/gollum-1.3.1/lib/gollum/frontend/public
+  ErrorLog /var/log/apache2/wiki-error.log
+  LogLevel warn
+  CustomLog /var/log/apache2/wiki-access.log combined
+
+  PassengerDefaultUser www-data
+</VirtualHost>
+
