@@ -62,13 +62,14 @@ def get_archive_range():
 def archive(request, year, month, page_num):
   year = int(year)
   month = int(month)
+  month_str = "0%d" % month if month < 10 else str(month)
   if year < 0 or year > 9999 or month < 1 or month > 12:
     raise Http404
   posts = paginate(page_num, InheritanceQuerySet(model=LifeStreamItem).select_subclasses().filter(pub_date__year=year).filter(pub_date__month=month))
 
   return render_to_response("lifestream_archived_posts.html",
       { "posts" : posts, "month" : month_names[month], "year" : year,
-        "month_num" : month, "dates" : get_archive_range() })
+        "month_num" : month_str, "dates" : get_archive_range() })
 
 def permalink(request, id):
   post = InheritanceQuerySet(model=LifeStreamItem).select_subclasses().filter(pk=id)
