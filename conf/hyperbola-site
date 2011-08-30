@@ -1,3 +1,5 @@
+# vim: set filetype=apache :
+
 # NameVirtualHost *:80
 <VirtualHost *:80>
   ServerName hyperbo.la
