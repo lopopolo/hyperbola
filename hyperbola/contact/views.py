@@ -31,7 +31,7 @@ def index(request):
   # Resume is always last
   if Resume.objects.count() > 0:
     resume_link = reverse(resume, args=[])
-    resume_as_of = Resume.objects.all()[0].date.strftime("%b %d %Y")
+    resume_as_of = Resume.objects.all()[Resume.objects.count() - 1].date.strftime("%b %d %Y")
     grouped_and_ordered_contacts.append((u"Résumé", [(u"As of " + resume_as_of,
       '<a href="'+resume_link+'">http://'+request.META['HTTP_HOST'] + resume_link+'</a>')]))
 
@@ -48,7 +48,7 @@ def about():
    
 def resume(request):
   if Resume.objects.count() > 0:
-    newest = Resume.objects.all()[0]
+    newest = Resume.objects.all()[Resume.objects.count() - 1]
     response = HttpResponse(mimetype="application/pdf")
     response['Content-Disposition'] = 'attachment; filename="Ryan Lopopolo.pdf"'
     response['X-Sendfile'] = newest.resume.path
