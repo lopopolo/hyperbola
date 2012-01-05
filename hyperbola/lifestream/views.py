@@ -22,7 +22,7 @@ def page(request, page_num):
   return render_to_response("lifestream_paged.html",
       { "posts" : display_posts,
         "dates" : get_archive_range() })
-    
+
 month_names = {
     1 : "January",
     2 : 'February',
@@ -86,15 +86,15 @@ def permalink(request, id):
     post.has_next = True
   except LifeStreamItem.DoesNotExist:
     older = None
-  
-  return render_to_response("lifestream_entry.html", 
+
+  return render_to_response("lifestream_entry.html",
       { "prev_page" : newer, "next_page" : older,
         "posts" : post, "dates" : get_archive_range() })
-    
+
 def tag_page(request, page_num, tag):
-  hashedtag = "#%s" % (tag)
+  hashedtag = r"#%s[^A-Za-z0-9]" % (tag)
   qs = InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
-  matches = qs.filter(blurb__contains=hashedtag)
+  matches = qs.filter(blurb__iregex=hashedtag)
   matches = paginate(page_num, matches)
 
   return render_to_response("lifestream_tag_paged.html",
