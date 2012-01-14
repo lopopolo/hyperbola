@@ -92,7 +92,7 @@ def permalink(request, id):
         "posts" : post, "dates" : get_archive_range() })
 
 def tag_page(request, page_num, tag):
-  hashedtag = r"#%s[^A-Za-z0-9]" % (tag)
+  hashedtag = r"#%s([^A-Za-z0-9]|$)" % (tag)
   qs = InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
   matches = qs.filter(blurb__iregex=hashedtag)
   matches = paginate(page_num, matches)
