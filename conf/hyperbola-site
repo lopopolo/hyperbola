@@ -64,5 +64,11 @@
   ProxyPass / http://0.0.0.0:4567/
   ProxyPassReverse / http://0.0.0.0:4567/
 
+  <Location />
+    AuthType Basic
+    AuthName "hyperbola wiki"
+    AuthUserFile /etc/apache2/wiki-auth
+    Require valid-user
+  </Location>
 </VirtualHost>
 
