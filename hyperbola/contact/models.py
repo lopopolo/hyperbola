@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.localflavor.us.models import PhoneNumberField
+import time
 
 # Create your models here.
 # a class of contacts (ie: Work, personal)
@@ -38,8 +39,12 @@ class IMContact(Contact):
   value = models.CharField(max_length=100)
 
 class Resume(models.Model):
-  resume = models.FileField(upload_to="resume")
   date = models.DateField(auto_now=True)
+
+  def upload_path(instance, filename):
+    return "resume/" + time.strftime("%Y/%m/%d/%H-%M/") + "lopopolo.pdf"
+
+  resume = models.FileField(upload_to=upload_path)
 
   def __unicode__(self):
     return "version %s as of %s" % (self.id, self.date)

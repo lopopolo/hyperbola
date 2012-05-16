@@ -13,7 +13,7 @@ def index(request):
   all_im = IMContact.objects.all()
   contact_categories = ContactType.objects.all()
   all_contacts = dict([(category, []) for category in contact_categories])
-  contact_order = dict([(category.display_order, category) for category in 
+  contact_order = dict([(category.display_order, category) for category in
     contact_categories])
   for email in all_email:
     all_contacts[email.type].append((email.name, email.value))
@@ -38,19 +38,18 @@ def index(request):
   return render_to_response("contact_base.html",
       { "name" : "Ryan Lopopolo", "contacts" : grouped_and_ordered_contacts,
         "about" : about() })
- 
+
 def about():
   about_me = None
   if AboutMe.objects.count() > 0:
     newest = AboutMe.objects.latest("id")
     about_me = (newest.photo.url, newest.blurb)
   return about_me
-   
+
 def resume(request):
   if Resume.objects.count() > 0:
-    newest = Resume.objects.all()[Resume.objects.count() - 1]
+    newest = Resume.objects.latest("date")
     response = HttpResponse(mimetype="application/pdf")
-    response['Content-Disposition'] = 'attachment; filename="Ryan Lopopolo.pdf"'
     response['X-Sendfile'] = newest.resume.path
     return response
   else:
