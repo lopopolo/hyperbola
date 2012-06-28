@@ -27,7 +27,8 @@ def index(request):
   grouped_and_ordered_contacts = []
   for order in sorted(contact_order.keys()):
     category = contact_order[order]
-    grouped_and_ordered_contacts.append((category.type, all_contacts[category]))
+    if len(all_contacts[category]) > 0:
+      grouped_and_ordered_contacts.append((category.type, all_contacts[category]))
   # Resume is always last
   if Resume.objects.count() > 0:
     resume_link = reverse(resume, args=[])
