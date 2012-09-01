@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  background-color: black;
+  background-color: #151515;
   color: darkgray;
   height: 100%;
   margin: 0px;
@@ -116,7 +116,7 @@ a {
   border: 2px solid rgb(40, 220, 220);
   margin-bottom: 10px;
   padding-left: 5px;
-  padding-right: 5px; 
+  padding-right: 5px;
   -webkit-border-radius: 10px;    /* for Safari */
     -moz-border-radius: 10px;       /* for Firefox */
 }
@@ -159,7 +159,7 @@ a {
   margin: 0px;
   padding: 0px;
   font-size:12pt;
-  text-align: center; 
+  text-align: center;
 }
 
 .lifestream_entry_header {
