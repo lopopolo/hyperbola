@@ -61,8 +61,8 @@
 <VirtualHost *:80>
   ServerName wiki.hyperbo.la
 
-  ProxyPass / http://0.0.0.0:4567/
-  ProxyPassReverse / http://0.0.0.0:4567/
+  ProxyPass / http://localhost:4567/
+  ProxyPassReverse / http://localhost:4567/
 
   <Location />
     AuthType Basic
