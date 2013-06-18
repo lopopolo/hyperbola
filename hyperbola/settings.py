@@ -10,6 +10,8 @@ if socket.gethostname() in production_hosts:
 else:
   DEBUG = True
 
+ALLOWED_HOSTS = ['hyperbo.la']
+
 # This dynamically discovers the path to the project
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 REPO_PATH = os.path.join(PROJECT_PATH, '..')
