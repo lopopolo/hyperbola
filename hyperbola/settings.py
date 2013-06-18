@@ -66,7 +66,8 @@ STATIC_URL = ASSETS_URL = 'http://assets.hyperbo.la/'
 FILE_UPLOAD_PERMISSIONS = 0644
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'y$6axl8$tcm)&h!s2i0y3dvy8fdyz(mty&_!w3pr@5)if-rj@2'
+# SECRET_KEY = SOME_VALUE
+# load this from local_settings.py
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -113,8 +114,6 @@ INSTALLED_APPS = (
 )
 
 # try to import local settings
-try:
-  from local_settings import *
-except ImportError:
-  pass
+# must set SECRET_KEY
+from local_settings import *
 
