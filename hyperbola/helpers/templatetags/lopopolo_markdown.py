@@ -12,7 +12,7 @@ register = template.Library()
 @register.filter(is_safe=True)
 @stringfilter
 def markdown(value):
-    extensions = ["nl2br", ]
+    extensions = []
 
     return mark_safe(md.markdown(force_unicode(value),
                                        extensions,
