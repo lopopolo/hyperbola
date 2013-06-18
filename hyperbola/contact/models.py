@@ -33,7 +33,7 @@ class PhoneContact(Contact):
   value = PhoneNumberField()
 
 class WebContact(Contact):
-  value = models.URLField(verify_exists=False, max_length=200)
+  value = models.URLField(max_length=200)
 
 class IMContact(Contact):
   value = models.CharField(max_length=100)

@@ -5,7 +5,7 @@
 {% block title %} hyperbo.la {% endblock %}
 
 {% block content %}
-{% load markup %}
+{% load lopopolo_markdown %}
   <div id="left_col">
     {% for blurb in blurbs %}
     <div class="blurb">
@@ -14,7 +14,7 @@
     </div>
     {% endfor %}
   </div>
-  
+
   <div id="right_col" class="newsfeed">
     <h2 id="news_title">What I'm into right now</h2>
     {% for sched in schedule %}

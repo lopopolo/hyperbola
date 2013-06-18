@@ -24,8 +24,11 @@ class InheritanceQuerySet(QuerySet):
     iter = super(InheritanceQuerySet, self).iterator()
     if getattr(self, 'subclasses', False):
       for obj in iter:
-        obj = [getattr(obj, s) for s in self.subclasses if getattr(obj, s)] or [obj]
-        yield obj[0]
+        try:
+          yobj = [getattr(obj, s) for s in self.subclasses if getattr(obj, s)] or [obj]
+          yield yobj[0]
+        except:
+          yield obj
     else:
       for obj in iter:
         yield obj

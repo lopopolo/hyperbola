@@ -9,8 +9,8 @@
     {% for post in posts %}
     {% include "blurb.html" %}
     {% endfor %}
-    {% url lifestream.views.permalink prev_page as newer %}
-    {% url lifestream.views.permalink next_page as older %}
+    {% url "lifestream.views.permalink" prev_page as newer %}
+    {% url "lifestream.views.permalink" next_page as older %}
     {% include "page_links.html" %}
   </div>
   <div id="right_col">

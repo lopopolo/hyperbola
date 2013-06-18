@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import redirect_to
 from django.http import HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
 

@@ -5,7 +5,7 @@
     <span class="date" utc-seconds="{{post.pub_date|date:'U'}}">
       {{post.pub_date|date:"H:i T b d Y"|lower}}
     </span>
-    <a href="{% url lifestream.views.permalink post.pk  %}">permalink</a>
+    <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
   </p>
   {% if post.has_picture %}
   <div class="fullwidth"><a href="{{post.picture.url}}" rel="lightbox"><img src="{{post.picture.url}}" /></a></div>

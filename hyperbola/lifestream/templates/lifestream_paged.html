@@ -2,7 +2,7 @@
 
 {% block active_app %}lifestream{% endblock %}
 
-{% block title %} hyperbo.la :: lifestream 
+{% block title %} hyperbo.la :: lifestream
   {% if posts.number != 1 %}
     :: page {{posts.number}}
   {% endif %}
@@ -13,8 +13,12 @@
     {% for post in posts %}
     {% include "blurb.html" %}
     {% endfor %}
-    {% url lifestream.views.page posts.previous_page_number as newer  %}
-    {% url lifestream.views.page posts.next_page_number as older  %}
+    {% if posts.has_previous %}
+    {% url "lifestream.views.page" posts.previous_page_number as newer  %}
+    {% endif %}
+    {% if posts.has_next %}
+    {% url "lifestream.views.page" posts.next_page_number as older  %}
+    {% endif %}
     {% include "page_links.html" %}
   </div>
   <div id="right_col">

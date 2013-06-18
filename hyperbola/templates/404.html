@@ -18,14 +18,14 @@
     <div id="site_container">
       <div id="header">
         <div id="logo">
-          <a href="{% url frontpage.views.index %}">
+          <a href="{% url "frontpage.views.index" %}">
             <img src="{{asset_url}}public/images/logov1.png" />
           </a>
         </div>
         <ul id="navbar">
-          <li id="home"><a href="{% url frontpage.views.index %}">home</a></li>
-          <li id="contact"><a href="{% url contact.views.index %}">contact</a></li>
-          <li id="lifestream"><a href="{% url lifestream.views.page %}">lifestream</a></li>
+          <li id="home"><a href="{% url "frontpage.views.index" %}">home</a></li>
+          <li id="contact"><a href="{% url "contact.views.index" %}">contact</a></li>
+          <li id="lifestream"><a href="{% url "lifestream.views.page" %}">lifestream</a></li>
         </ul>
         <div class="floatfix"></div>
       </div>
