@@ -1,3 +1,0 @@
-[submodule "conf/mod_xsendfile"]
-	path = conf/mod_xsendfile
-	url = git@github.com:nmaier/mod_xsendfile.git
