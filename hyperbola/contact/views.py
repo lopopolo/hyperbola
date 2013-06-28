@@ -51,7 +51,8 @@ def resume(request):
   if Resume.objects.count() > 0:
     newest = Resume.objects.latest("date")
     response = HttpResponse(mimetype="application/pdf")
-    response['X-Sendfile'] = newest.resume.path
+    response['X-Sendfile'] = newest.resume.path # apache
+    response['X-Accel-Redirect'] = "/media/" + newest.resume.name #nginx
     return response
   else:
     raise Http404
