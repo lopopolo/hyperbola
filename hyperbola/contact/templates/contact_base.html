@@ -6,13 +6,15 @@
 
 {% block title %} hyperbo.la :: Contact {% endblock %}
 
+{% block section-title %}Contact Information{% endblock %}
+
 {% block content %}
   <div id="left_col">
-    <h1>Contact {{name}}</h1>
+    <h1>{{name}}</h1>
 
     {% for category, contacts_of_category in contacts %}
       <h2>{{category}}</h2>
-      
+
       <table class="contact_table">
         {% for name, value in contacts_of_category %}
           <tr>
@@ -22,9 +24,9 @@
         {% endfor %}
       </table>
     {% endfor %}
-    
+
   </div>
-  
+
   <div id="right_col">
     <h2>About</h2>
     <div class="fullwidth"><img src="{{about.0}}" /></div>

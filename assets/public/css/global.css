@@ -1,5 +1,8 @@
 @CHARSET "ISO-8859-1";
 
+/* apply a natural box layout model to all elements */
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
 html {
   height: 100%;
 }
@@ -9,10 +12,10 @@ body {
   color: darkgray;
   height: 100%;
   margin: 0px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 #site_container {
-  font-family: sans-serif;
   width: 960px;
   margin: auto;
   min-height: 100%;
@@ -190,4 +193,15 @@ ul.syndication {
 
 .floatfix {
   clear: both;
+}
+
+.section-title {
+  width: 100%;
+  padding: 1em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #444444;
+  color: #222222;
+  color: rgb(40, 220, 220);
+  font-weight: bold;
 }
