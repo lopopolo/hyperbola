@@ -119,6 +119,8 @@ try:
   from is_staging import *
   ALLOWED_HOSTS = ['staging.hyperbo.la']
   STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la:8000/'
+  import warnings
+  warnings.simplefilter('error', DeprecationWarning)
 except ImportError:
   pass
 
