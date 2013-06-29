@@ -2,7 +2,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from hyperbola.lifestream.models import *
-from hyperbola.helpers.inheritance_query_set import *
 
 NUM_PER_PAGE = 20
 
@@ -18,33 +17,39 @@ def paginate(page_num, objects):
     return paginator.page(paginator.num_pages)
 
 def page(request, page_num):
-  display_posts = paginate(page_num, InheritanceQuerySet(model=LifeStreamItem).select_subclasses())
+  display_posts = paginate(
+    page_num,
+    LifeStreamItem.objects.all().select_related('lifestreampicture')
+  )
   return render_to_response("lifestream_paged.html",
       { "posts" : display_posts,
-        "dates" : get_archive_range() })
+        "dates" : get_archive_range() }
+  )
 
-month_names = {
-    1 : "January",
-    2 : 'February',
-    3 : "March",
-    4 : "April",
-    5 : "May",
-    6 : "June",
-    7 : "July",
-    8 : "August",
-    9 : "September",
-    10: "October",
-    11: "November",
-    12: "December"
+months = {
+    1 : ("01", "January"),
+    2 : ("02", "February"),
+    3 : ("03", "March"),
+    4 : ("04", "April"),
+    5 : ("05", "May"),
+    6 : ("06", "June"),
+    7 : ("07", "July"),
+    8 : ("08", "August"),
+    9 : ("09", "September"),
+    10: ("10", "October"),
+    11: ("11", "November"),
+    12: ("12", "December")
 }
 
+def padded_month_string(month):
+  return "0%d" % month
+
 def get_archive_range():
-  all = LifeStreamItem.objects.all()
-  newest = all[0].pub_date
-  oldest = all.reverse()[0].pub_date
+  newest = LifeStreamItem.objects.latest('pub_date').pub_date
+  oldest = LifeStreamItem.objects.order_by('pub_date')[0].pub_date
   dates = []
   # get year range
-  for year in range(newest.year, oldest.year-1, -1):
+  for year in xrange(newest.year, oldest.year-1, -1):
     month_min = 1
     month_max = 12
 
@@ -52,28 +57,33 @@ def get_archive_range():
       month_max = newest.month
     if year == oldest.year:
       month_min = oldest.month
-    months_in_year = []
-    for month in range(month_max, month_min-1,- 1):
-      month_str = "0%d" % month if month < 10 else str(month)
-      months_in_year.append((month_str, month_names[month]))
-    dates.append((year, months_in_year))
+    dates.append((year,[months[month] for month in xrange(month_max, month_min-1,- 1)]))
+
   return dates
 
 def archive(request, year, month, page_num):
   year = int(year)
   month = int(month)
-  month_str = "0%d" % month if month < 10 else str(month)
   if year < 0 or year > 9999 or month < 1 or month > 12:
     raise Http404
-  posts = paginate(page_num, InheritanceQuerySet(model=LifeStreamItem).select_subclasses().filter(pub_date__year=year).filter(pub_date__month=month))
+  posts = paginate(
+    page_num,
+    LifeStreamItem.objects.filter(pub_date__year=year)
+      .filter(pub_date__month=month)
+      .select_related('lifestreampicture')
+  )
+
 
   return render_to_response("lifestream_archived_posts.html",
-      { "posts" : posts, "month" : month_names[month], "year" : year,
-        "month_num" : month_str, "dates" : get_archive_range() })
+      { "posts" : posts,
+        "month" : months[month][1],
+        "year" : year,
+        "month_num" : padded_month_string(month),
+        "dates" : get_archive_range() }
+  )
 
 def permalink(request, id):
-  post = InheritanceQuerySet(model=LifeStreamItem).select_subclasses().filter(pk=id)
-  post_generic = LifeStreamItem.objects.filter(pk=id)
+  post = post_generic = LifeStreamItem.objects.filter(pk=id)
   if post.count() < 1:
     raise Http404
   try:
@@ -93,9 +103,8 @@ def permalink(request, id):
 
 def tag_page(request, page_num, tag):
   hashedtag = r"#%s([^A-Za-z0-9]|$)" % (tag)
-  qs = InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
-  matches = qs.filter(blurb__iregex=hashedtag)
-  matches = paginate(page_num, matches)
+  qs = LifeStreamItem.objects.filter(blurb__iregex=hashedtag).select_related('lifestreampicture')
+  matches = paginate(page_num, qs)
 
   return render_to_response("lifestream_tag_paged.html",
       { "tag" : tag, "posts" : matches,

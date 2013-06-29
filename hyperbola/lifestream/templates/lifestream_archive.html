@@ -4,10 +4,10 @@
   <li><a href="/lifestream/atom/">Atom</a></li>
 </ul>
 {% for year,months in dates  %}
-  <h3>{{year}}</h3>
+  <h3>{{year|stringformat:"s"}}</h3>
   <ul>
     {% for monthnum,month in months %}
-      <li><a href="/lifestream/archive/{{year}}/{{monthnum}}/">{{month}}</a></li>
+      <li><a href="/lifestream/archive/{{year|stringformat:"s"}}/{{monthnum|stringformat:"s"}}/">{{month|stringformat:"s"}}</a></li>
     {% endfor %}
   </ul>
 {% endfor %}

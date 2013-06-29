@@ -7,7 +7,7 @@
 {% block content %}
   <div id="left_col">
     {% if posts %}
-    <h2>Posts from {{month}} {{year}}</h2>
+    <h2>Posts from {{month|stringformat:"s"}} {{year|stringformat:"s"}}</h2>
     {% for post in posts %}
       {% include "blurb.html" %}
     {% endfor %}
@@ -19,7 +19,7 @@
     {% endif %}
     {% include "page_links.html" %}
     {% else %}
-    <h2>No posts from {{month}} {{year}}</h2>
+    <h2>No posts from {{month|stringformat:"s"}} {{year|stringformat:"s"}}</h2>
     {% endif %}
   </div>
   <div id="right_col">

@@ -2,7 +2,7 @@
 
 <div class="blurb">
   <p class="lifestream_entry_header">
-    <span class="date" utc-seconds="{{post.pub_date|date:'U'}}">
+    <span class="date">
       <script type="text/javascript">
         //<![CDATA[
         (function () {
@@ -15,8 +15,8 @@
     </span>
     <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
   </p>
-  {% if post.has_picture %}
-  <div class="fullwidth"><a href="{{post.picture.url}}" rel="lightbox"><img src="{{post.picture.url}}" /></a></div>
+  {% if post.lifestreampicture %}
+  <div class="fullwidth"><a href="{{post.lifestreampicture.picture.url}}" rel="lightbox"><img src="{{post.lifestreampicture.picture.url}}" /></a></div>
   {% endif %}
   <p>{{post.blurb|urlize|hashtagize}}</p>
 </div>
