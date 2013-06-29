@@ -114,6 +114,14 @@ INSTALLED_APPS = (
   'hyperbola.helpers',
 )
 
+# determine if we are in the staging environment
+try:
+  from is_staging import *
+  ALLOWED_HOSTS = ['staging.hyperbo.la']
+  STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la:8000/'
+except ImportError:
+  pass
+
 # try to import local settings
 # must set SECRET_KEY
 from local_settings import *
