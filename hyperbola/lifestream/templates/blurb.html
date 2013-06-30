@@ -16,7 +16,7 @@
     <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
   </p>
   {% if post.lifestreampicture %}
-  <div class="fullwidth"><a href="{{post.lifestreampicture.picture.url}}" rel="lightbox"><img src="{{post.lifestreampicture.picture.url}}" /></a></div>
+  <div class="fullwidth"><img class="tinybox-image" src="{{post.lifestreampicture.picture.url}}" /></div>
   {% endif %}
   <p>{{post.blurb|urlize|hashtagize}}</p>
 </div>

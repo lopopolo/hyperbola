@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
-<!-- lightbox scripts and styles -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js?load=effects,builder"></script>
-<script type="text/javascript" src="{{asset_url}}public/js/lightbox.js"></script>
-<link rel="stylesheet" href="{{asset_url}}public/css/lightbox.css" type="text/css" media="screen" />
+<!-- lightbox -->
+<link rel="stylesheet" href="{{asset_url}}public/css/tinybox.css" type="text/css" media="screen" />
 <!-- date formatting -->
-<script type="text/javascript" src="{{asset_url}}public/js/date-formatter.js"></script>
+<script type="text/javascript">
+  // inlined to save the network roundtrip
+  //<![CDATA[
+  var HyperbolaDateFormatter={printDate:function(b){var a="";a+=this.padTo2(b.getHours());a+=":";a+=this.padTo2(b.getMinutes());a+=" ";a+=this.monthToNameMap[b.getMonth()];a+=" ";a+=this.padTo2(b.getDate());a+=" ";a+=b.getFullYear();return a},padTo2:function(a){if(a<10&&a>=0){return"0"+a}return""+a},monthToNameMap:{0:"jan",1:"feb",2:"mar",3:"apr",4:"may",5:"jun",6:"jul",7:"aug",8:"sep",9:"oct",10:"nov",11:"dec"}};
+  //]]>
+</script>
 {% endblock %}
 
 {% block section-title %}Lifestream{% endblock %}
+
+{% block extrafooter %}
+<script type="text/javascript" src="{{asset_url}}public/js/tinybox.js"></script>
+<script type="text/javascript">
+  // <![CDATA[
+  var elems = document.getElementsByTagName('img'), i;
+  for (i in elems) {
+    if((' ' + elems[i].className + ' ').indexOf(' ' + 'tinybox-image' + ' ') > -1) {
+      elems[i].addEventListener('click', function(e) {
+        TINY.box.show({image:e.target.src,boxid:'frameless',animate:true});
+      });
+    }
+  }
+  //]]>
+</script>
+{% endblock %}
