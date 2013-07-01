@@ -18,11 +18,14 @@
 <script type="text/javascript" src="{{asset_url}}public/js/tinybox.js"></script>
 <script type="text/javascript">
   // <![CDATA[
-  var elems = document.getElementsByTagName('img'), i;
+  var elems = document.getElementsByTagName('a'), i;
   for (i in elems) {
     if((' ' + elems[i].className + ' ').indexOf(' ' + 'tinybox-image' + ' ') > -1) {
       elems[i].addEventListener('click', function(e) {
-        TINY.box.show({image:e.target.src,boxid:'frameless',animate:true});
+        if (e.which == 1) {
+          TINY.box.show({image:this.href,boxid:'frameless',animate:true});
+          e.preventDefault();
+        }
       });
     }
   }

@@ -1,5 +1,5 @@
 {% load hashtagize %}
-
+{% load thumbnail %}
 <div class="blurb">
   <p class="lifestream_entry_header">
     <span class="date">
@@ -16,7 +16,13 @@
     <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
   </p>
   {% if post.lifestreampicture %}
-  <div class="fullwidth"><img class="tinybox-image" src="{{post.lifestreampicture.picture.url}}" /></div>
+  {% thumbnail post.lifestreampicture.picture "500" as thumb %}
+  <div class="fullwidth">
+    <a class="tinybox-image" href="{{post.lifestreampicture.picture.url}}">
+      <img class="tinybox-image-thumbnail" src="{{thumb.url}}" />
+    </a>
+  </div>
+  {% endthumbnail %}
   {% endif %}
   <p>{{post.blurb|urlize|hashtagize}}</p>
 </div>

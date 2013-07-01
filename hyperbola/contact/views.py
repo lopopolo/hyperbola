@@ -44,7 +44,7 @@ def about():
   about_me = None
   if AboutMe.objects.count() > 0:
     newest = AboutMe.objects.latest("id")
-    about_me = (newest.photo.url, newest.blurb)
+    about_me = (newest.photo, newest.blurb)
   return about_me
 
 def resume(request):

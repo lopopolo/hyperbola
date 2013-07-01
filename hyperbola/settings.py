@@ -109,11 +109,18 @@ INSTALLED_APPS = (
   'django.contrib.messages',
   'django.contrib.admin',
   'django.contrib.admindocs',
+  'sorl.thumbnail',
   'hyperbola.contact',
   'hyperbola.frontpage',
   'hyperbola.lifestream',
   'hyperbola.helpers',
 )
+
+# Thumbnailing
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pil_engine.Engine'
+THUMBNAIL_FORMAT = 'PNG'
+THUMBNAIL_UPSCALE = False
 
 # determine if we are in the staging environment
 try:

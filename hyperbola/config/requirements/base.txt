@@ -2,3 +2,5 @@ Django>=1.5,<1.5.99
 django_localflavor_us
 Markdown
 PIL
+sorl-thumbnail
+redis

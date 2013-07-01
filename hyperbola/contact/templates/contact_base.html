@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load email_obfuscate %}
+{% load thumbnail %}
 
 {% block active_app %}contact{% endblock %}
 
@@ -29,7 +30,13 @@
 
   <div id="right_col">
     <h2>About</h2>
-    <div class="fullwidth"><img src="{{about.0}}" /></div>
+    {% thumbnail about.0 "240" format="JPEG" as thumb %}
+    <div class="fullwidth">
+      <a href="{{about.0.url}}">
+        <img src="{{thumb.url}}" />
+      </a>
+    </div>
+    {% endthumbnail %}
     <p>{{about.1}}</p>
   </div>
 {% endblock %}
