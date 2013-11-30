@@ -20,7 +20,7 @@ def index(request):
   for phone in all_phone:
     all_contacts.append[phone.type]((phone.name, phone.value))
   for web in all_web:
-    all_contacts[web.type].append((web.name, '<a href="'+web.value+'">'+web.value+'</a>'))
+    all_contacts[web.type].append((web.name, '<a href="{0}">{1}</a>'.format(web.value, web.value)))
   for im in all_im:
     all_contacts[im.type].append((im.name, im.value))
   # prepare to ship to view
@@ -32,9 +32,14 @@ def index(request):
   # Resume is always last
   if Resume.objects.count() > 0:
     resume_link = reverse(resume, args=[])
-    resume_as_of = Resume.objects.all()[Resume.objects.count() - 1].date.strftime("%b %d %Y")
-    grouped_and_ordered_contacts.append((u"Résumé", [(u"As of " + resume_as_of,
-      '<a href="'+resume_link+'">http://'+request.META['HTTP_HOST'] + resume_link+'</a>')]))
+    resume_as_of = Resume.objects.latest("date").date.strftime("%b %d %Y")
+    grouped_and_ordered_contacts.append((
+      u"Résumé", [
+        (u"As of " + resume_as_of,
+          '<a href="{0}">{1}</a>'.format(resume_link, request.build_absolute_uri(resume_link))
+        )
+      ]
+    ))
 
   return render_to_response("contact_base.html",
       { "name" : "Ryan Lopopolo", "contacts" : grouped_and_ordered_contacts,
