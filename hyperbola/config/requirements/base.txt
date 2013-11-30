@@ -1,4 +1,4 @@
-Django>=1.5,<1.5.99
+Django>=1.6,<1.7
 django_localflavor_us
 Markdown
 PIL
