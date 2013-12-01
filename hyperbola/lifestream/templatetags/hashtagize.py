@@ -5,7 +5,7 @@ from django.template import Library
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
-import views
+from .. import views
 
 
 register = Library()

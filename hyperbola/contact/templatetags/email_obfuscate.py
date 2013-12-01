@@ -24,26 +24,29 @@ def obfuscate(email, linktext=None, autoescape=None):
         else:
             esc = lambda x: x
 
-        email = re.sub(
-            '@',
-            '\\\\100',
+        email = esc(re.sub(
+            '@', '\\\\100',
             re.sub('\.', '\\\\056', esc(email))
-        ).encode('rot13')
+        ))
 
         if linktext:
-            linktext = esc(linktext).encode('rot13')
+            linktext = esc(linktext)
         else:
-            linktext = email
+            linktext = esc(email)
+
+        # ROT13
+        email = email.encode("rot13")
+        linktext = linktext.encode("rot13")
 
         rotten_link = (
             """<script type="text/javascript">"""
-            """//<![CDATA["""
+            """\n//<![CDATA[\n"""
             """document.write("""
             """'<n uers="znvygb:{0}">{1}</n>'.replace(/[a-zA-Z]/g,"""
-            """function(c) {"""
+            """function(c) {{"""
             """return String.fromCharCode("""
-            """(c<="Z"?90:122) >= (c=c.charCodeAt(0)+13)?c:c-26);}));"""
-            """//]]>"""
+            """(c<="Z"?90:122) >= (c=c.charCodeAt(0)+13)?c:c-26);}}));"""
+            """\n//]]>"""
             """</script>"""
         ).format(email, linktext)
 
