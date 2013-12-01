@@ -20,8 +20,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'OPTIONS': {
+            'autocommit': True,
             'read_default_file': os.path.join(PROJECT_PATH, 'db.cnf'),
         },
     }

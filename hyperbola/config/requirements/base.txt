@@ -2,7 +2,7 @@ Django>=1.6,<1.7
 django-localflavor
 gunicorn
 Markdown
-MySQL-python>=1.2.3
+mysql-connector-python
 PIL
 redis
 sorl-thumbnail
