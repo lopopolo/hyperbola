@@ -12,8 +12,8 @@ class LifeStreamItem(models.Model):
     def has_picture(self):
         return False
 
-    def __unicode__(self):
-        return "%s - %s" % (self.pk, self.blurb[:50])
+    def __str__(self):
+        return "{0} - {1}".format(self.pk, self.blurb[:50])
 
     class Meta:
         ordering = ["-pub_date"]
