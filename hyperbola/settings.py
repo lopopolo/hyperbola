@@ -1,7 +1,6 @@
 # Django settings for hyperbola
 
 import os
-import socket
 
 # these may be overridden by is_staging or local_settings
 DEBUG = False
@@ -14,18 +13,18 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 REPO_PATH = os.path.join(PROJECT_PATH, '..')
 
 ADMINS = (
-  ('Ryan Lopopolo', 'rjl@hyperbo.la'),
+    ('Ryan Lopopolo', 'rjl@hyperbo.la'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'OPTIONS' : {
-      'read_default_file': os.path.join(PROJECT_PATH, 'db.cnf'),
-    },
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(PROJECT_PATH, 'db.cnf'),
+        },
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -70,48 +69,50 @@ FILE_UPLOAD_PERMISSIONS = 0644
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
+    (
+        'django.template.loaders.cached.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ),
+    ),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-  'django.core.context_processors.debug',
-  'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.contrib.auth.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (
-  'django.middleware.common.CommonMiddleware',
-  'django.contrib.sessions.middleware.SessionMiddleware',
-  'django.middleware.csrf.CsrfViewMiddleware',
-  'django.contrib.auth.middleware.AuthenticationMiddleware',
-  'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'hyperbola.urls'
 
 TEMPLATE_DIRS = (
-  # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-  # Always use forward slashes, even on Windows.
-  # Don't forget to use absolute paths, not relative paths.
-  os.path.join(PROJECT_PATH, 'templates'),
+    # Put strings here, like "/home/html/django_templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 INSTALLED_APPS = (
-  'django.contrib.auth',
-  'django.contrib.contenttypes',
-  'django.contrib.sessions',
-  'django.contrib.sites',
-  'django.contrib.messages',
-  'django.contrib.admin',
-  'django.contrib.admindocs',
-  'localflavor',
-  'sorl.thumbnail',
-  'hyperbola.contact',
-  'hyperbola.frontpage',
-  'hyperbola.lifestream',
-  'hyperbola.helpers',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'localflavor',
+    'sorl.thumbnail',
+    'hyperbola.contact',
+    'hyperbola.frontpage',
+    'hyperbola.lifestream',
+    'hyperbola.helpers',
 )
 
 # Thumbnailing
@@ -122,15 +123,19 @@ THUMBNAIL_UPSCALE = False
 
 # determine if we are in the staging environment
 try:
-  from is_staging import *
-  ALLOWED_HOSTS = ['staging.hyperbo.la']
-  STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la:8000/'
-  import warnings
-  warnings.simplefilter('error', DeprecationWarning)
+    from is_staging import *  # NOQA
+    ALLOWED_HOSTS = ['staging.hyperbo.la']
+    STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la:8000/'
+    import warnings
+    warnings.simplefilter('error', DeprecationWarning)
 except ImportError:
-  pass
+    pass
 
 # try to import local settings
 # must set SECRET_KEY
-from local_settings import *
+from local_settings import *  # NOQA
 
+try:
+    SECRET_KEY
+except NameError:
+    raise "Must set SECRET_KEY in local_settings.py"
