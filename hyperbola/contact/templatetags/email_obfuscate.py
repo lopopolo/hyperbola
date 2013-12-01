@@ -1,3 +1,4 @@
+import codecs
 import re
 
 from django.utils.safestring import mark_safe
@@ -35,8 +36,8 @@ def obfuscate(email, linktext=None, autoescape=None):
             linktext = esc(email)
 
         # ROT13
-        email = email.encode("rot13")
-        linktext = linktext.encode("rot13")
+        email = codecs.encode(email, "rot13")
+        linktext = codecs.encode(linktext, "rot13")
 
         rotten_link = (
             """<script type="text/javascript">"""
@@ -46,7 +47,7 @@ def obfuscate(email, linktext=None, autoescape=None):
             """function(c) {{"""
             """return String.fromCharCode("""
             """(c<="Z"?90:122) >= (c=c.charCodeAt(0)+13)?c:c-26);}}));"""
-            """\n//]]>"""
+            """\n//]]>\n"""
             """</script>"""
         ).format(email, linktext)
 
