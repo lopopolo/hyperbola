@@ -1,8 +1,10 @@
 from django.contrib import admin
-from models import *
-    
+from models import EmailContact, PhoneContact, WebContact, \
+    IMContact, Resume, ContactType, AboutMe
+
+
 class TypeAdmin(admin.ModelAdmin):
-  fields = ["display_order", "type"]
+    fields = ["display_order", "type"]
 
 admin.site.register(EmailContact)
 admin.site.register(PhoneContact)
@@ -11,4 +13,3 @@ admin.site.register(IMContact)
 admin.site.register(Resume)
 admin.site.register(ContactType, TypeAdmin)
 admin.site.register(AboutMe)
-
