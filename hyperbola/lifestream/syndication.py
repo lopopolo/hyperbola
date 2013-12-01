@@ -19,7 +19,7 @@ class LatestEntriesFeed(Feed):
         return InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
 
     def item_title(self, item):
-        return "Post #%s" % (item.pk)
+        return "Post #{0}".format(item.pk)
 
     def item_description(self, item):
         post = render_to_response("blurb.html", {"post": item})
