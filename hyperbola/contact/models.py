@@ -39,7 +39,7 @@ class IMContact(Contact):
   value = models.CharField(max_length=100)
 
 class Resume(models.Model):
-  date = models.DateField(auto_now=True)
+  date = models.DateField(auto_now=True, db_index=True)
 
   def upload_path(instance, filename):
     return "resume/" + time.strftime("%Y/%m/%d/%H-%M/") + "lopopolo.pdf"

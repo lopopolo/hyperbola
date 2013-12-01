@@ -46,7 +46,7 @@ def padded_month_string(month):
 
 def get_archive_range():
   newest = LifeStreamItem.objects.latest('pub_date').pub_date
-  oldest = LifeStreamItem.objects.order_by('pub_date')[0].pub_date
+  oldest = LifeStreamItem.objects.earliest('pub_date').pub_date
   dates = []
   # get year range
   for year in xrange(newest.year, oldest.year-1, -1):
