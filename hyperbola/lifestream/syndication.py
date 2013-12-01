@@ -5,8 +5,8 @@ from django.utils.feedgenerator import Atom1Feed
 
 from hyperbola.helpers.inheritance_query_set import InheritanceQuerySet
 
-from models import LifeStreamItem
-import views
+from hyperbola.lifestream import views
+from hyperbola.lifestream.models import LifeStreamItem
 
 
 class LatestEntriesFeed(Feed):

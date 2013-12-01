@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.shortcuts import render_to_response
 
-from models import LifeStreamItem
+from hyperbola.lifestream.models import LifeStreamItem
 
 
 NUM_PER_PAGE = 20
@@ -53,7 +53,7 @@ def get_archive_range():
     oldest = LifeStreamItem.objects.earliest('pub_date').pub_date
     dates = []
     # get year range
-    for year in xrange(newest.year, oldest.year-1, -1):
+    for year in range(newest.year, oldest.year-1, -1):
         month_min = 1
         month_max = 12
 
@@ -65,7 +65,7 @@ def get_archive_range():
 
         dates.append((
             year,
-            [months[month] for month in xrange(month_max, month_min-1, - 1)],
+            [months[month] for month in range(month_max, month_min-1, - 1)],
         ))
 
     return dates
