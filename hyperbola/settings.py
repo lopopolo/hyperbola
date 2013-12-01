@@ -3,13 +3,8 @@
 import os
 import socket
 
-# Set DEBUG = True if on the production server
-production_hosts = ['li246-117']
-if socket.gethostname() in production_hosts:
-  DEBUG = False
-else:
-  DEBUG = True
-
+# these may be overridden by is_staging or local_settings
+DEBUG = False
 ALLOWED_HOSTS = ['hyperbo.la']
 
 # This dynamically discovers the path to the project
