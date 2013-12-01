@@ -11,16 +11,22 @@
 
 {% block content %}
   <div id="left_col">
-    <h1>{{name}}</h1>
+    <h1>{{name|escape}}</h1>
 
-    {% for category, contacts_of_category in contacts %}
-      <h2>{{category}}</h2>
+    {% for category in contacts %}
+      <h2>{{category.title|escape}}</h2>
 
       <table class="contact_table">
-        {% for name, value in contacts_of_category %}
+        {% for contact in category.contacts %}
           <tr>
-            <td>{{name}}</td>
-            <td>{{value|obfuscate}}</td>
+            <td>{{contact.name|escape}}</td>
+            {% if contact.is_url %}
+            <td><a href="{{contact.value|safe}}">{{contact.link_text|escape}}</a>
+            {% elif contact.is_email %}
+            <td>{{contact.value|obfuscate}}</td>
+            {% else %}
+            <td>{{contact.value|escape}}</td>
+            {% endif %}
           </tr>
         {% endfor %}
       </table>
@@ -30,13 +36,13 @@
 
   <div id="right_col">
     <h2>About</h2>
-    {% thumbnail about.0 "240" format="JPEG" as thumb %}
+    {% thumbnail about.photo "240" format="JPEG" as thumb %}
     <div class="fullwidth">
-      <a href="{{about.0.url}}">
+      <a href="{{about.photo.url}}">
         <img src="{{thumb.url}}" />
       </a>
     </div>
     {% endthumbnail %}
-    <p>{{about.1}}</p>
+    <p>{{about.blurb|escape}}</p>
   </div>
 {% endblock %}
