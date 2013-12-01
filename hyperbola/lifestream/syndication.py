@@ -1,30 +1,34 @@
 from django.contrib.syndication.views import Feed
-from django.utils.feedgenerator import Atom1Feed
-from hyperbola.lifestream.models import *
-from hyperbola.lifestream import views
-from hyperbola.helpers.inheritance_query_set import *
-from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+from django.utils.feedgenerator import Atom1Feed
+
+from hyperbola.helpers.inheritance_query_set import InheritanceQuerySet
+
+from models import LifeStreamItem
+import views
+
 
 class LatestEntriesFeed(Feed):
-  title = "hyperbo.la lifestream microblog"
-  link = "/lifestream/"
-  description = "Most recent posts made to Ryan Lopopolo's lifestreaming microblog."
+    title = "hyperbo.la lifestream microblog"
+    link = "/lifestream/"
+    description = "Most recent posts made to Ryan Lopopolo's " + \
+        "lifestreaming microblog."
 
-  def items(self):
-    return InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
+    def items(self):
+        return InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
 
-  def item_title(self, item):
-    return "Post #%s" % (item.pk)
+    def item_title(self, item):
+        return "Post #%s" % (item.pk)
 
-  def item_description(self, item):
-    post = render_to_response("blurb.html", { "post" : item })
-    return post.content
+    def item_description(self, item):
+        post = render_to_response("blurb.html", {"post": item})
+        return post.content
 
-  def item_link(self, item):
-    return reverse(views.permalink, args=[item.pk])
+    def item_link(self, item):
+        return reverse(views.permalink, args=[item.pk])
+
 
 class AtomLatestEntriesFeed(LatestEntriesFeed):
-  feed_type = Atom1Feed
-  subtitle = LatestEntriesFeed.description
-
+    feed_type = Atom1Feed
+    subtitle = LatestEntriesFeed.description
