@@ -61,7 +61,7 @@ MEDIA_URL = 'http://media.hyperbo.la/'
 
 STATIC_URL = ASSETS_URL = 'http://assets.hyperbo.la/'
 
-FILE_UPLOAD_PERMISSIONS = 0644
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 # Make this unique, and don't share it with anybody.
 # SECRET_KEY = SOME_VALUE
@@ -123,7 +123,7 @@ THUMBNAIL_UPSCALE = False
 
 # determine if we are in the staging environment
 try:
-    from is_staging import *  # NOQA
+    from hyperbola.is_staging import *  # NOQA
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la/'
     import warnings
@@ -133,9 +133,9 @@ except ImportError:
 
 # try to import local settings
 # must set SECRET_KEY
-from local_settings import *  # NOQA
+from hyperbola.local_settings import *  # NOQA
 
 try:
     SECRET_KEY
 except NameError:
-    raise "Must set SECRET_KEY in local_settings.py"
+    raise Exception("Must set SECRET_KEY in local_settings.py")
