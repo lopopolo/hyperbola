@@ -106,6 +106,7 @@ INSTALLED_APPS = (
   'django.contrib.messages',
   'django.contrib.admin',
   'django.contrib.admindocs',
+  'localflavor',
   'sorl.thumbnail',
   'hyperbola.contact',
   'hyperbola.frontpage',

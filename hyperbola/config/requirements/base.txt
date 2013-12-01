@@ -1,5 +1,5 @@
 Django>=1.6,<1.7
-django_localflavor_us
+django-localflavor
 Markdown
 PIL
 sorl-thumbnail

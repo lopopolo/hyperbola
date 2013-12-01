@@ -1,5 +1,5 @@
 from django.db import models
-from django_localflavor_us.models import PhoneNumberField
+from localflavor.us.models import PhoneNumberField
 import time
 
 # Create your models here.
