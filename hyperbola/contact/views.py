@@ -4,8 +4,9 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, Http404
 from django.core.urlresolvers import reverse
 
-from models import EmailContact, PhoneContact, WebContact, \
-    IMContact, Resume, ContactType, AboutMe
+from hyperbola.contact.models import EmailContact, \
+    PhoneContact, WebContact, IMContact, Resume, \
+    ContactType, AboutMe
 
 
 class ContactGroup(object):
@@ -142,7 +143,7 @@ def index(request):
         )
 
     # prepare to ship to view
-    sorted_contact_groups = sorted(all_contacts.values(),
+    sorted_contact_groups = sorted(list(all_contacts.values()),
                                    key=lambda k: k.display_order)
     filtered_contact_groups = [contact_group
                                for contact_group
@@ -151,7 +152,7 @@ def index(request):
 
     # Resume is always last
     if Resume.objects.count() > 0:
-        resume_contact_group = ContactGroup(u"R\u00E9sum\u00E9")
+        resume_contact_group = ContactGroup("R\u00E9sum\u00E9")
         latest_resume = Resume.objects.latest("date")
         resume_link = reverse(resume, args=[])
         resume_contact_group.add_contact(
