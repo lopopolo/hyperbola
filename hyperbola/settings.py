@@ -125,7 +125,7 @@ THUMBNAIL_UPSCALE = False
 try:
     from is_staging import *  # NOQA
     ALLOWED_HOSTS = ['staging.hyperbo.la']
-    STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la:8000/'
+    STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la/'
     import warnings
     warnings.simplefilter('error', DeprecationWarning)
 except ImportError:
