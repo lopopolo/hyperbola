@@ -11,17 +11,20 @@
           date.setTime({{post.pub_date|date:'U'}} * 1000);
           document.write(HyperbolaDateFormatter.printDate(date));
         })();
+        //]]>
       </script>
     </span>
     <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
   </p>
   {% if post.lifestreampicture %}
   {% thumbnail post.lifestreampicture.picture "500" as thumb %}
+  {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
   <div class="fullwidth">
-    <a class="tinybox-image" href="{{post.lifestreampicture.picture.url}}">
+    <a class="tinybox-image" href="{{large_thumb.url}}">
       <img class="tinybox-image-thumbnail" src="{{thumb.url}}" />
     </a>
   </div>
+  {% endthumbnail %}
   {% endthumbnail %}
   {% endif %}
   <p>{{post.blurb|urlize|hashtagize}}</p>
