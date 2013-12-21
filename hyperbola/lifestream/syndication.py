@@ -3,8 +3,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.utils.feedgenerator import Atom1Feed
 
-from hyperbola.helpers.inheritance_query_set import InheritanceQuerySet
-
 from models import LifeStreamItem
 import views
 
@@ -16,7 +14,7 @@ class LatestEntriesFeed(Feed):
         "lifestreaming microblog."
 
     def items(self):
-        return InheritanceQuerySet(model=LifeStreamItem).select_subclasses()
+        return LifeStreamItem.objects.all().select_related('lifestreampicture')
 
     def item_title(self, item):
         return "Post #%s" % (item.pk)
