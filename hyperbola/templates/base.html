@@ -3,10 +3,9 @@
 <html>
   <head>
     <title>{% block title %}{% endblock %}</title>
-    {% load value_from_settings %}
-    {% value_from_settings "ASSETS_URL" as asset_url %}
-    <link rel="stylesheet" href="{{asset_url}}public/css/global.20140108.css" type="text/css" />
-    <link rel="shortcut icon" href="{{asset_url}}public/images/favicon.png" />
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "public/css/global.20140108.css" %}" type="text/css" />
+    <link rel="shortcut icon" href="{% static "public/images/favicon.png" %}" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu">
     {% block extrahead %}{% endblock %}
     <script type="text/javascript">
@@ -26,7 +25,7 @@
       <div id="header">
         <div id="logo">
           <a href="{% url "frontpage.views.index" %}">
-            <img src="{{asset_url}}public/images/logov1.png" />
+            <img src="{% static "public/images/logov1.png" %}" />
           </a>
         </div>
         <ul id="navbar">

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block extrahead %}
 <!-- feed discovery -->
 {% url "lifestream.syndication.LatestEntriesFeed" as rss_url %}
@@ -7,7 +9,7 @@
 {% url "lifestream.syndication.AtomLatestEntriesFeed" as atom_url %}
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{{atom_url}}" />
 <!-- lightbox -->
-<link rel="stylesheet" href="{{asset_url}}public/css/tinybox.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="{% static "public/css/tinybox.css" %}" type="text/css" media="screen" />
 <!-- date formatting -->
 <script type="text/javascript">
   // inlined to save the network roundtrip
@@ -20,7 +22,7 @@
 {% block section-title %}Lifestream{% endblock %}
 
 {% block extrafooter %}
-<script type="text/javascript" src="{{asset_url}}public/js/tinybox.js"></script>
+<script type="text/javascript" src="{% static "public/js/tinybox.js" %}"></script>
 <script type="text/javascript">
   // <![CDATA[
   var elems = document.getElementsByTagName('a'), i;
