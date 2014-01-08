@@ -1,4 +1,5 @@
 Django>=1.6,<1.7
+django-htmlmin
 django-localflavor
 gunicorn
 Markdown
