@@ -5,24 +5,26 @@
 {% block title %} hyperbo.la :: lifestream :: archive{% endblock %}
 
 {% block content %}
-  <div id="left_col">
-    {% if posts %}
-    <h2>Posts from {{month|stringformat:"s"}} {{year|stringformat:"s"}}</h2>
-    {% for post in posts %}
-      {% include "blurb.html" %}
-    {% endfor %}
-    {% if posts.has_previous %}
-    {% url "lifestream.views.archive" year month_num posts.previous_page_number as newer  %}
-    {% endif %}
-    {% if posts.has_next %}
-    {% url "lifestream.views.archive" year month_num posts.next_page_number as older %}
-    {% endif %}
-    {% include "page_links.html" %}
-    {% else %}
-    <h2>No posts from {{month|stringformat:"s"}} {{year|stringformat:"s"}}</h2>
-    {% endif %}
-  </div>
-  <div id="right_col">
-    {% include "lifestream_archive.html" %}
+  <div class="section group">
+    <div class="col span_2_of_3">
+      {% if posts %}
+        <h2>Posts from {{month|stringformat:"s"}} {{year|stringformat:"s"}}</h2>
+        {% for post in posts %}
+          {% include "blurb.html" %}
+        {% endfor %}
+        {% if posts.has_previous %}
+          {% url "lifestream.views.archive" year month_num posts.previous_page_number as newer  %}
+        {% endif %}
+        {% if posts.has_next %}
+          {% url "lifestream.views.archive" year month_num posts.next_page_number as older %}
+        {% endif %}
+        {% include "page_links.html" %}
+      {% else %}
+        <h2>No posts from {{month|stringformat:"s"}} {{year|stringformat:"s"}}</h2>
+      {% endif %}
+    </div>
+    <div class="col span_1_of_3">
+      {% include "lifestream_archive.html" %}
+    </div>
   </div>
 {% endblock %}

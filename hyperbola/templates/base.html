@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     {% load value_from_settings %}
     {% value_from_settings "ASSETS_URL" as asset_url %}
-    <link rel="stylesheet" href="{{asset_url}}public/css/global.css" type="text/css" />
+    <link rel="stylesheet" href="{{asset_url}}public/css/global.20140108.css" type="text/css" />
     <link rel="shortcut icon" href="{{asset_url}}public/images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu">
     {% block extrahead %}{% endblock %}
@@ -37,9 +37,10 @@
         <div class="floatfix"></div>
       </div>
       <div id="content">
-        <div class="section-title">{% block section-title %}{% endblock %}</div>
+        <div class="section group">
+          <div class="col span_3_of_3 section-title">{% block section-title %}{% endblock %}</div>
+        </div>
         {% block content %}{% endblock %}
-        <div class="floatfix"></div>
       </div>
     </div>
     {% block extrafooter %}{% endblock %}

@@ -8,21 +8,23 @@
 
 {% block content %}
 {% load lopopolo_markdown %}
-  <div id="left_col">
-    {% for blurb in blurbs %}
-    <div class="blurb">
-      <h2>{{blurb.title}}</h2>
-      {{blurb.body|markdown}}
+  <div class="section group">
+    <div class="col span_2_of_3">
+      {% for blurb in blurbs %}
+      <div class="blurb">
+        <h2>{{blurb.title}}</h2>
+        {{blurb.body|markdown}}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
 
-  <div id="right_col" class="newsfeed">
-    <h2 id="news_title">What I'm into right now</h2>
-    {% for sched in schedule %}
-    <div class="news {% cycle 'row1' 'row2' %}">
-      {{sched.body|markdown}}
+    <div class="col span_1_of_3 newsfeed">
+      <h2 id="news_title">What I'm into right now</h2>
+      {% for sched in schedule %}
+      <div class="news {% cycle 'row1' 'row2' %}">
+        {{sched.body|markdown}}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 {% endblock %}

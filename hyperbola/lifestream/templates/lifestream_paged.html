@@ -9,19 +9,21 @@
 {% endblock %}
 
 {% block content %}
-  <div id="left_col">
-    {% for post in posts %}
-    {% include "blurb.html" %}
-    {% endfor %}
-    {% if posts.has_previous %}
-    {% url "lifestream.views.page" posts.previous_page_number as newer  %}
-    {% endif %}
-    {% if posts.has_next %}
-    {% url "lifestream.views.page" posts.next_page_number as older  %}
-    {% endif %}
-    {% include "page_links.html" %}
-  </div>
-  <div id="right_col">
-    {% include "lifestream_archive.html" %}
+  <div class="section group">
+    <div class="col span_2_of_3">
+      {% for post in posts %}
+        {% include "blurb.html" %}
+      {% endfor %}
+      {% if posts.has_previous %}
+        {% url "lifestream.views.page" posts.previous_page_number as newer  %}
+      {% endif %}
+      {% if posts.has_next %}
+        {% url "lifestream.views.page" posts.next_page_number as older  %}
+      {% endif %}
+      {% include "page_links.html" %}
+    </div>
+    <div class="col span_1_of_3">
+      {% include "lifestream_archive.html" %}
+    </div>
   </div>
 {% endblock %}

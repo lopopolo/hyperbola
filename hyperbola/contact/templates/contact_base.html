@@ -10,31 +10,28 @@
 {% block section-title %}Contact Information{% endblock %}
 
 {% block content %}
-  <div id="left_col">
-    <h1>{{name|escape}}</h1>
-
-    {% for category in contacts %}
-      <h2>{{category.title|escape}}</h2>
-
-      <table class="contact_table">
+  <div class="section group">
+    <div class="col span_2_of_3">
+      <h1>{{name|escape}}</h1>
+      {% for category in contacts %}
+        <h2>{{category.title|escape}}</h2>
         {% for contact in category.contacts %}
-          <tr>
-            <td>{{contact.name|escape}}</td>
+          <div class="group">
+            <div class="col span_1_of_3">{{contact.name|escape}}</div>
             {% if contact.is_url %}
-            <td><a href="{{contact.value|safe}}">{{contact.link_text|escape}}</a>
+              <div class="col span_2_of_3">
+                <a href="{{contact.value|safe}}">{{contact.link_text|escape}}</a>
+              </div>
             {% elif contact.is_email %}
-            <td>{{contact.value|obfuscate}}</td>
+              <div class="col span_2_of_3">{{contact.value|obfuscate}}</div>
             {% else %}
-            <td>{{contact.value|escape}}</td>
+              <div class="col span_2_of_3">{{contact.value|escape}}</div>
             {% endif %}
-          </tr>
+          </div>
         {% endfor %}
-      </table>
     {% endfor %}
-
   </div>
-
-  <div id="right_col">
+  <div class="col span_1_of_3">
     <h2>About</h2>
     {% thumbnail about.photo "240" format="JPEG" as thumb %}
     <div class="fullwidth">
