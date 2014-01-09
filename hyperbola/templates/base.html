@@ -3,10 +3,15 @@
 <html>
   <head>
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static "public/css/global.20140108.css" %}" type="text/css" />
     <link rel="shortcut icon" href="{% static "public/images/favicon.png" %}" />
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu">
     {% block extrahead %}{% endblock %}
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -21,23 +26,34 @@
     </script>
   </head>
   <body class="{% block active_app %}{% endblock %}">
-    <div id="site_container">
-      <div id="header">
-        <div id="logo">
-          <a href="{% url "frontpage.views.index" %}">
-            <img src="{% static "public/images/logov1.png" %}" />
-          </a>
+    <div class="container hyperbola-container">
+      <div class="navbar navbar-default hyperbola-navbar" role="navigation">
+        <div class="navbar-header hyperbola-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="hyperbola-logo">
+            <a href="{% url "frontpage.views.index" %}">
+              <img src="{% static "public/images/logov1.png" %}" />
+            </a>
+          </div>
         </div>
-        <ul id="navbar">
-          <li id="home"><a href="{% url "frontpage.views.index" %}">home</a></li>
-          <li id="contact"><a href="{% url "contact.views.index" %}">contact</a></li>
-          <li id="lifestream"><a href="{% url "lifestream.views.page" %}">lifestream</a></li>
-        </ul>
-        <div class="floatfix"></div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right hyperbola-nav-items">
+            <li class="hyperbola-home"><a href="{% url "frontpage.views.index" %}">home</a></li>
+            <li class="hyperbola-contact"><a href="{% url "contact.views.index" %}">contact</a></li>
+            <li class="hyperbola-lifestream"><a href="{% url "lifestream.views.page" %}">lifestream</a></li>
+          </ul>
+        </div>
       </div>
-      <div id="content">
-        <div class="section group">
-          <div class="col span_3_of_3 section-title">{% block section-title %}{% endblock %}</div>
+      <div class="hyperbola-content">
+        <div class="row">
+          <div class="section-padding">
+            <div class="col-md-12 section-title">{% block section-title %}{% endblock %}</div>
+          </div>
         </div>
         {% block content %}{% endblock %}
       </div>

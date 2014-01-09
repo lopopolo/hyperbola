@@ -10,36 +10,37 @@
 {% block section-title %}Contact Information{% endblock %}
 
 {% block content %}
-  <div class="section group">
-    <div class="col span_2_of_3">
+  <div class="row">
+    <div class="col-md-9">
       <h1>{{name|escape}}</h1>
       {% for category in contacts %}
         <h2>{{category.title|escape}}</h2>
         {% for contact in category.contacts %}
-          <div class="group">
-            <div class="col span_1_of_3">{{contact.name|escape}}</div>
+          <div class="row">
+            <div class="col-md-4 hyperbola-ellipsis">{{contact.name|escape}}</div>
             {% if contact.is_url %}
-              <div class="col span_2_of_3">
+              <div class="col-md-8 hyperbola-ellipsis">
                 <a href="{{contact.value|safe}}">{{contact.link_text|escape}}</a>
               </div>
             {% elif contact.is_email %}
-              <div class="col span_2_of_3">{{contact.value|obfuscate}}</div>
+              <div class="col-md-8 hyperbola-ellipsis">{{contact.value|obfuscate}}</div>
             {% else %}
-              <div class="col span_2_of_3">{{contact.value|escape}}</div>
+              <div class="col-md-8 hyperbola-ellipsis">{{contact.value|escape}}</div>
             {% endif %}
           </div>
         {% endfor %}
-    {% endfor %}
-  </div>
-  <div class="col span_1_of_3">
-    <h2>About</h2>
-    {% thumbnail about.photo "240" format="JPEG" as thumb %}
-    <div class="fullwidth">
-      <a href="{{about.photo.url}}">
-        <img src="{{thumb.url}}" />
-      </a>
+      {% endfor %}
     </div>
-    {% endthumbnail %}
-    <p>{{about.blurb|escape}}</p>
+    <div class="col-md-3">
+      <h2>About</h2>
+      {% thumbnail about.photo "240" format="JPEG" as thumb %}
+      <div class="fullwidth">
+        <a href="{{about.photo.url}}">
+          <img src="{{thumb.url}}" />
+        </a>
+      </div>
+      {% endthumbnail %}
+      <p>{{about.blurb|escape}}</p>
+    </div>
   </div>
 {% endblock %}

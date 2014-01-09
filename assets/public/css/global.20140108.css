@@ -86,6 +86,8 @@
 /* global overrides */
 html {
   height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 body {
@@ -93,111 +95,107 @@ body {
   color: darkgray;
   height: 100%;
   margin: 0px;
-  font-family: 'Ubuntu', sans-serif;
 }
 
 a {
-  color: rgb(40, 220, 220);
+  color: rgb(40, 220, 220) !important;
   text-decoration: none;
 }
 
 /* site layout */
-#site_container {
-  width: 960px;
-  margin: auto;
-  min-height: 100%;
-  background-color: #222222;
-}
-
-#content {
+.hyperbola-content {
   background-color: #222222;
   color: darkgray;
   width: auto;
   padding: 5px;
   position: relative;
   min-height: 150px;
+  border-radius: 4px;
+}
+
+.section-padding {
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .section-title {
-  padding: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: #444444;
-  color: #222222;
   color: rgb(40, 220, 220);
   font-weight: bold;
+  border-radius: 4px;
 }
 
 /* header */
-#header {
+.hyperbola-navbar {
   background-color: #444444;
   color: white;
   width: 100%;
   position: relative;
+  min-height: 60px;
+  border: none;
+}
+
+.hyperbola-header {
   height: 60px;
 }
 
-#header a {
+.hyperbola-header .navbar-toggle {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.hyperbola-navbar a {
   outline: none;
 }
 
-#logo {
+.hyperbola-logo {
   float: left;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  height: 100%;
 }
 
-#logo img {
+.hyperbola-logo img {
   display: block;
   margin: auto;
   border-style: none;
-}
-
-#navbar {
   position: absolute;
-  right: 0px;
-  top: 0px;
-  white-space: nowrap;
-  margin: 0px;
+  clip: rect(auto, auto, 60px, auto);
 }
 
-#navbar li {
-  list-style-type: none;
-  display: inline;
-  float: left;
-  min-width: 100px;
-  margin: 0px;
-  padding: 0px;
+.hyperbola-nav-items {
+  height: 100%;
 }
 
-#navbar li a {
+.hyperbola-nav-items li a {
   display: block;
   padding: 38px 16px 5px;
   text-align: center;
   font-weight: bold;
 }
 
-#navbar li a:hover {
-  background: #AAAAAA;
+.hyperbola-nav-items li a:hover {
+  background: #AAAAAA !important;
 }
 
-.contact #navbar li#contact a {
+body.frontpage .hyperbola-nav-items li.hyperbola-home a {
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA')"; /* for IE */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
   background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
   background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
 }
 
-.frontpage #navbar li#home a {
+body.contact .hyperbola-nav-items li.hyperbola-contact a {
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA')"; /* for IE */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
   background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
   background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
 }
 
-.lifestream #navbar li#lifestream a {
+body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA')"; /* for IE */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
   background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
@@ -245,6 +243,12 @@ a {
   text-align: center;
 }
 
+/* contact */
+.hyperbola-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 /* lifestream */
 .lifestream_entry_header {
   font-size: 8pt;
@@ -260,6 +264,7 @@ a {
 
 .fullwidth img {
   max-width: 80%;
+  height: auto;
   margin: auto;
   display: block;
 }
