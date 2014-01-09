@@ -1,37 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-  <head>
-    <title>{% block title %}{% endblock %}</title>
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static "public/css/global.20140108.css" %}" type="text/css" />
-    <link rel="shortcut icon" href="{% static "public/images/favicon.png" %}" />
-    {% block extrahead %}{% endblock %}
-  </head>
-  <body class="{% block active_app %}{% endblock %}">
-    <div id="site_container">
-      <div id="header">
-        <div id="logo">
-          <a href="{% url "frontpage.views.index" %}">
-            <img src="{% static "public/images/logov1.png" %}" />
-          </a>
-        </div>
-        <ul id="navbar">
-          <li id="home"><a href="{% url "frontpage.views.index" %}">home</a></li>
-          <li id="contact"><a href="{% url "contact.views.index" %}">contact</a></li>
-          <li id="lifestream"><a href="{% url "lifestream.views.page" %}">lifestream</a></li>
-        </ul>
-        <div class="floatfix"></div>
-      </div>
-      <div id="content">
-        <h1 style="width: 100%; text-align: center;">
-          This isn't the page you're looking for.
-        </h1>
-        <div style="width: 100%; text-align: center; padding-bottom: 25px;">
-          Try some of the links in the navbar.
-        </div>
-        <div class="floatfix"></div>
-      </div>
-    </div>
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}hyperbo.la :: Not Found{% endblock %}
+
+{% block section-title %}Not Found{% endblock %}
+
+{% block content %}
+  <h1 style="width: 100%; text-align: center;">
+    This isn't the page you're looking for.
+  </h1>
+  <div style="width: 100%; text-align: center; padding-bottom: 25px;">
+    Try some of the links in the navbar.
+  </div>
+  <div class="floatfix"></div>
+{% endblock %}
