@@ -8,34 +8,21 @@
 <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{{rss_url}}">
 {% url "lifestream.syndication.AtomLatestEntriesFeed" as atom_url %}
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{{atom_url}}" />
-<!-- lightbox -->
-<link rel="stylesheet" href="{% static "public/css/tinybox.css" %}" type="text/css" media="screen" />
-<!-- date formatting -->
+
+<link rel="stylesheet" type="text/css" href="{% static "vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.css" %}" />
+
 <script type="text/javascript">
-  // inlined to save the network roundtrip
-  //<![CDATA[
-  var HyperbolaDateFormatter={printDate:function(b){var a="";a+=this.padTo2(b.getHours());a+=":";a+=this.padTo2(b.getMinutes());a+=" ";a+=this.monthToNameMap[b.getMonth()];a+=" ";a+=this.padTo2(b.getDate());a+=" ";a+=b.getFullYear();return a},padTo2:function(a){if(a<10&&a>=0){return"0"+a}return""+a},monthToNameMap:{0:"jan",1:"feb",2:"mar",3:"apr",4:"may",5:"jun",6:"jul",7:"aug",8:"sep",9:"oct",10:"nov",11:"dec"}};
-  //]]>
+  var HyperbolaDateFormatter={printDate:function(b){var a="";a+=this.padTo2(b.getHours());
+  a+=":";a+=this.padTo2(b.getMinutes());a+=" ";a+=this.monthToNameMap[b.getMonth()];a+=" ";
+  a+=this.padTo2(b.getDate());a+=" ";a+=b.getFullYear();return a},padTo2:function(a){if(a<10
+  &&a>=0){return"0"+a}return""+a},monthToNameMap:{0:"jan",1:"feb",2:"mar",3:"apr",4:"may",5:
+  "jun",6:"jul",7:"aug",8:"sep",9:"oct",10:"nov",11:"dec"},writeDate:function(t){var d=new
+  Date();d.setTime(t*1000);document.write(this.printDate(d))}};
 </script>
 {% endblock %}
 
 {% block section-title %}Lifestream{% endblock %}
 
 {% block extrafooter %}
-<script type="text/javascript" src="{% static "public/js/tinybox.js" %}"></script>
-<script type="text/javascript">
-  // <![CDATA[
-  var elems = document.getElementsByTagName('a'), i;
-  for (i in elems) {
-    if((' ' + elems[i].className + ' ').indexOf(' ' + 'tinybox-image' + ' ') > -1) {
-      elems[i].addEventListener('click', function(e) {
-        if (e.which == 1) {
-          TINY.box.show({image:this.href,boxid:'frameless',animate:true});
-          e.preventDefault();
-        }
-      });
-    }
-  }
-  //]]>
-</script>
+<script src="{% static "vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.js" %}"></script>
 {% endblock %}

@@ -1,18 +1,13 @@
+<!-- vim: set ft=htmldjango: -->
 {% load hashtagize %}
 {% load thumbnail %}
 <div class="blurb">
-  <p class="lifestream_entry_header">
+  <p class="lifestream-entry-header">
     <span class="date">
-      <script type="text/javascript">
-        //<![CDATA[
-        (function () {
-          // localize dates in the user's current locale
-          var date = new Date();
-          date.setTime({{post.pub_date|date:'U'}} * 1000);
-          document.write(HyperbolaDateFormatter.printDate(date));
-        })();
-        //]]>
-      </script>
+      <script type="text/javascript">HyperbolaDateFormatter.writeDate({{post.pub_date|date:'U'}})</script>
+      <noscript>
+        {{post.pub_date|date:"H:i T b d Y"|lower}}
+      </noscript>
     </span>
     <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
   </p>
@@ -20,9 +15,19 @@
   {% thumbnail post.lifestreampicture.picture "500" as thumb %}
   {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
   <div class="fullwidth">
-    <a class="tinybox-image" href="{{large_thumb.url}}">
-      <img class="tinybox-image-thumbnail" src="{{thumb.url}}" />
+    <a data-toggle="lightbox" href="#lightbox-{{post.id}}">
+      <img src="{{thumb.url}}">
     </a>
+  </div>
+  <div id="lightbox-{{post.id}}" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="lightbox-dialog">
+      <div class="lightbox-content hyperbola-lightbox-content">
+        <img src="{{large_thumb.url}}">
+        <div class="lightbox-caption">
+          <p>{{post.blurb|urlize|hashtagize}}</p>
+        </div>
+      </div>
+    </div>
   </div>
   {% endthumbnail %}
   {% endthumbnail %}

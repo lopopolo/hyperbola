@@ -24,6 +24,10 @@ a {
   -webkit-tap-highlight-color: rgba(128,128,128,0.2);
 }
 
+.hyperbola-hide {
+  display: none;
+}
+
 /* site layout */
 .hyperbola-content {
   background-color: #222222;
@@ -160,12 +164,25 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 /* lifestream */
-.lifestream_entry_header {
+.hyperbola-lightbox-content {
+  width: initial !important;
+  height: initial !important;
+}
+
+.lightbox .lightbox-dialog .lightbox-content.hyperbola-lightbox-content .lightbox-caption {
+  position: relative;
+  left: initial;
+  right: initial;
+  top: initial;
+  bottom: initial;
+}
+
+.lifestream-entry-header {
   font-size: 8pt;
   margin-top: 1em;
 }
 
-.lifestream_entry_header .date:after {
+.lifestream-entry-header .date:after {
   content: " ";
 }
 
