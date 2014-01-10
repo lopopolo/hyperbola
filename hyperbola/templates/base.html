@@ -1,29 +1,37 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <!-- vim: set ft=htmldjango: -->
 <html>
   <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="initial-scale=1.0">
+
+    <link rel="icon" href="{% static "icons/artifact/favicon.png" %}">
+    <!--[if IE]><link rel="shortcut icon" href="{% static "icons/artifact/favicon.ico" %}"><![endif]-->
+
+    <!-- For iPad with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{% static "icons/artifact/apple-touch-icon-ipad-retina.png" %}">
+    <!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{% static "icons/artifact/apple-touch-icon-iphone-retina.png" %}">
+    <!-- For the iPad mini and the first- and second-generation iPad on iOS ≤ 6: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "icons/artifact/apple-touch-icon-ipad.png" %}">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="{% static "icons/artifact/apple-touch-icon-iphone.png" %}">
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    {% load staticfiles %}
+    <script>$(document).ready(function () { $.getScript("//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js") })</script>
     <link rel="stylesheet" href="{% static "public/css/global.20140108.css" %}" type="text/css" />
-    <link rel="shortcut icon" href="{% static "public/images/favicon.png" %}" />
     {% block extrahead %}{% endblock %}
     <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-30651847-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-30651847-1');ga('send','pageview');
     </script>
   </head>
   <body class="{% block active_app %}{% endblock %}">
@@ -38,10 +46,7 @@
           </button>
           <div class="hyperbola-logo">
             <a href="{% url "frontpage.views.index" %}">
-              <!--[if lte IE 8]><img src="{% static "icons/artifact/logo.header.png" %}" /><![endif]-->
-              <!--[if gt IE 8]><img src="{% static "icons/source-svg/logo.header.svg" %}" /><![endif]-->
-              <!--[if !IE]> --><img src="{% static "icons/source-svg/logo.header.svg" %}" /><!-- <![endif]-->
-
+              <img src="{% static "icons/artifact/logo.header.png" %}" />
             </a>
           </div>
         </div>
