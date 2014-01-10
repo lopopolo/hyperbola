@@ -180,11 +180,11 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   display: block;
 }
 
-#next {
+.next-page {
   float: right;
 }
 
-#prev {
+.prev-page {
   float: left;
 }
 
