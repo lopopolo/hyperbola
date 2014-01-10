@@ -1,0 +1,25 @@
+{% extends "lifestream_base.html" %}
+
+{% block active_app %}lifestream{% endblock %}
+
+{% block title %} hyperbo.la :: lifestream
+  {% if posts.number != 1 %}
+    :: page {{posts.number}}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8">
+      {% if posts %}
+        <h2>{% block "lifestream-posts-header" %}{% endblock %}</h2>
+        {% block "lifestream-posts" %}{% endblock %}
+      {% else %}
+        <h2>{% block "lifestream-posts-empty" %}{% endblock %}</h2>
+      {% endif %}
+    </div>
+    <div class="col-md-4">
+      {% include "lifestream_archive.html" %}
+    </div>
+  </div>
+{% endblock %}
