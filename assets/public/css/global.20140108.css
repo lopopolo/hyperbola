@@ -21,7 +21,7 @@ body {
 
 a {
   color: rgb(40, 220, 220) !important;
-  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(128,128,128,0.2);
 }
 
 /* site layout */
