@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="230" height="80">
+<!-- Created lovingly by hand -->
+<g>
+<title>hyperbola logo</title>
+<metadata id="svg_155">image/svg+xmlThales' theorem31 jan 2007Erwin85</metadata>
+<metadata id="source">https://en.wikipedia.org/wiki/File:Hyperbola_properties.svg</metadata>
+<clipPath id="cut-off-bottom">
+<rect x="0" y="0" width="230" height="80" />
+</clipPath>
+<g id="hyperbola-logo" clip-path="url(#cut-off-bottom)">
+<g id="axes">
+<path id="svg_6" fill="none" stroke="#aaaaaa" stroke-width="2" stroke-linecap="none" stroke-miterlimit="4" stroke-dashoffset="0" d="m 80 0 l 0 140" />
+<path id="svg_7" fill="none" stroke="#aaaaaa" stroke-width="2" stroke-linecap="none" stroke-miterlimit="4" stroke-dashoffset="0" d="m 0 70 l 230 0"/>
+</g>
+<g id="hyperbola-shape">
+<path id="svg_9" fill="none" stroke="#28dcdc" stroke-width="4" d="m10.878479,136c4.10199,-4.349 8.20203,-8.69897 12.29199,-13.05701c4.40604,-4.95703 8.84302,-9.88597 13.22703,-14.85902c2.54098,-3.11298 5.13198,-6.18799 7.64297,-9.32497c1.53903,-2.106 3.14801,-4.164 4.642,-6.30199c1.49301,-2.138 3.535,-5.20803 4.92204,-8.03703c2.39397,-4.54699 4.07597,-9.647 3.77298,-14.841c-0.27799,-5.265 -2.41798,-10.22698 -5.03001,-14.73299c-1.11996,-1.93599 -2.39899,-3.777 -3.59601,-5.666c-1.76898,-2.362 -3.47498,-4.77399 -5.28497,-7.105c-2.54603,-3.071 -5.03901,-6.186 -7.616,-9.22999c-3.896,-4.37 -7.75501,-8.77401 -11.67502,-13.12201c-3.66699,-3.896 -7.32898,-7.79599 -10.99197,-11.695"/>
+<path id="svg_10" fill="none" stroke="#28dcdc" stroke-width="4" d="m149.121521,136c-1.04898,-1.09094 -2.09695,-2.18198 -3.14499,-3.27298c-5.74701,-6.27795 -11.52002,-12.53302 -17.24997,-18.82596c-3.02603,-3.54498 -6.09305,-7.05499 -9.09103,-10.62201c-2.04898,-2.63602 -4.15399,-5.23203 -6.16901,-7.89401c-2.00897,-2.914 -4.15698,-5.743 -5.85699,-8.856c-2.61399,-4.52499 -4.715,-9.53098 -4.92801,-14.81599c-0.23596,-5.25301 1.53703,-10.38099 3.996,-14.953c1.43805,-2.795 3.16901,-5.42699 4.99902,-7.979c1.21198,-1.74799 1.737,-2.58699 3.76901,-5.147c2.03299,-2.56 3.98401,-5.185 6.15396,-7.631c2.48003,-2.872 4.90503,-5.792 7.422,-8.63199c5.55704,-6.05901 11.086,-12.14501 16.65999,-18.18901c0.36302,-0.377 0.72502,-0.754 1.08702,-1.131"/>
+</g>
+</g>
+<text fill="#28dcdc" stroke="#28dcdc" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="square" x="175" y="70" id="svg_18" font-size="40" font-family="Brush Script MT, cursive" text-anchor="middle" xml:space="preserve">yperbola</text>
+</g>
+</svg>

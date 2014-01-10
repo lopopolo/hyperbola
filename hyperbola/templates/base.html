@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- vim: set ft=htmldjango: -->
 <html>
   <head>
     <title>{% block title %}{% endblock %}</title>
@@ -37,7 +38,10 @@
           </button>
           <div class="hyperbola-logo">
             <a href="{% url "frontpage.views.index" %}">
-              <img src="{% static "public/images/logov1.png" %}" />
+              <!--[if lte IE 8]><img src="{% static "icons/artifact/logo.header.png" %}" /><![endif]-->
+              <!--[if gt IE 8]><img src="{% static "icons/source-svg/logo.header.svg" %}" /><![endif]-->
+              <!--[if !IE]> --><img src="{% static "icons/source-svg/logo.header.svg" %}" /><!-- <![endif]-->
+
             </a>
           </div>
         </div>

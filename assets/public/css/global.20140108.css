@@ -132,15 +132,7 @@ a {
 /* header */
 .hyperbola-navbar {
   background-color: #444444;
-  color: white;
-  width: 100%;
-  position: relative;
-  min-height: 60px;
   border: none;
-}
-
-.hyperbola-header {
-  height: 60px;
 }
 
 .hyperbola-header .navbar-toggle {
@@ -162,17 +154,12 @@ a {
   display: block;
   margin: auto;
   border-style: none;
-  position: absolute;
-  clip: rect(auto, auto, 60px, auto);
-}
-
-.hyperbola-nav-items {
-  height: 100%;
 }
 
 .hyperbola-nav-items li a {
   display: block;
-  padding: 38px 16px 5px;
+  line-height: 20px;
+  padding: 50px 16px 10px;
   text-align: center;
   font-weight: bold;
 }
