@@ -57,9 +57,9 @@ MEDIA_ROOT = '/hyperbola/media/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://media.hyperbo.la/'
+MEDIA_URL = '//media.hyperbo.la/'
 
-STATIC_URL = ASSETS_URL = 'http://assets.hyperbo.la/'
+STATIC_URL = ASSETS_URL = '//assets.hyperbo.la/'
 
 FILE_UPLOAD_PERMISSIONS = 0644
 
@@ -127,7 +127,7 @@ THUMBNAIL_UPSCALE = False
 try:
     from is_staging import *  # NOQA
     ALLOWED_HOSTS = ['staging.hyperbo.la']
-    STATIC_URL = ASSETS_URL = 'http://staging-assets.hyperbo.la/'
+    STATIC_URL = ASSETS_URL = '//staging-assets.hyperbo.la/'
     import warnings
     warnings.simplefilter('error', DeprecationWarning)
 except ImportError:
