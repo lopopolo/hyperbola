@@ -20,19 +20,9 @@
     <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
     <link rel="apple-touch-icon-precomposed" href="{% static "icons/artifact/apple-touch-icon-iphone.png" %}">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <script>$(document).ready(function () { $.getScript("//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js") })</script>
     <link rel="stylesheet" href="{% static "public/css/global.20140108.css" %}" type="text/css" />
     {% block extrahead %}{% endblock %}
-    <script type="text/javascript">
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-30651847-1');ga('send','pageview');
-    </script>
   </head>
   <body class="{% block active_app %}{% endblock %}">
     <div class="container hyperbola-container">
@@ -67,6 +57,16 @@
         {% block content %}{% endblock %}
       </div>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-30651847-1');ga('send','pageview');
+    </script>
     {% block extrafooter %}{% endblock %}
   </body>
 </html>
