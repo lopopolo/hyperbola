@@ -95,7 +95,7 @@ def archive(request, year, month, page_num):
 
 def permalink(request, id):
     post = post_generic = LifeStreamItem.objects.filter(pk=id)
-    if post.count() < 1:
+    if not post.exists():
         raise Http404
     try:
         newer = post_generic[0].get_next_by_pub_date().pk

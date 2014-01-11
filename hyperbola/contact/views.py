@@ -150,14 +150,16 @@ def index(request):
                                if len(contact_group.contacts) > 0]
 
     # Resume is always last
-    if Resume.objects.count() > 0:
+    try:
+        latest_resume = Resume.objects.only("date").latest("date")
         resume_contact_group = ContactGroup(u"R\u00E9sum\u00E9")
-        latest_resume = Resume.objects.latest("date")
         resume_link = reverse(resume, args=[])
         resume_contact_group.add_contact(
             ResumeDTO(latest_resume.date, resume_link, request=request)
         )
         filtered_contact_groups.append(resume_contact_group)
+    except Resume.DoesNotExist:
+        pass
 
     return render_to_response(
         "contact_base.html", {
@@ -169,18 +171,17 @@ def index(request):
 
 
 def about():
-    about_me = None
-    if AboutMe.objects.count() > 0:
-        newest = AboutMe.objects.latest("id")
-    about_me = newest
-    return about_me
+    try:
+        return AboutMe.objects.latest("id")
+    except AboutMe.DoesNotExist:
+        return None
 
 
 def resume(request):
-    if Resume.objects.count() > 0:
+    try:
         newest = Resume.objects.latest("date")
-        response = HttpResponse(mimetype="application/pdf")
+        response = HttpResponse(content_type="application/pdf")
         response["X-Accel-Redirect"] = "/media/" + newest.resume.name  # nginx
         return response
-    else:
+    except Resume.DoesNotExist:
         raise Http404
