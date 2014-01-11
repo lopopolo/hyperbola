@@ -1,6 +1,6 @@
 import multiprocessing
 
-bind = '127.0.0.1:7777'
+bind = 'unix:/hyperbola/var/sock/hyperbola-live.sock'
 workers = multiprocessing.cpu_count() + 1
 
 pidfile = '/var/run/gunicorn_hyperbola.rjl.pid'
