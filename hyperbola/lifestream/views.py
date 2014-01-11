@@ -1,3 +1,6 @@
+from datetime import date
+from functools import wraps
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -6,6 +9,21 @@ from models import LifeStreamItem
 
 
 NUM_PER_PAGE = 20
+
+
+def handle_lifestream_404(view):
+    @wraps(view)
+    def inner(request, *args, **kwargs):
+        try:
+            return view(request, *args, **kwargs)
+        except Http404:
+            resp_404 = render_to_response(
+                "lifestream_404.html",
+                {"dates": get_archive_range()}
+            )
+            resp_404.status_code = 404
+            return resp_404
+    return inner
 
 
 def paginate(page_num, objects):
@@ -20,32 +38,17 @@ def paginate(page_num, objects):
         return paginator.page(paginator.num_pages)
 
 
+@handle_lifestream_404
 def page(request, page_num):
-    display_posts = paginate(
-        page_num,
-        LifeStreamItem.objects.all().select_related('lifestreampicture')
-    )
+    posts = LifeStreamItem.objects.all().select_related('lifestreampicture')
+    if not posts.exists():
+        raise Http404
+
     return render_to_response(
         "lifestream_paged.html",
-        {"posts": display_posts,
+        {"posts": paginate(page_num, posts),
          "dates": get_archive_range()}
     )
-
-
-months = {
-    1: ("01", "January"),
-    2: ("02", "February"),
-    3: ("03", "March"),
-    4: ("04", "April"),
-    5: ("05", "May"),
-    6: ("06", "June"),
-    7: ("07", "July"),
-    8: ("08", "August"),
-    9: ("09", "September"),
-    10: ("10", "October"),
-    11: ("11", "November"),
-    12: ("12", "December"),
-}
 
 
 def get_archive_range():
@@ -53,28 +56,27 @@ def get_archive_range():
         .order_by("-pub_date")
 
 
+@handle_lifestream_404
 def archive(request, year, month, page_num):
     year = int(year)
     month = int(month)
-    if year < 0 or year > 9999 or month < 1 or month > 12:
-        raise Http404
 
-    posts_for_year = LifeStreamItem.objects.filter(pub_date__year=year) \
+    posts_for_month = LifeStreamItem.objects.filter(pub_date__year=year) \
         .filter(pub_date__month=month) \
         .select_related('lifestreampicture')
 
-    paged_posts_for_year = paginate(page_num, posts_for_year)
+    if not posts_for_month.exists():
+        raise Http404
 
     return render_to_response(
         "lifestream_archived_posts.html",
-        {"posts": paged_posts_for_year,
-         "month": months[month][1],
-         "year": year,
-         "month_num": month,
+        {"posts": paginate(page_num, posts_for_month),
+         "month": date(year, month, 1),
          "dates": get_archive_range()}
     )
 
 
+@handle_lifestream_404
 def permalink(request, id):
     post = post_generic = LifeStreamItem.objects.filter(pk=id)
     if not post.exists():
@@ -100,15 +102,18 @@ def permalink(request, id):
     )
 
 
+@handle_lifestream_404
 def tag_page(request, page_num, tag):
     hashedtag = r"#{0}([^A-Za-z0-9]|$)".format(tag)
     qs = LifeStreamItem.objects.filter(blurb__iregex=hashedtag) \
         .select_related('lifestreampicture')
-    matches = paginate(page_num, qs)
+
+    if not qs.exists():
+        raise Http404
 
     return render_to_response(
         "lifestream_tag_paged.html",
         {"tag": tag,
-         "posts": matches,
+         "posts": paginate(page_num, qs),
          "dates": get_archive_range()}
     )

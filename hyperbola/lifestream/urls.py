@@ -6,7 +6,7 @@ from syndication import \
 
 urlpatterns = patterns(
     'hyperbola.lifestream.views',
-    (r'^$', 'page', {"page_num": 1}),
+    url(r'^$', 'page', {"page_num": 1}, name="lifestream-home"),
     (r'^page/(?P<page_num>\d+)/$', 'page'),
     (r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$',
      'archive', {"page_num": 1}),

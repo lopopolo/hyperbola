@@ -68,7 +68,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
     <ul>
     {% endifchanged %}
     {% ifchanged d.year d.month %}
-    <li><a href="{% url "lifestream.views.archive" d|date:"Y" d|date:"m" 1 %}">{{d|date:"F"}}</a></li>
+    <li><a href="{% url "lifestream.views.archive" d|date:"Y" d|date:"m" %}">{{d|date:"F"}}</a></li>
     {% endifchanged %}
     {% if forloop.last %}
     </ul>

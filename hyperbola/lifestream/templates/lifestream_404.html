@@ -1,0 +1,40 @@
+{% extends "lifestream_base.html" %}
+
+{% block active_app %}lifestream{% endblock %}
+
+{% block title %}
+hyperbo.la :: lifestream
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h2>No lifestream posts were found</h2>
+    <div>
+      <a href="{% url "lifestream-home"  %}">Return to lifestream home.</a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>Syndication</h3>
+    <ul class="syndication">
+      <li><a href="{% url "lifestream-rss" %}">RSS</a></li>
+      <li><a href="{% url "lifestream-atom" %}">Atom</a></li>
+    </ul>
+    {% for d in dates  %}
+    {% ifchanged d.year %}
+    {% if not forloop.first %}
+    </ul>
+    {% endif %}
+    <h3>{{d|date:"Y"}}</h3>
+    <ul>
+    {% endifchanged %}
+    {% ifchanged d.year d.month %}
+    <li><a href="{% url "lifestream.views.archive" d|date:"Y" d|date:"m" %}">{{d|date:"F"}}</a></li>
+    {% endifchanged %}
+    {% if forloop.last %}
+    </ul>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
