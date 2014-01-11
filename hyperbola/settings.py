@@ -3,14 +3,14 @@
 import os
 
 # these may be overridden by is_staging or local_settings
-DEBUG = False
+DEBUG = TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['hyperbo.la']
 
 USE_X_FORWARDED_HOST = True
 
 # This dynamically discovers the path to the project
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-REPO_PATH = os.path.join(PROJECT_PATH, '..')
+BASE_PATH = REPO_PATH = os.path.dirname(PROJECT_PATH)
 
 ADMINS = (
     ('Ryan Lopopolo', 'rjl@hyperbo.la'),
@@ -40,11 +40,9 @@ TIME_ZONE = 'America/New_York'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
@@ -60,6 +58,7 @@ MEDIA_ROOT = '/hyperbola/media/'
 MEDIA_URL = '//media.hyperbo.la/'
 
 STATIC_URL = ASSETS_URL = '//assets.hyperbo.la/'
+STATIC_ROOT = os.path.join(REPO_PATH, 'assets')
 
 FILE_UPLOAD_PERMISSIONS = 0644
 
@@ -67,47 +66,13 @@ FILE_UPLOAD_PERMISSIONS = 0644
 # SECRET_KEY = SOME_VALUE
 # load this from local_settings.py
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    (
-        'django.template.loaders.cached.Loader', (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        ),
-    ),
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.debug',
-    'django.contrib.auth.context_processors.auth',
-)
-
-MIDDLEWARE_CLASSES = (
-    'htmlmin.middleware.HtmlMinifyMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-)
-
-ROOT_URLCONF = 'hyperbola.urls'
-
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'templates'),
-)
-
 INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
     'django.contrib.staticfiles',
     'localflavor',
     'sorl.thumbnail',
@@ -117,11 +82,37 @@ INSTALLED_APPS = (
     'hyperbola.helpers',
 )
 
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+TEMPLATE_LOADERS = (
+    (
+        'django.template.loaders.cached.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ),
+    ),
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_PATH, 'templates'),
+)
+
+ROOT_URLCONF = 'hyperbola.urls'
+
+
 # Thumbnailing
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pil_engine.Engine'
 THUMBNAIL_FORMAT = 'PNG'
 THUMBNAIL_UPSCALE = False
+
 
 # determine if we are in the staging environment
 try:
