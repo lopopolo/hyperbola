@@ -1,4 +1,4 @@
-bind = '127.0.0.1:8080'
+bind = 'unix:/hyperbola/var/sock/hyperbola-staging.sock'
 workers = 1
 
 pidfile = '/var/run/gunicorn_hyperbola-staging.rjl.pid'
