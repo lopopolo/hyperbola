@@ -49,26 +49,8 @@ months = {
 
 
 def get_archive_range():
-    newest = LifeStreamItem.objects.latest('pub_date').pub_date
-    oldest = LifeStreamItem.objects.earliest('pub_date').pub_date
-    dates = []
-    # get year range
-    for year in xrange(newest.year, oldest.year-1, -1):
-        month_min = 1
-        month_max = 12
-
-        if year == newest.year:
-            month_max = newest.month
-
-        if year == oldest.year:
-            month_min = oldest.month
-
-        dates.append((
-            year,
-            [months[month] for month in xrange(month_max, month_min-1, - 1)],
-        ))
-
-    return dates
+    return LifeStreamItem.objects.dates("pub_date", "month") \
+        .order_by("-pub_date")
 
 
 def archive(request, year, month, page_num):
