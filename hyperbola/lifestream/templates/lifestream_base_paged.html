@@ -2,24 +2,71 @@
 
 {% block active_app %}lifestream{% endblock %}
 
-{% block title %} hyperbo.la :: lifestream
-  {% if posts.number != 1 %}
-    :: page {{posts.number}}
-  {% endif %}
+{% block title %}
+hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|stringformat:"s"}}{% endif %}
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-8">
-      {% if posts %}
-        <h2>{% block "lifestream-posts-header" %}{% endblock %}</h2>
-        {% block "lifestream-posts" %}{% endblock %}
-      {% else %}
-        <h2>{% block "lifestream-posts-empty" %}{% endblock %}</h2>
+<div class="row">
+  <div class="col-md-8">
+    {% if posts %}
+    <h2>{% block "lifestream-posts-header" %}{% endblock %}</h2>
+    {% for post in posts %}
+    {% load hashtagize %}
+    {% load thumbnail %}
+    <div class="blurb">
+      <p class="lifestream-entry-header">
+      <span class="date">
+        <script type="text/javascript">HyperbolaDateFormatter.writeDate({{post.pub_date|date:'U'}})</script>
+        <noscript>
+          {{post.pub_date|date:"H:i T b d Y"|lower}}
+        </noscript>
+      </span>
+      <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
+      </p>
+      {% if post.lifestreampicture %}
+      {% thumbnail post.lifestreampicture.picture "500" as thumb %}
+      {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
+      <div class="fullwidth">
+        <a data-toggle="lightbox" href="#lightbox-{{post.id}}">
+          <img src="{{thumb.url}}">
+        </a>
+      </div>
+      <div id="lightbox-{{post.id}}" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="lightbox-dialog">
+          <div class="lightbox-content hyperbola-lightbox-content">
+            <img src="{{large_thumb.url}}">
+            <div class="lightbox-caption">
+              <p>{{post.blurb|urlize|hashtagize}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endthumbnail %}
+      {% endthumbnail %}
       {% endif %}
+      <p>{{post.blurb|urlize|hashtagize}}</p>
     </div>
-    <div class="col-md-4">
-      {% include "lifestream_archive.html" %}
-    </div>
+    {% endfor %}
+    {% block "lifestream-page-links" %}{% endblock %}
+    {% else %}
+    <h2>{% block "lifestream-posts-empty" %}{% endblock %}</h2>
+    {% endif %}
   </div>
+  <div class="col-md-4">
+    <h3>Syndication</h3>
+    <ul class="syndication">
+      <li><a href="{% url "lifestream-rss" %}">RSS</a></li>
+      <li><a href="{% url "lifestream-atom" %}">Atom</a></li>
+    </ul>
+    {% for year,months in dates  %}
+    <h3>{{year|stringformat:"s"}}</h3>
+    <ul>
+      {% for monthnum,month in months %}
+      <li><a href="{% url "lifestream.views.archive" year monthnum 1 %}">{{month|stringformat:"s"}}</a></li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

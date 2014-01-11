@@ -1,4 +1,4 @@
-from django.conf.urls import patterns
+from django.conf.urls import url, patterns
 
 from syndication import \
     LatestEntriesFeed, AtomLatestEntriesFeed
@@ -19,6 +19,6 @@ urlpatterns = patterns(
 
 urlpatterns += patterns(
     '',
-    (r'^rss/$', LatestEntriesFeed()),
-    (r'^atom/$', AtomLatestEntriesFeed()),
+    url(r'^rss/$', LatestEntriesFeed(), name='lifestream-rss'),
+    url(r'^atom/$', AtomLatestEntriesFeed(), name='lifestream-atom'),
 )

@@ -2,17 +2,14 @@
 
 {% block "lifestream-posts-header" %}Results for #{{tag|escape}}{% endblock %}
 
-{% block "lifestream-posts" %}
-  {% for post in posts %}
-    {% include "blurb.html" %}
-  {% endfor %}
-  {% if posts.has_previous %}
-    {% url "lifestream.views.tag_page" page_num=posts.previous_page_number tag=tag as newer %}
-  {% endif %}
-  {% if posts.has_next %}
-    {% url "lifestream.views.tag_page" page_num=posts.next_page_number tag=tag as older %}
-  {% endif %}
-  {% include "page_links.html" %}
+{% block "lifestream-page-links" %}
+{% if posts.has_previous %}
+{% url "lifestream.views.tag_page" page_num=posts.previous_page_number tag=tag as newer %}
+{% endif %}
+{% if posts.has_next %}
+{% url "lifestream.views.tag_page" page_num=posts.next_page_number tag=tag as older %}
+{% endif %}
+{% include "page_links.html" %}
 {% endblock %}
 
 {% block "lifestream-posts-empty" %}No results for #{{tag|escape}}{% endblock %}
