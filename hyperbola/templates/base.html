@@ -3,25 +3,26 @@
 <html>
   <head>
     {% load staticfiles %}
+    {% load compressed %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="initial-scale=1.0">
 
-    <link rel="icon" href="{% static "icons/artifact/favicon.png" %}">
-    <!--[if IE]><link rel="shortcut icon" href="{% static "icons/artifact/favicon.ico" %}"><![endif]-->
+    <link rel="icon" href="{% static "img/artifact/favicon.png" %}">
+    <!--[if IE]><link rel="shortcut icon" href="{% static "img/artifact/favicon.ico" %}"><![endif]-->
 
     <!-- For iPad with high-resolution Retina display running iOS ≥ 7: -->
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{% static "icons/artifact/apple-touch-icon-ipad-retina.png" %}">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{% static "img/artifact/apple-touch-icon-ipad-retina.png" %}">
     <!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{% static "icons/artifact/apple-touch-icon-iphone-retina.png" %}">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{% static "img/artifact/apple-touch-icon-iphone-retina.png" %}">
     <!-- For the iPad mini and the first- and second-generation iPad on iOS ≤ 6: -->
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "icons/artifact/apple-touch-icon-ipad.png" %}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "img/artifact/apple-touch-icon-ipad.png" %}">
     <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-    <link rel="apple-touch-icon-precomposed" href="{% static "icons/artifact/apple-touch-icon-iphone.png" %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static "img/artifact/apple-touch-icon-iphone.png" %}">
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static "public/css/global.20140108.css" %}" type="text/css" />
+    {% compressed_css "sitewide" %}
     {% block extrahead %}{% endblock %}
   </head>
   <body class="{% block active_app %}{% endblock %}">
@@ -36,7 +37,7 @@
           </button>
           <div class="hyperbola-logo">
             <a href="{% url "frontpage.views.index" %}">
-              <img src="{% static "icons/artifact/logo.header.png" %}" />
+              <img src="{% static "img/artifact/logo.header.png" %}" />
             </a>
           </div>
         </div>

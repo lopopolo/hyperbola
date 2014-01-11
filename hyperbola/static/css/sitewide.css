@@ -1,11 +1,10 @@
 @CHARSET "UTF-8";
 
+/* global overrides */
+
 /* apply a natural box layout model to all elements */
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-/* hyperbola styles */
-
-/* global overrides */
 html {
   height: 100%;
   -webkit-text-size-adjust: 100%;
@@ -61,20 +60,16 @@ a {
   border: none;
 }
 
+.hyperbola-navbar a {
+  outline: none;
+}
+
 .hyperbola-header .navbar-toggle {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-right: 10px;
   padding-top: 12px;
   padding-bottom: 12px;
-}
-
-.hyperbola-navbar a {
-  outline: none;
-}
-
-.hyperbola-logo {
-  float: left;
 }
 
 .hyperbola-logo img {
@@ -95,25 +90,21 @@ a {
   background: #AAAAAA !important;
 }
 
-body.frontpage .hyperbola-nav-items li.hyperbola-home a {
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA')"; /* for IE */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
-  background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
-  background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
-}
-
-body.contact .hyperbola-nav-items li.hyperbola-contact a {
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA')"; /* for IE */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
-  background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
-  background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
-}
-
+body.frontpage .hyperbola-nav-items li.hyperbola-home a,
+body.contact .hyperbola-nav-items li.hyperbola-contact a,
 body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA')"; /* for IE */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#AAAAAA'); /* for IE */
-  background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#AAAAAA)); /* for webkit browsers */
-  background: -moz-linear-gradient(top,  #444444,  #AAAAAA); /* for firefox 3.6+ */
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, #444444),
+    color-stop(1, #AAAAAA)
+  );
+  background-image: -o-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
+  background-image: -moz-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
+  background-image: -webkit-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
+  background-image: -ms-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
+  background-image: linear-gradient(to bottom, #444444 0%, #AAAAAA 100%);
 }
 
 /* frontpage */
@@ -197,19 +188,7 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   display: block;
 }
 
-.next-page {
-  float: right;
-}
-
-.prev-page {
-  float: left;
-}
-
 ul.syndication {
-  list-style-image: url("/public/images/feed-icon-14x14.png");
+  /* embedding feed-icon-14x14.png */
+  list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAInSURBVCgVBcE7aF1lAADg7//PuTnH2FsxlGsqtYOC1VoCaaWi6GYGTTJ3COqgg5Od1K6Cizo3QzdBQUSFgEVFBB+DFTRpjdgYKkabVELtvWmax733vPy+cG3WeMNC3RjHXYE6BAIAAAGwgem0YSGOP3i6X9TGnn1RGGyru39xc0UrS2RZlGRR0krEWKPurH+9fDFtGsfKJkiOPur+ubcAwN6vnysunZdUXa1WJImUfZhMQxDTLErTysYHbwgxSO7pGH3olPbEDBMzhovvqy9fEEMkZiBFHVtBufWP5laboqe+ftvtqx/b/f0Z9z71suzkS4qRnJ/nNXUFUhBpDh115OwnoP/nD4rlj/TXv7e58JvO7HvyE2cMfprXbP8HkteOOZcf7uSxfUA5uGPYXXPgsedlj0xLhlvK1S/s3PjDwZNnVEWlXP3O7saWGJDf3dLWE3+Z1//qTRsXpu2v/Sh/+nWjR04p1xd1vz0ve+IVxTCAWDfUzVDdvykte9pZYaS7bPOzs2Dk9KtUDLr/gmbsOIhVw85+Tzr1tva5G7Kpd+QjCdubtpc+lT08JeT3KXZ3QJWOgVg1QoHR48+BdGJObII0BMWtNZDkh6iAZPwESJMgjuaJvZUvHXz8BcWVD6mCLEb1yje6a5fV16+qervW352zd+WSBGF1xmLnyQcmtRJBkDRBXVAOKIbUQ4b7FH2qATFUwp2/l8K1WYdxEZMAAAAAgCVM/w9xIeAFzYcQ3QAAAABJRU5ErkJggg==);
 }
-
-.floatfix {
-  clear: both;
-}
-

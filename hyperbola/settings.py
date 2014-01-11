@@ -58,7 +58,14 @@ MEDIA_ROOT = '/hyperbola/media/'
 MEDIA_URL = '//media.hyperbo.la/'
 
 STATIC_URL = ASSETS_URL = '//assets.hyperbo.la/'
+
 STATIC_ROOT = os.path.join(REPO_PATH, 'assets')
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_PATH, 'static'),
+)
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0644
 
@@ -75,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'localflavor',
+    'pipeline',
     'sorl.thumbnail',
     'hyperbola.contact',
     'hyperbola.frontpage',
@@ -112,6 +120,40 @@ THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pil_engine.Engine'
 THUMBNAIL_FORMAT = 'PNG'
 THUMBNAIL_UPSCALE = False
+
+
+PIPELINE_CSS = {
+    'lightbox': {
+        'source_filenames': (
+            'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.css',
+        ),
+        'output_filename': 'css/bootstrap-lightbox.min.css',
+    },
+    'sitewide': {
+        'source_filenames': (
+            'css/sitewide.css',
+        ),
+        'output_filename': 'css/sitewide.min.css',
+    },
+}
+
+PIPELINE_JS = {
+    'lightbox': {
+        'source_filenames': (
+            'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.js',
+        ),
+        'output_filename': 'js/bootstrap-lightbox.min.js',
+    },
+}
+
+# When PIPELINE is True, CSS and JavaScripts will be concatenated and filtered.
+# When False, the source-files will be used instead.
+# Default: PIPELINE = not DEBUG
+
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
+
+PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
 
 
 # determine if we are in the staging environment
