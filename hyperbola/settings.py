@@ -122,6 +122,7 @@ THUMBNAIL_FORMAT = 'PNG'
 THUMBNAIL_UPSCALE = False
 
 
+PIPELINE_ENABLED = True
 PIPELINE_CSS = {
     'lightbox': {
         'source_filenames': (
