@@ -2,10 +2,8 @@
 
 {% block extrahead %}
 <!-- feed discovery -->
-{% url "lifestream.syndication.LatestEntriesFeed" as rss_url %}
-<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{{rss_url}}">
-{% url "lifestream.syndication.AtomLatestEntriesFeed" as atom_url %}
-<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{{atom_url}}" />
+<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream-rss" %}">
+<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream-atom" %}">
 
 <script type="text/javascript">
   var HyperbolaDateFormatter={printDate:function(b){var a="";a+=this.padTo2(b.getHours());
