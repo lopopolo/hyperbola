@@ -155,19 +155,6 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 /* lifestream */
-.hyperbola-lightbox-content {
-  width: initial !important;
-  height: initial !important;
-}
-
-.lightbox .lightbox-dialog .lightbox-content.hyperbola-lightbox-content .lightbox-caption {
-  position: relative;
-  left: initial;
-  right: initial;
-  top: initial;
-  bottom: initial;
-}
-
 .lifestream-entry-header {
   font-size: 8pt;
   margin-top: 1em;
