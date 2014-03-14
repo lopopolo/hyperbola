@@ -35,11 +35,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <div class="hyperbola-logo">
-            <a href="{% url "frontpage.views.index" %}">
-              <img src="{% static "img/artifact/logo.header.png" %}" />
-            </a>
-          </div>
+          <a class="hyperbola-logo" href="{% url "frontpage.views.index" %}">
+            <span class="sr-only">Hyperbola Front Page</span>
+          </a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right hyperbola-nav-items">

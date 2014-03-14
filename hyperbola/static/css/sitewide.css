@@ -72,10 +72,32 @@ a {
   padding-bottom: 12px;
 }
 
-.hyperbola-logo img {
+.hyperbola-logo {
   display: block;
-  margin: auto;
+  margin: 0px;
   border-style: none;
+  background: url("../img/artifact/logo.header.png") no-repeat;
+  background-size: 230px 80px;
+  height: 80px;
+  width: 230px;
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) {
+  .hyperbola-logo {
+    display: block;
+    margin: 0px;
+    border-style: none;
+    background: url("../img/artifact/logo.header@2x.png") no-repeat;
+    background-size: 230px 80px;
+    height: 80px;
+    width: 230px;
+  }
 }
 
 .hyperbola-nav-items li a {
