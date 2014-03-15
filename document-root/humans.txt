@@ -1,0 +1,19 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Ryan Lopopolo -- Developer, Designer, Sysadmin -- @p4lindromica
+
+# THANKS
+
+    Daniel Erenrich
+    Matt Willer
+    GitHub
+    Google
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    Bootstrap, jQuery
+    Python, Django
