@@ -5,8 +5,10 @@
 #
 # adapted from: http://stackoverflow.com/a/3363254
 
+import contextlib
 import datetime
 import os
+import shutil
 import smtplib
 import subprocess
 import tarfile
@@ -50,29 +52,40 @@ def make_tarfile(output_filename, source_dir):
         tar.add(source_dir, arcname=os.path.basename(source_dir))
 
 
+@contextlib.contextmanager
+def tempdir():
+    """A context manager for creating and removing temporary directories"""
+    temp_dir = tempfile.mkdtemp()
+    try:
+        yield temp_dir
+    finally:
+        shutil.rmtree(temp_dir)
+
+
 site_root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-media_root = "/hyperbola/media"
-
-temp_dir = tempfile.mkdtemp()
 backup_time = datetime.datetime.now().strftime("%Y-%m-%d-%H:%M")
-FNULL = open(os.devnull, 'w')
 
-mysql_dump_file = "{0}/{1}.mysql.sql".format(temp_dir, backup_time)
+with tempdir() as temp_dir:
+    # Backup all databases and tables in MySQL
+    mysql_dump_file = "{0}/{1}.mysql.sql".format(temp_dir, backup_time)
 
-with open(mysql_dump_file, "w") as mysqlf:
-    subprocess.call(
-        ["mysqldump",
-         "--defaults-extra-file={0}/hyperbola/db.cnf".format(site_root),
-         "--all-databases"],
-        stdout=mysqlf,
-        stderr=FNULL
-    )
+    with open(mysql_dump_file, "w") as mysqlf:
+        with open(os.devnull, 'w') as FNULL:
+            subprocess.call(
+                ["mysqldump",
+                 "--defaults-extra-file={0}/hyperbola/db.cnf".format(site_root),
+                 "--all-databases"],
+                stdout=mysqlf,
+                stderr=FNULL
+            )
 
-send_mail("rjl@hyperbo.la", ["upload.databas.skvvczqkcv@u.box.com"],
-          "hyperbo.la cron mysqldump", "", [mysql_dump_file])
+    send_mail("rjl@hyperbo.la", ["upload.databas.skvvczqkcv@u.box.com"],
+              "hyperbo.la cron mysqldump", "", [mysql_dump_file])
 
-media_tar_file = "{0}/{1}.media.tar.gz".format(temp_dir, backup_time)
-make_tarfile(media_tar_file, media_root)
+    # Backup all django media from hyperbola.settings.MEDIA_ROOT
+    media_root = "/hyperbola/media"
+    media_tar_file = "{0}/{1}.media.tar.gz".format(temp_dir, backup_time)
+    make_tarfile(media_tar_file, media_root)
 
-send_mail("rjl@hyperbo.la", ["upload.media.palovsbp7s@u.box.com"],
-          "hyperbo.la cron media backup", "", [media_tar_file])
+    send_mail("rjl@hyperbo.la", ["upload.media.palovsbp7s@u.box.com"],
+              "hyperbo.la cron media backup", "", [media_tar_file])
