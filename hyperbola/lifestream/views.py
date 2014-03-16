@@ -30,12 +30,8 @@ def paginate(page_num, objects):
     paginator = Paginator(objects, NUM_PER_PAGE)
     try:
         return paginator.page(page_num)
-    except PageNotAnInteger:
-        # if page is not an integer, deliver first page
-        return paginator.page(1)
-    except EmptyPage:
-        # If page is out of range, deliver last page
-        return paginator.page(paginator.num_pages)
+    except (PageNotAnInteger, EmptyPage):
+        raise Http404
 
 
 @handle_lifestream_404
