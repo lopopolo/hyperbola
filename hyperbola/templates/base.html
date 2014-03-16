@@ -36,22 +36,20 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="hyperbola-logo" href="{% url "frontpage.views.index" %}">
-            <span class="sr-only">Hyperbola Front Page</span>
-          </a>
+          <a class="hyperbola-logo text-hide" href="{% url "frontpage.views.index" %}">Hyperbola Front Page</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right hyperbola-nav-items">
-            <li class="hyperbola-home"><a href="{% url "frontpage.views.index" %}">home</a></li>
-            <li class="hyperbola-contact"><a href="{% url "contact.views.index" %}">contact</a></li>
-            <li class="hyperbola-lifestream"><a href="{% url "lifestream.views.page" %}">lifestream</a></li>
+            <li class="hyperbola-home text-center"><a href="{% url "frontpage.views.index" %}"><strong>home</strong></a></li>
+            <li class="hyperbola-contact text-center"><a href="{% url "contact.views.index" %}"><strong>contact</strong></a></li>
+            <li class="hyperbola-lifestream text-center"><a href="{% url "lifestream.views.page" %}"><strong>lifestream</strong></a></li>
           </ul>
         </div>
       </div>
       <div class="hyperbola-content">
         <div class="row">
-          <div class="section-padding">
-            <div class="col-md-12 section-title">{% block section-title %}{% endblock %}</div>
+          <div class="col-md-12">
+            <div class="well well-sm section-title"><strong>{% block section-title %}{% endblock %}</strong></div>
           </div>
         </div>
         {% block content %}{% endblock %}
