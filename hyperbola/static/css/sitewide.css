@@ -177,6 +177,14 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 /* lifestream */
+.blurb a {
+  display: inline-block;
+  vertical-align: bottom;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+}
+
 .lifestream-entry-header {
   font-size: 8pt;
   margin-top: 1em;
