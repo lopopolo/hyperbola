@@ -74,26 +74,27 @@ def archive(request, year, month, page_num):
 
 @handle_lifestream_404
 def permalink(request, id):
-    post = post_generic = LifeStreamItem.objects.filter(pk=id)
-    if not post.exists():
-        raise Http404
     try:
-        newer = post_generic[0].get_next_by_pub_date().pk
-        post.has_previous = True
+        post = LifeStreamItem.objects.select_related('lifestreampicture') \
+            .get(pk=id)
+    except LifeStreamItem.DoesNotExist:
+        raise Http404
+
+    try:
+        newer = post.get_next_by_pub_date()
     except LifeStreamItem.DoesNotExist:
         newer = None
 
     try:
-        older = post_generic[0].get_previous_by_pub_date().pk
-        post.has_next = True
+        older = post.get_previous_by_pub_date()
     except LifeStreamItem.DoesNotExist:
         older = None
 
     return render_to_response(
         "lifestream_entry.html",
-        {"prev_page": newer,
-         "next_page": older,
-         "posts": post,
+        {"newer_post": newer,
+         "older_post": older,
+         "posts": [post],
          "dates": get_archive_range()}
     )
 

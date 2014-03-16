@@ -5,7 +5,5 @@
 {% block title %} hyperbo.la :: lifestream {% endblock %}
 
 {% block "lifestream-page-links" %}
-{% url "lifestream.views.permalink" prev_page as newer %}
-{% url "lifestream.views.permalink" next_page as older %}
-{% include "page_links.html" %}
+{% include "page_links.html" with newer=newer_post.get_absolute_url older=older_post.get_absolute_url %}
 {% endblock %}
