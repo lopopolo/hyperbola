@@ -36,7 +36,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
           <div class="lightbox-content hyperbola-lightbox-content">
             <img alt="Photo for post {{post.id}}" src="{{large_thumb.url}}" width="{{large_thumb.width}}" height="{{large_thumb.height}}">
             <div class="lightbox-caption">
-              <p>{{post.blurb|urlize|hashtagize}}</p>
+              <p class="lifestream-content">{{post.blurb|urlize|hashtagize}}</p>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
       {% endthumbnail %}
       {% endthumbnail %}
       {% endif %}
-      <p>{{post.blurb|urlize|hashtagize}}</p>
+      <p class="lifestream-content">{{post.blurb|urlize|hashtagize}}</p>
     </div>
     {% endfor %}
     {% block "lifestream-page-links" %}{% endblock %}

@@ -177,7 +177,7 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 /* lifestream */
-.blurb a {
+.lifestream-content a {
   display: inline-block;
   vertical-align: bottom;
   text-overflow: ellipsis;
