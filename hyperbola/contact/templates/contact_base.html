@@ -13,23 +13,30 @@
   <div class="row">
     <div class="col-md-9">
       <h1>{{name|escape}}</h1>
-      {% for category in contacts %}
-        <h2>{{category.title|escape}}</h2>
-        {% for contact in category.contacts %}
-          <div class="row">
-            <div class="col-md-4 hyperbola-ellipsis">{{contact.name|escape}}</div>
-            {% if contact.is_url %}
-              <div class="col-md-8 hyperbola-ellipsis">
-                <a href="{{contact.value|safe}}">{{contact.link_text|escape}}</a>
-              </div>
-            {% elif contact.is_email %}
-              <div class="col-md-8 hyperbola-ellipsis">{{contact.value|obfuscate}}</div>
-            {% else %}
-              <div class="col-md-8 hyperbola-ellipsis">{{contact.value|escape}}</div>
-            {% endif %}
-          </div>
-        {% endfor %}
+      {% for contact in contacts %}
+      {% ifchanged contact.type %}
+      <h2>{{contact.type.type|escape}}</h2>
+      {% endifchanged %}
+      <div class="row">
+        <div class="col-md-4 hyperbola-ellipsis">{{contact.display_name|escape}}</div>
+        {% if contact.is_url %}
+        <div class="col-md-8 hyperbola-ellipsis">
+          <a href="{{contact.value|safe}}">{{contact.display_value|escape}}</a>
+        </div>
+        {% elif contact.is_email %}
+        <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|obfuscate}}</div>
+        {% else %}
+        <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|escape}}</div>
+        {% endif %}
+      </div>
       {% endfor %}
+      <h2>Résumé</h2>
+      <div class="row">
+        <div class="col-md-4 hyperbola-ellipsis">{{resume.display_name|escape}}</div>
+        <div class="col-md-8 hyperbola-ellipsis">
+          <a href="{{resume.url|safe}}">{{resume.url|escape}}</a>
+        </div>
+      </div>
     </div>
     <div class="col-md-3">
       <h2>About</h2>

@@ -1,6 +1,7 @@
+import time
+
 from django.db import models
 from localflavor.us.models import PhoneNumberField
-import time
 
 
 # a grouping of contacts (ie: Work, personal)
@@ -20,6 +21,18 @@ class Contact(models.Model):
     name = models.CharField(max_length=200)
     value = "blank"
 
+    def display_name(self):
+        return self.name
+
+    def display_value(self):
+        return self.value
+
+    def is_url(self):
+        return False
+
+    def is_email(self):
+        return False
+
     def __unicode__(self):
         return self.value
 
@@ -31,6 +44,9 @@ class Contact(models.Model):
 class EmailContact(Contact):
     value = models.EmailField(max_length=75)
 
+    def is_email(self):
+        return True
+
 
 class PhoneContact(Contact):
     value = PhoneNumberField()
@@ -38,6 +54,9 @@ class PhoneContact(Contact):
 
 class WebContact(Contact):
     value = models.URLField(max_length=200)
+
+    def is_url(self):
+        return True
 
 
 class IMContact(Contact):
@@ -51,6 +70,13 @@ class Resume(models.Model):
         return "resume/" + time.strftime("%Y/%m/%d/%H-%M/") + "lopopolo.pdf"
 
     resume = models.FileField(upload_to=upload_path)
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('hyperbola.contact.views.resume')
+
+    def display_name(self):
+        return "As of {0}".format(self.date.strftime("%b %d %Y"))
 
     def __unicode__(self):
         return "version %s as of %s" % (self.id, self.date)
