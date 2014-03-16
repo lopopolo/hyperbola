@@ -145,6 +145,12 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js/bootstrap-lightbox.min.js',
     },
+    'retinajs': {
+        'source_filenames': (
+            'vendor/retinajs/v1.1.0/retina.js',
+        ),
+        'output_filename': 'js/retina.min.js',
+    },
 }
 
 # When PIPELINE is True, CSS and JavaScripts will be concatenated and filtered.

@@ -194,17 +194,6 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   content: " ";
 }
 
-.fullwidth {
-  width: 100%;
-}
-
-.fullwidth img {
-  max-width: 80%;
-  height: auto;
-  margin: auto;
-  display: block;
-}
-
 ul.syndication {
   list-style: none;
   padding: 0;

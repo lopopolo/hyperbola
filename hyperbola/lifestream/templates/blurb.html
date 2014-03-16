@@ -14,21 +14,23 @@
   {% if post.lifestreampicture %}
   {% thumbnail post.lifestreampicture.picture "500" as thumb %}
   {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
-  <div class="fullwidth">
+  {% thumbnail post.lifestreampicture.picture "2000" as xlarge_thumb %}
+  <div>
     <a data-toggle="lightbox" href="#lightbox-{{post.id}}">
-      <img alt="Photo for post {{post.id}}" src="{{thumb.url}}" width="{{thumb.width}}" height="{{thumb.height}}">
+      <img alt="Photo for post {{post.id}}" src="{{thumb.url}}" data-at2x="{{large_thumb.url}}" width="{{thumb.width}}" height="{{thumb.height}}" class="center-block img-thumbnail">
     </a>
   </div>
   <div id="lightbox-{{post.id}}" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
     <div class="lightbox-dialog">
       <div class="lightbox-content hyperbola-lightbox-content">
-        <img alt="Photo for post {{post.id}}" src="{{large_thumb.url}}" width="{{large_thumb.width}}" height="{{large_thumb.height}}">
+        <img alt="Photo for post {{post.id}}" src="{{large_thumb.url}}" data-at2x="{{xlarge_thumb.url}}" width="{{large_thumb.width}}" height="{{large_thumb.height}}">
         <div class="lightbox-caption">
           <p>{{post.blurb|urlize|hashtagize}}</p>
         </div>
       </div>
     </div>
   </div>
+  {% endthumbnail %}
   {% endthumbnail %}
   {% endthumbnail %}
   {% endif %}

@@ -41,11 +41,13 @@
     <div class="col-md-3">
       <h2>About</h2>
       {% thumbnail about.photo "240" format="JPEG" as thumb %}
-      <div class="fullwidth">
+      {% thumbnail about.photo "480" format="JPEG" as thumb_retina %}
+      <div>
         <a href="{{about.photo.url}}">
-          <img alt="Ryan Lopopolo" src="{{thumb.url}}" width="{{thumb.width}}" height="{{thumb.height}}">
+          <img alt="Ryan Lopopolo" src="{{thumb.url}}" data-at2x="{{thumb_retina.url}}" width="{{thumb.width}}" height="{{thumb.height}}" class="center-block img-thumbnail">
         </a>
       </div>
+      {% endthumbnail %}
       {% endthumbnail %}
       <p>{{about.blurb|escape}}</p>
     </div>
