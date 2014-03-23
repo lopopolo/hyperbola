@@ -70,7 +70,7 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
-FILE_UPLOAD_PERMISSIONS = 0644
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 # Make this unique, and don't share it with anybody.
 # SECRET_KEY = SOME_VALUE
