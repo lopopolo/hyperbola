@@ -1,5 +1,6 @@
-from models import Blurb, Schedule
 from django.shortcuts import render_to_response
+
+from hyperbola.frontpage.models import Blurb, Schedule
 
 
 def index(request):

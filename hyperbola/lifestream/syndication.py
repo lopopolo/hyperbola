@@ -3,8 +3,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.utils.feedgenerator import Atom1Feed
 
-from models import LifeStreamItem
-import views
+from hyperbola.lifestream import views
+from hyperbola.lifestream.models import LifeStreamItem
 
 
 class LatestEntriesFeed(Feed):

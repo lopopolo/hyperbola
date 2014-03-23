@@ -1,6 +1,6 @@
 from django.conf.urls import url, patterns
 
-from syndication import \
+from hyperbola.lifestream.syndication import \
     LatestEntriesFeed, AtomLatestEntriesFeed
 
 

@@ -2,6 +2,9 @@
 
 import os
 
+from django.core.exceptions import ImproperlyConfigured
+
+
 # these may be overridden by is_staging or local_settings
 DEBUG = TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['hyperbo.la']
@@ -165,7 +168,8 @@ PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
 
 # determine if we are in the staging environment
 try:
-    from is_staging import *  # NOQA
+    # The presence of this module indicates the staging environment
+    from hyperbola import is_staging  # NOQA
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = ASSETS_URL = '//staging-assets.hyperbo.la/'
     import warnings
@@ -175,9 +179,12 @@ except ImportError:
 
 # try to import local settings
 # must set SECRET_KEY
-from local_settings import *  # NOQA
+try:
+    from hyperbola.local_settings import *  # NOQA
+except ImportError:
+    pass
 
 try:
     SECRET_KEY
 except NameError:
-    raise "Must set SECRET_KEY in local_settings.py"
+    raise ImproperlyConfigured("Must set SECRET_KEY in local_settings.py")

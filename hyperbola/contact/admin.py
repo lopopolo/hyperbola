@@ -1,10 +1,11 @@
 from django.contrib import admin
-from models import EmailContact, PhoneContact, WebContact, \
+from hyperbola.contact.models import EmailContact, PhoneContact, WebContact, \
     IMContact, Resume, ContactType, AboutMe
 
 
 class TypeAdmin(admin.ModelAdmin):
     fields = ["display_order", "type"]
+
 
 admin.site.register(EmailContact)
 admin.site.register(PhoneContact)

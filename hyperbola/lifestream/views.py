@@ -8,7 +8,7 @@ from django.db.utils import load_backend, DEFAULT_DB_ALIAS
 from django.http import Http404
 from django.shortcuts import render_to_response
 
-from models import LifeStreamItem
+from hyperbola.lifestream.models import LifeStreamItem
 
 
 NUM_PER_PAGE = 20
