@@ -28,7 +28,5 @@ def hashtagize(blurb):
     Use this filter to turn #hashtags into links
     """
 
-    blurb = re.sub('(?P<leader>[^&])#(?P<tag>[A-Za-z0-9]+)', linkify, blurb)
-    # get hashtags that start a blurb
-    blurb = re.sub('^#(?P<tag>[A-Za-z0-9]+)', linkify, blurb)
+    blurb = re.sub('(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, blurb)
     return mark_safe(blurb)
