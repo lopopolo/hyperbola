@@ -12,7 +12,7 @@ urlpatterns = patterns(
      'archive', {"page_num": 1}),
     (r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page_num>\d+)/$',
      'archive'),
-    (r'^(?P<id>\d+)/$', 'permalink'),
+    (r'^(?P<entry_id>\d+)/$', 'permalink'),
     (r'^hashtag/(?P<tag>\w+)/$', 'tag_page', {"page_num": 1}),
     (r'^hashtag/(?P<tag>\w+)/page/(?P<page_num>\d+)/$', 'tag_page'),
 )

@@ -81,10 +81,10 @@ def archive(request, year, month, page_num):
 
 
 @handle_lifestream_404
-def permalink(request, id):
+def permalink(request, entry_id):
     try:
         post = LifeStreamItem.objects.select_related('lifestreampicture') \
-            .get(pk=id)
+            .get(pk=entry_id)
     except LifeStreamItem.DoesNotExist:
         raise Http404
 
