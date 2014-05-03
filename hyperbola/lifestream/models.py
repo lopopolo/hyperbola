@@ -15,9 +15,6 @@ class LifeStreamItem(models.Model):
             "hyperbola.lifestream.views.permalink",
             args=[str(self.id)])
 
-    def has_picture(self):
-        return False
-
     def __unicode__(self):
         return "{0} - {1}".format(self.pk, self.blurb[:50])
 
@@ -27,6 +24,3 @@ class LifeStreamItem(models.Model):
 
 class LifeStreamPicture(LifeStreamItem):
     picture = models.ImageField(upload_to="lifestream/photos/%Y/%m/%d/%H-%M/")
-
-    def has_picture(self):
-        return True
