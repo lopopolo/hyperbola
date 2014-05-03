@@ -5,6 +5,6 @@ django-pipeline
 gunicorn
 Markdown
 MySQL-python>=1.2.3
-PIL
+Pillow
 redis
 sorl-thumbnail
