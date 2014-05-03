@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from localflavor.us.models import PhoneNumberField
 
@@ -67,7 +68,6 @@ class Resume(models.Model):
     resume = models.FileField(upload_to="resume/%Y/%m/%d/%H-%M/lopopolo.pdf")
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('hyperbola.contact.views.resume')
 
     def display_name(self):
