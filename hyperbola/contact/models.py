@@ -1,5 +1,3 @@
-import time
-
 from django.db import models
 from localflavor.us.models import PhoneNumberField
 
@@ -10,7 +8,7 @@ class ContactType(models.Model):
     display_order = models.PositiveIntegerField(unique=True)
 
     def __unicode__(self):
-        return "%s - %s" % (self.display_order, self.type)
+        return "{0} - {1}".format(self.display_order, self.type)
 
     class Meta:
         ordering = ['display_order']
@@ -66,10 +64,7 @@ class IMContact(Contact):
 class Resume(models.Model):
     date = models.DateField(auto_now=True, db_index=True)
 
-    def upload_path(instance, filename):
-        return "resume/" + time.strftime("%Y/%m/%d/%H-%M/") + "lopopolo.pdf"
-
-    resume = models.FileField(upload_to=upload_path)
+    resume = models.FileField(upload_to="resume/%Y/%m/%d/%H-%M/lopopolo.pdf")
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
@@ -79,12 +74,12 @@ class Resume(models.Model):
         return "As of {0}".format(self.date.strftime("%b %d %Y"))
 
     def __unicode__(self):
-        return "version %s as of %s" % (self.id, self.date)
+        return "version {0} as of {1}".format(self.id, self.date)
 
 
 class AboutMe(models.Model):
-    photo = models.ImageField(upload_to="about/photo")
+    photo = models.ImageField(upload_to="about/photo/%Y/%m/%d/%H-%M/")
     blurb = models.TextField()
 
     def __unicode__(self):
-        return "%s..." % self.blurb[:50]
+        return "{0} ...".format(self.blurb[:50])

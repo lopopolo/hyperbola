@@ -17,7 +17,7 @@ class LatestEntriesFeed(Feed):
         return LifeStreamItem.objects.all().select_related('lifestreampicture')
 
     def item_title(self, item):
-        return "Post #%s" % (item.pk)
+        return "Post #{0}".format(item.pk)
 
     def item_description(self, item):
         post = render_to_response("blurb.html", {"post": item})
