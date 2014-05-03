@@ -1,11 +1,11 @@
 # Django settings for hyperbola
 
 import os
+import warnings
 
 from django.core.exceptions import ImproperlyConfigured
 
 
-# these may be overridden by is_staging or local_settings
 DEBUG = TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['hyperbo.la']
 
@@ -159,10 +159,9 @@ PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
 # determine if we are in the staging environment
 try:
     # The presence of this module indicates the staging environment
-    from hyperbola import is_staging  # NOQA
+    from hyperbola.is_staging import *  # NOQA
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = ASSETS_URL = '//staging-assets.hyperbo.la/'
-    import warnings
     warnings.simplefilter('error', DeprecationWarning)
 except ImportError:
     pass
