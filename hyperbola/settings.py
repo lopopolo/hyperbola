@@ -11,15 +11,8 @@ ALLOWED_HOSTS = ['hyperbo.la']
 
 USE_X_FORWARDED_HOST = True
 
-# This dynamically discovers the path to the project
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-BASE_PATH = REPO_PATH = os.path.dirname(PROJECT_PATH)
-
-ADMINS = (
-    ('Ryan Lopopolo', 'rjl@hyperbo.la'),
-)
-
-MANAGERS = ADMINS
+BASE_PATH = os.path.dirname(PROJECT_PATH)
 
 DATABASES = {
     'default': {
@@ -30,39 +23,26 @@ DATABASES = {
     }
 }
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
-TIME_ZONE = 'America/New_York'
+# Internationalization
+# # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
+TIME_ZONE = 'America/New_York'
+
 USE_I18N = False
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
-USE_L10N = True
+USE_L10N = False
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
+USE_TZ = False
+
 MEDIA_ROOT = '/hyperbola/media/'
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '//media.hyperbo.la/'
 
-STATIC_URL = ASSETS_URL = '//assets.hyperbo.la/'
+STATIC_URL = '//assets.hyperbo.la/'
 
-STATIC_ROOT = os.path.join(REPO_PATH, 'assets')
+STATIC_ROOT = os.path.join(BASE_PATH, 'assets')
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'static'),
@@ -72,9 +52,7 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
-# Make this unique, and don't share it with anybody.
-# SECRET_KEY = SOME_VALUE
-# load this from local_settings.py
+# load SECRET_KEY from local_settings.py
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -90,8 +68,8 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'hyperbola.contact',
     'hyperbola.frontpage',
-    'hyperbola.lifestream',
     'hyperbola.helpers',
+    'hyperbola.lifestream',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,6 +96,8 @@ TEMPLATE_DIRS = (
 
 ROOT_URLCONF = 'hyperbola.urls'
 
+WSGI_APPLICATION = 'hyperbola.wsgi.application'
+
 
 # Thumbnailing
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
@@ -126,6 +106,7 @@ THUMBNAIL_FORMAT = 'PNG'
 THUMBNAIL_UPSCALE = False
 
 
+# Asset caching
 PIPELINE_ENABLED = True
 PIPELINE_CSS = {
     'bootstrap': {
@@ -168,10 +149,6 @@ PIPELINE_JS = {
         'output_filename': 'js/retina.min.js',
     },
 }
-
-# When PIPELINE is True, CSS and JavaScripts will be concatenated and filtered.
-# When False, the source-files will be used instead.
-# Default: PIPELINE = not DEBUG
 
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
