@@ -40,6 +40,17 @@ a {
   border-style: none;
 }
 
+.hyperbola-jumbotron {
+  color: darkgray;
+  background-color: #222222;
+}
+
+.hyperbola-btn-info {
+  color: #444444 !important;
+  background-color: rgb(40, 220, 220);
+  border-color: #444444;
+}
+
 /* header */
 .hyperbola-navbar {
   background-color: #444444;
