@@ -20,7 +20,9 @@ from email.Utils import COMMASPACE, formatdate
 from email import Encoders
 
 
-def send_mail(send_from, send_to, subject, text, files=[], server="localhost"):
+def send_mail(send_from, send_to, subject, text, files=None, server="localhost"):
+    files = files or []
+
     assert type(send_to) == list
     assert type(files) == list
 
@@ -55,11 +57,11 @@ def make_tarfile(output_filename, source_dir):
 @contextlib.contextmanager
 def tempdir():
     """A context manager for creating and removing temporary directories"""
-    temp_dir = tempfile.mkdtemp()
+    temp = tempfile.mkdtemp()
     try:
-        yield temp_dir
+        yield temp
     finally:
-        shutil.rmtree(temp_dir)
+        shutil.rmtree(temp)
 
 
 site_root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
