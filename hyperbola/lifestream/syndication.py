@@ -10,8 +10,10 @@ from hyperbola.lifestream.models import LifeStreamItem
 class LatestEntriesFeed(Feed):
     title = "hyperbo.la lifestream microblog"
     link = "/lifestream/"
-    description = "Most recent posts made to Ryan Lopopolo's " + \
+    description = (
+        "Most recent posts made to Ryan Lopopolo's "
         "lifestreaming microblog."
+    )
 
     def items(self):
         return LifeStreamItem.objects.all().select_related('lifestreampicture')

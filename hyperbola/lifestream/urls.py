@@ -1,7 +1,7 @@
 from django.conf.urls import url, patterns
 
-from hyperbola.lifestream.syndication import \
-    LatestEntriesFeed, AtomLatestEntriesFeed
+from hyperbola.lifestream.syndication import (
+    LatestEntriesFeed, AtomLatestEntriesFeed)
 
 
 urlpatterns = patterns(
