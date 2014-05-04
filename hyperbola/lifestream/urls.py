@@ -6,15 +6,16 @@ from hyperbola.lifestream.syndication import (
 
 urlpatterns = patterns(
     'hyperbola.lifestream.views',
-    url(r'^$', 'page', {"page_num": 1}, name="lifestream-home"),
-    (r'^page/(?P<page_num>\d+)/$', 'page'),
-    (r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$',
-     'archive', {"page_num": 1}),
-    (r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page_num>\d+)/$',
-     'archive'),
-    (r'^(?P<entry_id>\d+)/$', 'permalink'),
-    (r'^hashtag/(?P<tag>\w+)/$', 'tag_page', {"page_num": 1}),
-    (r'^hashtag/(?P<tag>\w+)/page/(?P<page_num>\d+)/$', 'tag_page'),
+    url(r'^$', 'lifestream_index', name='lifestream-home'),
+    url(r'^page/(?P<page>[1-9]\d*)/$', 'lifestream_index'),
+    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$', 'archive_index'),
+    url(
+        r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page>[1-9]\d*)/$',
+        'archive_index'
+    ),
+    url(r'^hashtag/(?P<tag>\w+)/$', 'hashtag_index'),
+    url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$', 'hashtag_index'),
+    url(r'^(?P<entry_id>\d+)/$', 'permalink'),
 )
 
 urlpatterns += patterns(

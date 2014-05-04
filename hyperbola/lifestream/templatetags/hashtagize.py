@@ -12,13 +12,13 @@ register = Library()
 
 
 def linkify(matchobj):
-    url = reverse(views.tag_page, args=[matchobj.group("tag")])
+    url = reverse(views.hashtag_index, args=[matchobj.group("tag")])
     link_tag = ""
     if "leader" in matchobj.groupdict():
         link_tag += matchobj.group("leader")
 
     escaped_tag = escape(matchobj.group("tag"))
-    link_tag += """<a href="{0}">#{1}</a>""".format(url, escaped_tag)
+    link_tag += '<a href="{0}">#{1}</a>'.format(url, escaped_tag)
     return link_tag
 
 
@@ -27,6 +27,5 @@ def hashtagize(blurb):
     """
     Use this filter to turn #hashtags into links
     """
-
-    blurb = re.sub('(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, blurb)
+    blurb = re.sub(r'(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, blurb)
     return mark_safe(blurb)
