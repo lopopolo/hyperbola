@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from collections import namedtuple
 import itertools
 
@@ -14,6 +12,11 @@ ResumeTemplateType = namedtuple("ResumeTemplateType", "display_name url")
 
 
 def index(request):
+    try:
+        about = AboutMe.objects.latest("pk")
+    except AboutMe.DoesNotExist:
+        about = None
+
     contact_infos = itertools.chain(
         EmailContact.objects.all(),
         PhoneContact.objects.all(),
@@ -38,16 +41,9 @@ def index(request):
             "name": "Ryan Lopopolo",
             "contacts": all_contacts,
             "resume": resume_dto,
-            "about": about()
+            "about": about
         }
     )
-
-
-def about():
-    try:
-        return AboutMe.objects.latest("pk")
-    except AboutMe.DoesNotExist:
-        return None
 
 
 def resume(request):
