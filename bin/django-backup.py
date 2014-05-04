@@ -20,7 +20,10 @@ from email.Utils import COMMASPACE, formatdate
 from email import Encoders
 
 
-def send_mail(send_from, send_to, subject, text, files=None, server="localhost"):
+def send_mail(
+        send_from, send_to,
+        subject, text,
+        files=None, server='localhost'):
     files = files or []
 
     assert type(send_to) == list
@@ -35,8 +38,8 @@ def send_mail(send_from, send_to, subject, text, files=None, server="localhost")
     msg.attach(MIMEText(text))
 
     for f in files:
-        part = MIMEBase('application', "octet-stream")
-        with open(f, "rb") as attachment:
+        part = MIMEBase('application', 'octet-stream')
+        with open(f, 'rb') as attachment:
             part.set_payload(attachment.read())
         Encoders.encode_base64(part)
         part.add_header(
@@ -50,7 +53,7 @@ def send_mail(send_from, send_to, subject, text, files=None, server="localhost")
 
 
 def make_tarfile(output_filename, source_dir):
-    with tarfile.open(output_filename, "w:gz") as tar:
+    with tarfile.open(output_filename, 'w:gz') as tar:
         tar.add(source_dir, arcname=os.path.basename(source_dir))
 
 
@@ -64,30 +67,40 @@ def tempdir():
         shutil.rmtree(temp)
 
 
-site_root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-backup_time = datetime.datetime.now().strftime("%Y-%m-%d-%H:%M")
+if __name__ == '__main__':
+    site_root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    backup_time = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M')
 
-with tempdir() as temp_dir:
-    # Backup all databases and tables in MySQL
-    mysql_dump_file = "{0}/{1}.mysql.sql".format(temp_dir, backup_time)
+    with tempdir() as temp_dir:
+        # Backup all databases and tables in MySQL
+        mysql_dump_file = '{0}/{1}.mysql.sql'.format(temp_dir, backup_time)
+        mysqldump_command = [
+            'mysqldump',
+            '--defaults-extra-file={0}/hyperbola/db.cnf'.format(site_root),
+            '--all-databases'
+        ]
 
-    with open(mysql_dump_file, "w") as mysqlf:
-        with open(os.devnull, 'w') as FNULL:
-            subprocess.call(
-                ["mysqldump",
-                 "--defaults-extra-file={0}/hyperbola/db.cnf".format(site_root),
-                 "--all-databases"],
-                stdout=mysqlf,
-                stderr=FNULL
-            )
+        with open(mysql_dump_file, 'w') as mysqlf:
+            with open(os.devnull, 'w') as FNULL:
+                subprocess.call(mysqldump_command, stdout=mysqlf, stderr=FNULL)
 
-    send_mail("rjl@hyperbo.la", ["upload.databas.skvvczqkcv@u.box.com"],
-              "hyperbo.la cron mysqldump", "", [mysql_dump_file])
+        send_mail(
+            send_from='rjl@hyperbo.la',
+            send_to=['upload.databas.skvvczqkcv@u.box.com'],
+            subject='hyperbo.la cron mysqldump',
+            text='',
+            files=[mysql_dump_file]
+        )
 
-    # Backup all django media from hyperbola.settings.MEDIA_ROOT
-    media_root = "/hyperbola/media"
-    media_tar_file = "{0}/{1}.media.tar.gz".format(temp_dir, backup_time)
-    make_tarfile(media_tar_file, media_root)
+        # Backup all django media from hyperbola.settings.MEDIA_ROOT
+        media_root = '/hyperbola/media'
+        media_tar_file = '{0}/{1}.media.tar.gz'.format(temp_dir, backup_time)
+        make_tarfile(media_tar_file, media_root)
 
-    send_mail("rjl@hyperbo.la", ["upload.media.palovsbp7s@u.box.com"],
-              "hyperbo.la cron media backup", "", [media_tar_file])
+        send_mail(
+            send_from='rjl@hyperbo.la',
+            send_to=['upload.media.palovsbp7s@u.box.com'],
+            subject='hyperbo.la cron media backup',
+            text='',
+            files=[media_tar_file]
+        )
