@@ -1,6 +1,5 @@
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
 from django.utils.feedgenerator import Atom1Feed
 
 from hyperbola.lifestream import views
