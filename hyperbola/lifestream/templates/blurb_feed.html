@@ -1,0 +1,5 @@
+This post was published on {{obj.pub_date|date:"H:i T b d Y"|lower}}.
+{% if obj.lifestreampicture %}
+This post has a picture.
+{% endif %}
+{{obj.blurb}}
