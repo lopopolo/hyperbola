@@ -1,5 +1,5 @@
 Django>=1.6,<1.7
-django-email-obfuscator
+django-email-obfuscator==0.1.1
 django-localflavor
 django-markdown-deux
 django-pipeline
