@@ -8,4 +8,4 @@ markdown2
 MySQL-python>=1.2.3
 Pillow
 redis
-sorl-thumbnail
+sorl-thumbnail>=11.12.1b
