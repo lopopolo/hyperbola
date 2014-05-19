@@ -1,9 +1,10 @@
 Django>=1.6,<1.7
 django-email-obfuscator
 django-localflavor
+django-markdown-deux
 django-pipeline
 gunicorn
-Markdown
+markdown2
 MySQL-python>=1.2.3
 Pillow
 redis

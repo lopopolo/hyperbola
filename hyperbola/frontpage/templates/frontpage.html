@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load markdown_deux_tags %}
+
 {% block active_app %}frontpage{% endblock %}
 
 {% block title %} hyperbo.la {% endblock %}
@@ -7,7 +9,6 @@
 {% block section-title %}hyperbo.la{% endblock %}
 
 {% block content %}
-{% load lopopolo_markdown %}
   <div class="row">
     <div class="col-md-8">
       {% for blurb in blurbs %}

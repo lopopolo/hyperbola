@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'email_obfuscator',
     'localflavor',
+    'markdown_deux',
     'pipeline',
     'sorl.thumbnail',
     'hyperbola.contact',
