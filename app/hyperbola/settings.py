@@ -6,8 +6,17 @@ import warnings
 from django.core.exceptions import ImproperlyConfigured
 
 
-DEBUG = TEMPLATE_DEBUG = False
-ALLOWED_HOSTS = ['hyperbo.la']
+def source(env):
+    prop = os.environ.get(env)
+    if not prop:
+        raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+
+    if prop in ['yes', 'true']:
+        return True
+    elif prop in ['no', 'false']:
+        return False
+    else:
+        return prop
 
 USE_X_FORWARDED_HOST = True
 
@@ -17,9 +26,11 @@ ROOT_PATH = os.path.dirname(os.path.dirname(PROJECT_PATH))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': os.path.join(PROJECT_PATH, 'db.cnf'),
-        },
+        'NAME': source('DB_NAME'),
+        'USER': source('DB_USER'),
+        'PASSWORD': source('DB_PASSWORD'),
+        'HOST': source('DB_HOST'),
+        'PORT': source('DB_PORT'),
     }
 }
 
@@ -35,6 +46,8 @@ USE_I18N = False
 USE_L10N = False
 
 USE_TZ = False
+
+# Media and Static Files
 
 MEDIA_ROOT = '/hyperbola/media/'
 
@@ -52,7 +65,8 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
-# load SECRET_KEY from local_settings.py
+
+SECRET_KEY = source('SECRET_KEY')
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -99,7 +113,9 @@ ROOT_URLCONF = 'hyperbola.urls'
 
 WSGI_APPLICATION = 'hyperbola.wsgi.application'
 
+
 # Thumbnailing
+
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pil_engine.Engine'
 THUMBNAIL_FORMAT = 'PNG'
@@ -107,6 +123,7 @@ THUMBNAIL_UPSCALE = False
 
 
 # Asset caching
+
 PIPELINE_ENABLED = True
 PIPELINE_CSS = {
     'bootstrap': {
@@ -156,24 +173,22 @@ PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
 PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
 
 
-# determine if we are in the staging environment
-try:
-    # The presence of this module indicates the staging environment
-    from hyperbola.is_staging import *  # NOQA
+# Environment-specific configuration
+
+ENVIRONMENT = source('ENVIRONMENT')
+
+if ENVIRONMENT == 'production':
+    DEBUG = TEMPLATE_DEBUG = False
+    ALLOWED_HOSTS = ['hyperbo.la']
+elif ENVIRONMENT == 'staging':
+    try:
+        DEBUG = TEMPLATE_DEBUG = source('DEBUG')
+    except ImproperlyConfigured:
+        DEBUG = TEMPLATE_DEBUG = False
+
     ALLOWED_HOSTS = ['staging.hyperbo.la']
-    STATIC_URL = ASSETS_URL = '//staging-assets.hyperbo.la/'
+    STATIC_URL = '//staging-assets.hyperbo.la/'
+
     warnings.simplefilter('error', DeprecationWarning)
-except ImportError:
-    pass
-
-# try to import local settings
-# must set SECRET_KEY
-try:
-    from hyperbola.local_settings import *  # NOQA
-except ImportError:
-    pass
-
-try:
-    SECRET_KEY
-except NameError:
-    raise ImproperlyConfigured("Must set SECRET_KEY in local_settings.py")
+else:
+    raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))
