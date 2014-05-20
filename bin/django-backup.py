@@ -13,11 +13,11 @@ import smtplib
 import subprocess
 import tarfile
 import tempfile
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEBase import MIMEBase
-from email.MIMEText import MIMEText
-from email.Utils import COMMASPACE, formatdate
-from email import Encoders
+from email.encoders import encode_base64
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE, formatdate
 
 
 def send_mail(
@@ -41,7 +41,7 @@ def send_mail(
         part = MIMEBase('application', 'octet-stream')
         with open(f, 'rb') as attachment:
             part.set_payload(attachment.read())
-        Encoders.encode_base64(part)
+        encode_base64(part)
         part.add_header(
             'Content-Disposition',
             'attachment; filename="{0}"'.format(os.path.basename(f)))
