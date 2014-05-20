@@ -69,7 +69,7 @@ def tempdir():
 
 if __name__ == '__main__':
     site_root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    backup_time = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M')
+    backup_time = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
 
     with tempdir() as temp_dir:
         # Backup all databases and tables in MySQL
