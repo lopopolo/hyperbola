@@ -12,7 +12,7 @@ ALLOWED_HOSTS = ['hyperbo.la']
 USE_X_FORWARDED_HOST = True
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-BASE_PATH = os.path.dirname(PROJECT_PATH)
+ROOT_PATH = os.path.dirname(os.path.dirname(PROJECT_PATH))
 
 DATABASES = {
     'default': {
@@ -24,7 +24,7 @@ DATABASES = {
 }
 
 # Internationalization
-# # https://docs.djangoproject.com/en/1.6/topics/i18n/
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -42,7 +42,7 @@ MEDIA_URL = '//media.hyperbo.la/'
 
 STATIC_URL = '//assets.hyperbo.la/'
 
-STATIC_ROOT = os.path.join(BASE_PATH, 'assets')
+STATIC_ROOT = os.path.join(ROOT_PATH, 'assets')
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'static'),
@@ -98,7 +98,6 @@ TEMPLATE_DIRS = (
 ROOT_URLCONF = 'hyperbola.urls'
 
 WSGI_APPLICATION = 'hyperbola.wsgi.application'
-
 
 # Thumbnailing
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
