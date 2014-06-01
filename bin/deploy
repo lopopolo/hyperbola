@@ -1,0 +1,108 @@
+#!/bin/bash
+
+set -e
+set -x
+
+USAGE="$0 -e environment -r refname
+
+This script clones a copy of the hyperbola git repository,
+checks out the supplied refname, builds an artifact, and
+promotes it to be the  version of the site.
+
+environment may be one of:
+  - production
+  - staging
+"
+
+ENV=""
+REFNAME=""
+
+while getopts "h?e:r:" opt; do
+    case "$opt" in
+    h|\?)
+        echo $USAGE
+        exit 0
+        ;;
+    e)  ENV="$OPTARG"
+        ;;
+    r)  REFNAME="$OPTARG"
+        ;;
+    *)  echo $USAGE
+        exit 1
+        ;;
+    esac
+done
+
+if [ "x$REFNAME" = "x" ]; then
+    echo $USAGE
+    exit 1
+fi
+
+if [ "x$ENV" = "xproduction" ]; then
+    DEPLOY_ROOT="/hyperbola/live/artifacts"
+    SERVICE="gunicorn_hyperbola"
+elif [ "x$ENV" = "xstaging" ]; then
+    DEPLOY_ROOT="/hyperbola/staging/artifacts"
+    SERVICE="gunicorn_hyperbola-staging"
+else
+    echo $USAGE
+    exit 1
+fi
+
+
+function python_version
+{
+    python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'
+}
+
+PYTHON=$(which python)
+PYTHON_VERSION=$(python_version)
+
+DEPLOY_TIME=$(date --rfc-3339=seconds | sed 's/ /T/' | sed 's/:/-/g')
+
+ARTIFACT_NAME="hyperbola-$REFNAME-py$PYTHON_VERSION-$DEPLOY_TIME"
+ARTIFACT_ROOT="$DEPLOY_ROOT/$ARTIFACT_NAME"
+
+cd "$DEPLOY_ROOT"
+
+# clone
+
+git clone git@github.com:lopopolo/hyperbola.git "$ARTIFACT_NAME"
+
+ln -snfv "$ARTIFACT_ROOT" "$DEPLOY_ROOT/next"
+
+cd "$DEPLOY_ROOT/next"
+
+git checkout "$REFNAME"
+
+git clean -f -d -x
+
+# build virtualenv
+
+virtualenv --no-site-packages "$ARTIFACT_ROOT/virtualenv"
+
+$ARTIFACT_ROOT/virtualenv/bin/pip install -r conf/requirements/production.txt
+
+# populate .env
+
+cp $DEPLOY_ROOT/current/env/*.env $ARTIFACT_ROOT/env/
+# Add virtualenv to $PATH
+echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:"'$PATH' > $ARTIFACT_ROOT/env/00-path.env
+
+# build static assets
+
+for env in $ARTIFACT_ROOT/env/*.env; do
+    . $env
+done
+
+$ARTIFACT_ROOT/virtualenv/bin/python app/manage.py collectstatic
+
+# promote
+
+CURRENT_ROOT=$(readlink -f "$DEPLOY_ROOT/current")
+
+ln -snfv "CURRENT_ROOT" "$DEPLOY_ROOT/previous"
+
+ln -snfv "$ARTIFACT_ROOT" "$DEPLOY_ROOT/current"
+
+sudo service "$SERVICE" reload
