@@ -95,7 +95,7 @@ for env in $ARTIFACT_ROOT/env/*.env; do
     . $env
 done
 
-$ARTIFACT_ROOT/virtualenv/bin/python app/manage.py collectstatic
+$ARTIFACT_ROOT/virtualenv/bin/python app/manage.py collectstatic --noinput
 
 # promote
 
