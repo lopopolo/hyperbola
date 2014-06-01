@@ -101,7 +101,7 @@ $ARTIFACT_ROOT/virtualenv/bin/python app/manage.py collectstatic
 
 CURRENT_ROOT=$(readlink -f "$DEPLOY_ROOT/current")
 
-ln -snfv "CURRENT_ROOT" "$DEPLOY_ROOT/previous"
+ln -snfv "$CURRENT_ROOT" "$DEPLOY_ROOT/previous"
 
 ln -snfv "$ARTIFACT_ROOT" "$DEPLOY_ROOT/current"
 
