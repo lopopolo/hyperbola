@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for env in /hyperbola/staging/artifacts/current/env/*.env; do
+  . $env
+done
+
+exec "$@"
