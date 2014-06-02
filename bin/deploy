@@ -106,3 +106,5 @@ ln -snfv "$CURRENT_ROOT" "$DEPLOY_ROOT/previous"
 ln -snfv "$ARTIFACT_ROOT" "$DEPLOY_ROOT/current"
 
 sudo service "$SERVICE" reload
+
+sudo service nginx reload
