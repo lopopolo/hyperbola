@@ -87,7 +87,7 @@ $ARTIFACT_ROOT/virtualenv/bin/pip install -r conf/requirements/production.txt
 
 cp $DEPLOY_ROOT/current/env/*.env $ARTIFACT_ROOT/env/
 # Add virtualenv to $PATH
-echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:"'$PATH' > $ARTIFACT_ROOT/env/00-path.env
+echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > $ARTIFACT_ROOT/env/00-path.env
 
 # build static assets
 
