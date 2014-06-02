@@ -19,6 +19,18 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 
+def source(env):
+    prop = os.environ.get(env)
+    if not prop:
+        raise Exception('Environment variable {0} not set'.format(env))
+
+    if prop in ['yes', 'true']:
+        return True
+    elif prop in ['no', 'false']:
+        return False
+    else:
+        return prop
+
 
 def send_mail(
         send_from, send_to,
@@ -68,7 +80,6 @@ def tempdir():
 
 
 if __name__ == '__main__':
-    site_root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     backup_time = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
 
     with tempdir() as temp_dir:
@@ -76,7 +87,10 @@ if __name__ == '__main__':
         mysql_dump_file = '{0}/{1}.mysql.sql'.format(temp_dir, backup_time)
         mysqldump_command = [
             'mysqldump',
-            '--defaults-extra-file={0}/hyperbola/db.cnf'.format(site_root),
+            '--user={0}'.format(source('DB_USER')),
+            '--password={0}'.format(source('DB_PASSWORD')),
+            '--host={0}'.format(source('DB_HOST')),
+            '--port={0}'.format(source('DB_PORT')),
             '--all-databases'
         ]
 
