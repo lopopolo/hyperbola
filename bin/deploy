@@ -40,10 +40,10 @@ fi
 
 if [ "x$ENV" = "xproduction" ]; then
     DEPLOY_ROOT="/hyperbola/live/artifacts"
-    SERVICE="gunicorn_hyperbola"
+    SERVICE="gunicorn-production"
 elif [ "x$ENV" = "xstaging" ]; then
     DEPLOY_ROOT="/hyperbola/staging/artifacts"
-    SERVICE="gunicorn_hyperbola-staging"
+    SERVICE="gunicorn-staging"
 else
     echo $USAGE
     exit 1
