@@ -88,8 +88,7 @@ VIRTUALENV_SITE_PACKAGES=$(find "$ARTIFACT_ROOT/virtualenv" -type d -name site-p
 echo "$ARTIFACT_ROOT/app" > "$VIRTUALENV_SITE_PACKAGES/hyperbola.pth"
 
 # populate .env
-
-cp $DEPLOY_ROOT/current/env/*.env $ARTIFACT_ROOT/env/
+find "$DEPLOY_ROOT/current/env/" -maxdepth 1 -name '*.env' '!' -name "00-path.env" -exec cp -t "$ARTIFACT_ROOT/env/" {} \+
 # Add virtualenv to $PATH
 echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > $ARTIFACT_ROOT/env/00-path.env
 
@@ -102,6 +101,9 @@ done
 $ARTIFACT_ROOT/virtualenv/bin/python app/manage.py collectstatic --noinput
 
 # promote
+
+sudo chown -R www-data:web "$ARTIFACT_ROOT"
+sudo chmod -R a=rX "$ARTIFACT_ROOT"
 
 CURRENT_ROOT=$(readlink -f "$DEPLOY_ROOT/current")
 
