@@ -1,7 +1,9 @@
 import multiprocessing
 
-bind = 'unix:/hyperbola/var/sock/hyperbola-live.sock'
+bind = 'unix:/hyperbola/var/sock/hyperbola-production.sock'
 workers = multiprocessing.cpu_count() + 1
 
-accesslog = '/hyperbola/var/log/gunicorn/live.access'
-errorlog = '/hyperbola/var/log/gunicorn/live.error'
+pidfile = '/var/run/gunicorn/production.pid'
+
+accesslog = '/hyperbola/var/log/gunicorn/production.access'
+errorlog = '/hyperbola/var/log/gunicorn/production.error'
