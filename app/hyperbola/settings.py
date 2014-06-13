@@ -9,7 +9,8 @@ from django.core.exceptions import ImproperlyConfigured
 def source(env):
     prop = os.environ.get(env)
     if not prop:
-        raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+        raise ImproperlyConfigured(
+            'Environment variable {0} not set'.format(env))
 
     if prop in ['yes', 'true']:
         return True
