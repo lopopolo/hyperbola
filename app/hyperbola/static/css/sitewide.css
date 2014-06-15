@@ -133,34 +133,36 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   border-radius: 10px;
 }
 
-.panel-hyperbola {
-  border-color: rgb(40, 220, 220);
+.newsfeed {
+  border: 2px #AAAAAA solid;
+  border-radius: 4px;
 }
 
-.panel-hyperbola > .panel-title {
-  color: #111111;
-  background-color: #AAAAAA;
-  border-color: rgb(40, 220, 220);
+.news {
+  font-size: 10pt;
+  padding: 2px;
 }
 
-.panel-hyperbola > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: rgb(40, 220, 220);
-}
-.panel-hyperbola > .panel-footer + .panel-collapse .panel-body {
-  border-bottom-color: rgb(40, 220, 220);
+.pubdate {
+  font-size: 8pt;
 }
 
-.table.table-hyperbola > tbody + tbody {
-  border-top: 2px solid #ddd;
+.row1 {
+  background-color: #222222;
 }
-.table.table-hyperbola .table {
+
+.row2 {
   background-color: #666666;
   color: #111111;
 }
 
-.table-striped.table-hyperbola > tbody > tr:nth-child(odd) > td,
-.table-striped.table-hyperbola > tbody > tr:nth-child(odd) > th {
-  background-color: #222222;
+.news-title {
+  color: #111111;
+  background-color: #AAAAAA;
+  margin: 0px;
+  padding: 0px;
+  font-size:12pt;
+  text-align: center;
 }
 
 /* contact */
