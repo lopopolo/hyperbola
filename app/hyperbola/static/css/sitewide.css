@@ -134,7 +134,7 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 .panel-hyperbola {
-  border: 2px solid rgb(40, 220, 220);
+  border-color: rgb(40, 220, 220);
 }
 
 .panel-hyperbola > .panel-heading {
@@ -150,33 +150,19 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   border-bottom-color: rgb(40, 220, 220);
 }
 
-.table.table-hyperbola > thead > tr > th,
-.table > tbody > tr > th,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
-  border-top: none;
-}
-
-.table.table-hyperbola > thead > tr > th {
-  border-bottom: none;
-}
-
 .table.table-hyperbola > tbody + tbody {
-  border-top: none;
+  border-top: 2px solid #ddd;
 }
 
 .table.table-hyperbola {
   background-color: #666666;
   color: #111111;
-  border: none;
+  border-color: rgb(40, 220, 220);
 }
 
 .table-striped.table-hyperbola > tbody > tr:nth-child(odd) > td,
 .table-striped.table-hyperbola > tbody > tr:nth-child(odd) > th {
   background-color: #222222;
-  color: darkgray;
 }
 
 /* contact */
