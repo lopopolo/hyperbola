@@ -22,11 +22,11 @@
     <div class="col-md-4">
       <div class="panel panel-hyperbola">
         <div class="panel-heading text-center">What I'm into right now</div>
-        <table class="table table-condensed table-hyperbola">
+        <table class="table table-condensed table-hyperbola"><tbody>
           {% for sched in schedule %}
           <tr><td> {{sched.body|markdown}} </td></tr>
           {% endfor %}
-        </table>
+        </tbody></table>
       </div>
     </div>
   </div>
