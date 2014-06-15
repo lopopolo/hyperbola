@@ -137,7 +137,7 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   border-color: rgb(40, 220, 220);
 }
 
-.panel-hyperbola > .panel-heading {
+.panel-hyperbola > .panel-title {
   color: #111111;
   background-color: #AAAAAA;
   border-color: rgb(40, 220, 220);
@@ -153,11 +153,9 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 .table.table-hyperbola > tbody + tbody {
   border-top: 2px solid #ddd;
 }
-
-.table.table-hyperbola {
+.table.table-hyperbola .table {
   background-color: #666666;
   color: #111111;
-  border-color: rgb(40, 220, 220);
 }
 
 .table-striped.table-hyperbola > tbody > tr:nth-child(odd) > td,
