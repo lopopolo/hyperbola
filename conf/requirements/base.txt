@@ -1,3 +1,4 @@
+cssmin
 Django>=1.6,<1.7
 django-email-obfuscator==0.1.1
 django-localflavor
@@ -8,4 +9,5 @@ markdown2
 MySQL-python>=1.2.3
 Pillow
 redis
+slimit
 sorl-thumbnail>=11.12.1b

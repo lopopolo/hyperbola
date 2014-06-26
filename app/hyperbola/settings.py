@@ -168,11 +168,8 @@ PIPELINE_JS = {
     },
 }
 
-PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
-
-PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
-
+PIPELINE_CSS_COMPRESSOR = 'hyperbola.helpers.compressors.PyCSSMinCompressor'
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.slimit.SlimItCompressor'
 
 # Environment-specific configuration
 
