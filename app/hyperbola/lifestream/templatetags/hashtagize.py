@@ -1,31 +1,33 @@
 import re
 
+from django import template
 from django.core.urlresolvers import reverse
-from django.template import Library
-from django.utils.html import escape
+from django.template.defaultfilters import stringfilter
+from django.utils.html import conditional_escape, escape
 from django.utils.safestring import mark_safe
 
-from .. import views
+from hyperbola.lifestream.views import hashtag_index
 
 
-register = Library()
+register = template.Library()
 
 
-def linkify(matchobj):
-    url = reverse(views.hashtag_index, args=[matchobj.group("tag")])
-    link_tag = ""
-    if "leader" in matchobj.groupdict():
-        link_tag += matchobj.group("leader")
-
-    escaped_tag = escape(matchobj.group("tag"))
-    link_tag += '<a href="{0}">#{1}</a>'.format(url, escaped_tag)
-    return link_tag
-
-
-@register.filter()
-def hashtagize(blurb):
+@register.filter(needs_autoescape=True)
+@stringfilter
+def hashtagize(blurb, autoescape=None):
     """
     Use this filter to turn #hashtags into links
     """
-    blurb = re.sub(r'(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, blurb)
-    return mark_safe(blurb)
+    if autoescape:
+        esc = conditional_escape
+    else:
+        esc = lambda x: x
+
+    def linkify(matchobj):
+        tag = matchobj.group('tag')
+        url = reverse(hashtag_index, args=[tag])
+        leader = matchobj.group('leader') if 'leader' in matchobj.groupdict() else ''
+        return '{leader}<a href="{url}">#{tag}</a>'.format(leader=leader, url=url, tag=tag)
+
+    result = re.sub(r'(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, esc(blurb))
+    return mark_safe(result)
