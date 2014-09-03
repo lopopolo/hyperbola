@@ -70,8 +70,6 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 SECRET_KEY = source('SECRET_KEY')
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -181,6 +179,11 @@ ENVIRONMENT = source('ENVIRONMENT')
 if ENVIRONMENT == 'production':
     DEBUG = TEMPLATE_DEBUG = False
     ALLOWED_HOSTS = ['hyperbo.la']
+    # enable admin interface only on production
+    INSTALLED_APPS += (
+        'django.contrib.admin',
+        'django.contrib.admindocs',
+    )
 elif ENVIRONMENT == 'staging':
     try:
         DEBUG = TEMPLATE_DEBUG = source('DEBUG')
