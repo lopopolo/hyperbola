@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
+import django.contrib.admin
 import django.contrib.admindocs.urls
 
 from hyperbola import settings
@@ -8,8 +8,6 @@ import hyperbola.frontpage.urls
 import hyperbola.lifestream.urls
 from hyperbola.helpers.views import NotFound404View
 
-
-admin.autodiscover()
 
 urlpatterns = patterns(
     '',
@@ -22,6 +20,6 @@ urlpatterns = patterns(
 if settings.ENVIRONMENT == 'production':
     # only enable admin urls in production
     urlpatterns += (
-        url(r'^ssb/', include(admin.site.urls)),
+        url(r'^ssb/', include(django.contrib.admin.site.urls)),
         url(r'^ssb/doc/', include(django.contrib.admindocs.urls)),
     )
