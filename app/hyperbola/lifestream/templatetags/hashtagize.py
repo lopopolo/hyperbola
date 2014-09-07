@@ -3,7 +3,7 @@ import re
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import stringfilter
-from django.utils.html import conditional_escape, escape
+from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
 from hyperbola.lifestream.views import hashtag_index
