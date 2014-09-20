@@ -1,4 +1,0 @@
-/db.cnf
-local_settings.py
-# the presence of this file indicates the staging environment
-is_staging.py
