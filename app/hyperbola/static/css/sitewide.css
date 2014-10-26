@@ -125,12 +125,16 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 /* frontpage */
-.blurb {
+.hyperbola-frontpage-panel {
+  background-color: transparent;
   border: 2px solid rgb(40, 220, 220);
-  margin-bottom: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
   border-radius: 10px;
+}
+
+.hyperbola-frontpage-panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: inherit;
 }
 
 .newsfeed {

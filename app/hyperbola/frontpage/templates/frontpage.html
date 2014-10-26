@@ -9,25 +9,27 @@
 {% block section-title %}hyperbo.la{% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-8">
-      {% for blurb in blurbs %}
-        <div class="blurb">
-          <h2>{{blurb.title}}</h2>
-          {{blurb.body|markdown}}
-        </div>
+<div class="row">
+  <div class="col-md-8">
+    {% for blurb in blurbs %}
+    <div class="panel hyperbola-frontpage-panel">
+      <div class="panel-heading">
+        <h2 class="hyperbola-frontpage-panel-title">{{blurb.title}}</h2>
+      </div>
+      <div class="panel-body">{{blurb.body|markdown}}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="col-md-4">
+    <div class="newsfeed">
+      <h2 class="news-title">What I'm into right now</h2>
+      {% for sched in schedule %}
+      <div class="news {% cycle 'row1' 'row2' %}">
+        {{sched.body|markdown}}
+      </div>
       {% endfor %}
     </div>
-
-    <div class="col-md-4">
-      <div class="newsfeed">
-        <h2 class="news-title">What I'm into right now</h2>
-        {% for sched in schedule %}
-          <div class="news {% cycle 'row1' 'row2' %}">
-            {{sched.body|markdown}}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
   </div>
+</div>
 {% endblock %}
