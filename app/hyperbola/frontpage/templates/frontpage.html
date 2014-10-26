@@ -22,13 +22,17 @@
   </div>
 
   <div class="col-md-4">
-    <div class="newsfeed">
-      <h2 class="news-title">What I'm into right now</h2>
-      {% for sched in schedule %}
-      <div class="news {% cycle 'row1' 'row2' %}">
-        {{sched.body|markdown}}
+    <div class="panel panel-hyperbola-frontpage">
+      <div class="panel-heading">
+        <h2 class="panel-title">What I'm into right now</h2>
       </div>
-      {% endfor %}
+      <table class="table table-hyperbola-frontpage">
+        <tbody>
+          {% for sched in schedule %}
+          <tr><td>{{sched.body|markdown}}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
