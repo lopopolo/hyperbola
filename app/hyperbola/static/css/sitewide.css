@@ -106,6 +106,7 @@ only screen and (                min-resolution: 2dppx) {
 
 .navbar-hyperbola .navbar-nav>li>a:hover {
   background: #AAAAAA;
+  color: rgb(40, 220, 220);
 }
 
 body.frontpage  .navbar-hyperbola .navbar-nav>li.hyperbola-home      >a,
