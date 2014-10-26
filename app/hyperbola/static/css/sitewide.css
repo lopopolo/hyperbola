@@ -125,13 +125,13 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
 }
 
 /* frontpage */
-.hyperbola-frontpage-panel {
+.panel-hyperbola-frontpage {
   background-color: transparent;
   border: 2px solid rgb(40, 220, 220);
   border-radius: 10px;
 }
 
-.hyperbola-frontpage-panel-title {
+.panel-title-hyperbola-frontpage {
   margin-top: 0;
   margin-bottom: 0;
   color: inherit;
