@@ -18,7 +18,7 @@ body {
 }
 
 a {
-  color: rgb(40, 220, 220) !important;
+  color: rgb(40, 220, 220);
   -webkit-tap-highlight-color: rgba(128,128,128,0.2);
 }
 
@@ -46,22 +46,22 @@ a {
 }
 
 .hyperbola-btn-info {
-  color: #444444 !important;
+  color: #444444;
   background-color: rgb(40, 220, 220);
   border-color: #444444;
 }
 
 /* header */
-.hyperbola-navbar {
+.navbar-hyperbola {
   background-color: #444444;
   border: none;
 }
 
-.hyperbola-navbar a {
+.navbar-hyperbola a {
   outline: none;
 }
 
-.hyperbola-header .navbar-toggle {
+.navbar-header-hyperbola .navbar-toggle {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-right: 10px;
@@ -97,19 +97,20 @@ only screen and (                min-resolution: 2dppx) {
   }
 }
 
-.hyperbola-nav-items li a {
+.navbar-hyperbola .navbar-nav>li>a {
+  color: rgb(40, 220, 220);
   display: block;
   line-height: 20px;
   padding: 50px 16px 10px;
 }
 
-.hyperbola-nav-items li a:hover {
-  background: #AAAAAA !important;
+.navbar-hyperbola .navbar-nav>li>a:hover {
+  background: #AAAAAA;
 }
 
-body.frontpage .hyperbola-nav-items li.hyperbola-home a,
-body.contact .hyperbola-nav-items li.hyperbola-contact a,
-body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
+body.frontpage  .navbar-hyperbola .navbar-nav>li.hyperbola-home      >a,
+body.contact    .navbar-hyperbola .navbar-nav>li.hyperbola-contact   >a,
+body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
   background-image: -webkit-gradient(
     linear,
     left top,

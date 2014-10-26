@@ -27,8 +27,8 @@
   </head>
   <body class="{% block active_app %}{% endblock %}">
     <div class="container hyperbola-container">
-      <div class="navbar navbar-default hyperbola-navbar" role="navigation">
-        <div class="navbar-header hyperbola-header">
+      <div class="navbar navbar-default navbar-hyperbola" role="navigation">
+        <div class="navbar-header navbar-header-hyperbola">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -38,7 +38,7 @@
           <a class="hyperbola-logo text-hide" href="{% url "frontpage.views.index" %}">Hyperbola Front Page</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right hyperbola-nav-items">
+          <ul class="nav navbar-nav navbar-right">
             <li class="hyperbola-home text-center"><a href="{% url "frontpage.views.index" %}"><strong>home</strong></a></li>
             <li class="hyperbola-contact text-center"><a href="{% url "contact.views.index" %}"><strong>contact</strong></a></li>
             <li class="hyperbola-lifestream text-center"><a href="{% url "lifestream.views.lifestream_index" %}"><strong>lifestream</strong></a></li>
