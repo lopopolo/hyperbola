@@ -137,7 +137,12 @@ body.lifestream .hyperbola-nav-items li.hyperbola-lifestream a {
   color: inherit;
 }
 
-.table-hyperbola-frontpage {
+.table.table-hyperbola-frontpage>thead>tr>th,
+.table.table-hyperbola-frontpage>tbody>tr>th,
+.table.table-hyperbola-frontpage>tfoot>tr>th,
+.table.table-hyperbola-frontpage>thead>tr>td,
+.table.table-hyperbola-frontpage>tbody>tr>td,
+.table.table-hyperbola-frontpage>tfoot>tr>td {
   border-top: 2px solid #28dcdc;
 }
 
