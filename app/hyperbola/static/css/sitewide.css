@@ -98,7 +98,7 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 .navbar-hyperbola .navbar-nav>li>a {
-  color: rgb(40, 220, 220);
+  color: darkgray;
   display: block;
   line-height: 20px;
   padding: 50px 16px 10px;
@@ -112,6 +112,7 @@ only screen and (                min-resolution: 2dppx) {
 body.frontpage  .navbar-hyperbola .navbar-nav>li.hyperbola-home      >a,
 body.contact    .navbar-hyperbola .navbar-nav>li.hyperbola-contact   >a,
 body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
+  color: rgb(40, 220, 220);
   background-image: -webkit-gradient(
     linear,
     left top,
