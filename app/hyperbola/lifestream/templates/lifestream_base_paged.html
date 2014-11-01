@@ -13,8 +13,8 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
     {% if posts %}
     <h2>{% block "lifestream-posts-header" %}{% endblock %}</h2>
     {% for post in posts %}
-    <div class="blurb">
-      <p class="lifestream-entry-header">
+    <div class="panel panel-hyperbola">
+      <div class="panel-heading lifestream-entry-header">
       <span class="date">
         <script type="text/javascript">HyperbolaDateFormatter.writeDate({{post.pub_date|date:"U"}})</script>
         <noscript>
@@ -23,6 +23,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
       </span>
       <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
       </p>
+      <div class="panel-body">
       {% if post.lifestreampicture %}
       {% thumbnail post.lifestreampicture.picture "500" as thumb %}
       {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
@@ -47,6 +48,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
       {% endthumbnail %}
       {% endif %}
       <p class="lifestream-content">{{post.blurb|urlize|hashtagize}}</p>
+    </div>
     </div>
     {% endfor %}
     {% block "lifestream-page-links" %}{% endblock %}

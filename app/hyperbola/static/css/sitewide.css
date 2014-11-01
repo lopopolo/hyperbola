@@ -167,6 +167,7 @@ body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
 .lifestream-entry-header {
   font-size: 8pt;
   margin-top: 1em;
+  padding: 0px 15px;
 }
 
 .lifestream-entry-header .date:after {
