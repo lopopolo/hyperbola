@@ -30,7 +30,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
       {% thumbnail post.lifestreampicture.picture "2000" as xlarge_thumb %}
       <div>
         <a data-toggle="lightbox" href="#lightbox-{{post.id}}">
-          <img alt="Photo for post {{post.id}}" src="{{thumb.url}}" data-at2x="{{large_thumb.url}}" width="{{thumb.width}}" height="{{thumb.height}}" class="center-block img-thumbnail">
+          <img alt="Photo for post {{post.id}}" src="{{thumb.url}}" data-at2x="{{large_thumb.url}}" width="{{thumb.width}}" height="{{thumb.height}}" class="center-block img-thumbnail img-thumbnail-hyperbola">
         </a>
       </div>
       <div id="lightbox-{{post.id}}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">

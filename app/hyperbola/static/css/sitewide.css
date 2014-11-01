@@ -1,59 +1,44 @@
 @CHARSET "UTF-8";
 
 /* global overrides */
-
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
 html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(128,128,128,0.2);
 }
 
 body {
-  background-color: #151515;
+  background-color: #222;
   color: darkgray;
 }
 
 a {
   color: rgb(40, 220, 220);
-  -webkit-tap-highlight-color: rgba(128,128,128,0.2);
 }
-
 
 /* site layout */
-.hyperbola-content {
-  background-color: #222222;
-  color: darkgray;
-  width: auto;
-  padding: 5px;
-  position: relative;
-  min-height: 150px;
-  border-radius: 4px;
-}
-
 .section-title {
-  background-color: #444444;
+  background-color: #444;
   color: rgb(40, 220, 220);
   border-style: none;
 }
 
 .hyperbola-jumbotron {
-  color: darkgray;
-  background-color: #222222;
+  background-color: #444;
 }
 
 .hyperbola-btn-info {
-  color: #444444;
+  color: #444;
   background-color: rgb(40, 220, 220);
-  border-color: #444444;
+  border-color: #444;
+}
+
+.img-thumbnail-hyperbola {
+  background-color: transparent;
+  border: none;
 }
 
 /* header */
 .navbar-hyperbola {
-  background-color: #444444;
+  background-color: #444;
   border: none;
 }
 
@@ -105,7 +90,7 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 .navbar-hyperbola .navbar-nav>li>a:hover {
-  background: #AAAAAA;
+  background: #AAA;
   color: rgb(40, 220, 220);
 }
 
@@ -117,14 +102,14 @@ body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
     linear,
     left top,
     left bottom,
-    color-stop(0, #444444),
-    color-stop(1, #AAAAAA)
+    color-stop(0, #444),
+    color-stop(1, #AAA)
   );
-  background-image: -o-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
-  background-image: -moz-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
-  background-image: -webkit-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
-  background-image: -ms-linear-gradient(bottom, #444444 0%, #AAAAAA 100%);
-  background-image: linear-gradient(to bottom, #444444 0%, #AAAAAA 100%);
+  background-image: -o-linear-gradient(bottom, #444 0%, #AAA 100%);
+  background-image: -moz-linear-gradient(bottom, #444 0%, #AAA 100%);
+  background-image: -webkit-linear-gradient(bottom, #444 0%, #AAA 100%);
+  background-image: -ms-linear-gradient(bottom, #444 0%, #AAA 100%);
+  background-image: linear-gradient(to bottom, #444 0%, #AAA 100%);
 }
 
 .panel-hyperbola {
@@ -146,7 +131,7 @@ body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
 .table.table-hyperbola-frontpage>thead>tr>td,
 .table.table-hyperbola-frontpage>tbody>tr>td,
 .table.table-hyperbola-frontpage>tfoot>tr>td {
-  border-top: 2px solid #28dcdc;
+  border-top: 2px solid rgb(40, 220, 220);
 }
 
 /* contact */
