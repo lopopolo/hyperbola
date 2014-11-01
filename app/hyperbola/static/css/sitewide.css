@@ -127,13 +127,13 @@ body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
   background-image: linear-gradient(to bottom, #444444 0%, #AAAAAA 100%);
 }
 
-/* frontpage */
-.panel-hyperbola-frontpage {
+.panel-hyperbola {
   background-color: transparent;
   border: 2px solid rgb(40, 220, 220);
   border-radius: 10px;
 }
 
+/* frontpage */
 .panel-title-hyperbola-frontpage {
   margin-top: 0;
   margin-bottom: 0;
