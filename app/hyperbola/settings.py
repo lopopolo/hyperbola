@@ -160,7 +160,7 @@ PIPELINE_JS = {
     },
     'retinajs': {
         'source_filenames': (
-            'vendor/retinajs/v1.1.0/retina.js',
+            'vendor/retinajs/v1.3.0/retina.js',
         ),
         'output_filename': 'js/retina.min.js',
     },
