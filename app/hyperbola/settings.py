@@ -125,12 +125,6 @@ THUMBNAIL_UPSCALE = False
 
 PIPELINE_ENABLED = True
 PIPELINE_CSS = {
-    'bootstrap': {
-        'source_filenames': (
-            'vendor/bootstrap/bootstrap-3.1.1-dist/css/bootstrap.css',
-        ),
-        'output_filename': 'css/bootstrap.min.css',
-    },
     'lightbox': {
         'source_filenames': (
             'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.css',
@@ -139,6 +133,7 @@ PIPELINE_CSS = {
     },
     'sitewide': {
         'source_filenames': (
+            'vendor/bootstrap/bootstrap-3.3.0-dist/css/bootstrap.css',
             'css/sitewide.css',
         ),
         'output_filename': 'css/sitewide.min.css',
@@ -148,7 +143,7 @@ PIPELINE_CSS = {
 PIPELINE_JS = {
     'bootstrap': {
         'source_filenames': (
-            'vendor/bootstrap/bootstrap-3.1.1-dist/js/bootstrap.js',
+            'vendor/bootstrap/bootstrap-3.3.0-dist/js/bootstrap.js',
         ),
         'output_filename': 'js/bootstrap.min.js',
     },
