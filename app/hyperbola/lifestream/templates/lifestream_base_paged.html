@@ -22,7 +22,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
         </noscript>
       </span>
       <a href="{% url "lifestream.views.permalink" post.pk  %}">permalink</a>
-      </p>
+      </div>
       <div class="panel-body">
       {% if post.lifestreampicture %}
       {% thumbnail post.lifestreampicture.picture "500" as thumb %}
