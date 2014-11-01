@@ -10,7 +10,7 @@ body {
   color: darkgray;
 }
 
-a {
+a, a:hover {
   color: rgb(40, 220, 220);
 }
 
