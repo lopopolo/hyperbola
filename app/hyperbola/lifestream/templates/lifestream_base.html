@@ -5,13 +5,8 @@
 <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream-rss" %}">
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream-atom" %}">
 
-<script type="text/javascript">
-  var HyperbolaDateFormatter={printDate:function(b){var a="";a+=this.padTo2(b.getHours());
-  a+=":";a+=this.padTo2(b.getMinutes());a+=" ";a+=this.monthToNameMap[b.getMonth()];a+=" ";
-  a+=this.padTo2(b.getDate());a+=" ";a+=b.getFullYear();return a},padTo2:function(a){if(a<10
-  &&a>=0){return"0"+a}return""+a},monthToNameMap:{0:"jan",1:"feb",2:"mar",3:"apr",4:"may",5:
-  "jun",6:"jul",7:"aug",8:"sep",9:"oct",10:"nov",11:"dec"},writeDate:function(t){var d=new
-  Date();d.setTime(t*1000);document.write(this.printDate(d))}};
+<script>
+  var HyperbolaDateFormatter=function(){var e=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];var t=function(e){var t="0"+e;return t.substring(t.length-2)};var n=function(n){return t(n.getHours())+":"+t(n.getMinutes())+" "+e[n.getMonth()]+" "+t(n.getDate())+" "+n.getFullYear()};return{write:function(e){var t=new Date;t.setTime(e*1e3);document.write(n(t))}}}()
 </script>
 {% endblock %}
 

@@ -16,7 +16,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
     <div class="panel panel-hyperbola">
       <div class="panel-heading lifestream-entry-header">
       <span class="date">
-        <script type="text/javascript">HyperbolaDateFormatter.writeDate({{post.pub_date|date:"U"}})</script>
+        <script>HyperbolaDateFormatter.write({{post.pub_date|date:"U"}})</script>
         <noscript>
           {{post.pub_date|date:"H:i T b d Y"|lower}}
         </noscript>
