@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
+{% load compressed %}
+
 {% block extrahead %}
+{% compressed_css "lightbox" %}
+
 <!-- feed discovery -->
 <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream-rss" %}">
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream-atom" %}">
@@ -13,7 +17,5 @@
 {% block section-title %}Lifestream{% endblock %}
 
 {% block extrafooter %}
-{% load compressed %}
-{% compressed_css "lightbox" %}
 {% compressed_js "lightbox" %}
 {% endblock %}
