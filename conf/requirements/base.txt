@@ -2,7 +2,7 @@ Django>=1.7,<1.8
 django-email-obfuscator==0.1.1
 django-localflavor
 django-markdown-deux
-django-pipeline
+django-pipeline>=1.4
 gunicorn
 markdown2
 MySQL-python>=1.2.3

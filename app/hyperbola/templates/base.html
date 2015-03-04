@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     {% load staticfiles %}
-    {% load compressed %}
+    {% load pipeline %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
@@ -13,7 +13,7 @@
     <!--[if IE]><link rel="shortcut icon" href="{% static "img/artifact/favicon.ico" %}"><![endif]-->
     <link rel="apple-touch-icon" href="{% static "img/artifact/apple-touch-icon.png" %}">
 
-    {% compressed_css "sitewide" %}
+    {% stylesheet "sitewide" %}
     {% block extrahead %}{% endblock %}
   </head>
   <body class="{% block active_app %}{% endblock %}">
@@ -46,8 +46,8 @@
       </div>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    {% compressed_js "bootstrap" %}
-    {% compressed_js "retinajs" %}
+    {% javascript "bootstrap" %}
+    {% javascript "retinajs" %}
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
