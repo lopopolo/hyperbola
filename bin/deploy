@@ -99,9 +99,11 @@ echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > $A
 
 # build static assets
 
+set +x # don't dump secrets to screen
 for env in $ARTIFACT_ROOT/env/*.env; do
     . $env
 done
+set -x
 
 $ARTIFACT_ROOT/virtualenv/bin/python app/manage.py collectstatic --noinput
 
