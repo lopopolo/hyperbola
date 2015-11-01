@@ -87,6 +87,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,18 +96,21 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-TEMPLATE_LOADERS = (
-    (
-        'django.template.loaders.cached.Loader', (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        ),
-    ),
-)
-
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, 'templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 ROOT_URLCONF = 'hyperbola.urls'
 
@@ -172,7 +176,7 @@ PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
 ENVIRONMENT = source('ENVIRONMENT')
 
 if ENVIRONMENT == 'production':
-    DEBUG = TEMPLATE_DEBUG = False
+    DEBUG = False
     ALLOWED_HOSTS = ['hyperbo.la']
     # enable admin interface only on production
     INSTALLED_APPS += (
@@ -181,9 +185,9 @@ if ENVIRONMENT == 'production':
     )
 elif ENVIRONMENT == 'staging':
     try:
-        DEBUG = TEMPLATE_DEBUG = source('DEBUG')
+        DEBUG = source('DEBUG')
     except ImproperlyConfigured:
-        DEBUG = TEMPLATE_DEBUG = False
+        DEBUG = False
 
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = '//staging-assets.hyperbo.la/'
