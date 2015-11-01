@@ -14,7 +14,7 @@ register = template.Library()
 
 @register.filter(needs_autoescape=True)
 @stringfilter
-def hashtagize(blurb, autoescape=None):
+def hashtagize(blurb, autoescape=True):
     """
     Use this filter to turn #hashtags into links
     """
