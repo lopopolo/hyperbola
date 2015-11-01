@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 
+from hyperbola.lifestream import views
+
 
 class LifeStreamItem(models.Model):
     pub_date = models.DateTimeField(
@@ -11,9 +13,7 @@ class LifeStreamItem(models.Model):
     blurb = models.CharField(max_length=200)
 
     def get_absolute_url(self):
-        return reverse(
-            "hyperbola.lifestream.views.permalink",
-            args=[str(self.id)])
+        return reverse(views.permalink, args=[str(self.id)])
 
     def __unicode__(self):
         return "{0} - {1}".format(self.pk, self.blurb[:50])
