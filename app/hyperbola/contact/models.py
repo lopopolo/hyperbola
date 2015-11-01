@@ -2,8 +2,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from localflavor.us.models import PhoneNumberField
 
-from hyperbola.contact import views
-
 
 # a grouping of contacts (ie: Work, personal)
 class ContactType(models.Model):
@@ -70,7 +68,7 @@ class Resume(models.Model):
     resume = models.FileField(upload_to="resume/%Y/%m/%d/%H-%M/lopopolo.pdf")
 
     def get_absolute_url(self):
-        return reverse(views.resume)
+        return reverse("resume-pdf")
 
     def display_name(self):
         return "As of {0}".format(self.date.strftime("%b %d %Y"))

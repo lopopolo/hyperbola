@@ -6,7 +6,7 @@ from hyperbola.contact import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^resume/lopopolo.pdf$', views.resume),
+    url(r'^resume/lopopolo.pdf$', views.resume, name="resume-pdf"),
     url(
         r'^resume/?$',
         lambda req: HttpResponsePermanentRedirect(reverse_lazy(views.resume))

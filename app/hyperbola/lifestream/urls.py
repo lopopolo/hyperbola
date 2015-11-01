@@ -15,7 +15,7 @@ urlpatterns = [
     ),
     url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag_index),
     url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$', views.hashtag_index),
-    url(r'^(?P<entry_id>\d+)/$', views.permalink),
+    url(r'^(?P<entry_id>\d+)/$', views.permalink, name="lifestream-entry-permalink"),
 ]
 
 urlpatterns += [
