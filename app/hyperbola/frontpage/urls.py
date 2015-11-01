@@ -1,6 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
-urlpatterns = patterns(
-    'hyperbola.frontpage.views',
-    url(r'^$', 'index'),
-)
+from hyperbola.frontpage import views
+
+urlpatterns = [
+    url(r'^$', views.index),
+]

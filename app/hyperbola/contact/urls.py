@@ -1,15 +1,14 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponsePermanentRedirect
 
-from hyperbola.contact.views import resume
+from hyperbola.contact import views
 
-urlpatterns = patterns(
-    'hyperbola.contact.views',
-    url(r'^$', 'index'),
-    url(r'^resume/lopopolo.pdf$', 'resume'),
+urlpatterns = [
+    url(r'^$', views.index),
+    url(r'^resume/lopopolo.pdf$', views.resume),
     url(
-        r'^resume/$',
-        lambda req: HttpResponsePermanentRedirect(reverse_lazy(resume))
+        r'^resume/?$',
+        lambda req: HttpResponsePermanentRedirect(reverse_lazy(views.resume))
     ),
-)
+]
