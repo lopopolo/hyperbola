@@ -3,8 +3,8 @@ from functools import wraps
 
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db import connection
 from django.db.models import Count
-from django.db.utils import load_backend, DEFAULT_DB_ALIAS
 from django.http import Http404
 from django.shortcuts import render_to_response
 
@@ -38,13 +38,10 @@ def paginate(page, objects):
 
 
 def get_archive_range():
-    db_backend = load_backend(settings.DATABASES[DEFAULT_DB_ALIAS]["ENGINE"])
-    db_operations = db_backend.DatabaseOperations(connection=None)
-    extract_month_sql = db_operations.date_trunc_sql("month", "pub_date")
+    truncate_date = connection.ops.date_trunc_sql("month", "pub_date")
 
-    return LifeStreamItem.objects.order_by("-pub_date") \
-        .extra(select={"month": extract_month_sql}).values("month") \
-        .annotate(post_count=Count("pub_date"))
+    return LifeStreamItem.objects.extra(select={"month": truncate_date}) \
+        .values("month").annotate(post_count=Count("pk")).order_by("-month")
 
 
 @handle_lifestream_404
