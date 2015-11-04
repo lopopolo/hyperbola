@@ -1,7 +1,6 @@
 from datetime import date
 from functools import wraps
 
-from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import connection
 from django.db.models import Count
