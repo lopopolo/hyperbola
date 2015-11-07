@@ -82,8 +82,7 @@ git clean -f -d -x
 virtualenv --no-site-packages "$ARTIFACT_ROOT/virtualenv"
 
 "$ARTIFACT_ROOT/virtualenv/bin/pip" install \
-  -r conf/requirements/production.txt     \
-  --download-cache /hyperbola/var/pip/cache
+  -r conf/requirements/production.txt --cache-dir /hyperbola/var/pip/cache
 
 "$ARTIFACT_ROOT/virtualenv/bin/pip" freeze \
   -r conf/requirements/production.txt > "$ARTIFACT_ROOT/virtualenv/installed-packages.txt"
