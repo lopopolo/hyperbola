@@ -1,8 +1,8 @@
 {% extends "lifestream_base_paged.html" %}
 
-{% block "lifestream-posts-header" %}Results for #{{tag|escape}}{% endblock %}
+{% block lifestream-posts-header %}Results for #{{tag|escape}}{% endblock %}
 
-{% block "lifestream-page-links" %}
+{% block lifestream-page-links %}
 {% if posts.has_previous %}
 {% url "lifestream.views.hashtag_index" page=posts.previous_page_number tag=tag as newer %}
 {% endif %}
@@ -12,4 +12,4 @@
 {% include "page_links.html" %}
 {% endblock %}
 
-{% block "lifestream-posts-empty" %}No results for #{{tag|escape}}{% endblock %}
+{% block lifestream-posts-empty %}No results for #{{tag|escape}}{% endblock %}

@@ -1,6 +1,6 @@
 {% extends "lifestream_base_paged.html" %}
 
-{% block "lifestream-page-links" %}
+{% block lifestream-page-links %}
 {% if posts.has_previous %}
 {% url "lifestream.views.lifestream_index" posts.previous_page_number as newer  %}
 {% endif %}
@@ -10,4 +10,4 @@
 {% include "page_links.html" %}
 {% endblock %}
 
-{% block "lifestream-posts-empty" %}No results{% endblock %}
+{% block lifestream-posts-empty %}No results{% endblock %}

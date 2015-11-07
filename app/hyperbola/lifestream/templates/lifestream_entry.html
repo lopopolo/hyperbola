@@ -4,6 +4,6 @@
 
 {% block title %} hyperbo.la :: lifestream {% endblock %}
 
-{% block "lifestream-page-links" %}
+{% block lifestream-page-links %}
 {% include "page_links.html" with newer=newer_post.get_absolute_url older=older_post.get_absolute_url %}
 {% endblock %}
