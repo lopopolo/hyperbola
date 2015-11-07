@@ -99,7 +99,7 @@ echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > "$
 # build static assets
 
 set +x # don't dump secrets to screen
-for env in "$ARTIFACT_ROOT/env/*.env"; do
+for env in "$ARTIFACT_ROOT"/env/*.env; do
     . "$env"
 done
 set -x
