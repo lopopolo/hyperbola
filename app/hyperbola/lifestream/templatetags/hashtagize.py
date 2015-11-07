@@ -15,13 +15,17 @@ register = template.Library()
 @register.filter(needs_autoescape=True)
 @stringfilter
 def hashtagize(blurb, autoescape=True):
-    """
-    Use this filter to turn #hashtags into links
+    """The hashtagize filter turns #hashtags in blurb into links.
+
+    Args:
+        blurb: The lifestream entry to scan for #hashtags
+        autoescape: Whether or not this template tag should escape blurb
+            before inserting hashtag link markup.
     """
     if autoescape:
-        esc = conditional_escape
+        def esc(x): return conditional_escape(x)
     else:
-        esc = lambda x: x
+        def esc(x): return x
 
     def linkify(matchobj):
         tag = matchobj.group('tag')
