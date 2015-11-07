@@ -139,7 +139,7 @@ PIPELINE_CSS = {
     },
     'sitewide': {
         'source_filenames': (
-            'vendor/bootstrap/bootstrap-3.3.0-dist/css/bootstrap.css',
+            'vendor/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.css',
             'css/sitewide.css',
         ),
         'output_filename': 'css/sitewide.min.css',
@@ -149,7 +149,7 @@ PIPELINE_CSS = {
 PIPELINE_JS = {
     'bootstrap': {
         'source_filenames': (
-            'vendor/bootstrap/bootstrap-3.3.0-dist/js/bootstrap.js',
+            'vendor/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.js',
         ),
         'output_filename': 'js/bootstrap.min.js',
     },
