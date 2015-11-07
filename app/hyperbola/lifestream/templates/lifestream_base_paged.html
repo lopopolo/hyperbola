@@ -11,7 +11,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
 <div class="row">
   <div class="col-md-8">
     {% if posts %}
-    <h2>{% block "lifestream-posts-header" %}{% endblock %}</h2>
+    <h2>{% block lifestream-posts-header %}{% endblock %}</h2>
     {% for post in posts %}
     <div class="panel panel-hyperbola">
       <div class="panel-heading lifestream-entry-header">
@@ -51,9 +51,9 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
     </div>
     </div>
     {% endfor %}
-    {% block "lifestream-page-links" %}{% endblock %}
+    {% block lifestream-page-links %}{% endblock %}
     {% else %}
-    <h2>{% block "lifestream-posts-empty" %}{% endblock %}</h2>
+    <h2>{% block lifestream-posts-empty %}{% endblock %}</h2>
     {% endif %}
   </div>
   <div class="col-md-4">
