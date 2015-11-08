@@ -2,10 +2,10 @@
 
 {% block lifestream-page-links %}
 {% if posts.has_previous %}
-{% url "lifestream-index" page=posts.previous_page_number as newer %}
+{% url "lifestream-index-paged" page=posts.previous_page_number as newer %}
 {% endif %}
 {% if posts.has_next %}
-{% url "lifestream-index" page=posts.next_page_number as older %}
+{% url "lifestream-index-paged" page=posts.next_page_number as older %}
 {% endif %}
 {% include "page_links.html" %}
 {% endblock %}
