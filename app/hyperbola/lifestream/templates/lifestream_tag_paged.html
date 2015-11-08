@@ -4,10 +4,10 @@
 
 {% block lifestream-page-links %}
 {% if posts.has_previous %}
-{% url "lifestream.views.hashtag_index" page=posts.previous_page_number tag=tag as newer %}
+{% url "lifestream-hashtag-paged" page=posts.previous_page_number tag=tag as newer %}
 {% endif %}
 {% if posts.has_next %}
-{% url "lifestream.views.hashtag_index" page=posts.next_page_number tag=tag as older %}
+{% url "lifestream-hashtag-paged" page=posts.next_page_number tag=tag as older %}
 {% endif %}
 {% include "page_links.html" %}
 {% endblock %}

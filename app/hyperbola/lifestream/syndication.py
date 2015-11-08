@@ -17,7 +17,7 @@ class LatestEntriesFeed(Feed):
     description_template = "blurb_feed.html"
 
     def link(self):
-        return reverse(views.lifestream_index)
+        return reverse(views.index)
 
     def feed_url(self):
         return reverse("lifestream-rss")

@@ -44,7 +44,7 @@ def get_archive_range():
 
 
 @handle_lifestream_404
-def lifestream_index(request, page=1):
+def index(request, page=1):
     posts = LifeStreamItem.objects.all().select_related('lifestreampicture')
     if not posts.exists():
         raise Http404
@@ -57,7 +57,7 @@ def lifestream_index(request, page=1):
 
 
 @handle_lifestream_404
-def archive_index(request, year, month, page=1):
+def archive(request, year, month, page=1):
     year = int(year)
     month = int(month)
 
@@ -77,7 +77,7 @@ def archive_index(request, year, month, page=1):
 
 
 @handle_lifestream_404
-def hashtag_index(request, tag, page=1):
+def hashtag(request, tag, page=1):
     hashedtag = r"#{0}([^A-Za-z0-9]|$)".format(tag)
     qs = LifeStreamItem.objects.filter(blurb__iregex=hashedtag) \
         .select_related('lifestreampicture')

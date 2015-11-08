@@ -68,7 +68,7 @@ class Resume(models.Model):
     resume = models.FileField(upload_to="resume/%Y/%m/%d/%H-%M/lopopolo.pdf")
 
     def get_absolute_url(self):
-        return reverse("resume-pdf")
+        return reverse("contact-resume-pdf")
 
     def display_name(self):
         return "As of {0}".format(self.date.strftime("%b %d %Y"))

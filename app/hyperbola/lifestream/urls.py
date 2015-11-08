@@ -6,16 +6,18 @@ from hyperbola.lifestream.syndication import (
 
 
 urlpatterns = [
-    url(r'^$', views.lifestream_index, name='lifestream-home'),
-    url(r'^page/(?P<page>[1-9]\d*)/$', views.lifestream_index),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$', views.archive_index),
+    url(r'^$', views.index, name='lifestream-index'),
+    url(r'^page/(?P<page>[1-9]\d*)/$', views.index,
+        name='lifestream-index-paged'),
+    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$', views.archive,
+        name='lifestream-archive'),
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page>[1-9]\d*)/$',
-        views.archive_index),
-    url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag_index),
+        views.archive, name='lifestream-archive-paged'),
+    url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag, name='lifestream-hashtag'),
     url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$',
-        views.hashtag_index),
+        views.hashtag, name='lifestream-hashtag-paged'),
     url(r'^(?P<entry_id>\d+)/$', views.permalink,
-        name="lifestream-entry-permalink"),
+        name='lifestream-entry-permalink'),
 ]
 
 urlpatterns += [
