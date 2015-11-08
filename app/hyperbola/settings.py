@@ -75,7 +75,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'email_obfuscator',
     'localflavor',
     'markdown_deux',
     'pipeline',

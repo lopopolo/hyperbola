@@ -1,5 +1,4 @@
 Django>=1.8,<1.9
-django-email-obfuscator==0.1.1
 django-localflavor
 django-markdown-deux
 django-pipeline>=1.4
