@@ -2,7 +2,7 @@ from collections import namedtuple
 import itertools
 
 from django.http import HttpResponse, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 from hyperbola.contact.models import (
     EmailContact, PhoneContact, WebContact, IMContact, Resume, AboutMe)
@@ -36,12 +36,11 @@ def index(request):
     except Resume.DoesNotExist:
         resume_dto = None
 
-    return render_to_response(
-        "contact_base.html", {
+    return render(request, "contact_base.html", {
             "name": "Ryan Lopopolo",
             "contacts": all_contacts,
             "resume": resume_dto,
-            "about": about
+            "about": about,
         }
     )
 
