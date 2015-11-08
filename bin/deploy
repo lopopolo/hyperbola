@@ -60,7 +60,7 @@ PYTHON_VERSION=$(python_version)
 
 DEPLOY_TIME=$(date --rfc-3339=seconds | sed 's/ /T/' | sed 's/:/-/g')
 
-ARTIFACT_NAME="hyperbola-$REFNAME-py$PYTHON_VERSION-$DEPLOY_TIME"
+ARTIFACT_NAME="hyperbola-${REFNAME:0:30}-py$PYTHON_VERSION-$DEPLOY_TIME"
 ARTIFACT_ROOT="$DEPLOY_ROOT/$ARTIFACT_NAME"
 
 cd "$DEPLOY_ROOT"
