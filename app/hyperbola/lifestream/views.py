@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import connection
 from django.db.models import Count
 from django.http import Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 from hyperbola.lifestream.models import LifeStreamItem
 
@@ -19,12 +19,10 @@ def handle_lifestream_404(view):
         try:
             return view(request, *args, **kwargs)
         except Http404:
-            resp_404 = render_to_response(
-                "lifestream_404.html",
-                {"dates": get_archive_range()}
+            return render(request, "lifestream_404.html", {
+                    "dates": get_archive_range(),
+                }, status=404
             )
-            resp_404.status_code = 404
-            return resp_404
     return inner
 
 
@@ -49,10 +47,10 @@ def index(request, page=1):
     if not posts.exists():
         raise Http404
 
-    return render_to_response(
-        "lifestream_paged.html",
-        {"posts": paginate(page, posts),
-         "dates": get_archive_range()}
+    return render(request, "lifestream_paged.html", {
+            "posts": paginate(page, posts),
+            "dates": get_archive_range(),
+        }
     )
 
 
@@ -68,11 +66,11 @@ def archive(request, year, month, page=1):
     if not posts_for_month.exists():
         raise Http404
 
-    return render_to_response(
-        "lifestream_archived_posts.html",
-        {"posts": paginate(page, posts_for_month),
-         "month": date(year, month, 1),
-         "dates": get_archive_range()}
+    return render(request, "lifestream_archived_posts.html", {
+            "posts": paginate(page, posts_for_month),
+            "month": date(year, month, 1),
+            "dates": get_archive_range(),
+        }
     )
 
 
@@ -85,11 +83,11 @@ def hashtag(request, tag, page=1):
     if not qs.exists():
         raise Http404
 
-    return render_to_response(
-        "lifestream_tag_paged.html",
-        {"tag": tag,
-         "posts": paginate(page, qs),
-         "dates": get_archive_range()}
+    return render(request, "lifestream_tag_paged.html", {
+            "tag": tag,
+            "posts": paginate(page, qs),
+            "dates": get_archive_range(),
+        }
     )
 
 
@@ -111,10 +109,10 @@ def permalink(request, entry_id):
     except LifeStreamItem.DoesNotExist:
         older = None
 
-    return render_to_response(
-        "lifestream_entry.html",
-        {"newer_post": newer,
-         "older_post": older,
-         "posts": [post],
-         "dates": get_archive_range()}
+    return render(request, "lifestream_entry.html", {
+            "newer_post": newer,
+            "older_post": older,
+            "posts": [post],
+            "dates": get_archive_range(),
+        }
     )
