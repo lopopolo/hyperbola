@@ -25,7 +25,8 @@ def anti_spamize(email, autoescape=True):
         def esc(x): return x
 
     def encode(value):
-        return "".join(["&#x{code:x};".format(code=ord(char)) for char in value])
+        return "".join(["&#x{code:x};".format(code=ord(char))
+                        for char in value])
 
     return mark_safe('<a href="{link}">{text}</a>'.format(
         link=encode("mailto:{}".format(esc(email))),
