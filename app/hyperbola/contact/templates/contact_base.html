@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load email_obfuscator %}
+{% load email_spam_prevention %}
 {% load thumbnail %}
 
 {% block active_app %}contact{% endblock %}
@@ -24,7 +24,7 @@
           <a href="{{contact.value|safe}}">{{contact.display_value|escape}}</a>
         </div>
         {% elif contact.is_email %}
-        <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|obfuscate_mailto}}</div>
+        <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|anti_spamize}}</div>
         {% else %}
         <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|escape}}</div>
         {% endif %}
