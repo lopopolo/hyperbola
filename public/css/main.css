@@ -1,5 +1,5 @@
 @CHARSET "ISO-8859-1";
-body { 	
+body {
 	background-color: #222222;
 	color: darkgray;
 	font-family: sans-serif;
@@ -20,7 +20,7 @@ a {
 	left: 25%;
 	width: 50%;
 	height: 80%;
-	background-image: url('http://assets.hyperbo.la/public/images/bezelblack.png');
+	background-image: url('../images/bezelblack.png');
 	background-repeat: no-repeat;
 }
 #header {
