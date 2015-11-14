@@ -2,39 +2,36 @@
 
 {% load email_spam_prevention %}
 {% load thumbnail %}
-
 {% block active-app %}contact{% endblock %}
-
 {% block title %} hyperbo.la :: Contact {% endblock %}
-
 {% block section-title %}Contact Information{% endblock %}
 
 {% block content %}
   <div class="row">
     <div class="col-md-9">
-      <h1>{{name|escape}}</h1>
+      <h1>{{ name|escape }}</h1>
       {% for contact in contacts %}
       {% ifchanged contact.type %}
-      <h2>{{contact.type.type|escape}}</h2>
+      <h2>{{ contact.type.type|escape }}</h2>
       {% endifchanged %}
       <div class="row">
-        <div class="col-md-4 hyperbola-ellipsis">{{contact.display_name|escape}}</div>
+        <div class="col-md-4 hyperbola-ellipsis">{{ contact.display_name|escape }}</div>
         {% if contact.is_url %}
         <div class="col-md-8 hyperbola-ellipsis">
-          <a href="{{contact.value|safe}}">{{contact.display_value|escape}}</a>
+          <a href="{{ contact.value|escape }}">{{ contact.display_value|escape }}</a>
         </div>
         {% elif contact.is_email %}
-        <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|anti_spamize}}</div>
+        <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|anti_spamize }}</div>
         {% else %}
-        <div class="col-md-8 hyperbola-ellipsis">{{contact.display_value|escape}}</div>
+        <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|escape }}</div>
         {% endif %}
       </div>
       {% endfor %}
       <h2>Résumé</h2>
       <div class="row">
-        <div class="col-md-4 hyperbola-ellipsis">{{resume.display_name|escape}}</div>
+        <div class="col-md-4 hyperbola-ellipsis">{{ resume.display_name|escape }}</div>
         <div class="col-md-8 hyperbola-ellipsis">
-          <a href="{{resume.url|safe}}">{{resume.url|escape}}</a>
+          <a href="{{ resume.url|escape }}">{{ resume.url|escape }}</a>
         </div>
       </div>
     </div>
@@ -43,13 +40,13 @@
       {% thumbnail about.photo "240" format="JPEG" as thumb %}
       {% thumbnail about.photo "480" format="JPEG" as thumb_retina %}
       <div>
-        <a href="{{about.photo.url}}">
-          <img alt="Ryan Lopopolo" src="{{thumb.url}}" data-at2x="{{thumb_retina.url}}" width="{{thumb.width}}" height="{{thumb.height}}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <a href="{{ about.photo.url|escape }}">
+          <img alt="Ryan Lopopolo" src="{{ thumb.url|escape }}" data-at2x="{{ thumb_retina.url|escape }}" width="{{ thumb.width|escape }}" height="{{ thumb.height|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
         </a>
       </div>
       {% endthumbnail %}
       {% endthumbnail %}
-      <p>{{about.blurb|escape}}</p>
+      <p>{{ about.blurb|escape }}</p>
     </div>
   </div>
 {% endblock %}
