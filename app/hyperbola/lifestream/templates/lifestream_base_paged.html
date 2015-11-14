@@ -1,7 +1,5 @@
 {% extends "lifestream_base.html" %}
 
-{% block active_app %}lifestream{% endblock %}
-
 {% block title %}
 hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|stringformat:"s"}}{% endif %}
 {% endblock %}
