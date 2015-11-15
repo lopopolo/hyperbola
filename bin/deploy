@@ -3,7 +3,7 @@
 set -e
 set -x
 
-HYPERBOLA_TOOLS_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HYPERBOLA_TOOLS_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 USAGE="$0 -e environment -r refname
 
