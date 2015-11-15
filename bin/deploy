@@ -123,4 +123,4 @@ sudo service "$SERVICE" restart
 
 sudo service nginx reload
 
-"$HYPERBOLA_TOOLS_BIN/clean-old-deployments" -d "$DEPLOY_ROOT"
+sudo "$HYPERBOLA_TOOLS_BIN/clean-old-deployments" -d "$DEPLOY_ROOT"
