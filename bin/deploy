@@ -111,7 +111,13 @@ set -x
 # promote
 
 sudo chown -R www-data:web "$ARTIFACT_ROOT"
+
+# everything read-only by default
 sudo chmod -R a=rX "$ARTIFACT_ROOT"
+
+# make code directories writable by gunicorn so bytecode can be generated
+sudo chmod -R u+w "$ARTIFACT_ROOT/app"
+sudo chmod -R u+w "$ARTIFACT_ROOT/virtualenv"
 
 CURRENT_ROOT=$(readlink -f "$DEPLOY_ROOT/current")
 
