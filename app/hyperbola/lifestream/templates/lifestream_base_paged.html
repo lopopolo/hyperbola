@@ -1,6 +1,6 @@
 {% extends "lifestream_base.html" %}
 
-{% load hashtagize thumbnail %}
+{% load cache thumbnail hashtagize %}
 
 {% block title %}
 hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escape }}{% endif %}
@@ -51,6 +51,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escap
     {% endfor %}
     {% block lifestream-page-links %}{% endblock %}
   </div>
+  {% cache 600 lifestream-sidebar %}
   <div class="col-md-4">
     <h3>Syndication</h3>
     <ul class="list-unstyled">
@@ -76,5 +77,6 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escap
     {% endif %}
     {% endfor %}
   </div>
+  {% endcache %}
 </div>
 {% endblock %}
