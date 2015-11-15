@@ -6,8 +6,6 @@ from django.template.defaultfilters import stringfilter
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-from hyperbola.lifestream.views import hashtag
-
 
 register = template.Library()
 
@@ -29,7 +27,7 @@ def hashtagize(blurb, autoescape=True):
 
     def linkify(matchobj):
         tag = matchobj.group('tag')
-        url = reverse(hashtag, args=[tag])
+        url = reverse("lifestream-hashtag", args=[tag])
         if 'leader' in matchobj.groupdict():
             leader = matchobj.group('leader')
         else:
