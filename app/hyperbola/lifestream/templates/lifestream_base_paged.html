@@ -1,7 +1,7 @@
 {% extends "lifestream_base.html" %}
 
 {% block title %}
-hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|stringformat:"s"}}{% endif %}
+hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escape }}{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -13,9 +13,9 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
     <div class="panel panel-hyperbola">
       <div class="panel-heading lifestream-entry-header">
       <span class="date">
-        <script>HyperbolaDateFormatter.write({{post.pub_date|date:"U"}})</script>
+        <script>HyperbolaDateFormatter.write({{ post.pub_date|date:"U" }})</script>
         <noscript>
-          {{post.pub_date|date:"H:i T b d Y"|lower}}
+          {{ post.pub_date|date:"H:i T b d Y"|lower }}
         </noscript>
       </span>
       <a href="{% url "lifestream-entry-permalink" post.pk %}">permalink</a>
@@ -26,16 +26,16 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
       {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
       {% thumbnail post.lifestreampicture.picture "2000" as xlarge_thumb %}
       <div>
-        <a data-toggle="lightbox" href="#lightbox-{{post.id}}">
-          <img alt="Photo for post {{post.id}}" src="{{thumb.url}}" data-at2x="{{large_thumb.url}}" width="{{thumb.width}}" height="{{thumb.height}}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <a data-toggle="lightbox" href="#lightbox-{{ post.id|escape }}">
+          <img alt="Photo for post {{ post.id|escape }}" src="{{ thumb.url|escape }}" data-at2x="{{ large_thumb.url|escape }}" width="{{ thumb.width|escape }}" height="{{ thumb.height|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
         </a>
       </div>
-      <div id="lightbox-{{post.id}}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">
+      <div id="lightbox-{{ post.id|escape }}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="lightbox-dialog">
           <div class="lightbox-content hyperbola-lightbox-content">
-            <img alt="Photo for post {{post.id}}" src="{{large_thumb.url}}" data-at2x="{{xlarge_thumb.url}}" width="{{large_thumb.width}}" height="{{large_thumb.height}}">
+            <img alt="Photo for post {{ post.id|escape }}" src="{{ large_thumb.url|escape }}" data-at2x="{{ xlarge_thumb.url|escape }}" width="{{ large_thumb.width|escape }}" height="{{ large_thumb.height|escape }}">
             <div class="lightbox-caption">
-              <p class="lifestream-content">{{post.blurb|urlize|hashtagize}}</p>
+              <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
       {% endthumbnail %}
       {% endthumbnail %}
       {% endif %}
-      <p class="lifestream-content">{{post.blurb|urlize|hashtagize}}</p>
+      <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
     </div>
     </div>
     {% endfor %}
@@ -62,12 +62,12 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{posts.number|string
     </ul>
     </div></div>
     {% endif %}
-    <h3>{{d.month|date:"Y"}}</h3>
+    <h3>{{ d.month|date:"Y" }}</h3>
     <div class="row"><div class="col-md-6">
     <ul class="list-unstyled">
     {% endifchanged %}
     {% ifchanged d.month.year d.month.month %}
-    <li><a href="{% url "lifestream-archive" d.month|date:"Y" d.month|date:"m" %}">{{d.month|date:"F"}}</a> <span class="badge pull-right">{{d.post_count|escape}}</span></li>
+    <li><a href="{% url "lifestream-archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a> <span class="badge pull-right">{{ d.post_count|escape }}</span></li>
     {% endifchanged %}
     {% if forloop.last %}
     </ul>

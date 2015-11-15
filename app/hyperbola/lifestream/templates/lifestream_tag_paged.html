@@ -1,6 +1,6 @@
 {% extends "lifestream_base_paged.html" %}
 
-{% block lifestream-posts-header %}Results for #{{tag|escape}}{% endblock %}
+{% block lifestream-posts-header %}Results for #{{ tag|escape }}{% endblock %}
 
 {% block lifestream-page-links %}
 {% if posts.has_previous %}
