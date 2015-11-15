@@ -32,4 +32,4 @@ if [ ! -d "$DIR" ]; then
 fi
 
 cd "$DIR"
-rm -rf $(ls -d -t -U */ | tail -n +6)
+rm -rf $(ls -d -t -U */ | grep -v '^\(next\|current\|previous\)/*$' | tail -n +6)
