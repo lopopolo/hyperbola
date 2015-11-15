@@ -98,6 +98,11 @@ find "$DEPLOY_ROOT/current/env/" -maxdepth 1 -name '*.env' '!' -name "00-path.en
 # Add virtualenv to $PATH
 echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > "$ARTIFACT_ROOT/env/00-path.env"
 
+# compile
+
+"$ARTIFACT_ROOT/virtualenv/bin/python" -m compileall virtualenv
+"$ARTIFACT_ROOT/virtualenv/bin/python" -m compileall app
+
 # build static assets
 
 set +x # don't dump secrets to screen
@@ -114,10 +119,6 @@ sudo chown -R www-data:web "$ARTIFACT_ROOT"
 
 # everything read-only by default
 sudo chmod -R a=rX "$ARTIFACT_ROOT"
-
-# make code directories writable by gunicorn so bytecode can be generated
-sudo chmod -R u+w "$ARTIFACT_ROOT/app"
-sudo chmod -R u+w "$ARTIFACT_ROOT/virtualenv"
 
 CURRENT_ROOT=$(readlink -f "$DEPLOY_ROOT/current")
 
