@@ -1,7 +1,5 @@
 {% extends "lifestream_base.html" %}
 
-{% block active_app %}lifestream{% endblock %}
-
 {% block title %}
 hyperbo.la :: lifestream
 {% endblock %}
@@ -26,12 +24,12 @@ hyperbo.la :: lifestream
     </ul>
     </div></div>
     {% endif %}
-    <h3>{{d.month|date:"Y"}}</h3>
+    <h3>{{ d.month|date:"Y" }}</h3>
     <div class="row"><div class="col-md-6">
     <ul class="list-unstyled">
     {% endifchanged %}
     {% ifchanged d.month.year d.month.month %}
-    <li><a href="{% url "lifestream-archive" d.month|date:"Y" d.month|date:"m" %}">{{d.month|date:"F"}}</a> <span class="badge pull-right">{{d.post_count|escape}}</span></li>
+    <li><a href="{% url "lifestream-archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a> <span class="badge pull-right">{{ d.post_count|escape }}</span></li>
     {% endifchanged %}
     {% if forloop.last %}
     </ul>

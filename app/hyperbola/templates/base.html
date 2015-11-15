@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="The personal website of Ryan Lopopolo">
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="{% static "img/artifact/favicon.png" %}">
     <!--[if IE]><link rel="shortcut icon" href="{% static "img/artifact/favicon.ico" %}"><![endif]-->
@@ -16,7 +16,7 @@
     {% stylesheet "sitewide" %}
     {% block extrahead %}{% endblock %}
   </head>
-  <body class="{% block active_app %}{% endblock %}">
+  <body class="{% block active-app %}{% endblock %}">
     <div class="container hyperbola-container">
       <div class="navbar navbar-default navbar-hyperbola" role="navigation">
         <div class="navbar-header navbar-header-hyperbola">

@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
 {% load markdown_deux_tags %}
-
-{% block active_app %}frontpage{% endblock %}
-
-{% block title %} hyperbo.la {% endblock %}
-
+{% block active-app %}frontpage{% endblock %}
+{% block title %}hyperbo.la{% endblock %}
 {% block section-title %}hyperbo.la{% endblock %}
 
 {% block content %}
@@ -14,9 +11,9 @@
     {% for blurb in blurbs %}
     <div class="panel panel-hyperbola">
       <div class="panel-heading">
-        <h2 class="panel-title-hyperbola-frontpage">{{blurb.title}}</h2>
+        <h2 class="panel-title-hyperbola-frontpage">{{ blurb.title|escape }}</h2>
       </div>
-      <div class="panel-body">{{blurb.body|markdown}}</div>
+      <div class="panel-body">{{ blurb.body|markdown }}</div>
     </div>
     {% endfor %}
   </div>
@@ -29,7 +26,7 @@
       <table class="table table-hyperbola-frontpage">
         <tbody>
           {% for sched in schedule %}
-          <tr><td>{{sched.body|markdown}}</td></tr>
+          <tr><td>{{ sched.body|markdown }}</td></tr>
           {% endfor %}
         </tbody>
       </table>
