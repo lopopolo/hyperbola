@@ -201,6 +201,7 @@ elif ENVIRONMENT == 'staging':
     warnings.simplefilter('error', DeprecationWarning)
 elif ENVIRONMENT == 'dev':
     DEBUG = True
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
     MEDIA_ROOT = os.path.join(ROOT_PATH, 'prod-media')
     MEDIA_URL = '/media/'
     PIPELINE_ENABLED = False
