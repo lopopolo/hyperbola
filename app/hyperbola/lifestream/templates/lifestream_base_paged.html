@@ -1,11 +1,12 @@
 {% extends "lifestream_base.html" %}
 
+{% load hashtagize thumbnail %}
+
 {% block title %}
 hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escape }}{% endif %}
 {% endblock %}
 
 {% block content %}
-{% load hashtagize thumbnail %}
 <div class="row">
   <div class="col-md-8">
     <h2>{% block lifestream-posts-header %}{% endblock %}</h2>
