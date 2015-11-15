@@ -196,6 +196,8 @@ elif ENVIRONMENT == 'staging':
     warnings.simplefilter('error', DeprecationWarning)
 elif ENVIRONMENT == 'dev':
     DEBUG = True
+    MEDIA_ROOT = os.path.join(ROOT_PATH, 'dev-media')
+    MEDIA_URL = '/media/'
     PIPELINE_ENABLED = False
     STATIC_URL = '/static/'
     INSTALLED_APPS += (
