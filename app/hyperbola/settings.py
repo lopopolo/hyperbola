@@ -8,7 +8,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 def source(env):
     prop = os.environ.get(env)
-    if not prop:
+    if prop is None:
         raise ImproperlyConfigured(
             'Environment variable {0} not set'.format(env))
 
@@ -192,6 +192,18 @@ elif ENVIRONMENT == 'staging':
 
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = '//staging-assets.hyperbo.la/'
+
+    warnings.simplefilter('error', DeprecationWarning)
+elif ENVIRONMENT == 'dev':
+    DEBUG = True
+    MEDIA_ROOT = os.path.join(ROOT_PATH, 'dev-media')
+    MEDIA_URL = '/media/'
+    PIPELINE_ENABLED = False
+    STATIC_URL = '/static/'
+    INSTALLED_APPS += (
+        'django.contrib.admin',
+        'django.contrib.admindocs',
+    )
 
     warnings.simplefilter('error', DeprecationWarning)
 else:
