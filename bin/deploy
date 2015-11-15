@@ -100,7 +100,6 @@ echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > "$
 
 # compile
 
-"$ARTIFACT_ROOT/virtualenv/bin/python" -m compileall virtualenv
 "$ARTIFACT_ROOT/virtualenv/bin/python" -m compileall app
 
 # build static assets
