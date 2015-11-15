@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^404.html$', NotFound404View.as_view()),
 ]
 
-if settings.ENVIRONMENT == 'production':
+if settings.ENVIRONMENT in ['production', 'dev']:
     # only enable admin urls in production
     urlpatterns += [
         url(r'^ssb/', include(django.contrib.admin.site.urls)),
