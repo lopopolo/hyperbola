@@ -47,7 +47,7 @@ def index(request, page=1):
     if not posts.exists():
         raise Http404
 
-    return render(request, "lifestream_paged.html", {
+    return render(request, "lifestream_base_paged.html", {
             "posts": paginate(page, posts),
             "dates": get_archive_range(),
         }
