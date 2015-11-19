@@ -59,15 +59,14 @@ def archive(request, year, month, page=1):
     year = int(year)
     month = int(month)
 
-    posts_for_month = LifeStreamItem.objects.filter(pub_date__year=year) \
-        .filter(pub_date__month=month) \
-        .select_related('lifestreampicture')
+    posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
+        pub_date__year=year, pub_date__month=month)
 
-    if not posts_for_month.exists():
+    if not posts.exists():
         raise Http404
 
     return render(request, "lifestream_archived_posts.html", {
-            "posts": paginate(page, posts_for_month),
+            "posts": paginate(page, posts),
             "month": date(year, month, 1),
             "dates": get_archive_range(),
         }
