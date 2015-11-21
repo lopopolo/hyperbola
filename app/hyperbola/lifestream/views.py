@@ -3,11 +3,11 @@ from datetime import date
 from functools import wraps
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.db import connection
 from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
 
 from hyperbola.lifestream.models import LifeStreamItem
 
@@ -73,19 +73,29 @@ def index(request, page=1):
 
 @handle_lifestream_404
 def archive(request, year, month, page=1):
-    year = int(year)
-    month = int(month)
-
+    mdate = date(int(year), int(month), 1)
     posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
-        pub_date__year=year, pub_date__month=month)
-
+        pub_date__year=mdate.year, pub_date__month=mdate.month)
     if not posts.exists():
         raise Http404
 
-    return render(request, "lifestream_archived_posts.html", {
-            "posts": paginate(page, posts),
-            "month": date(year, month, 1),
+    pager = paginate(page, posts)
+    older = newer = None
+    if pager.has_previous():
+        if pager.previous_page_number() == 1:
+            newer = reverse("lifestream-archive", args=[year, month])
+        else:
+            newer = reverse("lifestream-archvive-paged", args=[
+                year, month, pager.previous_page_number()])
+    if pager.has_next():
+        older = reverse("lifestream-archive-paged", args=[
+            year, month, pager.next_page_number()])
+
+    return render(request, "lifestream_base_paged.html", {
+            "content_header": "Posts from {}".format(mdate.strftime("%B %Y")),
+            "posts": pager,
             "dates": get_archive_range(),
+            "links": PageLinks(newer=newer, older=older),
         }
     )
 
