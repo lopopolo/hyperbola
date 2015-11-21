@@ -126,19 +126,18 @@ def permalink(request, entry_id):
         raise Http404
 
     try:
-        newer = post.get_next_by_pub_date()
+        newer = post.get_next_by_pub_date().get_absolute_url()
     except LifeStreamItem.DoesNotExist:
         newer = None
 
     try:
-        older = post.get_previous_by_pub_date()
+        older = post.get_previous_by_pub_date().get_absolute_url()
     except LifeStreamItem.DoesNotExist:
         older = None
 
-    return render(request, "lifestream_entry.html", {
-            "newer_post": newer,
-            "older_post": older,
+    return render(request, "lifestream_base_paged.html", {
             "posts": [post],
             "dates": get_archive_range(),
+            "links": PageLinks(newer=newer, older=older),
         }
     )
