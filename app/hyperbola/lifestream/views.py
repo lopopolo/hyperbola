@@ -20,6 +20,7 @@ def handle_lifestream_404(view):
             return view(request, *args, **kwargs)
         except Http404:
             return render(request, "lifestream_404.html", {
+                    "content_header": "No lifestream posts were found",
                     "dates": get_archive_range(),
                 }, status=404
             )
