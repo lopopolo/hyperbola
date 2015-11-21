@@ -1,3 +1,4 @@
+from collections import namedtuple
 from datetime import date
 from functools import wraps
 
@@ -6,11 +7,13 @@ from django.db import connection
 from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 
 from hyperbola.lifestream.models import LifeStreamItem
 
 
 NUM_PER_PAGE = 20
+PageLinks = namedtuple("PageLinks", "newer older")
 
 
 def handle_lifestream_404(view):
@@ -48,9 +51,22 @@ def index(request, page=1):
     if not posts.exists():
         raise Http404
 
+    pager = paginate(page, posts)
+    older = newer = None
+    if pager.has_previous():
+        if pager.previous_page_number() == 1:
+            newer = reverse("lifestream-index")
+        else:
+            newer = reverse("lifestream-index-paged", args=[
+                pager.previous_page_number()])
+    if pager.has_next():
+        older = reverse("lifestream-index-paged", args=[
+            pager.next_page_number()])
+
     return render(request, "lifestream_base_paged.html", {
-            "posts": paginate(page, posts),
+            "posts": pager,
             "dates": get_archive_range(),
+            "links": PageLinks(newer=newer, older=older),
         }
     )
 

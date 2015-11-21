@@ -46,5 +46,12 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escap
 </div>
 </div>
 {% endfor %}
-{% block lifestream-page-links %}{% endblock %}
+<div>
+  {% if links.newer %}
+  <div class="pull-left"><a href="{{ links.newer|escape }}">&laquo; newer</a></div>
+  {% endif %}
+  {% if links.older %}
+  <div class="pull-right"><a href="{{ links.older|escape }}">older &raquo;</a></div>
+  {% endif %}
+</div>
 {% endblock %}
