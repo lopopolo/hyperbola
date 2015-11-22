@@ -1,9 +1,9 @@
+from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 import django.contrib.admin
 import django.contrib.admindocs.urls
 
-from hyperbola import settings
 import hyperbola.contact.urls
 import hyperbola.frontpage.urls
 import hyperbola.lifestream.urls
