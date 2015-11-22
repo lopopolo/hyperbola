@@ -3,11 +3,9 @@ from django.db import models
 
 
 class LifeStreamItem(models.Model):
-    pub_date = models.DateTimeField(
-        auto_now=True,
-        editable=False,
-        db_index=True
-    )
+    pub_date = models.DateTimeField(auto_now=True,
+                                    editable=False,
+                                    db_index=True)
     blurb = models.CharField(max_length=200)
 
     def get_absolute_url(self):

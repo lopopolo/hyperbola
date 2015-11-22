@@ -8,7 +8,6 @@ def index(request):
     schedule = Schedule.objects.filter(display=True)
 
     return render(request, "frontpage.html", {
-            "blurbs": blurbs,
-            "schedule": schedule,
-        }
-    )
+        "blurbs": blurbs,
+        "schedule": schedule,
+    })

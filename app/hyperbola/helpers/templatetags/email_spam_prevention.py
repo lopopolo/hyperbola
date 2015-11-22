@@ -3,7 +3,6 @@ from django.template.defaultfilters import stringfilter
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-
 register = template.Library()
 
 
@@ -20,15 +19,18 @@ def anti_spamize(email, autoescape=True):
             before inserting hashtag link markup.
     """
     if autoescape:
-        def esc(x): return conditional_escape(x)
+
+        def esc(x):
+            return conditional_escape(x)
     else:
-        def esc(x): return x
+
+        def esc(x):
+            return x
 
     def encode(value):
-        return "".join(["&#x{code:x};".format(code=ord(char))
-                        for char in value])
+        return "".join(["&#x{0:x};".format(ord(char)) for char in value])
 
-    return mark_safe('<a href="{link}">{text}</a>'.format(
+    result = '<a href="{link}">{text}</a>'.format(
         link=encode("mailto:{}".format(esc(email))),
-        text=encode(esc(email))
-    ))
+        text=encode(esc(email)))
+    return mark_safe(result)

@@ -6,7 +6,6 @@ from django.template.defaultfilters import stringfilter
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-
 register = template.Library()
 
 
@@ -21,9 +20,13 @@ def hashtagize(blurb, autoescape=True):
             before inserting hashtag link markup.
     """
     if autoescape:
-        def esc(x): return conditional_escape(x)
+
+        def esc(x):
+            return conditional_escape(x)
     else:
-        def esc(x): return x
+
+        def esc(x):
+            return x
 
     def linkify(matchobj):
         tag = matchobj.group('tag')
@@ -33,7 +36,8 @@ def hashtagize(blurb, autoescape=True):
         else:
             leader = ''
         return '{leader}<a href="{url}">#{tag}</a>'.format(leader=leader,
-                                                           url=url, tag=tag)
+                                                           url=url,
+                                                           tag=tag)
 
     result = re.sub(r'(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, esc(blurb))
     return mark_safe(result)

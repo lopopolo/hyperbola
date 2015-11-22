@@ -9,8 +9,8 @@ from django.core.exceptions import ImproperlyConfigured
 def source(env):
     prop = os.environ.get(env)
     if prop is None:
-        raise ImproperlyConfigured(
-            'Environment variable {0} not set'.format(env))
+        raise ImproperlyConfigured('Environment variable {0} not set'.format(
+            env))
 
     if prop in ['yes', 'true']:
         return True
@@ -18,6 +18,7 @@ def source(env):
         return False
     else:
         return prop
+
 
 USE_X_FORWARDED_HOST = True
 
@@ -122,7 +123,6 @@ ROOT_URLCONF = 'hyperbola.urls'
 
 WSGI_APPLICATION = 'hyperbola.wsgi.application'
 
-
 # Thumbnailing
 
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
@@ -175,7 +175,6 @@ PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yui.YUICompressor'
 
 PIPELINE_YUI_BINARY = '/usr/bin/env yui-compressor'
-
 
 # Environment-specific configuration
 
