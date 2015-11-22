@@ -1,11 +1,57 @@
-{% extends "lifestream_base_paged.html" %}
+{% extends "lifestream_base.html" %}
 
-{% block lifestream-page-links %}
-{% if posts.has_previous %}
-{% url "lifestream-index-paged" page=posts.previous_page_number as newer %}
-{% endif %}
-{% if posts.has_next %}
-{% url "lifestream-index-paged" page=posts.next_page_number as older %}
-{% endif %}
-{% include "page_links.html" %}
+{% load cache thumbnail hashtagize %}
+
+{% block title %}
+hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escape }}{% endif %}
+{% endblock %}
+
+{% block lifestream-content %}
+{% for post in posts %}
+<div class="panel panel-hyperbola">
+  <div class="panel-heading lifestream-entry-header">
+  <span class="date">
+    <script>HyperbolaDateFormatter.write({{ post.pub_date|date:"U" }})</script>
+    <noscript>
+      {{ post.pub_date|date:"H:i T b d Y"|lower }}
+    </noscript>
+  </span>
+  <a href="{% url "lifestream-entry-permalink" post.pk %}">permalink</a>
+  </div>
+  <div class="panel-body">
+  {% if post.lifestreampicture %}
+  {% thumbnail post.lifestreampicture.picture "500" as thumb %}
+  {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
+  {% thumbnail post.lifestreampicture.picture "2000" as xlarge_thumb %}
+  <div>
+    <a data-toggle="lightbox" href="#lightbox-{{ post.id|escape }}">
+      <img alt="Photo for post {{ post.id|escape }}" src="{{ thumb.url|escape }}" data-at2x="{{ large_thumb.url|escape }}" width="{{ thumb.width|escape }}" height="{{ thumb.height|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+    </a>
+  </div>
+  <div id="lightbox-{{ post.id|escape }}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="lightbox-dialog">
+      <div class="lightbox-content hyperbola-lightbox-content">
+        <img alt="Photo for post {{ post.id|escape }}" src="{{ large_thumb.url|escape }}" data-at2x="{{ xlarge_thumb.url|escape }}" width="{{ large_thumb.width|escape }}" height="{{ large_thumb.height|escape }}">
+        <div class="lightbox-caption">
+          <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endthumbnail %}
+  {% endthumbnail %}
+  {% endthumbnail %}
+  {% endif %}
+  <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
+</div>
+</div>
+{% endfor %}
+<div>
+  {% if links.newer %}
+  <div class="pull-left"><a href="{{ links.newer|escape }}">&laquo; newer</a></div>
+  {% endif %}
+  {% if links.older %}
+  <div class="pull-right"><a href="{{ links.older|escape }}">older &raquo;</a></div>
+  {% endif %}
+</div>
 {% endblock %}
