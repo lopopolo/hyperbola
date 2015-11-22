@@ -72,7 +72,11 @@ def index(request, page=1):
 
 @handle_lifestream_404
 def archive(request, year, month, page=1):
-    mdate = date(int(year), int(month), 1)
+    try:
+        mdate = date(int(year), int(month), 1)
+    except ValueError:
+        raise Http404
+
     posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
         pub_date__year=mdate.year,
         pub_date__month=mdate.month)
