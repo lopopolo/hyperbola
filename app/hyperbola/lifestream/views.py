@@ -102,17 +102,30 @@ def archive(request, year, month, page=1):
 
 @handle_lifestream_404
 def hashtag(request, tag, page=1):
-    hashedtag = r"#{0}([^A-Za-z0-9]|$)".format(tag)
-    qs = LifeStreamItem.objects.filter(blurb__iregex=hashedtag) \
-        .select_related('lifestreampicture')
+    search = r"#{0}([^\w]|$)".format(tag)
 
-    if not qs.exists():
+    posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
+        blurb__iregex=search)
+    if not posts.exists():
         raise Http404
 
-    return render(request, "lifestream_tag_paged.html", {
-            "tag": tag,
-            "posts": paginate(page, qs),
+    pager = paginate(page, posts)
+    older = newer = None
+    if pager.has_previous():
+        if pager.previous_page_number() == 1:
+            newer = reverse("lifestream-hashtag", args=[tag])
+        else:
+            newer = reverse("lifestream-hashtag-paged", args=[
+                tag, pager.previous_page_number()])
+    if pager.has_next():
+        older = reverse("lifestream-hashtag-paged", args=[
+            tag, pager.next_page_number()])
+
+    return render(request, "lifestream_base_paged.html", {
+            "content_header": "Results for #{}".format(tag),
+            "posts": pager,
             "dates": get_archive_range(),
+            "links": PageLinks(newer=newer, older=older),
         }
     )
 
