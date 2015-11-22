@@ -63,7 +63,7 @@ def index(request, page=1):
         older = reverse("lifestream-index-paged", args=[
             pager.next_page_number()])
 
-    return render(request, "lifestream_base_paged.html", {
+    return render(request, "lifestream_paged.html", {
             "posts": pager,
             "dates": get_archive_range(),
             "links": PageLinks(newer=newer, older=older),
@@ -91,7 +91,7 @@ def archive(request, year, month, page=1):
         older = reverse("lifestream-archive-paged", args=[
             year, month, pager.next_page_number()])
 
-    return render(request, "lifestream_base_paged.html", {
+    return render(request, "lifestream_paged.html", {
             "content_header": "Posts from {}".format(mdate.strftime("%B %Y")),
             "posts": pager,
             "dates": get_archive_range(),
@@ -121,7 +121,7 @@ def hashtag(request, tag, page=1):
         older = reverse("lifestream-hashtag-paged", args=[
             tag, pager.next_page_number()])
 
-    return render(request, "lifestream_base_paged.html", {
+    return render(request, "lifestream_paged.html", {
             "content_header": "Results for #{}".format(tag),
             "posts": pager,
             "dates": get_archive_range(),
@@ -148,7 +148,7 @@ def permalink(request, entry_id):
     except LifeStreamItem.DoesNotExist:
         older = None
 
-    return render(request, "lifestream_base_paged.html", {
+    return render(request, "lifestream_paged.html", {
             "posts": paginate(1, [post]),
             "dates": get_archive_range(),
             "links": PageLinks(newer=newer, older=older),
