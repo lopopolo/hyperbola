@@ -149,7 +149,7 @@ def permalink(request, entry_id):
         older = None
 
     return render(request, "lifestream_base_paged.html", {
-            "posts": [post],
+            "posts": paginate(1, [post]),
             "dates": get_archive_range(),
             "links": PageLinks(newer=newer, older=older),
         }
