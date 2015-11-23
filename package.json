@@ -1,0 +1,21 @@
+{
+  "name": "hyperbola",
+  "description": "Ryan Lopopolo's website",
+  "version": "0.0.0",
+  "maintainers": [
+    {
+      "name": "Ryan Lopopolo",
+      "email": "rjl@hyperbo.la",
+      "web": "http://hyperbo.la"
+    }
+  ],
+  "dependencies": {
+    "yuglify": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lopopolo/hyperbola.git"
+  },
+  "license": "MIT",
+  "homepage": "http://hyperbo.la"
+}
