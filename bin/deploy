@@ -108,6 +108,11 @@ for env in "$ARTIFACT_ROOT"/env/*.env; do
 done
 set -x
 
+# setup node+yuglify
+export PATH="$PATH:/hyperbola/bin/nodes/current-node/bin"
+npm install
+export PATH="$PATH:$(npm bin)"
+
 "$ARTIFACT_ROOT/virtualenv/bin/python" app/manage.py collectstatic --noinput
 
 # promote
