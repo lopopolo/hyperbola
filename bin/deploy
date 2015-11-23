@@ -81,13 +81,11 @@ git clean -f -d -x
 
 # build virtualenv
 
-virtualenv --no-site-packages "$ARTIFACT_ROOT/virtualenv"
+virtualenv "$ARTIFACT_ROOT/virtualenv"
 
-"$ARTIFACT_ROOT/virtualenv/bin/pip" install \
-  -r conf/requirements/production.txt --cache-dir /hyperbola/var/pip/cache
+"$ARTIFACT_ROOT/virtualenv/bin/pip" install -r requirements.txt --cache-dir /hyperbola/var/pip/cache
 
-"$ARTIFACT_ROOT/virtualenv/bin/pip" freeze \
-  -r conf/requirements/production.txt > "$ARTIFACT_ROOT/virtualenv/installed-packages.txt"
+"$ARTIFACT_ROOT/virtualenv/bin/pip" freeze > "$ARTIFACT_ROOT/virtualenv/installed-packages.txt"
 
 # add hyperbola to virtualenv search path
 VIRTUALENV_SITE_PACKAGES=$(find "$ARTIFACT_ROOT/virtualenv" -type d -name site-packages)
