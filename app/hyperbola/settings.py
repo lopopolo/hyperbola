@@ -185,7 +185,6 @@ if ENVIRONMENT == 'production':
     # enable admin interface only on production
     INSTALLED_APPS += (
         'django.contrib.admin',
-        'django.contrib.admindocs',
     )
 elif ENVIRONMENT == 'staging':
     try:
@@ -206,7 +205,6 @@ elif ENVIRONMENT == 'dev':
     STATIC_URL = '/static/'
     INSTALLED_APPS += (
         'django.contrib.admin',
-        'django.contrib.admindocs',
         'debug_toolbar',
         'template_timings_panel',
         'template_profiler_panel',
