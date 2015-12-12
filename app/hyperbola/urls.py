@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-import django.contrib.admin
+from django.contrib import admin
 import django.contrib.admindocs.urls
 
 import hyperbola.contact.urls
@@ -20,7 +20,7 @@ urlpatterns = [
 if settings.ENVIRONMENT in ['production', 'dev']:
     # only enable admin urls in production
     urlpatterns += [
-        url(r'^ssb/', include(django.contrib.admin.site.urls)),
+        url(r'^ssb/', admin.site.urls),
         url(r'^ssb/doc/', include(django.contrib.admindocs.urls)),
     ]
 
