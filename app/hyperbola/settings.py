@@ -224,7 +224,7 @@ elif ENVIRONMENT == 'dev':
         'debug_toolbar.panels.signals.SignalsPanel',
         'debug_toolbar.panels.logging.LoggingPanel',
         'debug_toolbar.panels.redirects.RedirectsPanel',
-        'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+        #'template_timings_panel.panels.TemplateTimings.TemplateTimings',
         'template_profiler_panel.panels.template.TemplateProfilerPanel',
     ]
 
