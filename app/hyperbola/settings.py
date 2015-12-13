@@ -1,7 +1,6 @@
 # Django settings for hyperbola
 
 import os
-import warnings
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -55,13 +54,13 @@ MEDIA_ROOT = '/hyperbola/media/'
 
 MEDIA_URL = '//media.hyperbo.la/'
 
-STATIC_URL = '//assets.hyperbo.la/'
-
 STATIC_ROOT = os.path.join(ROOT_PATH, 'assets')
 
-STATICFILES_DIRS = (
+STATIC_URL = '//assets.hyperbo.la/'
+
+STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static'),
-)
+]
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
@@ -70,7 +69,7 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 
 SECRET_KEY = source('SECRET_KEY')
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -84,7 +83,7 @@ INSTALLED_APPS = (
     'hyperbola.frontpage',
     'hyperbola.helpers',
     'hyperbola.lifestream',
-)
+]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -183,9 +182,9 @@ if ENVIRONMENT == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['hyperbo.la']
     # enable admin interface only on production
-    INSTALLED_APPS += (
+    INSTALLED_APPS += [
         'django.contrib.admin',
-    )
+    ]
 elif ENVIRONMENT == 'staging':
     try:
         DEBUG = source('DEBUG')
@@ -194,21 +193,18 @@ elif ENVIRONMENT == 'staging':
 
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = '//staging-assets.hyperbo.la/'
-
-    warnings.simplefilter('error', DeprecationWarning)
 elif ENVIRONMENT == 'dev':
     DEBUG = True
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
     MEDIA_ROOT = os.path.join(ROOT_PATH, 'prod-media')
     MEDIA_URL = '/media/'
     PIPELINE_ENABLED = False
     STATIC_URL = '/static/'
-    INSTALLED_APPS += (
+    INSTALLED_APPS += [
         'django.contrib.admin',
         'debug_toolbar',
         'template_timings_panel',
         'template_profiler_panel',
-    )
+    ]
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
         'debug_toolbar.panels.timer.TimerPanel',
@@ -225,7 +221,5 @@ elif ENVIRONMENT == 'dev':
         #'template_timings_panel.panels.TemplateTimings.TemplateTimings',
         'template_profiler_panel.panels.template.TemplateProfilerPanel',
     ]
-
-    warnings.simplefilter('error', DeprecationWarning)
 else:
     raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))
