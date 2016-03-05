@@ -110,6 +110,8 @@ set -x
 
 # setup node+yuglify
 export PATH="$PATH:/hyperbola/bin/nodes/current-node/bin"
+node --version
+npm --version
 npm install
 export PATH="$PATH:$(npm bin)"
 
