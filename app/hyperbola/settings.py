@@ -1,7 +1,6 @@
 # Django settings for hyperbola
 
 import os
-import warnings
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -55,13 +54,13 @@ MEDIA_ROOT = '/hyperbola/media/'
 
 MEDIA_URL = '//media.hyperbo.la/'
 
-STATIC_URL = '//assets.hyperbo.la/'
-
 STATIC_ROOT = os.path.join(ROOT_PATH, 'assets')
 
-STATICFILES_DIRS = (
+STATIC_URL = '//assets.hyperbo.la/'
+
+STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static'),
-)
+]
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
@@ -70,7 +69,7 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 
 SECRET_KEY = source('SECRET_KEY')
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -84,17 +83,18 @@ INSTALLED_APPS = (
     'hyperbola.frontpage',
     'hyperbola.helpers',
     'hyperbola.lifestream',
-)
+]
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 TEMPLATES = [
     {
@@ -132,47 +132,46 @@ THUMBNAIL_UPSCALE = False
 
 
 # Asset caching
-
-PIPELINE_ENABLED = True
-PIPELINE_CSS = {
-    'lightbox': {
-        'source_filenames': (
-            'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.css',
-        ),
-        'output_filename': 'css/bootstrap-lightbox.min.css',
+PIPELINE = {
+    'PIPELINE_ENABLED': True,
+    'STYLESHEETS': {
+        'lightbox': {
+            'source_filenames': (
+                'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.css',
+            ),
+            'output_filename': 'css/bootstrap-lightbox.min.css',
+        },
+        'sitewide': {
+            'source_filenames': (
+                'vendor/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.css',
+                'css/sitewide.css',
+            ),
+            'output_filename': 'css/sitewide.min.css',
+        },
     },
-    'sitewide': {
-        'source_filenames': (
-            'vendor/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.css',
-            'css/sitewide.css',
-        ),
-        'output_filename': 'css/sitewide.min.css',
+    'JAVASCRIPT': {
+        'bootstrap': {
+            'source_filenames': (
+                'vendor/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.js',
+            ),
+            'output_filename': 'js/bootstrap.min.js',
+        },
+        'lightbox': {
+            'source_filenames': (
+                'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.js',
+            ),
+            'output_filename': 'js/bootstrap-lightbox.min.js',
+        },
+        'retinajs': {
+            'source_filenames': (
+                'vendor/retinajs/v1.3.0/retina.js',
+            ),
+            'output_filename': 'js/retina.min.js',
+        },
     },
+    'CSS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
+    'JS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
 }
-
-PIPELINE_JS = {
-    'bootstrap': {
-        'source_filenames': (
-            'vendor/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.js',
-        ),
-        'output_filename': 'js/bootstrap.min.js',
-    },
-    'lightbox': {
-        'source_filenames': (
-            'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.js',
-        ),
-        'output_filename': 'js/bootstrap-lightbox.min.js',
-    },
-    'retinajs': {
-        'source_filenames': (
-            'vendor/retinajs/v1.3.0/retina.js',
-        ),
-        'output_filename': 'js/retina.min.js',
-    },
-}
-
-PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 
 # Environment-specific configuration
 
@@ -182,10 +181,9 @@ if ENVIRONMENT == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['hyperbo.la']
     # enable admin interface only on production
-    INSTALLED_APPS += (
+    INSTALLED_APPS += [
         'django.contrib.admin',
-        'django.contrib.admindocs',
-    )
+    ]
 elif ENVIRONMENT == 'staging':
     try:
         DEBUG = source('DEBUG')
@@ -194,22 +192,18 @@ elif ENVIRONMENT == 'staging':
 
     ALLOWED_HOSTS = ['staging.hyperbo.la']
     STATIC_URL = '//staging-assets.hyperbo.la/'
-
-    warnings.simplefilter('error', DeprecationWarning)
 elif ENVIRONMENT == 'dev':
     DEBUG = True
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
     MEDIA_ROOT = os.path.join(ROOT_PATH, 'prod-media')
     MEDIA_URL = '/media/'
-    PIPELINE_ENABLED = False
+    PIPELINE['ENABLED'] = False
     STATIC_URL = '/static/'
-    INSTALLED_APPS += (
+    INSTALLED_APPS += [
         'django.contrib.admin',
-        'django.contrib.admindocs',
         'debug_toolbar',
         'template_timings_panel',
         'template_profiler_panel',
-    )
+    ]
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
         'debug_toolbar.panels.timer.TimerPanel',
@@ -223,10 +217,8 @@ elif ENVIRONMENT == 'dev':
         'debug_toolbar.panels.signals.SignalsPanel',
         'debug_toolbar.panels.logging.LoggingPanel',
         'debug_toolbar.panels.redirects.RedirectsPanel',
-        'template_timings_panel.panels.TemplateTimings.TemplateTimings',
+        #'template_timings_panel.panels.TemplateTimings.TemplateTimings',
         'template_profiler_panel.panels.template.TemplateProfilerPanel',
     ]
-
-    warnings.simplefilter('error', DeprecationWarning)
 else:
     raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))

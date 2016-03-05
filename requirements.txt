@@ -1,7 +1,7 @@
-Django>=1.8,<1.9
+Django>=1.9,<1.10
 django-localflavor
 django-markdown-deux
-django-pipeline>=1.4
+django-pipeline>=1.6
 gunicorn
 markdown2
 mysqlclient>=1.3.3

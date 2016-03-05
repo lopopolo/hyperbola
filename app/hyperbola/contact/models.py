@@ -16,7 +16,7 @@ class ContactType(models.Model):
 
 
 class Contact(models.Model):
-    type = models.ForeignKey(ContactType)
+    type = models.ForeignKey(ContactType, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     value = "blank"
 
