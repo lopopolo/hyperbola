@@ -20,7 +20,7 @@ mkdir dev-media
 echo '*' > dev-media/.gitignore
 # make virtualenv
 virtualenv virtualenv
-virtualenv/bin/pip install -r conf/requirements/development.txt --ignore-installed
+virtualenv/bin/pip install -r dev-requirements.txt --ignore-installed
 ```
 
 ## .env
@@ -41,7 +41,7 @@ export DB_PORT="3306"
 ## runserver
 
 ```
-virtualenv/bin/python app/manage.py runserver
+virtualenv/bin/python -Wall app/manage.py runserver
 ```
 
 # Known Issues
