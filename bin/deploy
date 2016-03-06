@@ -19,11 +19,13 @@ environment may be one of:
 ENV=""
 REFNAME=""
 
-while getopts "h?e:r:" opt; do
+while getopts "h?3e:r:" opt; do
     case "$opt" in
     h|\?)
         echo "$USAGE"
         exit 0
+        ;;
+    3)  export PATH="$(readlink -f "/hyperbola/bin/pythons/current-python/bin"):$PATH"
         ;;
     e)  ENV="$OPTARG"
         ;;
@@ -54,10 +56,12 @@ fi
 
 function python_version
 {
-    python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'
+    "$PYTHON" -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'
 }
 
-PYTHON=$(which python)
+if [ -z "$PYTHON" ]; then
+  PYTHON=$(which python)
+fi
 PYTHON_VERSION=$(python_version)
 
 DEPLOY_TIME=$(date --rfc-3339=seconds | sed 's/ /T/' | sed 's/:/-/g')
@@ -81,7 +85,7 @@ git clean -f -d -x
 
 # build virtualenv
 
-virtualenv "$ARTIFACT_ROOT/virtualenv"
+virtualenv --python="$PYTHON" "$ARTIFACT_ROOT/virtualenv"
 
 "$ARTIFACT_ROOT/virtualenv/bin/pip" install -r requirements.txt --cache-dir /hyperbola/var/pip/cache
 
