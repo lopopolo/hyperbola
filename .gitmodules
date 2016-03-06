@@ -4,3 +4,6 @@
 [submodule "node-build"]
 	path = node-build
 	url = https://github.com/nodenv/node-build.git
+[submodule "pyenv"]
+	path = pyenv
+	url = https://github.com/yyuu/pyenv.git
