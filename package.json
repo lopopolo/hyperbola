@@ -12,15 +12,15 @@
   "bugs": "https://github.com/lopopolo/hyperbola/issues",
   "license": "MIT",
   "author": {
-    "name" : "Ryan Lopopolo",
-    "email" : "rjl@hyperbo.la",
-    "url" : "http://hyperbo.la"
+    "name": "Ryan Lopopolo",
+    "email": "rjl@hyperbo.la",
+    "url": "http://hyperbo.la"
   },
   "contributors": [
     {
-      "name" : "Ryan Lopopolo",
-      "email" : "rjl@hyperbo.la",
-      "url" : "http://hyperbo.la"
+      "name": "Ryan Lopopolo",
+      "email": "rjl@hyperbo.la",
+      "url": "http://hyperbo.la"
     }
   ],
   "repository": {
@@ -31,6 +31,6 @@
     "yuglify": "*"
   },
   "engines" : {
-    "node" : ">=4.2.0 4.x"
+    "node": ">=4.2.0 4.x"
   }
 }
