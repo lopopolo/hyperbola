@@ -19,13 +19,11 @@ environment may be one of:
 ENV=""
 REFNAME=""
 
-while getopts "h?3e:r:" opt; do
+while getopts "h?e:r:" opt; do
     case "$opt" in
     h|\?)
         echo "$USAGE"
         exit 0
-        ;;
-    3)  export PATH="$(readlink -f "/hyperbola/bin/pythons/current-python/bin"):$PATH"
         ;;
     e)  ENV="$OPTARG"
         ;;
@@ -60,6 +58,7 @@ function python_version
 }
 
 if [ -z "$PYTHON" ]; then
+  export PATH="$(readlink -f "/hyperbola/bin/pythons/current-python/bin"):$PATH"
   PYTHON=$(which python)
 fi
 PYTHON_VERSION=$(python_version)
