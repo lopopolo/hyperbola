@@ -10,7 +10,7 @@ class Blurb(models.Model):
     class Meta:
         ordering = ['display_order']
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} - {1}".format(self.display_order, self.title)
 
 
@@ -22,5 +22,5 @@ class Schedule(models.Model):
     class Meta:
         ordering = ['display_order']
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} - {1}".format(self.display_order, self.body[:50])

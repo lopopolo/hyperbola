@@ -8,7 +8,7 @@ class ContactType(models.Model):
     type = models.CharField(max_length=200, unique=True)
     display_order = models.PositiveIntegerField(unique=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} - {1}".format(self.display_order, self.type)
 
     class Meta:
@@ -32,8 +32,8 @@ class Contact(models.Model):
     def is_email(self):
         return False
 
-    def __unicode__(self):
-        return self.value
+    def __str__(self):
+        return str(self.value)
 
     class Meta:
         abstract = True
@@ -73,7 +73,7 @@ class Resume(models.Model):
     def display_name(self):
         return "As of {0}".format(self.date.strftime("%b %d %Y"))
 
-    def __unicode__(self):
+    def __str__(self):
         return "version {0} as of {1}".format(self.id, self.date)
 
 
@@ -81,5 +81,5 @@ class AboutMe(models.Model):
     photo = models.ImageField(upload_to="about/photo/%Y/%m/%d/%H-%M/")
     blurb = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} ...".format(self.blurb[:50])

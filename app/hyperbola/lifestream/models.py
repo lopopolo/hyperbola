@@ -11,7 +11,7 @@ class LifeStreamItem(models.Model):
     def get_absolute_url(self):
         return reverse("lifestream-entry-permalink", args=[str(self.id)])
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} - {1}".format(self.pk, self.blurb[:50])
 
     class Meta:
