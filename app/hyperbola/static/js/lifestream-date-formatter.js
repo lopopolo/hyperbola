@@ -1,5 +1,6 @@
 // minified and inlined in lifestream_base.html
 
+/* exported HyperbolaDateFormatter */
 var HyperbolaDateFormatter = (function() {
     var months = [
         "jan",
@@ -33,5 +34,5 @@ var HyperbolaDateFormatter = (function() {
             d.setTime(timestamp * 1000);
             document.write(formatDate(d));
         }
-    }
+    };
 })();
