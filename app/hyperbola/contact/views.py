@@ -1,11 +1,12 @@
-from collections import namedtuple
 import itertools
+from collections import namedtuple
 
-from django.http import HttpResponse, Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 
-from hyperbola.contact.models import (EmailContact, PhoneContact, WebContact,
-                                      IMContact, Resume, AboutMe)
+from hyperbola.contact.models import (
+    AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
+)
 
 ResumeTemplateType = namedtuple("ResumeTemplateType", "display_name url")
 

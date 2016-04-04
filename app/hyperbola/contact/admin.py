@@ -1,6 +1,9 @@
 from django.contrib import admin
-from hyperbola.contact.models import (EmailContact, PhoneContact, WebContact,
-                                      IMContact, Resume, ContactType, AboutMe)
+
+from hyperbola.contact.models import (
+    AboutMe, ContactType, EmailContact, IMContact, PhoneContact, Resume,
+    WebContact,
+)
 
 
 class TypeAdmin(admin.ModelAdmin):

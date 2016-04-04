@@ -8,7 +8,6 @@ import hyperbola.frontpage.urls
 import hyperbola.lifestream.urls
 from hyperbola.helpers.views import NotFound404View
 
-
 urlpatterns = [
     url(r'', include(hyperbola.frontpage.urls)),
     url(r'^contact/', include(hyperbola.contact.urls)),

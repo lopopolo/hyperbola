@@ -2,8 +2,8 @@ from django.conf.urls import url
 
 from hyperbola.lifestream import views
 from hyperbola.lifestream.syndication import (
-    LatestEntriesFeed, AtomLatestEntriesFeed)
-
+    AtomLatestEntriesFeed, LatestEntriesFeed,
+)
 
 urlpatterns = [
     url(r'^$', views.index, name='lifestream-index'),

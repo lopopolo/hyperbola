@@ -2,7 +2,7 @@ from collections import namedtuple
 from datetime import date
 from functools import wraps
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.urlresolvers import reverse
 from django.db import connection
 from django.db.models import Count
