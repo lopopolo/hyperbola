@@ -112,11 +112,11 @@ done
 set -x
 
 # setup node+yuglify
-export PATH="$PATH:/hyperbola/bin/nodes/current-node/bin"
+export PATH="/hyperbola/bin/nodes/current-node/bin:$PATH"
 node --version
 npm --version
-npm install
-export PATH="$PATH:$(npm bin)"
+npm install --production
+export PATH="$(npm bin):$PATH"
 
 "$ARTIFACT_ROOT/virtualenv/bin/python" app/manage.py collectstatic --noinput
 
