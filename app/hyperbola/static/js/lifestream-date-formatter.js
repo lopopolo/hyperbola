@@ -2,6 +2,8 @@
 
 /* exported HyperbolaDateFormatter */
 var HyperbolaDateFormatter = (function() {
+    "use strict";
+
     var months = [
         "jan",
         "feb",

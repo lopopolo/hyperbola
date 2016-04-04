@@ -12,7 +12,7 @@
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream-atom" %}">
 
 <script>
-  var HyperbolaDateFormatter=function(){var e=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],t=function(e){var t="0"+e;return t.substring(t.length-2)},n=function(n){return t(n.getHours())+":"+t(n.getMinutes())+" "+e[n.getMonth()]+" "+t(n.getDate())+" "+n.getFullYear()};return{write:function(e){var t=new Date;t.setTime(e*1e3),document.write(n(t))}}}();
+  var HyperbolaDateFormatter=function(){"use strict";var e=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],t=function(e){var t="0"+e;return t.substring(t.length-2)},n=function(n){return t(n.getHours())+":"+t(n.getMinutes())+" "+e[n.getMonth()]+" "+t(n.getDate())+" "+n.getFullYear()};return{write:function(e){var t=new Date;t.setTime(e*1e3),document.write(n(t))}}}();
 </script>
 {% endblock %}
 
