@@ -1,7 +1,13 @@
-#!/bin/sh
-for png in `find "$1" -name "*.png"`;
+#!/bin/bash
+
+shopt -s globstar nullglob
+
+TEMP_DIR="$(mktemp -d)"
+trap 'rm -rf $TEMP_DIR' EXIT
+TEMP_PNG="$TEMP_DIR/out.png"
+
+for png in "$1"/**/*.png
 do
-  echo "crushing $png"
-  pngcrush -brute "$png" temp.png
-  mv -f temp.png "$png"
-done;
+  pngcrush -brute "$png" "$TEMP_PNG"
+  mv -f "$TEMP_PNG" "$png"
+done
