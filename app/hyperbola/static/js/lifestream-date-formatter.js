@@ -20,8 +20,7 @@ var HyperbolaDateFormatter = (function() {
     ];
 
     var pad = function(n) {
-        var p = "0" + n;
-        return p.substring(p.length-2);
+        return ("0" + n).slice(-2);
     };
 
     var formatDate = function(date) {
