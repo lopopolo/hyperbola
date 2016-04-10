@@ -3,7 +3,7 @@
 shopt -s globstar nullglob
 
 TEMP_DIR="$(mktemp -d)"
-trap 'rm -rf $TEMP_DIR' EXIT
+trap 'rm -rf "$TEMP_DIR"' EXIT
 TEMP_PNG="$TEMP_DIR/out.png"
 
 for png in "$1"/**/*.png
