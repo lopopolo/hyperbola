@@ -105,7 +105,7 @@ def archive(request, year, month, page=1):
 
 @handle_lifestream_404
 def hashtag(request, tag, page=1):
-    search = r"#{0}([^\w]|$)".format(tag)
+    search = r"#{0}(\W|$)".format(tag)
 
     posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
         blurb__iregex=search)
