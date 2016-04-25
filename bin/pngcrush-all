@@ -2,6 +2,11 @@
 
 shopt -s globstar nullglob
 
+if [ -z "$1" ]; then
+  echo "Usage: $0 path/to/directory"
+  exit 1
+fi
+
 TEMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TEMP_DIR"' EXIT
 TEMP_PNG="$TEMP_DIR/out.png"
