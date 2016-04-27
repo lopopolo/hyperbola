@@ -65,12 +65,8 @@ a, a:hover {
 }
 
 @media
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
-only screen and (     -o-min-device-pixel-ratio: 2/1),
-only screen and (        min-device-pixel-ratio: 2),
-only screen and (                min-resolution: 192dpi),
-only screen and (                min-resolution: 2dppx) {
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   .hyperbola-logo {
     display: block;
     margin: 0;
@@ -98,17 +94,7 @@ body.frontpage  .navbar-hyperbola .navbar-nav>li.hyperbola-home      >a,
 body.contact    .navbar-hyperbola .navbar-nav>li.hyperbola-contact   >a,
 body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
   color: rgb(40, 220, 220);
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0, #444),
-    color-stop(1, #AAA)
-  );
-  background-image: -o-linear-gradient(bottom, #444 0%, #AAA 100%);
-  background-image: -moz-linear-gradient(bottom, #444 0%, #AAA 100%);
-  background-image: -webkit-linear-gradient(bottom, #444 0%, #AAA 100%);
-  background-image: -ms-linear-gradient(bottom, #444 0%, #AAA 100%);
+  background-image: -webkit-linear-gradient(top, #444 0%, #AAA 100%);
   background-image: linear-gradient(to bottom, #444 0%, #AAA 100%);
 }
 
@@ -171,12 +157,8 @@ body.lifestream .navbar-hyperbola .navbar-nav>li.hyperbola-lifestream>a {
 }
 
 @media
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
-only screen and (     -o-min-device-pixel-ratio: 2/1),
-only screen and (        min-device-pixel-ratio: 2),
-only screen and (                min-resolution: 192dpi),
-only screen and (                min-resolution: 2dppx) {
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   .feed-icon {
     /* embedding feed-icon-28x28.png */
     background: url(data:image/png;base64,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) no-repeat left center;
