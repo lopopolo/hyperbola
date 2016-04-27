@@ -1,6 +1,6 @@
 {
   "name": "hyperbola",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Build pipeline for Ryan Lopopolo's website - hyperbo.la",
   "keywords": [
     "javascript minification",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
+    "colorguard": "^1.1.1",
     "eslint": "^2.6.0",
     "postcss-cli": "^2.5.2",
     "stylefmt": "^3.2.1"
