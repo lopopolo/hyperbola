@@ -32,10 +32,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
-    "colorguard": "^1.1.1",
-    "eslint": "^2.6.0",
+    "colorguard": "^1.2.0",
+    "eslint": "^2.10.2",
     "postcss-cli": "^2.5.2",
-    "stylefmt": "^3.2.1"
+    "stylefmt": "^3.3.0"
   },
   "engines": {
     "node": ">=4.2.0 4.x"
