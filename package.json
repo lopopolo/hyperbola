@@ -33,7 +33,7 @@
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "colorguard": "^1.2.0",
-    "eslint": "^2.10.2",
+    "eslint": "^2.11.0",
     "postcss-cli": "^2.5.2",
     "stylefmt": "^3.3.0"
   },
