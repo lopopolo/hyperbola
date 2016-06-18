@@ -1,0 +1,19 @@
+[Unit]
+Description=Thin server for hyperbola-wiki
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=hyperbola-wiki
+Group=hyperbola-wiki
+WorkingDirectory=/hyperbola/wiki
+Environment="PATH=/hyperbola/wiki/bin:/hyperbola/bin/rubies/current-ruby/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+ExecStart=/hyperbola/wiki/bin/thin -a localhost -p 4567 -R ./config.ru start
+
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
