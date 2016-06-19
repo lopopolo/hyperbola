@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+exec >>/var/log/wiki-certs.log 2>&1
+
+umask 0640
+sg www-data "/hyperbola/tls/wiki.hyperbo.la/letsencrypt.sh --cron"
+
+echo "Exit code from letsencrypt.sh: $?"
