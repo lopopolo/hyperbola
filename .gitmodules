@@ -7,3 +7,6 @@
 [submodule "pyenv"]
 	path = pyenv
 	url = https://github.com/yyuu/pyenv.git
+[submodule "letsencrypt.sh"]
+	path = letsencrypt.sh
+	url = https://github.com/lukas2511/letsencrypt.sh.git
