@@ -7,10 +7,10 @@ echo "$(date)"
 cd "/hyperbola/tls/wiki.hyperbo.la"
 sg www-data "/hyperbola/tools/letsencrypt.sh/letsencrypt.sh --cron"
 
+echo "Exit code from letsencrypt.sh: $?"
+
 umask 0037
 chmod -R g+rX "/hyperbola/tls/wiki.hyperbo.la/certs"
-
-echo "Exit code from letsencrypt.sh: $?"
 
 sleep 30
 
