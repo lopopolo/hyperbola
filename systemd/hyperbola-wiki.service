@@ -4,13 +4,13 @@ After=syslog.target
 After=network.target
 
 [Service]
-Type=simple
+Type=forking
 User=hyperbola-wiki
 Group=hyperbola-wiki
 WorkingDirectory=/hyperbola/wiki.hyperbo.la/wiki
 Environment="PATH=/hyperbola/wiki.hyperbo.la/wiki/bin:/hyperbola/bin/rubies/current-ruby/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin -a localhost -p 4567 -R ./config.ru start
+ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C ./hyperbola-wiki.yaml
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
