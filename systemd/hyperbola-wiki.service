@@ -16,8 +16,6 @@ Environment="PATH=/hyperbola/wiki.hyperbo.la/wiki/bin:/hyperbola/bin/rubies/curr
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-wiki
 ExecStartPre=/bin/chown -R hyperbola-wiki:hyperbola-wiki /var/run/hyperbola-wiki/
 ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C ./hyperbola-wiki.yaml
-ExecReload=/hyperbola/wiki.hyperbo.la/wiki/bin/thin restart -C ./hyperbola-wiki.yaml
-ExecStop=/hyperbola/wiki.hyperbo.la/wiki/bin/thin stop -C ./hyperbola-wiki.yaml
 
 [Install]
 WantedBy=multi-user.target
