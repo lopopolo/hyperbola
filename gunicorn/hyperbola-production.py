@@ -6,3 +6,4 @@ daemon = True
 pidfile = '/var/run/hyperbola-production/gunicorn.pid'
 accesslog = '-'
 errorlog = '-'
+capture_output = True

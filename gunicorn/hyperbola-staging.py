@@ -4,3 +4,4 @@ daemon = True
 pidfile = '/var/run/hyperbola-staging/gunicorn.pid'
 accesslog = '-'
 errorlog = '-'
+capture_output = True
