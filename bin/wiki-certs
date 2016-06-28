@@ -2,7 +2,7 @@
 
 exec >>/var/log/wiki-certs.log 2>&1
 
-echo "$(date)"
+echo "Begin renewal attempt at: $(date)"
 
 cd "/hyperbola/tls/wiki.hyperbo.la"
 sg www-data "/hyperbola/tools/letsencrypt.sh/letsencrypt.sh --cron"
