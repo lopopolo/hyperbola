@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for env in /hyperbola/live/artifacts/current/env/*.env; do
-  . "$env"
-done
-
-exec "$@"
