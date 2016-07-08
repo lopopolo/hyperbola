@@ -12,7 +12,7 @@ pylint:
 	-./virtualenv/bin/pylint --load-plugins pylint_django --rcfile setup.cfg app/hyperbola
 
 virtualenv:
-	virtualenv virtualenv
+	virtualenv --python=python3 virtualenv
 	./virtualenv/bin/pip install -U virtualenv pip wheel setuptools
 	./virtualenv/bin/pip install -r dev-requirements.txt --ignore-installed
 
