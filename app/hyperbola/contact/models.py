@@ -26,10 +26,12 @@ class Contact(models.Model):
     def display_value(self):
         return self.value
 
-    def is_url(self):
+    @staticmethod
+    def is_url():
         return False
 
-    def is_email(self):
+    @staticmethod
+    def is_email():
         return False
 
     def __str__(self):
@@ -67,7 +69,8 @@ class Resume(models.Model):
 
     resume = models.FileField(upload_to="resume/%Y/%m/%d/%H-%M/lopopolo.pdf")
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse("contact-resume-pdf")
 
     def display_name(self):

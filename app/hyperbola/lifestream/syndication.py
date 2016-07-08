@@ -16,13 +16,16 @@ class LatestEntriesFeed(Feed):
 
     description_template = "blurb_feed.html"
 
-    def link(self):
+    @staticmethod
+    def link():
         return reverse(views.index)
 
-    def feed_url(self):
+    @staticmethod
+    def feed_url():
         return reverse("lifestream-rss")
 
-    def items(self):
+    @staticmethod
+    def items():
         return LifeStreamItem.objects.all().select_related("lifestreampicture")
 
     def item_title(self, item):

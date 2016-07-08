@@ -1,7 +1,8 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
+
+from hyperbola.helpers import make_escape_function
 
 register = template.Library()
 
@@ -18,14 +19,7 @@ def anti_spamize(email, autoescape=True):
         autoescape: Whether or not this template tag should escape blurb
             before inserting hashtag link markup.
     """
-    if autoescape:
-
-        def esc(x):
-            return conditional_escape(x)
-    else:
-
-        def esc(x):
-            return x
+    esc = make_escape_function(autoescape)
 
     def encode(value):
         return "".join(["&#x{0:x};".format(ord(char)) for char in value])
