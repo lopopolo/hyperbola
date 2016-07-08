@@ -13,21 +13,21 @@ create database hyperbola;
 
 ## Setup
 
-```
+```bash
 git clone git@github.com:lopopolo/hyperbola.git
 # make local media directory
 mkdir dev-media
 echo '*' > dev-media/.gitignore
-# make virtualenv
-virtualenv virtualenv
-virtualenv/bin/pip install -r dev-requirements.txt --ignore-installed
+make wipe-virtualenv
+make virtualenv
+virtualenv/bin/python -Wall app/manage.py migrate
 ```
 
 ## .env
 
 Set the following parameters in `env/01-dev.env`:
 
-```
+```bash
 export ENVIRONMENT="dev"
 export SECRET_KEY="notarealsecretdeadbeefdeadbeef"
 
@@ -40,7 +40,7 @@ export DB_PORT="3306"
 
 ## runserver
 
-```
+```bash
 virtualenv/bin/python -Wall app/manage.py runserver
 ```
 

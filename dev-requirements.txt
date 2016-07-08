@@ -4,5 +4,7 @@ django-debug-toolbar-template-profiler
 django-debug-toolbar-template-timings
 pep8
 flake8
+pylint
+pylint-django
 yapf
 isort
