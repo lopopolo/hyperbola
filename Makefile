@@ -1,20 +1,27 @@
+SHELL := /bin/bash
+export PATH := ./virtualenv/bin:$(PATH)
+
 all: lint
+
+## Linters
 
 lint: flake8 isort pylint
 
 flake8:
-	-./virtualenv/bin/flake8 app
+	-flake8 app
 
 isort:
-	-./virtualenv/bin/isort -rc app
+	-isort -rc app
 
 pylint:
-	-./virtualenv/bin/pylint --load-plugins pylint_django --rcfile setup.cfg app/hyperbola
+	-pylint --load-plugins pylint_django --rcfile setup.cfg app/hyperbola
+
+## Virtualenv
 
 virtualenv:
 	virtualenv --python=python3 virtualenv
-	./virtualenv/bin/pip install -U virtualenv pip wheel setuptools
-	./virtualenv/bin/pip install -r dev-requirements.txt --ignore-installed
+	pip install -U virtualenv pip wheel setuptools
+	pip install -r dev-requirements.txt --ignore-installed
 
 
 wipe-virtualenv:
