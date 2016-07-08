@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-export PATH := ./virtualenv/bin:$(PATH)
+export PATH := $(shell npm bin):./virtualenv/bin:$(PATH)
 
 all: lint
 
@@ -28,5 +28,10 @@ wipe-virtualenv:
 	rm -rf ./virtualenv
 	git checkout -- virtualenv
 
-.PHONY: flake8 isort pylint virtualenv wipe-virtualenv
+## Node tools
+
+css:
+	postcss --use autoprefixer --use stylefmt --use colorguard --replace app/hyperbola/static/css/sitewide.css
+
+.PHONY: flake8 isort pylint virtualenv wipe-virtualenv css
 
