@@ -1,6 +1,6 @@
 {
   "name": "hyperbola",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Build pipeline for Ryan Lopopolo's website - hyperbo.la",
   "keywords": [
     "javascript minification",
@@ -31,13 +31,13 @@
     "yuglify": "*"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.6",
+    "autoprefixer": "^6.3.7",
     "colorguard": "^1.2.0",
-    "eslint": "^2.11.0",
+    "eslint": "^3.0.1",
     "postcss-cli": "^2.5.2",
-    "stylefmt": "^3.3.0"
+    "stylefmt": "^4.1.1"
   },
   "engines": {
-    "node": ">=4.2.0 4.x"
+    "node": "^4.2.0"
   }
 }
