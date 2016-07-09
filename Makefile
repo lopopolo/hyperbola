@@ -14,7 +14,7 @@ isort:
 	-isort -rc app
 
 pylint:
-	-pylint --load-plugins pylint_django --confidence=HIGH --reports=no --rcfile setup.cfg app/hyperbola
+	-pylint --rcfile setup.cfg app/hyperbola
 
 ## Virtualenv
 
