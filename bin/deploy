@@ -86,6 +86,7 @@ git clean -f -d -x
 
 virtualenv --python="$PYTHON" "$ARTIFACT_ROOT/virtualenv"
 
+"$ARTIFACT_ROOT/virtualenv/bin/pip" install -U virtualenv pip wheel setuptools
 "$ARTIFACT_ROOT/virtualenv/bin/pip" install -r requirements.txt --cache-dir /hyperbola/var/pip/cache
 
 "$ARTIFACT_ROOT/virtualenv/bin/pip" freeze > "$ARTIFACT_ROOT/virtualenv/installed-packages.txt"
