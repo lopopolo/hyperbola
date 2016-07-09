@@ -1,4 +1,4 @@
-from django.utils.html import conditional_escape
+__all__ = ["make_escape_function", "views"]
 
 
 def make_escape_function(autoescape=True):
@@ -8,6 +8,7 @@ def make_escape_function(autoescape=True):
     Args:
         autoescape: Whether or not this template tag should escape text
     """
+    from django.utils.html import conditional_escape
     if autoescape:
         return conditional_escape
     else:
