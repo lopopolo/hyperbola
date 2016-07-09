@@ -37,5 +37,6 @@ class AtomLatestEntriesFeed(LatestEntriesFeed):
 
     subtitle = LatestEntriesFeed.description
 
-    def feed_url(self):
+    @staticmethod
+    def feed_url():
         return reverse("lifestream-atom")

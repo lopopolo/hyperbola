@@ -45,7 +45,8 @@ class Contact(models.Model):
 class EmailContact(Contact):
     value = models.EmailField(max_length=75)
 
-    def is_email(self):
+    @staticmethod
+    def is_email():
         return True
 
 
@@ -56,7 +57,8 @@ class PhoneContact(Contact):
 class WebContact(Contact):
     value = models.URLField(max_length=200)
 
-    def is_url(self):
+    @staticmethod
+    def is_url():
         return True
 
 
