@@ -57,11 +57,9 @@ def index(request, page=1):
         if pager.previous_page_number() == 1:
             newer = reverse("lifestream-index")
         else:
-            newer = reverse("lifestream-index-paged",
-                            args=[pager.previous_page_number()])
+            newer = reverse("lifestream-index-paged", args=[pager.previous_page_number()])
     if pager.has_next():
-        older = reverse("lifestream-index-paged",
-                        args=[pager.next_page_number()])
+        older = reverse("lifestream-index-paged", args=[pager.next_page_number()])
 
     return render(request, "lifestream_paged.html", {
         "posts": pager,
@@ -78,8 +76,8 @@ def archive(request, year, month, page=1):
         raise Http404
 
     posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
-        pub_date__year=mdate.year,
-        pub_date__month=mdate.month)
+        pub_date__year=mdate.year, pub_date__month=mdate.month
+    )
     if not posts.exists():
         raise Http404
 
@@ -89,11 +87,9 @@ def archive(request, year, month, page=1):
         if pager.previous_page_number() == 1:
             newer = reverse("lifestream-archive", args=[year, month])
         else:
-            newer = reverse("lifestream-archvive-paged",
-                            args=[year, month, pager.previous_page_number()])
+            newer = reverse("lifestream-archvive-paged", args=[year, month, pager.previous_page_number()])
     if pager.has_next():
-        older = reverse("lifestream-archive-paged",
-                        args=[year, month, pager.next_page_number()])
+        older = reverse("lifestream-archive-paged", args=[year, month, pager.next_page_number()])
 
     return render(request, "lifestream_paged.html", {
         "content_header": "Posts from {}".format(mdate.strftime("%B %Y")),
@@ -109,8 +105,7 @@ def hashtag(request, tag, page=1):
     # shorthand: http://dev.mysql.com/doc/refman/5.6/en/regexp.html
     search = r"#{0}([^[:alnum:]]|$)".format(tag)
 
-    posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
-        blurb__iregex=search)
+    posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(blurb__iregex=search)
     if not posts.exists():
         raise Http404
 
@@ -120,11 +115,9 @@ def hashtag(request, tag, page=1):
         if pager.previous_page_number() == 1:
             newer = reverse("lifestream-hashtag", args=[tag])
         else:
-            newer = reverse("lifestream-hashtag-paged",
-                            args=[tag, pager.previous_page_number()])
+            newer = reverse("lifestream-hashtag-paged", args=[tag, pager.previous_page_number()])
     if pager.has_next():
-        older = reverse("lifestream-hashtag-paged",
-                        args=[tag, pager.next_page_number()])
+        older = reverse("lifestream-hashtag-paged", args=[tag, pager.next_page_number()])
 
     return render(request, "lifestream_paged.html", {
         "content_header": "Results for #{}".format(tag),
@@ -137,8 +130,7 @@ def hashtag(request, tag, page=1):
 @handle_lifestream_404
 def permalink(request, entry_id):
     try:
-        post = LifeStreamItem.objects.select_related('lifestreampicture').get(
-            pk=entry_id)
+        post = LifeStreamItem.objects.select_related('lifestreampicture').get(pk=entry_id)
     except LifeStreamItem.DoesNotExist:
         raise Http404
 

@@ -20,7 +20,8 @@ def index(request):
 
     contact_infos = itertools.chain(
         EmailContact.objects.all(), PhoneContact.objects.all(),
-        WebContact.objects.all(), IMContact.objects.all())
+        WebContact.objects.all(), IMContact.objects.all()
+    )
 
     all_contacts = sorted(contact_infos, key=lambda k: k.type.display_order)
 
@@ -29,7 +30,8 @@ def index(request):
         latest_resume = Resume.objects.only("date").latest("date")
         resume_dto = ResumeTemplateType(
             latest_resume.display_name,
-            request.build_absolute_uri(latest_resume.get_absolute_url()))
+            request.build_absolute_uri(latest_resume.get_absolute_url())
+        )
     except Resume.DoesNotExist:
         resume_dto = None
 

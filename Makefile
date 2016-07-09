@@ -16,6 +16,10 @@ isort:
 pylint:
 	-pylint --rcfile setup.cfg app/hyperbola
 
+# must manually run and compare diff output
+yapf:
+	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
+
 ## Virtualenv
 
 virtualenv:

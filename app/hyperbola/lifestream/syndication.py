@@ -9,10 +9,7 @@ from hyperbola.lifestream.models import LifeStreamItem
 class LatestEntriesFeed(Feed):
     title = "hyperbo.la lifestream microblog"
 
-    description = (
-        "Most recent posts made to Ryan Lopopolo's "
-        "lifestreaming microblog."
-    )
+    description = "Most recent posts made to Ryan Lopopolo's lifestreaming microblog."
 
     description_template = "blurb_feed.html"
 

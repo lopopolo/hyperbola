@@ -29,9 +29,7 @@ def hashtagize(blurb, autoescape=True):
             leader = matchobj.group('leader')
         else:
             leader = ''
-        return '{leader}<a href="{url}">#{tag}</a>'.format(leader=leader,
-                                                           url=url,
-                                                           tag=tag)
+        return '{leader}<a href="{url}">#{tag}</a>'.format(leader=leader, url=url, tag=tag)
 
     result = re.sub(r'(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, esc(blurb))
     return mark_safe(result)
