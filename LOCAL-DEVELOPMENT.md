@@ -20,7 +20,7 @@ mkdir dev-media
 echo '*' > dev-media/.gitignore
 make wipe-virtualenv
 make virtualenv
-virtualenv/bin/python -Wall app/manage.py migrate
+./virtualenv/bin/python -Wall app/manage.py migrate
 ```
 
 ## .env
@@ -41,10 +41,5 @@ export DB_PORT="3306"
 ## runserver
 
 ```bash
-virtualenv/bin/python -Wall app/manage.py runserver
+./virtualenv/bin/python -Wall app/manage.py runserver
 ```
-
-# Known Issues
-
-- The contact-resume-pdf route does not work due to its dependence on `X-Accel-Redirect`
-  and nginx. nginx is not present in dev.

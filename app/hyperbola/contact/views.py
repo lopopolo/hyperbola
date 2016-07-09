@@ -1,8 +1,9 @@
 import itertools
 from collections import namedtuple
 
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.shortcuts import render
+from sendfile import sendfile
 
 from hyperbola.contact.models import (
     AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
@@ -43,8 +44,6 @@ def index(request):
 def resume(request):
     try:
         newest = Resume.objects.latest("date")
-        response = HttpResponse(content_type="application/pdf")
-        response["X-Accel-Redirect"] = "/media/" + newest.resume.name  # nginx
-        return response
+        return sendfile(request, newest.resume.path)
     except Resume.DoesNotExist:
         raise Http404

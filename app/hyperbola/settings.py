@@ -173,6 +173,12 @@ PIPELINE = {
     'JS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
 }
 
+# Sendfile
+# https://github.com/johnsensible/django-sendfile#nginx-backend
+SENDFILE_BACKEND = 'sendfile.backends.nginx'
+SENDFILE_ROOT = MEDIA_ROOT
+SENDFILE_URL = '/media'
+
 # Environment-specific configuration
 
 ENVIRONMENT = source('ENVIRONMENT')
@@ -196,6 +202,7 @@ elif ENVIRONMENT == 'dev':
     DEBUG = True
     MEDIA_ROOT = os.path.join(ROOT_PATH, 'prod-media')
     MEDIA_URL = '/media/'
+    SENDFILE_BACKEND = 'sendfile.backends.development'
     PIPELINE['PIPELINE_ENABLED'] = False
     STATIC_URL = '/static/'
     INSTALLED_APPS += [
