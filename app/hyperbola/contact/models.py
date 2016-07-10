@@ -5,7 +5,7 @@ from localflavor.us.models import PhoneNumberField
 
 # a grouping of contacts (ie: Work, personal)
 class ContactType(models.Model):
-    type = models.CharField(max_length=200, unique=True)
+    type = models.CharField(max_length=255, unique=True)
     display_order = models.PositiveIntegerField(unique=True)
 
     def __str__(self):
@@ -17,8 +17,8 @@ class ContactType(models.Model):
 
 class Contact(models.Model):
     type = models.ForeignKey(ContactType, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    value = "blank"
+    name = models.CharField(max_length=255)
+    value = None
 
     def display_name(self):
         return self.name
@@ -43,7 +43,7 @@ class Contact(models.Model):
 
 
 class EmailContact(Contact):
-    value = models.EmailField(max_length=75)
+    value = models.EmailField()
 
     @staticmethod
     def is_email():
@@ -55,7 +55,7 @@ class PhoneContact(Contact):
 
 
 class WebContact(Contact):
-    value = models.URLField(max_length=200)
+    value = models.URLField()
 
     @staticmethod
     def is_url():
@@ -63,7 +63,7 @@ class WebContact(Contact):
 
 
 class IMContact(Contact):
-    value = models.CharField(max_length=100)
+    value = models.CharField(max_length=255)
 
 
 class Resume(models.Model):

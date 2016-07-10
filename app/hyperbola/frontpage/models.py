@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Blurb(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=255)
     body = models.TextField()
     display_order = models.IntegerField()
     display = models.BooleanField(default=True)
