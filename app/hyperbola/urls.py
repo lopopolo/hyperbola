@@ -6,7 +6,7 @@ from django.contrib import admin
 import hyperbola.contact.urls
 import hyperbola.frontpage.urls
 import hyperbola.lifestream.urls
-from hyperbola.helpers.views import NotFound404View
+from hyperbola.core.views import NotFound404View
 
 urlpatterns = [
     url(r'', include(hyperbola.frontpage.urls)),

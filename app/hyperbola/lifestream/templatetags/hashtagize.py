@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
 
-from hyperbola.helpers import make_escape_function
+from hyperbola.core import make_escape_function
 
 register = template.Library()
 
