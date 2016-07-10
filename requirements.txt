@@ -2,6 +2,7 @@ Django ~= 1.9.0
 django-imagekit
 django-localflavor
 django-markdown-deux
+django-mysql
 django-pipeline >= 1.6
 django-sendfile
 gunicorn

@@ -31,6 +31,15 @@ DATABASES = {
         'PASSWORD': source('DB_PASSWORD'),
         'HOST': source('DB_HOST'),
         'PORT': source('DB_PORT'),
+        'OPTIONS': {
+            # Create database with:
+            # > create database hyperbola character set UTF8mb4 collate utf8mb4_unicode_ci;
+            'charset': 'utf8mb4',
+        },
+        'TEST': {
+            'CHARSET': 'utf8mb4',
+            'COLLATION': 'utf8mb4_unicode_ci',
+        }
     }
 }
 
@@ -74,6 +83,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_mysql',
     'imagekit',
     'localflavor',
     'markdown_deux',
