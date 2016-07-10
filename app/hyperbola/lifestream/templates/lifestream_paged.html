@@ -1,6 +1,6 @@
 {% extends "lifestream_base.html" %}
 
-{% load cache thumbnail hashtagize %}
+{% load cache hashtagize imagekit %}
 
 {% block title %}
 hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escape }}{% endif %}
@@ -20,27 +20,26 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escap
   </div>
   <div class="panel-body">
   {% if post.lifestreampicture %}
-  {% thumbnail post.lifestreampicture.picture "500" as thumb %}
-  {% thumbnail post.lifestreampicture.picture "1000" as large_thumb %}
-  {% thumbnail post.lifestreampicture.picture "2000" as xlarge_thumb %}
+  {% thumbnail "500x500"   post.lifestreampicture.picture crop=0 upscale=False as card %}
+  {% thumbnail "1000x1000" post.lifestreampicture.picture crop=0 upscale=False as cardx2 %}
+  {% thumbnail "1000x1000" post.lifestreampicture.picture crop=0 upscale=False as lightbox %}
+  {% thumbnail "2000x2000" post.lifestreampicture.picture crop=0 upscale=False as lightboxx2 %}
+  {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
   <div>
     <a data-toggle="lightbox" href="#lightbox-{{ post.id|escape }}">
-      <img alt="Photo for post {{ post.id|escape }}" src="{{ thumb.url|escape }}" data-at2x="{{ large_thumb.url|escape }}" width="{{ thumb.width|escape }}" height="{{ thumb.height|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+      <img alt="Photo for post {{ post.id|escape }}" width="{{ card.width|escape }}" height="{{ card.height|escape }}" src="{{ card.url|escape }}" data-at2x="{{ cardx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
     </a>
   </div>
   <div id="lightbox-{{ post.id|escape }}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="lightbox-dialog">
       <div class="lightbox-content hyperbola-lightbox-content">
-        <img alt="Photo for post {{ post.id|escape }}" src="{{ large_thumb.url|escape }}" data-at2x="{{ xlarge_thumb.url|escape }}" width="{{ large_thumb.width|escape }}" height="{{ large_thumb.height|escape }}">
+        <img alt="Photo for post {{ post.id|escape }}" width="{{ lightbox.width|escape }}" height="{{ lightbox.height|escape }}" src="{{ lightbox.url|escape }}" data-at2x="{{ lightboxx2.url|escape }}">
         <div class="lightbox-caption">
           <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
         </div>
       </div>
     </div>
   </div>
-  {% endthumbnail %}
-  {% endthumbnail %}
-  {% endthumbnail %}
   {% endif %}
   <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
 </div>

@@ -74,10 +74,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imagekit',
     'localflavor',
     'markdown_deux',
     'pipeline',
-    'sorl.thumbnail',
     'hyperbola.contact',
     'hyperbola.frontpage',
     'hyperbola.helpers',
@@ -124,11 +124,8 @@ WSGI_APPLICATION = 'hyperbola.wsgi.application'
 
 # Thumbnailing
 
-THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
-THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pil_engine.Engine'
-THUMBNAIL_FORMAT = 'PNG'
-THUMBNAIL_UPSCALE = False
-
+IMAGEKIT_CACHEFILE_DIR = 'cache/g'
+IMAGEKIT_CACHEFILE_NAMER = IMAGEKIT_SPEC_CACHEFILE_NAMER = 'hyperbola.helpers.hash_with_extension'
 
 # Asset caching
 PIPELINE = {

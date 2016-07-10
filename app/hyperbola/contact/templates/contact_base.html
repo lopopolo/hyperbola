@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load email_spam_prevention thumbnail %}
+{% load email_spam_prevention imagekit %}
 {% block active-app %}contact{% endblock %}
 {% block title %} hyperbo.la :: Contact {% endblock %}
 {% block section-title %}Contact Information{% endblock %}
@@ -36,15 +36,15 @@
     </div>
     <div class="col-md-3">
       <h2>About</h2>
-      {% thumbnail about.photo "240" format="JPEG" as thumb %}
-      {% thumbnail about.photo "480" format="JPEG" as thumb_retina %}
+      {% thumbnail "240x240" about.photo crop=0 upscale=False as thx1 %}
+      {% thumbnail "480x480" about.photo crop=0 upscale=False as thx2 %}
+      {% thumbnail "2000x2000" about.photo crop=0 upscale=False as thmax %}
       <div>
-        <a href="{{ about.photo.url|escape }}">
-          <img alt="Ryan Lopopolo" src="{{ thumb.url|escape }}" data-at2x="{{ thumb_retina.url|escape }}" width="{{ thumb.width|escape }}" height="{{ thumb.height|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <a href="{{ thmax.url|escape }}">
+          {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
+          <img alt="Ryan Lopopolo" width="{{ thx1.width|escape }}" height="{{ thx1.height|escape }}" src="{{ thx1.url|escape }}" data-at2x="{{ thx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
         </a>
       </div>
-      {% endthumbnail %}
-      {% endthumbnail %}
       <p>{{ about.blurb|escape }}</p>
     </div>
   </div>
