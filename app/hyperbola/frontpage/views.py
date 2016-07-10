@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from hyperbola.frontpage.models import Blurb, Schedule
+from .models import Blurb, Schedule
 
 
 def index(request):

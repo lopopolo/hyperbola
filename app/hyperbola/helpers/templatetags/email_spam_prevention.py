@@ -2,7 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
 
-from hyperbola.helpers import make_escape_function
+from .. import make_escape_function
 
 register = template.Library()
 

@@ -2,8 +2,8 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.utils.feedgenerator import Atom1Feed
 
-from hyperbola.lifestream import views
-from hyperbola.lifestream.models import LifeStreamItem
+from . import views
+from .models import LifeStreamItem
 
 
 class LatestEntriesFeed(Feed):

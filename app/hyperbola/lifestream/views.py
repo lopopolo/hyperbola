@@ -9,7 +9,7 @@ from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import render
 
-from hyperbola.lifestream.models import LifeStreamItem
+from .models import LifeStreamItem
 
 NUM_PER_PAGE = 20
 PageLinks = namedtuple("PageLinks", "newer older")

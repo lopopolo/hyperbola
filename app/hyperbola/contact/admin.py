@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from hyperbola.contact.models import (
+from .models import (
     AboutMe, ContactType, EmailContact, IMContact, PhoneContact, Resume,
     WebContact,
 )

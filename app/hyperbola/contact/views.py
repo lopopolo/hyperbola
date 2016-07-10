@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import render
 from sendfile import sendfile
 
-from hyperbola.contact.models import (
+from .models import (
     AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
 )
 
