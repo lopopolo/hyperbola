@@ -8,8 +8,8 @@
 {% stylesheet "lightbox" %}
 
 <!-- feed discovery -->
-<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream-rss" %}">
-<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream-atom" %}">
+<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
+<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
 
 <script>
   var HyperbolaDateFormatter=function(){"use strict";var e=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],t=function(e){return("0"+e).slice(-2)},n=function(n){return t(n.getHours())+":"+t(n.getMinutes())+" "+e[n.getMonth()]+" "+t(n.getDate())+" "+n.getFullYear()};return{write:function(e){var t=new Date;t.setTime(e*1e3),document.write(n(t))}}}();
@@ -32,8 +32,8 @@
   <div class="col-md-4">
     <h3>Syndication</h3>
     <ul class="list-unstyled">
-      <li class="feed-icon"><a href="{% url "lifestream-rss" %}">RSS</a></li>
-      <li class="feed-icon"><a href="{% url "lifestream-atom" %}">Atom</a></li>
+      <li class="feed-icon"><a href="{% url "lifestream:rss" %}">RSS</a></li>
+      <li class="feed-icon"><a href="{% url "lifestream:atom" %}">Atom</a></li>
     </ul>
     {% regroup dates by month.year as archive %}
     {% for year in archive %}
@@ -41,7 +41,7 @@
     <div class="row"><div class="col-md-6">
     <ul class="list-unstyled">
     {% for d in year.list %}
-    <li><a href="{% url "lifestream-archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a> <span class="badge pull-right">{{ d.post_count|escape }}</span></li>
+    <li><a href="{% url "lifestream:archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a> <span class="badge pull-right">{{ d.post_count|escape }}</span></li>
     {% endfor %}
     </ul>
     </div></div>

@@ -16,7 +16,7 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escap
       {{ post.pub_date|date:"H:i T b d Y"|lower }}
     </noscript>
   </span>
-  <a href="{% url "lifestream-entry-permalink" post.pk %}">permalink</a>
+  <a href="{{ post.get_absolute_url|escape }}">permalink</a>
   </div>
   <div class="panel-body">
   {% if post.lifestreampicture %}

@@ -2,7 +2,6 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.utils.feedgenerator import Atom1Feed
 
-from . import views
 from .models import LifeStreamItem
 
 
@@ -15,11 +14,11 @@ class LatestEntriesFeed(Feed):
 
     @staticmethod
     def link():
-        return reverse(views.index)
+        return reverse("lifestream:index")
 
     @staticmethod
     def feed_url():
-        return reverse("lifestream-rss")
+        return reverse("lifestream:rss")
 
     @staticmethod
     def items():
@@ -29,7 +28,7 @@ class LatestEntriesFeed(Feed):
         return "Post #{0}".format(item.pk)
 
     def item_link(self, item):
-        return reverse(views.permalink, args=[item.pk])
+        return item.get_absolute_url()
 
 
 class AtomLatestEntriesFeed(LatestEntriesFeed):

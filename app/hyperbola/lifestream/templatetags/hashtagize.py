@@ -24,7 +24,7 @@ def hashtagize(blurb, autoescape=True):
 
     def linkify(matchobj):
         tag = matchobj.group('tag')
-        url = reverse("lifestream-hashtag", args=[tag])
+        url = reverse("lifestream:hashtag", args=[tag])
         if 'leader' in matchobj.groupdict():
             leader = matchobj.group('leader')
         else:

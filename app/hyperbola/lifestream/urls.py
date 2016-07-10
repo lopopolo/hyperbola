@@ -3,22 +3,18 @@ from django.conf.urls import url
 from . import views
 from .syndication import AtomLatestEntriesFeed, LatestEntriesFeed
 
+app_name = "lifestream"
 urlpatterns = [
-    url(r'^$', views.index, name='lifestream-index'),
-    url(r'^page/(?P<page>[1-9]\d*)/$', views.index,
-        name='lifestream-index-paged'),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$', views.archive,
-        name='lifestream-archive'),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page>[1-9]\d*)/$',
-        views.archive, name='lifestream-archive-paged'),
-    url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag, name='lifestream-hashtag'),
-    url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$',
-        views.hashtag, name='lifestream-hashtag-paged'),
-    url(r'^(?P<entry_id>\d+)/$', views.permalink,
-        name='lifestream-entry-permalink'),
+    url(r'^$', views.index, name="index"),
+    url(r'^page/(?P<page>[1-9]\d*)/$', views.index, name="index_paged"),
+    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$', views.archive, name="archive"),
+    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page>[1-9]\d*)/$', views.archive, name="archive_paged"),
+    url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag, name="hashtag"),
+    url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$', views.hashtag, name="hashtag_paged"),
+    url(r'^(?P<entry_id>\d+)/$', views.permalink, name="entry_permalink"),
 ]
 
 urlpatterns += [
-    url(r'^rss/$', LatestEntriesFeed(), name='lifestream-rss'),
-    url(r'^atom/$', AtomLatestEntriesFeed(), name='lifestream-atom'),
+    url(r'^rss/$', LatestEntriesFeed(), name="rss"),
+    url(r'^atom/$', AtomLatestEntriesFeed(), name="atom"),
 ]

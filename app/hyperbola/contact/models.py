@@ -73,7 +73,7 @@ class Resume(models.Model):
 
     @staticmethod
     def get_absolute_url():
-        return reverse("contact-resume-pdf")
+        return reverse("contact:resume_pdf")
 
     def display_name(self):
         return "As of {0}".format(self.date.strftime("%b %d %Y"))
