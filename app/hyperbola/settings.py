@@ -31,6 +31,7 @@ DATABASES = {
         'PASSWORD': source('DB_PASSWORD'),
         'HOST': source('DB_HOST'),
         'PORT': source('DB_PORT'),
+        'ATOMIC_REQUESTS': True,
         'OPTIONS': {
             # Create database with:
             # > create database hyperbola character set UTF8mb4 collate utf8mb4_unicode_ci;
