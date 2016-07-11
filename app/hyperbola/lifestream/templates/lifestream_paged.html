@@ -21,7 +21,6 @@
   {% if post.lifestreampicture %}
   {% thumbnail "500x500"   post.lifestreampicture.picture crop=0 upscale=False as card %}
   {% thumbnail "1000x1000" post.lifestreampicture.picture crop=0 upscale=False as cardx2 %}
-  {% thumbnail "1000x1000" post.lifestreampicture.picture crop=0 upscale=False as lightbox %}
   {% thumbnail "2000x2000" post.lifestreampicture.picture crop=0 upscale=False as lightboxx2 %}
   {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
   <div>
@@ -32,7 +31,9 @@
   <div id="lightbox-{{ post.id|escape }}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="lightbox-dialog">
       <div class="lightbox-content hyperbola-lightbox-content">
+        {% with lightbox=cardx2 %}
         <img alt="Photo for post {{ post.id|escape }}" width="{{ lightbox.width|escape }}" height="{{ lightbox.height|escape }}" src="{{ lightbox.url|escape }}" data-at2x="{{ lightboxx2.url|escape }}">
+        {% endwith %}
         <div class="lightbox-caption">
           <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
         </div>
