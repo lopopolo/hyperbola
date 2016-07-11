@@ -1,1 +1,1 @@
-__all__ = ["settings", "urls", "wsgi"]
+__all__ = ("settings", "urls", "wsgi")

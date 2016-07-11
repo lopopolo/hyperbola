@@ -1,1 +1,1 @@
-__all__ = ["hashtagize"]
+__all__ = ("hyperbola_lifestream_tags",)

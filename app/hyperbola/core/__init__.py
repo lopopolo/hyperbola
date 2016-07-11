@@ -1,4 +1,4 @@
-__all__ = ["hash_with_extension", "make_escape_function", "views"]
+__all__ = ("hash_with_extension", "make_escape_function", "views")
 
 
 def make_escape_function(autoescape=True):
