@@ -3,10 +3,10 @@
 {% load hashtagize imagekit %}
 
 {% block title %}
-hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escape }}{% endif %}
-{% endblock %}
+{{ block.super }} {% if posts.number != 1 %} :: page {{ posts.number|escape }} {% endif %}
+{% endblock title %}
 
-{% block lifestream-content %}
+{% block lifestream_content %}
 {% for post in posts %}
 <div class="panel panel-hyperbola">
   <div class="panel-heading lifestream-entry-header">
@@ -53,4 +53,4 @@ hyperbo.la :: lifestream{% if posts.number != 1 %} :: page {{ posts.number|escap
   <div class="pull-right"><a href="{{ links.older|escape }}">older &raquo;</a></div>
   {% endif %}
 </div>
-{% endblock %}
+{% endblock lifestream_content %}

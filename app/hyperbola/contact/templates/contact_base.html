@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% load email_spam_prevention imagekit %}
-{% block active-app %}contact{% endblock %}
-{% block title %} hyperbo.la :: Contact {% endblock %}
-{% block section-title %}Contact Information{% endblock %}
+{% block active_app %} contact {% endblock active_app %}
+{% block title %} {{ block.super }} :: Contact {% endblock title %}
+{% block section_title %} Contact Information {% endblock section_title %}
 
 {% block content %}
   <div class="row">
@@ -48,4 +48,4 @@
       <p>{{ about.blurb|escape }}</p>
     </div>
   </div>
-{% endblock %}
+{% endblock content %}

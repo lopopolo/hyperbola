@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 
 {% load cache pipeline %}
-{% block active-app %} lifestream {% endblock %}
-{% block section-title %} Lifestream {% endblock %}
+{% block active_app %} lifestream {% endblock active_app %}
+{% block title %} {{ block.super }} :: lifestream {% endblock title %}
+{% block section_title %} Lifestream {% endblock section_title %}
 
-{% block extrahead %}
-{% stylesheet "lightbox" %}
+{% block head %}
+  {{ block.super }}
+  {% stylesheet "lightbox" %}
+  <!-- feed discovery -->
+  <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
+  <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
+  <script>
+    var HyperbolaDateFormatter=function(){"use strict";var e=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],t=function(e){return("0"+e).slice(-2)},n=function(n){return t(n.getHours())+":"+t(n.getMinutes())+" "+e[n.getMonth()]+" "+t(n.getDate())+" "+n.getFullYear()};return{write:function(e){var t=new Date;t.setTime(e*1e3),document.write(n(t))}}}();
+  </script>
+{% endblock head %}
 
-<!-- feed discovery -->
-<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
-<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
-
-<script>
-  var HyperbolaDateFormatter=function(){"use strict";var e=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],t=function(e){return("0"+e).slice(-2)},n=function(n){return t(n.getHours())+":"+t(n.getMinutes())+" "+e[n.getMonth()]+" "+t(n.getDate())+" "+n.getFullYear()};return{write:function(e){var t=new Date;t.setTime(e*1e3),document.write(n(t))}}}();
-</script>
-{% endblock %}
-
-{% block extrafooter %}
-{% javascript "lightbox" %}
-{% endblock %}
+{% block footer %}
+  {{ block.super }}
+  {% javascript "lightbox" %}
+{% endblock footer %}
 
 {% block content %}
 <div class="row">
@@ -26,9 +27,9 @@
     {% if content_header %}
     <h2>{{ content_header|escape }}</h2>
     {% endif %}
-    {% block lifestream-content %}{% endblock %}
+    {% block lifestream_content %}{% endblock lifestream_content %}
   </div>
-  {% cache 600 lifestream-sidebar %}
+  {% cache 600 lifestream:sidebar %}
   <div class="col-md-4">
     <h3>Syndication</h3>
     <ul class="list-unstyled">
@@ -49,4 +50,4 @@
   </div>
   {% endcache %}
 </div>
-{% endblock %}
+{% endblock content %}

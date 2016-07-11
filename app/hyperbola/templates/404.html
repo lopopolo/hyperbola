@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}hyperbo.la :: Not Found{% endblock %}
-
-{% block section-title %}Not Found{% endblock %}
+{% block title %} {{ block.super }} :: Not Found {% endblock title %}
+{% block section_title %} Not Found {% endblock section_title %}
 
 {% block content %}
   <div class="jumbotron hyperbola-jumbotron text-center">
@@ -11,4 +10,8 @@
     <p>This isn't the page you're looking for.</p>
     <a href="{% url "frontpage:index" %}" class="btn btn-large hyperbola-btn-info"><span class="glyphicon glyphicon-home"></span> Home</a>
   </div>
-{% endblock %}
+{% endblock content %}
+
+{% block footer %}
+  {# suppress externally loaded javascript on 404 page #}
+{% endblock footer %}

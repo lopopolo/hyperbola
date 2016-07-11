@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     {% load staticfiles pipeline %}
+    {% block head %}
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %} hyperbo.la {% endblock title %}</title>
     <meta name="description" content="The personal website of Ryan Lopopolo">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,9 +14,9 @@
     <link rel="apple-touch-icon" href="{% static "img/artifact/apple-touch-icon.png" %}">
 
     {% stylesheet "sitewide" %}
-    {% block extrahead %}{% endblock %}
+    {% endblock head %}
   </head>
-  <body class="{% block active-app %}{% endblock %}">
+  <body class="{% block active_app %}{% endblock active_app %}">
     <div class="container hyperbola-container">
       <div class="navbar navbar-default navbar-hyperbola" role="navigation">
         <div class="navbar-header navbar-header-hyperbola">
@@ -38,12 +39,15 @@
       <div>
         <div class="row">
           <div class="col-md-12">
-            <div class="well well-sm section-title"><strong>{% block section-title %}{% endblock %}</strong></div>
+            <div class="well well-sm section-title">
+              <strong>{% block section_title %}{% endblock section_title %}</strong>
+            </div>
           </div>
         </div>
-        {% block content %}{% endblock %}
+        {% block content %}{% endblock content %}
       </div>
     </div>
+    {% block footer %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     {% javascript "bootstrap" %}
     {% javascript "retinajs" %}
@@ -52,6 +56,6 @@
       ga('create','UA-30651847-1','auto');ga('send','pageview')
     </script>
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-    {% block extrafooter %}{% endblock %}
+    {% endblock footer %}
   </body>
 </html>
