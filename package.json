@@ -34,6 +34,7 @@
     "autoprefixer": "^6.3.7",
     "colorguard": "^1.2.0",
     "eslint": "^3.0.1",
+    "eslint-plugin-html": "^1.5.1",
     "google-closure-compiler": "^20160619.0.0",
     "postcss-cli": "^2.5.2",
     "stylefmt": "^4.1.1"

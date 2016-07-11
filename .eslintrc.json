@@ -3,6 +3,9 @@
         "browser": true
     },
     "extends": "eslint:recommended",
+    "plugins": [
+        "html"
+    ],
     "rules": {
         "indent": [
             "error",
@@ -20,5 +23,9 @@
             "error",
             "always"
         ]
+    },
+    "settings": {
+        "html/indent": "+2",
+        "html/report-bad-indent": 2
     }
 }
