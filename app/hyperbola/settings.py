@@ -17,6 +17,7 @@ def source(env):
     else:
         return prop
 
+ENVIRONMENT = source('ENVIRONMENT')
 
 USE_X_FORWARDED_HOST = True
 
@@ -59,7 +60,7 @@ USE_TZ = False
 
 # Media and Static Files
 
-MEDIA_ROOT = '/hyperbola/media/'
+MEDIA_ROOT = os.path.join(ROOT_PATH, 'media', ENVIRONMENT)
 
 MEDIA_URL = '//media.hyperbo.la/'
 
@@ -74,7 +75,6 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
-
 
 SECRET_KEY = source('SECRET_KEY')
 
@@ -187,9 +187,6 @@ SENDFILE_ROOT = MEDIA_ROOT
 SENDFILE_URL = '/media'
 
 # Environment-specific configuration
-
-ENVIRONMENT = source('ENVIRONMENT')
-
 if ENVIRONMENT == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['hyperbo.la']
@@ -207,7 +204,6 @@ elif ENVIRONMENT == 'staging':
     STATIC_URL = '//staging-assets.hyperbo.la/'
 elif ENVIRONMENT == 'dev':
     DEBUG = True
-    MEDIA_ROOT = os.path.join(ROOT_PATH, 'prod-media')
     MEDIA_URL = '/media/'
     SENDFILE_BACKEND = 'sendfile.backends.development'
     PIPELINE['PIPELINE_ENABLED'] = False
