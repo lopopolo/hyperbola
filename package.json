@@ -36,6 +36,7 @@
     "eslint": "^3.0.1",
     "eslint-plugin-html": "^1.5.1",
     "google-closure-compiler": "^20160619.0.0",
+    "htmlhint": "^0.9.13",
     "postcss-cli": "^2.5.2",
     "stylefmt": "^4.1.1"
   },
