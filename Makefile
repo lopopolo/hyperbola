@@ -5,7 +5,11 @@ all: lint
 
 ## Linters
 
-lint: flake8 isort pylint
+lint: eslint flake8 isort pylint
+
+eslint:
+	eslint bin/*.html
+	eslint app/hyperbola/static/js/lifestream-date-formatter.js
 
 flake8:
 	-flake8 app
@@ -55,7 +59,7 @@ clean-pyc:
 clean-assets:
 	find assets -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
 
-.PHONY: flake8 isort pylint yapf \
+.PHONY: eslint flake8 isort pylint yapf \
 	virtualenv wipe-virtualenv \
 	closure-compile css \
 	clean clean-pyc clean-assets
