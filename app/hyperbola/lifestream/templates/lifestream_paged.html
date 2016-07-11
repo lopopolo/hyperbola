@@ -1,5 +1,5 @@
 {% extends "lifestream_base.html" %}
-{% load hashtagize imagekit %}
+{% load hyperbola_lifestream_tags imagekit %}
 
 {% block title %}
 {{ block.super }} {% if posts.number != 1 %} :: page {{ posts.number|escape }} {% endif %}
