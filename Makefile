@@ -32,7 +32,13 @@ wipe-virtualenv:
 	rm -rf ./virtualenv
 	git checkout -- virtualenv
 
-## Node tools
+## Code Generation
+
+closure-compile:
+	java -jar node_modules/google-closure-compiler/compiler.jar --language_out ECMASCRIPT5 \
+		--compilation_level ADVANCED_OPTIMIZATIONS \
+		--js app/hyperbola/static/js/lifestream-date-formatter.js \
+		--js_output_file app/hyperbola/lifestream/templates/lifestream-date-formatter.generated.min.js
 
 css:
 	postcss --use autoprefixer --use stylefmt --use colorguard --replace app/hyperbola/static/css/sitewide.css
@@ -49,5 +55,8 @@ clean-pyc:
 clean-assets:
 	find assets -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
 
-.PHONY: flake8 isort pylint yapf virtualenv wipe-virtualenv css clean clean-pyc clean-assets
+.PHONY: flake8 isort pylint yapf \
+	virtualenv wipe-virtualenv \
+	closure-compile css \
+	clean clean-pyc clean-assets
 

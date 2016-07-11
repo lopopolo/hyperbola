@@ -37,3 +37,5 @@ var HyperbolaDateFormatter = (function() {
         }
     };
 })();
+
+window["HyperbolaDateFormatter"] = HyperbolaDateFormatter;
