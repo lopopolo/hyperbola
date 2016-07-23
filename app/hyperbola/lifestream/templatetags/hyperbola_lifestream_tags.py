@@ -16,8 +16,8 @@ def hashtagize(blurb, autoescape=True):
     """The hashtagize filter turns #hashtags in blurb into links.
 
     Args:
-        blurb: The lifestream entry to scan for #hashtags
-        autoescape: Whether or not this template tag should escape blurb
+        blurb (str): The lifestream entry to scan for #hashtags
+        autoescape (bool): Whether or not this template tag should escape blurb
             before inserting hashtag link markup.
     """
     esc = make_escape_function(autoescape)

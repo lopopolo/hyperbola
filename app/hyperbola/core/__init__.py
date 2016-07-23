@@ -6,7 +6,7 @@ def make_escape_function(autoescape=True):
     Create an escape function based on the desired autoescape behavior
 
     Args:
-        autoescape: Whether or not this template tag should escape text
+        autoescape (bool): Whether or not this template tag should escape text
     """
     from django.utils.html import conditional_escape
     if autoescape:
@@ -28,6 +28,8 @@ def hash_with_extension(generator):
     where "/path/to/generated/images/" is the value specified by the
     ``IMAGEKIT_CACHEFILE_DIR`` setting.
 
+    Args:
+        generator (imagekit.specs.ImageSpec): generator spec for the requested image.
     """
     import os
 

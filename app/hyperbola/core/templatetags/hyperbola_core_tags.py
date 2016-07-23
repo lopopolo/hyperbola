@@ -14,9 +14,9 @@ def anti_spamize(email, autoescape=True):
      entity encoded mailto links.
 
     Args:
-        email: The email to encode. The encoded email will be the link's
+        email (str): The email to encode. The encoded email will be the link's
             href value and text.
-        autoescape: Whether or not this template tag should escape blurb
+        autoescape (bool): Whether or not this template tag should escape blurb
             before inserting hashtag link markup.
     """
     esc = make_escape_function(autoescape)
