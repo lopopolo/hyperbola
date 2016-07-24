@@ -10,8 +10,8 @@ register = template.Library()
 @register.filter(needs_autoescape=True)
 @stringfilter
 def anti_spamize(email, autoescape=True):
-    """The anti_spamize filter turns email addresses into HTML
-     entity encoded mailto links.
+    """
+    The anti_spamize filter turns email addresses into HTML entity encoded mailto links.
 
     Args:
         email (str): The email to encode. The encoded email will be the link's

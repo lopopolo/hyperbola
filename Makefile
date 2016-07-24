@@ -5,7 +5,7 @@ all: lint
 
 ## Linters
 
-lint: eslint htmlhint flake8 isort pylint
+lint: eslint htmlhint flake8 isort pep257 pylint
 
 eslint:
 	eslint bin/*.html
@@ -15,13 +15,16 @@ htmlhint:
 	htmlhint bin/*.html
 
 flake8:
-	-flake8 app
+	flake8 app
 
 isort:
-	-isort --apply --recursive app
+	isort --apply --recursive app
+
+pep257:
+	pep257 app
 
 pylint:
-	-pylint --rcfile setup.cfg app/hyperbola
+	pylint --rcfile setup.cfg app/hyperbola
 
 # must manually run and compare `git diff` output
 yapf:
@@ -62,7 +65,7 @@ clean-pyc:
 clean-assets:
 	find assets -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
 
-.PHONY: eslint htmlhint flake8 isort pylint yapf \
+.PHONY: eslint htmlhint flake8 isort pep257 pylint yapf \
 	virtualenv wipe-virtualenv \
 	closure-compile css \
 	clean clean-pyc clean-assets

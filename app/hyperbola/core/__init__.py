@@ -3,7 +3,7 @@ __all__ = ("hash_with_extension", "make_escape_function", "views")
 
 def make_escape_function(autoescape=True):
     """
-    Create an escape function based on the desired autoescape behavior
+    Create an escape function based on the desired autoescape behavior.
 
     Args:
         autoescape (bool): Whether or not this template tag should escape text
@@ -17,6 +17,8 @@ def make_escape_function(autoescape=True):
 
 def hash_with_extension(generator):
     """
+    A namer for a imagekit.spec.ImageSpec that names files {prefix}/hash.extension.
+
     A namer that, given the following source file name::
 
         photos/thumbnails/bulldog.jpg

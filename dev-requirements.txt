@@ -2,9 +2,10 @@
 django-debug-toolbar
 django-debug-toolbar-template-profiler
 django-debug-toolbar-template-timings
-pep8
 flake8
+isort
+pep8
+pep257
 pylint
 pylint-django
 yapf
-isort
