@@ -6,46 +6,46 @@
 {% block section_title %} Contact Information {% endblock section_title %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-9">
-      <h1>{{ name|escape }}</h1>
-      {% for contact in contacts %}
-      {% ifchanged contact.type %}
-      <h2>{{ contact.type.type|escape }}</h2>
-      {% endifchanged %}
-      <div class="row">
-        <div class="col-md-4 hyperbola-ellipsis">{{ contact.display_name|escape }}</div>
-        {% if contact.is_url %}
-        <div class="col-md-8 hyperbola-ellipsis">
-          <a href="{{ contact.value|escape }}">{{ contact.display_value|escape }}</a>
-        </div>
-        {% elif contact.is_email %}
-        <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|anti_spamize }}</div>
-        {% else %}
-        <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|escape }}</div>
-        {% endif %}
+<div class="row">
+  <div class="col-md-9">
+    <h1>{{ name|escape }}</h1>
+    {% for contact in contacts %}
+    {% ifchanged contact.type %}
+    <h2>{{ contact.type.type|escape }}</h2>
+    {% endifchanged %}
+    <div class="row">
+      <div class="col-md-4 hyperbola-ellipsis">{{ contact.display_name|escape }}</div>
+      {% if contact.is_url %}
+      <div class="col-md-8 hyperbola-ellipsis">
+        <a href="{{ contact.value|escape }}">{{ contact.display_value|escape }}</a>
       </div>
-      {% endfor %}
-      <h2>Résumé</h2>
-      <div class="row">
-        <div class="col-md-4 hyperbola-ellipsis">{{ resume.display_name|escape }}</div>
-        <div class="col-md-8 hyperbola-ellipsis">
-          <a href="{{ resume.url|escape }}">{{ resume.url|escape }}</a>
-        </div>
-      </div>
+      {% elif contact.is_email %}
+      <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|anti_spamize }}</div>
+      {% else %}
+      <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|escape }}</div>
+      {% endif %}
     </div>
-    <div class="col-md-3">
-      <h2>About</h2>
-      {% thumbnail "240x240" about.photo crop=0 upscale=False as thx1 %}
-      {% thumbnail "480x480" about.photo crop=0 upscale=False as thx2 %}
-      {% thumbnail "2000x2000" about.photo crop=0 upscale=False as thmax %}
-      <div>
-        <a href="{{ thmax.url|escape }}">
-          {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
-          <img alt="Ryan Lopopolo" width="{{ thx1.width|escape }}" height="{{ thx1.height|escape }}" src="{{ thx1.url|escape }}" data-at2x="{{ thx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
-        </a>
+    {% endfor %}
+    <h2>Résumé</h2>
+    <div class="row">
+      <div class="col-md-4 hyperbola-ellipsis">{{ resume.display_name|escape }}</div>
+      <div class="col-md-8 hyperbola-ellipsis">
+        <a href="{{ resume.url|escape }}">{{ resume.url|escape }}</a>
       </div>
-      <p>{{ about.blurb|escape }}</p>
     </div>
   </div>
+  <div class="col-md-3">
+    <h2>About</h2>
+    {% thumbnail "240x240" about.photo crop=0 upscale=False as thx1 %}
+    {% thumbnail "480x480" about.photo crop=0 upscale=False as thx2 %}
+    {% thumbnail "2000x2000" about.photo crop=0 upscale=False as thmax %}
+    <div>
+      <a href="{{ thmax.url|escape }}">
+        {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
+        <img alt="Ryan Lopopolo" width="{{ thx1.width|escape }}" height="{{ thx1.height|escape }}" src="{{ thx1.url|escape }}" data-at2x="{{ thx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+      </a>
+    </div>
+    <p>{{ about.blurb|escape }}</p>
+  </div>
+</div>
 {% endblock content %}

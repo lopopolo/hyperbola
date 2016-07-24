@@ -6,24 +6,24 @@
 {% block section_title %} Lifestream {% endblock section_title %}
 
 {% block head %}
-  {{ block.super }}
-  {% stylesheet "lightbox" %}
-  <!-- feed discovery -->
-  <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
-  <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
-  {% if debug %}
-    <script src="{% static "js/lifestream-date-formatter.js" %}"></script>
-  {% else %}
-    {# cache template tag does not allow indefinite caching, so cache for 1 year #}
-    {% cache 31536000 lifestream:dateformatter request.DATE_FORMATTER_VERSION %}
-    <script>{% include "lifestream-date-formatter.generated.min.js" %}</script>
-    {% endcache %}
-  {% endif %}
+{{ block.super }}
+{% stylesheet "lightbox" %}
+<!-- feed discovery -->
+<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
+<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
+{% if debug %}
+<script src="{% static "js/lifestream-date-formatter.js" %}"></script>
+{% else %}
+{# cache template tag does not allow indefinite caching, so cache for 1 year #}
+{% cache 31536000 lifestream:dateformatter request.DATE_FORMATTER_VERSION %}
+<script>{% include "lifestream-date-formatter.generated.min.js" %}</script>
+{% endcache %}
+{% endif %}
 {% endblock head %}
 
 {% block footer %}
-  {{ block.super }}
-  {% javascript "lightbox" %}
+{{ block.super }}
+{% javascript "lightbox" %}
 {% endblock footer %}
 
 {% block content %}
@@ -45,11 +45,11 @@
     {% for year in archive %}
     <h3>{{ year.grouper|escape }}</h3>
     <div class="row"><div class="col-md-6">
-    <ul class="list-unstyled">
-    {% for d in year.list %}
-    <li><a href="{% url "lifestream:archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a> <span class="badge pull-right">{{ d.post_count|escape }}</span></li>
-    {% endfor %}
-    </ul>
+        <ul class="list-unstyled">
+          {% for d in year.list %}
+          <li><a href="{% url "lifestream:archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a> <span class="badge pull-right">{{ d.post_count|escape }}</span></li>
+          {% endfor %}
+        </ul>
     </div></div>
     {% endfor %}
   </div>
