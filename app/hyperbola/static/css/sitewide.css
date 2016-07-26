@@ -15,6 +15,10 @@ a:hover {
     color: rgb(40, 220, 220);
 }
 
+a:focus {
+    outline-color: rgb(40, 220, 220);
+}
+
 /* site layout */
 .section-title {
     background-color: #444;
@@ -41,10 +45,6 @@ a:hover {
 .navbar-hyperbola {
     background-color: #444;
     border: none;
-}
-
-.navbar-hyperbola a {
-    outline: none;
 }
 
 .navbar-header-hyperbola .navbar-toggle {
@@ -87,6 +87,10 @@ a:hover {
 .navbar-hyperbola .navbar-nav > li > a:hover {
     background: darkgray;
     color: rgb(40, 220, 220);
+}
+
+.navbar-hyperbola .navbar-nav > li > a:focus {
+    color: darkgray;
 }
 
 body.frontpage  .navbar-hyperbola .navbar-nav > li.hyperbola-home > a,
