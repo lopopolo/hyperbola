@@ -17,6 +17,7 @@ a:hover {
 
 a:focus {
     outline-color: rgb(40, 220, 220);
+    color: darkgray;
 }
 
 /* site layout */
@@ -91,6 +92,10 @@ a:focus {
 
 .navbar-hyperbola .navbar-nav > li > a:focus {
     color: darkgray;
+}
+
+.navbar-hyperbola .navbar-nav > li > a:focus:hover {
+    color: rgb(40, 220, 220);
 }
 
 body.frontpage  .navbar-hyperbola .navbar-nav > li.hyperbola-home > a,
