@@ -142,12 +142,6 @@ IMAGEKIT_CACHEFILE_NAMER = IMAGEKIT_SPEC_CACHEFILE_NAMER = 'hyperbola.core.hash_
 PIPELINE = {
     'PIPELINE_ENABLED': True,
     'STYLESHEETS': {
-        'lightbox': {
-            'source_filenames': (
-                'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.css',
-            ),
-            'output_filename': 'css/bootstrap-lightbox.min.css',
-        },
         'sitewide': {
             'source_filenames': (
                 'vendor/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.css',
@@ -162,12 +156,6 @@ PIPELINE = {
                 'vendor/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.js',
             ),
             'output_filename': 'js/bootstrap.min.js',
-        },
-        'lightbox': {
-            'source_filenames': (
-                'vendor/bootstrap-lightbox/0.6.2/bootstrap-lightbox.min.js',
-            ),
-            'output_filename': 'js/bootstrap-lightbox.min.js',
         },
         'retinajs': {
             'source_filenames': (

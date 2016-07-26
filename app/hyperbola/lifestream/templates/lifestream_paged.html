@@ -21,24 +21,11 @@
     {% if post.lifestreampicture %}
     {% thumbnail "500x500"   post.lifestreampicture.picture crop=0 upscale=False as card %}
     {% thumbnail "1000x1000" post.lifestreampicture.picture crop=0 upscale=False as cardx2 %}
-    {% thumbnail "2000x2000" post.lifestreampicture.picture crop=0 upscale=False as lightboxx2 %}
     {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
     <div>
-      <a data-toggle="lightbox" href="#lightbox-{{ post.id|escape }}">
+      <a href="{{ cardx2.url|escape }}">
         <img alt="Photo for post {{ post.id|escape }}" width="{{ card.width|escape }}" height="{{ card.height|escape }}" src="{{ card.url|escape }}" data-at2x="{{ cardx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
       </a>
-    </div>
-    <div id="lightbox-{{ post.id|escape }}" class="lightbox fade hyperbola-lightbox" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="lightbox-dialog">
-        <div class="lightbox-content hyperbola-lightbox-content">
-          {% with lightbox=cardx2 %}
-          <img alt="Photo for post {{ post.id|escape }}" width="{{ lightbox.width|escape }}" height="{{ lightbox.height|escape }}" src="{{ lightbox.url|escape }}" data-at2x="{{ lightboxx2.url|escape }}">
-          {% endwith %}
-          <div class="lightbox-caption">
-            <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
-          </div>
-        </div>
-      </div>
     </div>
     {% endif %}
     <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>

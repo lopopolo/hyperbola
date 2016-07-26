@@ -7,7 +7,6 @@
 
 {% block head %}
 {{ block.super }}
-{% stylesheet "lightbox" %}
 <!-- feed discovery -->
 <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
@@ -20,11 +19,6 @@
 {% endcache %}
 {% endif %}
 {% endblock head %}
-
-{% block footer %}
-{{ block.super }}
-{% javascript "lightbox" %}
-{% endblock footer %}
 
 {% block content %}
 <div class="row">

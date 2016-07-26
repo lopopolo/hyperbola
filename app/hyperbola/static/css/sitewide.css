@@ -144,10 +144,6 @@ body.lifestream .navbar-hyperbola .navbar-nav > li.hyperbola-lifestream > a {
     content: " ";
 }
 
-.lightbox.hyperbola-lightbox {
-    z-index: 2040;
-}
-
 .feed-icon {
 
     /* embedding feed-icon-14x14.png */
