@@ -1,0 +1,8 @@
+{
+  "directory": "app/hyperbola/static/vendor",
+  "color": true,
+  "save": true,
+  "ignoredDependencies": [
+    "jquery"
+  ]
+}

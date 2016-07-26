@@ -144,7 +144,7 @@ PIPELINE = {
     'STYLESHEETS': {
         'sitewide': {
             'source_filenames': (
-                'vendor/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.css',
+                'vendor/bootstrap/dist/css/bootstrap.min.css',
                 'css/sitewide.css',
             ),
             'output_filename': 'css/sitewide.min.css',
@@ -153,13 +153,13 @@ PIPELINE = {
     'JAVASCRIPT': {
         'bootstrap': {
             'source_filenames': (
-                'vendor/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.js',
+                'vendor/bootstrap/dist/js/bootstrap.min.js',
             ),
             'output_filename': 'js/bootstrap.min.js',
         },
         'retinajs': {
             'source_filenames': (
-                'vendor/retinajs/v1.3.0/retina.js',
+                'vendor/retina.js/dist/retina.min.js',
             ),
             'output_filename': 'js/retina.min.js',
         },
