@@ -98,9 +98,9 @@ a:focus {
     color: rgb(40, 220, 220);
 }
 
-body.frontpage  .navbar-hyperbola .navbar-nav > li.hyperbola-home > a,
-body.contact    .navbar-hyperbola .navbar-nav > li.hyperbola-contact > a,
-body.lifestream .navbar-hyperbola .navbar-nav > li.hyperbola-lifestream > a {
+.frontpage  .navbar-hyperbola .navbar-nav > .hyperbola-home > a,
+.contact    .navbar-hyperbola .navbar-nav > .hyperbola-contact > a,
+.lifestream .navbar-hyperbola .navbar-nav > .hyperbola-lifestream > a {
     color: rgb(40, 220, 220);
     background-image: -webkit-linear-gradient(top, #444 0%, darkgray 100%);
     background-image: linear-gradient(to bottom, #444 0%, darkgray 100%);
@@ -119,12 +119,12 @@ body.lifestream .navbar-hyperbola .navbar-nav > li.hyperbola-lifestream > a {
     color: inherit;
 }
 
-.table.table-hyperbola-frontpage > thead > tr > th,
-.table.table-hyperbola-frontpage > tbody > tr > th,
-.table.table-hyperbola-frontpage > tfoot > tr > th,
-.table.table-hyperbola-frontpage > thead > tr > td,
-.table.table-hyperbola-frontpage > tbody > tr > td,
-.table.table-hyperbola-frontpage > tfoot > tr > td {
+.table-hyperbola-frontpage > thead > tr > th,
+.table-hyperbola-frontpage > tbody > tr > th,
+.table-hyperbola-frontpage > tfoot > tr > th,
+.table-hyperbola-frontpage > thead > tr > td,
+.table-hyperbola-frontpage > tbody > tr > td,
+.table-hyperbola-frontpage > tfoot > tr > td {
     border-top: 2px solid rgb(40, 220, 220);
 }
 
