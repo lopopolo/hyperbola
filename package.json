@@ -34,12 +34,12 @@
     "autoprefixer": "^6.3.7",
     "bower": "^1.7.9",
     "colorguard": "^1.2.0",
-    "eslint": "^3.1.1",
+    "eslint": "^3.2.2",
     "eslint-plugin-html": "^1.5.1",
-    "google-closure-compiler": "^20160713.1.0",
+    "google-closure-compiler": "^20160713.2.0",
     "htmlhint": "^0.9.13",
     "postcss-cli": "^2.5.2",
-    "stylefmt": "^4.2.0"
+    "stylefmt": "^4.2.1"
   },
   "engines": {
     "node": "^4.2.0"
