@@ -34,8 +34,9 @@ Set the following parameters in `env/01-dev.env`:
 
 ```bash
 export ENVIRONMENT="dev"
-export SECRET_KEY="notarealsecretdeadbeefdeadbeef"
+export SECRET_KEY="$(uuidgen)"
 
+export DB_NAME="hyperbola"
 export DB_NAME="hyperbola"
 export DB_USER="root"
 export DB_PASSWORD=""
