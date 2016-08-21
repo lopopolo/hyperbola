@@ -16,8 +16,7 @@ create database hyperbola;
 ```bash
 git clone git@github.com:lopopolo/hyperbola.git
 # make local media directory
-mkdir dev-media
-echo '*' > dev-media/.gitignore
+mkdir media/dev
 make wipe-virtualenv
 make virtualenv
 ./virtualenv/bin/python -Wall app/manage.py migrate
