@@ -19,7 +19,7 @@ git clone git@github.com:lopopolo/hyperbola.git
 mkdir media/dev
 make wipe-virtualenv
 make virtualenv
-./virtualenv/bin/python -Wall app/manage.py migrate
+bin/artifact-exec python -Wall app/manage.py migrate
 ```
 
 ## .env
@@ -46,5 +46,5 @@ export DB_PORT="3306"
 ## runserver
 
 ```bash
-./virtualenv/bin/python -Wall app/manage.py runserver
+bin/artifact-exec python -Wall app/manage.py runserver
 ```
