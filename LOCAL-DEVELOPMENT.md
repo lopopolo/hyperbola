@@ -24,6 +24,12 @@ make virtualenv
 
 ## .env
 
+To enable `artifact-exec` in dev, set `$PATH` in `env/00-path.env`:
+
+```bash
+export PATH="./virtualenv/bin:$(npm bin):$PATH"
+```
+
 Set the following parameters in `env/01-dev.env`:
 
 ```bash
