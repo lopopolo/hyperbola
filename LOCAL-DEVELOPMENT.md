@@ -37,7 +37,6 @@ export ENVIRONMENT="dev"
 export SECRET_KEY="$(uuidgen)"
 
 export DB_NAME="hyperbola"
-export DB_NAME="hyperbola"
 export DB_USER="root"
 export DB_PASSWORD=""
 export DB_HOST="localhost"
