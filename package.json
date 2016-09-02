@@ -34,11 +34,11 @@
     "autoprefixer": "^6.4.0",
     "bower": "^1.7.9",
     "colorguard": "^1.2.0",
-    "eslint": "^3.2.2",
+    "eslint": "^3.4.0",
     "eslint-plugin-html": "^1.5.2",
-    "google-closure-compiler": "^20160713.2.0",
+    "google-closure-compiler": "^20160822.1.0",
     "htmlhint": "^0.9.13",
-    "postcss-cli": "^2.5.2",
+    "postcss-cli": "^2.6.0",
     "stylefmt": "^4.2.3"
   },
   "engines": {
