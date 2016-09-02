@@ -9,7 +9,7 @@ from .models import (
     AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
 )
 
-ResumeTemplateType = namedtuple("ResumeTemplateType", "display_name url")
+ResumeConf = namedtuple("ResumeConf", "display_name url")
 
 
 def index(request):
@@ -27,18 +27,18 @@ def index(request):
 
     # Resume is always last
     try:
-        latest_resume = Resume.objects.only("date").latest("date")
-        resume_dto = ResumeTemplateType(
-            latest_resume.display_name,
-            request.build_absolute_uri(latest_resume.get_absolute_url())
-        )
+        newest = Resume.objects.latest("date")
     except Resume.DoesNotExist:
-        resume_dto = None
+        resume_conf = None
+    else:
+        resume_conf = ResumeConf(
+            newest.display_name, request.build_absolute_uri(newest.get_absolute_url())
+        )
 
     return render(request, "contact_base.html", {
         "name": "Ryan Lopopolo",
         "contacts": all_contacts,
-        "resume": resume_dto,
+        "resume": resume_conf,
         "about": about,
     })
 
