@@ -7,15 +7,13 @@ After=network.target
 Type=forking
 User=hyperbola-wiki
 Group=hyperbola-wiki
-# Run ExecStartPre with root-permissions
-PermissionsStartOnly=true
-
 WorkingDirectory=/hyperbola/wiki.hyperbo.la/wiki
 Environment="PATH=/hyperbola/wiki.hyperbo.la/wiki/bin:/hyperbola/bin/rubies/current-ruby/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
+# Run ExecStartPre with root-permissions
+PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-wiki
 ExecStartPre=/bin/chown -R hyperbola-wiki:hyperbola-wiki /var/run/hyperbola-wiki/
-ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C ./hyperbola-wiki.yaml
+ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C /hyperbola/wiki.hyperbo.la/wiki/hyperbola-wiki.yaml
 
 [Install]
 WantedBy=multi-user.target
