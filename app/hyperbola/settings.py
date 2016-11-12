@@ -135,7 +135,7 @@ WSGI_APPLICATION = 'hyperbola.wsgi.application'
 # Thumbnailing
 
 IMAGEKIT_CACHEFILE_DIR = 'cache/g'
-IMAGEKIT_CACHEFILE_NAMER = IMAGEKIT_SPEC_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
+IMAGEKIT_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
 
 # Asset caching
 PIPELINE = {
