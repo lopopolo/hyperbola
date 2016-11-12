@@ -1,0 +1,19 @@
+[Unit]
+Description=Gunicorn server for hyperbola django (production)
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/hyperbola/production/artifacts/current
+# Run ExecStartPre with root-permissions
+PermissionsStartOnly=true
+ExecStartPre=-/bin/mkdir /var/run/hyperbola-production
+ExecStartPre=/bin/chown -R www-data:www-data /var/run/hyperbola-production/
+ExecStart=/hyperbola/production/artifacts/current/bin/artifact-exec gunicorn --config /hyperbola/production/artifacts/current/gunicorn/hyperbola-production.py hyperbola.wsgi:application
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
