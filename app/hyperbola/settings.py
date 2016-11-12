@@ -217,5 +217,7 @@ elif ENVIRONMENT == 'dev':
         # 'template_timings_panel.panels.TemplateTimings.TemplateTimings',
         'template_profiler_panel.panels.template.TemplateProfilerPanel',
     ]
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    INTERNAL_IPS = ['127.0.0.1']
 else:
     raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))
