@@ -1,12 +1,6 @@
 [submodule "ruby-build"]
 	path = ruby-build
 	url = https://github.com/sstephenson/ruby-build.git
-[submodule "node-build"]
-	path = node-build
-	url = https://github.com/nodenv/node-build.git
-[submodule "pyenv"]
-	path = pyenv
-	url = https://github.com/yyuu/pyenv.git
 [submodule "letsencrypt.sh"]
 	path = letsencrypt.sh
 	url = https://github.com/lukas2511/letsencrypt.sh.git
