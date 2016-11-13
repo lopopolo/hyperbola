@@ -33,6 +33,10 @@ export DB_PASSWORD="mysql password"
 export DB_HOST="name of database server"
 export DB_PORT="port to connect to database server"
 
+# email
+export BACKUP_EMAIL_LOGIN_USERNAME="foo"
+export BACKUP_EMAIL_LOGIN_PASSWORD="bar"
+
 # debug
 export DEBUG="true if in debug mode" # optional, defaults to false
 ```

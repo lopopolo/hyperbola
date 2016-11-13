@@ -18,7 +18,7 @@ from django.conf import settings
 from django.core.management import call_command
 
 
-def send_mail(send_from, send_to, subject, text='', files=None, server='localhost'):
+def send_mail(send_from, send_to, subject, text='', files=None, server='smtp.gmail.com:587', credentials=('', '')):
     files = files or []
     assert type(send_to) == list
     assert type(files) == list
@@ -38,6 +38,9 @@ def send_mail(send_from, send_to, subject, text='', files=None, server='localhos
             'attachment; filename="{0}"'.format(os.path.basename(attachment_path)))
         msg.attach(part)
     smtp = smtplib.SMTP(server)
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.login(*credentials)
     smtp.sendmail(send_from, send_to, msg.as_string())
     smtp.close()
 
@@ -63,6 +66,8 @@ if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hyperbola.settings')
     django.setup()
 
+    email_creds = (settings.BACKUP_EMAIL_LOGIN_USERNAME, settings.BACKUP_EMAIL_LOGIN_PASSWORD)
+
     with tempdir() as temp_dir:
         # Backup all models
         datadumpfile = '{0}/hyperbola-app-{1}.json'.format(temp_dir, backup_time)
@@ -79,7 +84,8 @@ if __name__ == '__main__':
             send_from='rjl@hyperbo.la',
             send_to=['upload.databas.skvvczqkcv@u.box.com'],
             subject='hyperbo.la cron django datadump',
-            files=[datadumpfile]
+            files=[datadumpfile],
+            credentials=email_creds,
         )
 
         # Backup all django media from hyperbola.settings.MEDIA_ROOT
@@ -95,5 +101,6 @@ if __name__ == '__main__':
             send_from='rjl@hyperbo.la',
             send_to=['upload.media.palovsbp7s@u.box.com'],
             subject='hyperbo.la cron media backup',
-            files=[media_tar_file]
+            files=[media_tar_file],
+            credentials=email_creds,
         )
