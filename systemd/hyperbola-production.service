@@ -4,7 +4,8 @@ After=syslog.target
 After=network.target
 
 [Service]
-Type=simple
+Type=forking
+PIDFile=/var/run/hyperbola-production/gunicorn.pid
 User=www-data
 Group=www-data
 WorkingDirectory=/hyperbola/production/artifacts/current
