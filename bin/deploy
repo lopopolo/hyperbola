@@ -19,6 +19,9 @@ environment may be one of:
 ENV=""
 REFNAME=""
 
+DEPLOY_AS_USER="www-data"
+DEPLOY_AS_GROUP="www-data"
+
 while getopts "h?e:r:" opt; do
     case "$opt" in
     h|\?)
@@ -35,17 +38,17 @@ while getopts "h?e:r:" opt; do
     esac
 done
 
-if [ "x$REFNAME" = "x" ]; then
+if [ -z "$REFNAME" ]; then
     echo "$USAGE"
     exit 1
 fi
 
-if [ "x$ENV" = "xproduction" ]; then
-    DEPLOY_ROOT="/hyperbola/live/artifacts"
-    SERVICE="gunicorn-production"
-elif [ "x$ENV" = "xstaging" ]; then
+if [ "$ENV" == "production" ]; then
+    DEPLOY_ROOT="/hyperbola/production/artifacts"
+    SERVICE="hyperbola-production.service"
+elif [ "$ENV" == "staging" ]; then
     DEPLOY_ROOT="/hyperbola/staging/artifacts"
-    SERVICE="gunicorn-staging"
+    SERVICE="hyperbola-staging.service"
 else
     echo "$USAGE"
     exit 1
@@ -57,10 +60,12 @@ function python_version
     "$PYTHON" -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'
 }
 
-if [ -z "$PYTHON" ]; then
-  export PATH="$(readlink -f "/hyperbola/bin/pythons/current-python/bin"):$PATH"
-  PYTHON=$(which python)
-fi
+function python_site_packages_dir
+{
+    "$ARTIFACT_ROOT/virtualenv/bin/python" -c "import distutils; print(distutils.sysconfig.get_python_lib())"
+}
+
+PYTHON=${PYTHON:-$(which python3)}
 PYTHON_VERSION=$(python_version)
 
 DEPLOY_TIME=$(date --rfc-3339=seconds | sed 's/ /T/' | sed 's/:/-/g')
@@ -92,11 +97,11 @@ virtualenv --python="$PYTHON" "$ARTIFACT_ROOT/virtualenv"
 "$ARTIFACT_ROOT/virtualenv/bin/pip" freeze > "$ARTIFACT_ROOT/virtualenv/installed-packages.txt"
 
 # add hyperbola to virtualenv search path
-VIRTUALENV_SITE_PACKAGES=$(find "$ARTIFACT_ROOT/virtualenv" -type d -name site-packages)
-echo "$ARTIFACT_ROOT/app" > "$VIRTUALENV_SITE_PACKAGES/hyperbola.pth"
+echo "$ARTIFACT_ROOT/app" > "$(python_site_packages_dir)/hyperbola.pth"
 
 # populate .env
-find "$DEPLOY_ROOT/current/env/" -maxdepth 1 -name '*.env' '!' -name "00-path.env" -exec cp -t "$ARTIFACT_ROOT/env/" {} \+
+cp "$DEPLOY_ROOT"/current/env/*.env "$ARTIFACT_ROOT/env/"
+rm "$ARTIFACT_ROOT/env/00-path.env"
 # Add virtualenv to $PATH
 echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > "$ARTIFACT_ROOT/env/00-path.env"
 
@@ -113,7 +118,6 @@ done
 set -x
 
 # setup node+yuglify
-export PATH="/hyperbola/bin/nodes/current-node/bin:$PATH"
 node --version
 npm --version
 npm install --production
@@ -123,7 +127,7 @@ export PATH="$(npm bin):$PATH"
 
 # promote
 
-sudo chown -R www-data:web "$ARTIFACT_ROOT"
+sudo chown -R "$DEPLOY_AS_USER:$DEPLOY_AS_GROUP" "$ARTIFACT_ROOT"
 
 # everything read-only by default
 sudo chmod -R a=rX "$ARTIFACT_ROOT"
@@ -134,8 +138,7 @@ ln -snfv "$CURRENT_ROOT" "$DEPLOY_ROOT/previous"
 
 ln -snfv "$ARTIFACT_ROOT" "$DEPLOY_ROOT/current"
 
-sudo service "$SERVICE" restart
+systemctl restart "$SERVICE"
+systemctl reload nginx.service
 
-sudo service nginx reload
-
-sudo "$HYPERBOLA_TOOLS_BIN/clean-old-deployments" -d "$DEPLOY_ROOT"
+"$HYPERBOLA_TOOLS_BIN/clean-old-deployments" -d "$DEPLOY_ROOT"
