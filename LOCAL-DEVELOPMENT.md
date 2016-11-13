@@ -3,7 +3,6 @@
 ## External Dependencies
 
 - MySQL
-- Redis
 
 In a MySQL shell run:
 
