@@ -35,7 +35,7 @@ def send_mail(send_from, send_to, subject, text='', files=None, server='localhos
         encode_base64(part)
         part.add_header(
             'Content-Disposition',
-            'attachment; filename="{0}"'.format(os.path.basename(f)))
+            'attachment; filename="{0}"'.format(os.path.basename(attachment_path)))
         msg.attach(part)
     smtp = smtplib.SMTP(server)
     smtp.sendmail(send_from, send_to, msg.as_string())
