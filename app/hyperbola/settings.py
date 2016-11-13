@@ -189,6 +189,7 @@ if ENVIRONMENT == 'production':
     INSTALLED_APPS += [
         'django.contrib.admin',
     ]
+    SECURE_SSL_REDIRECT = True
 elif ENVIRONMENT == 'staging':
     try:
         DEBUG = source('DEBUG')
@@ -196,6 +197,7 @@ elif ENVIRONMENT == 'staging':
         DEBUG = False
 
     ALLOWED_HOSTS = ['staging.hyperbo.la']
+    SECURE_SSL_REDIRECT = True
 elif ENVIRONMENT == 'dev':
     DEBUG = True
     MEDIA_URL = '/media/'
