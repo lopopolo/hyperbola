@@ -16,15 +16,19 @@ htmlhint:
 
 flake8:
 	flake8 app
+	flake8 bin
 
 isort:
 	isort --apply --recursive app
+	isort --apply --recursive bin
 
 pep257:
 	pep257 app
+	pep257 bin
 
 pylint:
-	pylint --rcfile setup.cfg app/hyperbola
+	pylint --rcfile setup.cfg app
+	pylint --rcfile setup.cfg bin
 
 # must manually run and compare `git diff` output
 yapf:
