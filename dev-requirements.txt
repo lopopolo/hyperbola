@@ -1,7 +1,6 @@
 -r requirements.txt
 django-debug-toolbar
-django-debug-toolbar-template-profiler
-django-debug-toolbar-template-timings
+git+https://github.com/orf/django-debug-toolbar-template-timings.git@d1a123d#egg=django-debug-toolbar-template-timings
 flake8
 isort
 pep8

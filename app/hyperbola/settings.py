@@ -199,7 +199,6 @@ elif ENVIRONMENT == 'dev':
         'django.contrib.admin',
         'debug_toolbar',
         'template_timings_panel',
-        'template_profiler_panel',
     ]
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
@@ -214,8 +213,9 @@ elif ENVIRONMENT == 'dev':
         'debug_toolbar.panels.signals.SignalsPanel',
         'debug_toolbar.panels.logging.LoggingPanel',
         'debug_toolbar.panels.redirects.RedirectsPanel',
-        # 'template_timings_panel.panels.TemplateTimings.TemplateTimings',
-        'template_profiler_panel.panels.template.TemplateProfilerPanel',
+        'template_timings_panel.panels.TemplateTimings.TemplateTimings',
     ]
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    INTERNAL_IPS = ['127.0.0.1']
 else:
     raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))
