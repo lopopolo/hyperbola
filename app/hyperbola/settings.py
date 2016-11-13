@@ -62,11 +62,11 @@ USE_TZ = False
 
 MEDIA_ROOT = os.path.join(ROOT_PATH, 'media', ENVIRONMENT)
 
-MEDIA_URL = '//media.hyperbo.la/'
+MEDIA_URL = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
 
 STATIC_ROOT = os.path.join(ROOT_PATH, 'assets')
 
-STATIC_URL = '//assets.hyperbo.la/'
+STATIC_URL = 'https://www.hyperbolacdn.com/assets/{}/'.format(ENVIRONMENT)
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static'),
