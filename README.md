@@ -1,3 +1,13 @@
-hyperbola
-=========
-This is the magic of http://hyperbo.la. It runs on django. This repo is part of a reachitecture of the site and server that runs it.
+# hyperbo.la
+
+This is the magic of https://hyperbo.la.
+
+hyperbo.la is a django website. It can be run locally (see LOCAL-DEVELOPMENT.md)
+or deployed in production and staging configurations. It depends on configuration
+found in [hyperbola-tools](https://github.com/lopopolo/hyperbola-tools).
+
+## Dependencies
+
+* python3 >= 3.5
+* mysql
+* nginx
