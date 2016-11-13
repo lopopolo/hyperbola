@@ -1,6 +1,6 @@
 import multiprocessing
 
-bind = 'unix:/tmp/hyperbola-production.sock'
+bind = 'unix:/var/run/hyperbola-production/hyperbola-production.sock'
 workers = multiprocessing.cpu_count() + 1
 daemon = True
 pidfile = '/var/run/hyperbola-production/gunicorn.pid'
