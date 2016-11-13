@@ -4,6 +4,7 @@ django-localflavor
 django-markdown-deux
 django-mysql
 django-pipeline >= 1.6
+django-redis
 django-sendfile
 gunicorn
 markdown2
