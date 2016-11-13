@@ -12,3 +12,4 @@ found in [hyperbola-tools](https://github.com/lopopolo/hyperbola-tools).
 * mysql
 * nginx
 * nodejs >= 6.9 LTS
+* redis
