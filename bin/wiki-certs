@@ -4,10 +4,9 @@ exec >>/var/log/wiki-certs.log 2>&1
 
 echo "Begin renewal attempt at: $(date)"
 
-cd "/hyperbola/tls/wiki.hyperbo.la" || exit 1
-sg www-data "/hyperbola/tools/letsencrypt.sh/letsencrypt.sh --cron"
+sg www-data "/hyperbola/tools/dehydrated/dehydrated --cron --config /hyperbola/tools/tls/wiki.hyperbo.la/config"
 
-echo "Exit code from letsencrypt.sh: $?"
+echo "Exit code from dehydrated: $?"
 
 umask 0037
 chmod -R g+rX "/hyperbola/tls/wiki.hyperbo.la/certs"

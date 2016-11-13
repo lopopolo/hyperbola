@@ -1,6 +1,6 @@
 [submodule "ruby-build"]
 	path = ruby-build
 	url = https://github.com/sstephenson/ruby-build.git
-[submodule "letsencrypt.sh"]
-	path = letsencrypt.sh
-	url = https://github.com/lukas2511/letsencrypt.sh.git
+[submodule "dehydrated"]
+	path = dehydrated
+	url = https://github.com/lukas2511/dehydrated.git
