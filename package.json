@@ -39,6 +39,7 @@
     "google-closure-compiler": "^20161024.3.0",
     "htmlhint": "^0.9.13",
     "postcss-cli": "^2.6.0",
+    "purifycss": "^1.1.9",
     "stylefmt": "^4.4.0"
   },
   "engines": {

@@ -156,7 +156,7 @@ PIPELINE = {
     'STYLESHEETS': {
         'sitewide': {
             'source_filenames': (
-                'vendor/bootstrap/dist/css/bootstrap.min.css',
+                'css/bootstrap.purified.css',
                 'css/sitewide.css',
             ),
             'output_filename': 'css/sitewide.min.css',
