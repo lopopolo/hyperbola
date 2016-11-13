@@ -173,6 +173,14 @@ SENDFILE_BACKEND = 'sendfile.backends.nginx'
 SENDFILE_ROOT = MEDIA_ROOT
 SENDFILE_URL = '/media'
 
+# Security
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = 'DENY'
+
 # Environment-specific configuration
 if ENVIRONMENT == 'production':
     DEBUG = False
