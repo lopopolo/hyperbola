@@ -188,7 +188,6 @@ elif ENVIRONMENT == 'staging':
         DEBUG = False
 
     ALLOWED_HOSTS = ['staging.hyperbo.la']
-    STATIC_URL = '//staging-assets.hyperbo.la/'
 elif ENVIRONMENT == 'dev':
     DEBUG = True
     MEDIA_URL = '/media/'
