@@ -125,6 +125,8 @@ export PATH="$(npm bin):$PATH"
 
 "$ARTIFACT_ROOT/virtualenv/bin/python" app/manage.py collectstatic --noinput
 
+ln -snfv "/hyperbola/media" "$ARTIFACT_ROOT/media/$ENV"
+
 # promote
 
 sudo chown -R "$DEPLOY_AS_USER:$DEPLOY_AS_GROUP" "$ARTIFACT_ROOT"
