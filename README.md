@@ -11,3 +11,4 @@ found in [hyperbola-tools](https://github.com/lopopolo/hyperbola-tools).
 * python3 >= 3.5
 * mysql
 * nginx
+* nodejs >= 6.9 LTS
