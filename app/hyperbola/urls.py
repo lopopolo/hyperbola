@@ -3,15 +3,15 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 
-import hyperbola.contact.urls
-import hyperbola.frontpage.urls
-import hyperbola.lifestream.urls
-from hyperbola.core.views import NotFound404View
+from .contact import urls as contact
+from .core.views import NotFound404View
+from .frontpage import urls as frontpage
+from .lifestream import urls as lifestream
 
 urlpatterns = [
-    url(r'', include(hyperbola.frontpage.urls)),
-    url(r'^contact/', include(hyperbola.contact.urls)),
-    url(r'^lifestream/', include(hyperbola.lifestream.urls)),
+    url(r'', include(frontpage)),
+    url(r'^contact/', include(contact)),
+    url(r'^lifestream/', include(lifestream)),
     url(r'^404.html$', NotFound404View.as_view()),
 ]
 
