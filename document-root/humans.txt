@@ -18,3 +18,4 @@
     Bootstrap, jQuery
     HTML5 Boilerplate
     Python, Django
+    Let's Encrypt
