@@ -85,7 +85,7 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static'),
 ]
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'hyperbola.core.static.PipelineManifestStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
