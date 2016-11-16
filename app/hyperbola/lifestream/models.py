@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 
+from ..core import make_upload_to
+
 
 class LifeStreamItem(models.Model):
     pub_date = models.DateTimeField(auto_now=True, editable=False, db_index=True)
@@ -17,4 +19,4 @@ class LifeStreamItem(models.Model):
 
 
 class LifeStreamPicture(LifeStreamItem):
-    picture = models.ImageField(upload_to="lifestream/photos/%Y/%m/%d/%H-%M/")
+    picture = models.ImageField(upload_to=make_upload_to("lifestream"))

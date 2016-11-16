@@ -1,4 +1,4 @@
-__all__ = ("hash_with_extension", "make_escape_function", "views")
+__all__ = ("hash_with_extension", "make_escape_function", "make_upload_to", "views")
 
 
 def make_escape_function(autoescape=True):
@@ -42,3 +42,16 @@ def hash_with_extension(generator):
     ext = suggest_extension(source_filename or '', generator.format).lower()
     return os.path.normpath(os.path.join(settings.IMAGEKIT_CACHEFILE_DIR,
                                          '%s%s' % (generator.get_hash(), ext)))
+
+
+def make_upload_to(prefix):
+    """Make a Django FileField upload_to callable that names files with a uuid."""
+    import os
+    import uuid
+
+    def upload_to(instance, filename):
+        _, extension = os.path.splitext(filename)
+        mangled_name = "{}{}".format(uuid.uuid4().hex, extension)
+        return os.path.join(prefix, mangled_name)
+
+    return upload_to
