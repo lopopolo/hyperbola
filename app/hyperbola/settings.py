@@ -163,12 +163,6 @@ PIPELINE = {
         },
     },
     'JAVASCRIPT': {
-        'bootstrap': {
-            'source_filenames': (
-                'vendor/bootstrap/dist/js/bootstrap.min.js',
-            ),
-            'output_filename': 'js/bootstrap.min.js',
-        },
         'retinajs': {
             'source_filenames': (
                 'vendor/retina.js/dist/retina.min.js',

@@ -45,32 +45,50 @@ img {
   border: 0;
 }
 
-button {
+input {
   margin: 0;
   font: inherit;
   color: inherit;
 }
 
-button {
-  overflow: visible;
-}
-
-button {
-  text-transform: none;
-}
-
-button {
+html input[type="button"],input[type="reset"],input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
 }
 
-button[disabled] {
+html input[disabled] {
   cursor: default;
 }
 
-button::-moz-focus-inner {
+input::-moz-focus-inner {
   padding: 0;
   border: 0;
+}
+
+input {
+  line-height: normal;
+}
+
+input[type="checkbox"],input[type="radio"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+input[type="search"] {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-appearance: textfield;
+}
+
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
 }
 
 table {
@@ -124,6 +142,10 @@ td {
 
   .navbar {
     display: none;
+  }
+
+  .label {
+    border: 1px solid #000;
   }
 
   .table {
@@ -234,7 +256,7 @@ body {
   background-color: #fff;
 }
 
-button {
+input {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -777,6 +799,86 @@ table td[class*="col-"] {
   background-color: #d9edf7;
 }
 
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="search"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input[type="radio"],input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  line-height: normal;
+}
+
+input[type="file"] {
+  display: block;
+}
+
+input[type="range"] {
+  display: block;
+  width: 100%;
+}
+
+input[type="file"]:focus,input[type="radio"]:focus,input[type="checkbox"]:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  input[type="date"].input-sm,  input[type="time"].input-sm,  input[type="datetime-local"].input-sm,  input[type="month"].input-sm {
+    line-height: 30px;
+  }
+}
+
+.checkbox {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox label {
+  min-height: 20px;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  margin-top: 4px \9;
+  margin-left: -20px;
+}
+
+.checkbox + .checkbox {
+  margin-top: -5px;
+}
+
+input[type="radio"][disabled],input[type="checkbox"][disabled] {
+  cursor: not-allowed;
+}
+
+.input-sm {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
 .btn {
   display: inline-block;
   padding: 6px 12px;
@@ -955,6 +1057,10 @@ table td[class*="col-"] {
   margin-top: 5px;
 }
 
+input[type="submit"].btn-block,input[type="reset"].btn-block,input[type="button"].btn-block {
+  width: 100%;
+}
+
 .collapse {
   display: none;
 }
@@ -969,6 +1075,12 @@ tr.collapse.in {
 
 tbody.collapse.in {
   display: table-row-group;
+}
+
+[data-toggle="buttons"] > .btn input[type="radio"],[data-toggle="buttons"] > .btn input[type="checkbox"] {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
 }
 
 .nav {
@@ -1217,6 +1329,50 @@ tbody.collapse.in {
 
 .navbar-default .btn-link[disabled]:hover,.navbar-default .btn-link[disabled]:focus {
   color: #ccc;
+}
+
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+a.label:hover,a.label:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.label:empty {
+  display: none;
+}
+
+.btn .label {
+  position: relative;
+  top: -1px;
+}
+
+.label-default {
+  background-color: #777;
+}
+
+.label-default[href]:hover,.label-default[href]:focus {
+  background-color: #5e5e5e;
+}
+
+.label-info {
+  background-color: #5bc0de;
+}
+
+.label-info[href]:hover,.label-info[href]:focus {
+  background-color: #31b0d5;
 }
 
 .badge {

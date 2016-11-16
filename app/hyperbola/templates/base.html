@@ -18,13 +18,14 @@
   <body class="{% block active_app %}{% endblock active_app %}">
     <div class="container hyperbola-container">
       <div class="navbar navbar-default navbar-hyperbola" role="navigation">
+        <input type="checkbox" id="navbar-toggle-checkbox">
         <div class="navbar-header navbar-header-hyperbola">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <label for="navbar-toggle-checkbox" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </button>
+          </label>
           <a class="hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Front Page</a>
         </div>
         <div class="navbar-collapse collapse">
@@ -47,8 +48,6 @@
       </div>
     </div>
     {% block footer %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    {% javascript "bootstrap" %}
     {% javascript "retinajs" %}
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
