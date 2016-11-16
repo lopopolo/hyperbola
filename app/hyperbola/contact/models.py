@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from localflavor.us.models import PhoneNumberField
 
-from ..core import make_upload_to
+from ..core import MakeUploadTo
 
 
 class ContactType(models.Model):
@@ -70,9 +70,9 @@ class IMContact(Contact):
 
 
 class Resume(models.Model):
-    date = models.DateField(auto_now=True, db_index=True)
+    date = models.DateField(auto_now_add=True, db_index=True)
 
-    resume = models.FileField(upload_to=make_upload_to("resume"))
+    resume = models.FileField(upload_to=MakeUploadTo("resume"))
 
     @staticmethod
     def get_absolute_url():
@@ -86,7 +86,7 @@ class Resume(models.Model):
 
 
 class AboutMe(models.Model):
-    photo = models.ImageField(upload_to=make_upload_to("about"))
+    photo = models.ImageField(upload_to=MakeUploadTo("about"))
     blurb = models.TextField()
 
     def __str__(self):

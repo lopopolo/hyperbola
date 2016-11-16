@@ -10,11 +10,11 @@ if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hyperbola.settings')
     django.setup()
 
-    from hyperbola.core import make_upload_to
+    from hyperbola.core import MakeUploadTo
     from hyperbola.contact.models import AboutMe, Resume
     from hyperbola.lifestream.models import LifeStreamPicture
 
-    lifestream_upload_to = make_upload_to('lifestream')
+    lifestream_upload_to = MakeUploadTo('lifestream')
     for picture in LifeStreamPicture.objects.all():
         mangled_name = lifestream_upload_to(picture, picture.picture.name)
         old_path = os.path.join(settings.MEDIA_ROOT, picture.picture.name)
@@ -25,7 +25,7 @@ if __name__ == '__main__':
         picture.save()
     shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'lifestream/photos'), ignore_errors=True)
 
-    resume_upload_to = make_upload_to('resume')
+    resume_upload_to = MakeUploadTo('resume')
     for resume in Resume.objects.all():
         mangled_name = resume_upload_to(resume, resume.resume.name)
         old_path = os.path.join(settings.MEDIA_ROOT, resume.resume.name)
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'resume/2015'), ignore_errors=True)
     shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'resume/2016'), ignore_errors=True)
 
-    about_upload_to = make_upload_to('about')
+    about_upload_to = MakeUploadTo('about')
     for about in AboutMe.objects.all():
         mangled_name = about_upload_to(about, about.photo.name)
         old_path = os.path.join(settings.MEDIA_ROOT, about.photo.name)

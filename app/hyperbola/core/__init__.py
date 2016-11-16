@@ -1,4 +1,6 @@
-__all__ = ("hash_with_extension", "make_escape_function", "make_upload_to", "views")
+from django.utils.deconstruct import deconstructible
+
+__all__ = ("hash_with_extension", "make_escape_function", "MakeUploadTo", "views")
 
 
 def make_escape_function(autoescape=True):
@@ -44,14 +46,19 @@ def hash_with_extension(generator):
                                          '%s%s' % (generator.get_hash(), ext)))
 
 
-def make_upload_to(prefix):
+@deconstructible
+class MakeUploadTo(object):
     """Make a Django FileField upload_to callable that names files with a uuid."""
-    import os
-    import uuid
 
-    def upload_to(instance, filename):
+    def __init__(self, prefix):
+        self.prefix = prefix
+
+    def __call__(self, instance, filename):
+        import os
+        import uuid
+
+        del instance
+
         _, extension = os.path.splitext(filename)
         mangled_name = "{}{}".format(uuid.uuid4().hex, extension)
-        return os.path.join(prefix, mangled_name)
-
-    return upload_to
+        return os.path.join(self.prefix, mangled_name)
