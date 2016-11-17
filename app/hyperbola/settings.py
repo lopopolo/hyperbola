@@ -2,11 +2,12 @@
 
 import os
 
+from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
 from django.core.exceptions import ImproperlyConfigured
 
 
-def source(env):
-    prop = os.environ.get(env)
+def source(env, default=None):
+    prop = os.environ.get(env, default)
     if prop is None:
         raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
 
@@ -183,6 +184,7 @@ SENDFILE_URL = '/media'
 # Security
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
+SECURE_SSL_REDIRECT = True if ENVIRONMENT in ['production', 'staging'] else False
 SESSION_COOKIE_SECURE = True if ENVIRONMENT in ['production', 'staging'] else False
 CSRF_COOKIE_SECURE = True if ENVIRONMENT in ['production', 'staging'] else False
 CSRF_COOKIE_HTTPONLY = True
@@ -197,45 +199,22 @@ if ENVIRONMENT == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['hyperbo.la']
     # enable admin interface only on production
-    INSTALLED_APPS += [
-        'django.contrib.admin',
-    ]
-    SECURE_SSL_REDIRECT = True
+    INSTALLED_APPS.append('django.contrib.admin')
 elif ENVIRONMENT == 'staging':
-    try:
-        DEBUG = source('DEBUG')
-    except ImproperlyConfigured:
-        DEBUG = False
-
+    DEBUG = source('DEBUG', False)
     ALLOWED_HOSTS = ['staging.hyperbo.la']
-    SECURE_SSL_REDIRECT = True
 elif ENVIRONMENT == 'dev':
     DEBUG = True
     MEDIA_URL = '/media/'
     SENDFILE_BACKEND = 'sendfile.backends.development'
     PIPELINE['PIPELINE_ENABLED'] = False
     STATIC_URL = '/static/'
-    INSTALLED_APPS += [
-        'django.contrib.admin',
-        'debug_toolbar',
-        'template_timings_panel',
-    ]
-    DEBUG_TOOLBAR_PANELS = [
-        'debug_toolbar.panels.versions.VersionsPanel',
-        'debug_toolbar.panels.timer.TimerPanel',
-        'debug_toolbar.panels.settings.SettingsPanel',
-        'debug_toolbar.panels.headers.HeadersPanel',
-        'debug_toolbar.panels.request.RequestPanel',
-        'debug_toolbar.panels.sql.SQLPanel',
-        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-        'debug_toolbar.panels.templates.TemplatesPanel',
-        'debug_toolbar.panels.cache.CachePanel',
-        'debug_toolbar.panels.signals.SignalsPanel',
-        'debug_toolbar.panels.logging.LoggingPanel',
-        'debug_toolbar.panels.redirects.RedirectsPanel',
-        'template_timings_panel.panels.TemplateTimings.TemplateTimings',
-    ]
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    # enable admin interface in dev (sandbox)
+    INSTALLED_APPS.append('django.contrib.admin')
+    # debug toolbar
+    INSTALLED_APPS.extend(['debug_toolbar', 'template_timings_panel'])
+    DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
 else:
     raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))
