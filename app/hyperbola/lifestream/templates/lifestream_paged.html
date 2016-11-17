@@ -10,10 +10,8 @@
 <div class="panel panel-hyperbola">
   <div class="panel-heading lifestream-entry-header">
     <span class="date">
-      <script>HyperbolaDateFormatter.write({{ post.pub_date|date:"U" }})</script>
-      <noscript>
-        {{ post.pub_date|date:"H:i T b d Y"|lower }}
-      </noscript>
+      <time datetime="{{ post.pub_date|date:"c" }}" id="lifestream-entry-date-{{ post.id }}">{{ post.pub_date|date:"H:i T b d Y"|lower }}</time>
+      <script>HyperbolaDateFormatter.localize({{ post.pub_date|date:"U" }}, "lifestream-entry-date-{{ post.id }}")</script>
     </span>
     <a href="{{ post.get_absolute_url|escape }}">permalink</a>
   </div>

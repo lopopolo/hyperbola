@@ -179,6 +179,10 @@ td {
   content: "\e021";
 }
 
+.glyphicon-time:before {
+  content: "\e023";
+}
+
 .glyphicon-list-alt:before {
   content: "\e032";
 }

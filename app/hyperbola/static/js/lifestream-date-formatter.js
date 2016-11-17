@@ -4,37 +4,29 @@
 var HyperbolaDateFormatter = (function() {
     "use strict";
 
-    var months = [
-        "jan",
-        "feb",
-        "mar",
-        "apr",
-        "may",
-        "jun",
-        "jul",
-        "aug",
-        "sep",
-        "oct",
-        "nov",
-        "dec"
-    ];
-
-    var pad = function(n) {
-        return ("0" + n).slice(-2);
-    };
-
     var formatDate = function(date) {
-        return pad(date.getHours()) + ":" + pad(date.getMinutes()) +
-            " " + months[date.getMonth()] + " " + pad(date.getDate()) +
-            " " + date.getFullYear();
+        var formatter = window.Intl.DateTimeFormat(undefined, {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            timeZoneName: "short"
+        });
+        return formatter.format(date);
     };
 
-    return {
-        write: function(timestamp) {
+    var localizeDate = function() {}; // noop
+    if (window.Intl && typeof window.Intl === "object") {
+        localizeDate = function(timestamp, selector) {
             var d = new Date();
             d.setTime(timestamp * 1000);
-            document.write(formatDate(d));
-        }
+            document.getElementById(selector).innerText = formatDate(d);
+        };
+    }
+
+    return {
+        "localize": localizeDate
     };
 })();
 

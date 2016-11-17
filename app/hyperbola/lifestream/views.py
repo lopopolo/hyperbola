@@ -11,7 +11,7 @@ from django.shortcuts import render
 
 from .models import LifeStreamItem
 
-DATE_FORMATTER_VERSION = "v1"
+DATE_FORMATTER_VERSION = "v2"
 """
 Cache-buster for hyperbola-date-formatter.js generated and minified fragment.
 
