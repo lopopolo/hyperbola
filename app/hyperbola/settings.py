@@ -2,7 +2,6 @@
 
 import os
 
-from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -212,6 +211,7 @@ elif ENVIRONMENT == 'dev':
     # enable admin interface in dev (sandbox)
     INSTALLED_APPS.append('django.contrib.admin')
     # debug toolbar
+    from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
     INSTALLED_APPS.extend(['debug_toolbar', 'template_timings_panel'])
     DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
