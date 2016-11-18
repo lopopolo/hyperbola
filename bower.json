@@ -26,7 +26,7 @@
     "tests"
   ],
   "dependencies": {
-    "retina.js": "^1.3.0",
+    "retina.js": "^2.1.0",
     "bootstrap-css-only": "^3.3.7"
   }
 }
