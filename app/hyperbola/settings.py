@@ -162,14 +162,6 @@ PIPELINE = {
             'output_filename': 'css/sitewide.min.css',
         },
     },
-    'JAVASCRIPT': {
-        'retinajs': {
-            'source_filenames': (
-                'vendor/retina.js/dist/retina.min.js',
-            ),
-            'output_filename': 'js/retina.min.js',
-        },
-    },
     'CSS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
     'JS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
 }

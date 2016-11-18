@@ -48,7 +48,7 @@
       </div>
     </div>
     {% block footer %}
-    {% javascript "retinajs" %}
+    <script src="{% static "vendor/retina.js/dist/retina.min.js" %}" async defer onload="retinajs()"></script>
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
       ga('create','UA-30651847-1','auto');ga('send','pageview')
