@@ -56,7 +56,7 @@ closure-compile:
 
 css:
 	postcss --use autoprefixer --use stylefmt --use colorguard --replace app/hyperbola/static/css/sitewide.css
-	purifycss app/hyperbola/static/vendor/bootstrap/dist/css/bootstrap.css app/hyperbola/*/templates/*.html app/hyperbola/templates/*.html --info --out app/hyperbola/static/css/bootstrap.purified.css
+	purifycss app/hyperbola/static/vendor/bootstrap-css-only/css/bootstrap.css app/hyperbola/*/templates/*.html app/hyperbola/templates/*.html --info --out app/hyperbola/static/css/bootstrap.purified.css
 
 ## clean
 
