@@ -17,12 +17,16 @@
   </div>
   <div class="panel-body">
     {% if post.lifestreampicture %}
-    {% thumbnail "500x500"   post.lifestreampicture.picture crop=0 upscale=False as card %}
-    {% thumbnail "1000x1000" post.lifestreampicture.picture crop=0 upscale=False as cardx2 %}
+    {% thumbnail "hyperbola:thumbnail" "500x500" post.lifestreampicture.picture retina_scale=1 as card_1x %}
+    {% thumbnail "hyperbola:thumbnail" "500x500" post.lifestreampicture.picture retina_scale=2 as card_2x %}
+    {% thumbnail "hyperbola:thumbnail" "500x500" post.lifestreampicture.picture retina_scale=3 as card_3x %}
     {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
     <div>
-      <a href="{{ cardx2.url|escape }}">
-        <img alt="Photo for post {{ post.id|escape }}" width="{{ card.width|escape }}" height="{{ card.height|escape }}" src="{{ card.url|escape }}" data-at2x="{{ cardx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+      <a href="{{ card_3x.url|escape }}">
+        <img alt="Photo for post {{ post.id|escape }}" width="{{ card_1x.width|escape }}" height="{{ card_1x.height|escape }}" src="{{ card_1x.url|escape }}" data-rjs="3" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <!-- 1x: {{ card_1x.url }} -->
+        <!-- 2x: {{ card_2x.url }} -->
+        <!-- 3x: {{ card_3x.url }} -->
       </a>
     </div>
     {% endif %}
@@ -39,3 +43,8 @@
   {% endif %}
 </div>
 {% endblock lifestream_content %}
+
+{% block footer %}
+{{ block.super }}
+<script>window.retinajs();</script>
+{% endblock footer %}

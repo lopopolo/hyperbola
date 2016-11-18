@@ -1,17 +1,25 @@
 {
-  "name": "retina.js",
-  "version": "1.2.0",
-  "homepage": "https://github.com/imulus/retinajs",
+  "name": "retinajs",
+  "version": "2.0.0",
+  "homepage": "http://retinajs.com",
   "authors": [
-    "Imulus, LLC <developer@imulus.com>"
+    "Axial <developer@axial.agency>"
   ],
   "description": "JavaScript, Less and Sass helpers for rendering high-resolution image variants",
-  "main": "build/js/retina-1.2.0.js",
+  "main": "dist/retina.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "test"
+    "test",
+    "tests"
+  ],
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node",
+    "yui"
   ]
 }

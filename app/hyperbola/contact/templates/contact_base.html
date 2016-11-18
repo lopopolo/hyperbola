@@ -39,13 +39,16 @@
   {% if about %}
   <div class="col-md-3">
     <h2>About</h2>
-    {% thumbnail "240x240" about.photo crop=0 upscale=False as thx1 %}
-    {% thumbnail "480x480" about.photo crop=0 upscale=False as thx2 %}
-    {% thumbnail "2000x2000" about.photo crop=0 upscale=False as thmax %}
+    {% thumbnail "hyperbola:thumbnail" "240x240" about.photo retina_scale=1 as prof_1x %}
+    {% thumbnail "hyperbola:thumbnail" "240x240" about.photo retina_scale=2 as prof_2x %}
+    {% thumbnail "hyperbola:thumbnail" "240x240" about.photo retina_scale=3 as prof_3x %}
     <div>
-      <a href="{{ thmax.url|escape }}">
+      <a href="{{ about.photo.url|escape }}">
         {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
-        <img alt="Ryan Lopopolo" width="{{ thx1.width|escape }}" height="{{ thx1.height|escape }}" src="{{ thx1.url|escape }}" data-at2x="{{ thx2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <img alt="Ryan Lopopolo" width="{{ prof_1x.width|escape }}" height="{{ prof_1x.height|escape }}" src="{{ prof_1x.url|escape }}" data-rjs="3" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <!-- 1x: {{ prof_1x.url }} -->
+        <!-- 2x: {{ prof_2x.url }} -->
+        <!-- 3x: {{ prof_3x.url }} -->
       </a>
     </div>
     <p>{{ about.blurb|escape }}</p>
@@ -53,3 +56,8 @@
   {% endif %}
 </div>
 {% endblock content %}
+
+{% block footer %}
+{{ block.super }}
+<script>window.retinajs();</script>
+{% endblock footer %}
