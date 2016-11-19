@@ -45,15 +45,14 @@ fi
 
 if [ "$ENV" == "production" ]; then
     DEPLOY_ROOT="/hyperbola/production/artifacts"
-    SERVICE="hyperbola-production.service"
+    SERVICE="hyperbola-app@production.service"
 elif [ "$ENV" == "staging" ]; then
     DEPLOY_ROOT="/hyperbola/staging/artifacts"
-    SERVICE="hyperbola-staging.service"
+    SERVICE="hyperbola-app@staging.service"
 else
     echo "$USAGE"
     exit 1
 fi
-
 
 function python_version
 {
