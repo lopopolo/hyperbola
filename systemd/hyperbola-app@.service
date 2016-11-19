@@ -13,7 +13,7 @@ WorkingDirectory=/hyperbola/%i/artifacts/current
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-%i
 ExecStartPre=/bin/chown -R www-data:www-data /var/run/hyperbola-%i/
-ExecStart=/hyperbola/%i/artifacts/current/bin/artifact-exec gunicorn --config /hyperbola/%i/artifacts/current/gunicorn/hyperbola-%i.py hyperbola.wsgi:application
+ExecStart=/bin/sh -c "exec /hyperbola/%i/artifacts/current/bin/artifact-exec gunicorn --config /hyperbola/%i/artifacts/current/gunicorn/hyperbola-%i.py hyperbola.wsgi:application"
 PrivateTmp=true
 
 [Install]
