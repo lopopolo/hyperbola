@@ -4,7 +4,7 @@ After=syslog.target
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 User=hyperbola-wiki
 Group=hyperbola-wiki
 WorkingDirectory=/hyperbola/wiki.hyperbo.la/wiki
@@ -13,7 +13,7 @@ Environment="PATH=/hyperbola/wiki.hyperbo.la/wiki/bin:/hyperbola/bin/rubies/curr
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-wiki
 ExecStartPre=/bin/chown -R hyperbola-wiki:hyperbola-wiki /var/run/hyperbola-wiki/
-ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C /hyperbola/wiki.hyperbo.la/wiki/hyperbola-wiki.yaml
+ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C /hyperbola/wiki.hyperbo.la/wiki/hyperbola-wiki.yaml -S /var/run/hyperbola-wiki/hyperbola-wiki.%i.sock -P /var/run/hyperbola-wiki/thin.%i.pid
 
 [Install]
 WantedBy=multi-user.target
