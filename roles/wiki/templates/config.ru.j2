@@ -44,5 +44,5 @@ end
 $stdout.sync = true
 
 use LopopoloGollumAuthor
-use Rack::SSL, hsts: false unless ENV['RACK_ENV'] == 'localhost'
+use Rack::SSL, hsts: false
 run Precious::App

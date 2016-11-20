@@ -10,12 +10,30 @@
   - git
   - ntp
   - vim
-- name: /hyperbola directory
+- name: /hyperbola directories
   file:
-    path: /hyperbola
+    path: "{{ item }}"
     state: directory
+  with_items:
+  - /hyperbola
+  - /hyperbola/tools
+  - /hyperbola/tools/venv
 - name: Install dehydrated
   git:
     repo: https://github.com/lukas2511/dehydrated.git
     dest: /hyperbola/tools/dehydrated
     version: 607c89cae2cac91ee5baa42d991cf95def9e1172
+- name: Install dehydrated cloudflare dns hook
+  git:
+    repo: https://github.com/kappataumu/letsencrypt-cloudflare-hook.git
+    dest: /hyperbola/tools/dehydrated/hooks/cloudflare
+    version: a6a7cfbf564ede7621f53bfc49b0c2dd694ee19e
+- name: Create dehydrated virtualenv
+  command: pyvenv /hyperbola/tools/venv
+  args:
+    creates: /hyperbola/tools/venv/bin/python
+- name: Install cloudflare hook dependencies
+  pip:
+    state: present
+    executable: /hyperbola/tools/venv/bin/pip
+    requirements: /hyperbola/tools/dehydrated/hooks/cloudflare/requirements.txt

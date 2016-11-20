@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: "True"
 upstream wiki_thin {
     server unix:/var/run/hyperbola-wiki/hyperbola-wiki.0.sock;
     server unix:/var/run/hyperbola-wiki/hyperbola-wiki.1.sock;
@@ -27,11 +28,13 @@ server {
 
     {% if item.ssl_enabled %}
     include conf.d/nginx-base-config/ssl-directive-only/ssl.conf;
+    {% if item.hsts %}
     include conf.d/nginx-base-config/ssl-directive-only/hsts.conf;
+    {% endif %}
     include conf.d/nginx-base-config/ssl-directive-only/ssl-stapling.conf;
 
-    ssl_certificate          /hyperbola/tls/wiki.hyperbo.la/certs/wiki.hyperbo.la/fullchain.pem;
-    ssl_certificate_key      /hyperbola/tls/wiki.hyperbo.la/certs/wiki.hyperbo.la/privkey.pem;
+    ssl_certificate          /hyperbola/tls/wiki.hyperbo.la/certs/{{ item.domain }}/fullchain.pem;
+    ssl_certificate_key      /hyperbola/tls/wiki.hyperbo.la/certs/{{ item.domain }}/privkey.pem;
     ssl_dhparam              /hyperbola/tls/wiki.hyperbo.la/certs/dhparam.pem;
     ssl_trusted_certificate  /hyperbola/tls/lets-encrypt-x3-cross-signed.pem;
     {% endif %}

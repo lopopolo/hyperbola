@@ -1,2 +1,3 @@
 ---
 wiki_environment: production
+wiki_nginx_domain: ~

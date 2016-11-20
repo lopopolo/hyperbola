@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 
+PATH="/hyperbola/tools/venv/bin:$PATH"
+export PATH
+
 echo "Begin renewal attempt at: $(date)"
 
-sg www-data "/hyperbola/tools/dehydrated/dehydrated --cron --config /hyperbola/tools/tls/wiki.hyperbo.la/config"
+sg www-data "/hyperbola/tools/dehydrated/dehydrated --cron --config /hyperbola/tools/tls/wiki.hyperbo.la/config --challenge dns-01 --hook /hyperbola/tools/dehydrated/hooks/cloudflare/hook.py"
 
 echo "Exit code from dehydrated: $?"
 
 umask 0037
 chmod -R g+rX "/hyperbola/tls/wiki.hyperbo.la/certs"
 
-sleep 30
-
-systemctl reload nginx
+CERTS_SKIP_NGINX_RELOAD=${CERTS_SKIP_NGINX_RELOAD:-}
+if [ -z "$CERTS_SKIP_NGINX_RELOAD" ]; then
+  sleep 30
+  systemctl reload nginx
+fi

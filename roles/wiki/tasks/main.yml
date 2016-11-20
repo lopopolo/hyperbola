@@ -72,7 +72,7 @@
   notify: restart wiki
 - name: Install thin config
   template:
-    src: hyperbola-wiki.j2
+    src: hyperbola-wiki.yaml.j2
     dest: /hyperbola/wiki.hyperbo.la/hyperbola-wiki.yaml
     mode: 0444
   notify: restart wiki
@@ -107,7 +107,7 @@
     name: "{{ item.username }}"
     password: "{{ item.password }}"
     owner: root
-    group: www-data
+    group: "{{ nginx_user }}"
     mode: 0640
   no_log: true
   with_items:
@@ -117,14 +117,14 @@
   file:
     path: /hyperbola/wiki.hyperbo.la/document-root/.well-known/acme-challenge
     state: directory
-    owner: www-data
-    group: www-data
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
 - name: wiki favicon
   copy:
     src: favicon.ico
     dest: /hyperbola/wiki.hyperbo.la/document-root/favicon.ico
-    owner: www-data
-    group: www-data
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
     mode: 0664
 
 # TLS
@@ -133,13 +133,13 @@
     path: /hyperbola/tools/tls/wiki.hyperbo.la
     state: directory
 - name: TLS config - domains.txt
-  copy:
-    src: tls/domains.txt
+  template:
+    src: tls/domains.txt.j2
     dest: /hyperbola/tools/tls/wiki.hyperbo.la/domains.txt
     mode: 0444
 - name: TLS config - config.sh
-  copy:
-    src: tls/config
+  template:
+    src: tls/config.j2
     dest: /hyperbola/tools/tls/wiki.hyperbo.la/config
     mode: 0444
 - name: hyperbola tools bin directory
@@ -151,6 +151,32 @@
     src: tls/wiki-certs
     dest: /hyperbola/tools/bin/wiki-certs
     mode: 0554
+- name: Install trusted certificate
+  copy:
+    src: tls/lets-encrypt-x3-cross-signed.pem
+    dest: /hyperbola/tls/lets-encrypt-x3-cross-signed.pem
+    owner: root
+    group: "{{ nginx_user }}"
+    mode: 0640
+- name: bootstrap certs
+  command: /hyperbola/tools/bin/wiki-certs
+  args:
+    creates: /hyperbola/tls/wiki.hyperbo.la/certs/{{ wiki_nginx_domain }}/fullchain.pem
+  environment:
+    CERTS_SKIP_NGINX_RELOAD: "true"
+  notify: reload nginx
+- name: Generate dhparams
+  command: openssl dhparam -out /hyperbola/tls/wiki.hyperbo.la/certs/dhparam.pem 2048
+  args:
+    creates: /hyperbola/tls/wiki.hyperbo.la/certs/dhparam.pem
+  notify: reload nginx
+- name: Make dhparams readable by nginx
+  file:
+    path: /hyperbola/tls/wiki.hyperbo.la/certs/dhparam.pem
+    owner: root
+    group: "{{ nginx_user }}"
+    mode: 440
+  notify: reload nginx
 - name: wiki-certs crontab
   cron:
     name: wiki-certs daily renewal check

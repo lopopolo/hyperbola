@@ -24,7 +24,11 @@
     with_items:
     - python-apt
     - python-passlib
+    - python-pip
+    - python3-pip
     - python-simplejson
+    - python3-venv
+    - python-virtualenv
   - name: Get base packages from dpkg
     command: dpkg --get-selections
     args:
