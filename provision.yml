@@ -22,5 +22,14 @@
     - python-apt
     - python-passlib
     - python-simplejson
+  - name: Get base packages from dpkg
+    command: dpkg --get-selections
+    args:
+      creates: /root/base-system-packages.txt
+    no_log: true # noise
+    register: dpkg_base_packages
+  - name: Save base package manifest
+    copy: content="{{ dpkg_base_packages.stdout }}" dest=/root/base-system-packages.txt
+    when: dpkg_base_packages|changed
   - name: Install filesystem acls # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
     apt: name=acl state=present
