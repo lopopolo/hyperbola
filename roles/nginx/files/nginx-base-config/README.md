@@ -17,8 +17,8 @@ configs by adding the following lines to the end of the server block:
 server {
     // snip ...
   
-    include /hyperbola/tools/nginx/location/*.conf;
-    include /hyperbola/tools/nginx/directive-only/*.conf;
+    include conf.d/nginx-base-config/location/*.conf;
+    include conf.d/nginx-base-config/directive-only/*.conf;
 }
 ```
 

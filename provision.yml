@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become_method: sudo
+  gather_facts: no
+  pre_tasks:
+  - name: 'install aptitude'
+    raw: sudo apt-get -y install aptitude
+  - name: 'install python2' # http://stackoverflow.com/a/34402816
+    raw: sudo apt-get -y install python python-simplejson python-apt python-passlib

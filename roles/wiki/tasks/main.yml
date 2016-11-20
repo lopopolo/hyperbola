@@ -1,0 +1,115 @@
+---
+- include_vars: deploy-keys.yml
+  no_log: true
+- include_vars: htpasswd.yml
+  no_log: true
+
+# deploy user
+- name: Create wiki group
+  group:
+    name: hyperbola-wiki
+    state: present
+- name: Create wiki user
+  user:
+    name: hyperbola-wiki
+    state: present
+    group: hyperbola-wiki
+    shell: /bin/bash
+- name: Ensure .ssh directory exists
+  file:
+    path: /home/hyperbola-wiki/.ssh
+    state: directory
+    mode: 0700
+    owner: hyperbola-wiki
+- name: Install github deploy key
+  copy:
+    content: "{{ wiki_ssh_deploy_key }}"
+    dest: /home/hyperbola-wiki/.ssh/id_rsa
+    mode: 0600
+    owner: hyperbola-wiki
+- name: ensure github.com is a known host
+  lineinfile:
+    dest: /home/hyperbola-wiki/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    regexp: "^github\\.com"
+
+# install wiki repo
+- name: Create tls directory
+  file:
+    path: /hyperbola/tls
+    state: directory
+- name: Create hyperbola directories
+  file:
+    path: /hyperbola/wiki.hyperbo.la
+    state: directory
+- name: Set perms on git repo
+  file:
+    path: /hyperbola/wiki.hyperbo.la/wiki
+    state: directory
+    owner: hyperbola-wiki
+    group: hyperbola-wiki
+- name: clone wiki repo
+  git:
+    repo: git@github.com:lopopolo/wiki.hyperbo.la.git
+    dest: /hyperbola/wiki.hyperbo.la/wiki
+    version: origin/master
+  become_user: hyperbola-wiki
+
+# wiki ruby + gollum deps and config
+- name: Install gollum build deps
+  apt: name={{ item }} state=present
+  with_items:
+  - libicu-dev
+- name: bundle install
+  bundler:
+    chdir: /hyperbola/wiki.hyperbo.la/wiki
+    state: present
+  notify: restart wiki
+- name: Install thin config
+  template:
+    src: hyperbola-wiki.j2
+    dest: /hyperbola/wiki.hyperbo.la/hyperbola-wiki.yaml
+    mode: 0444
+  notify: restart wiki
+- name: Install config.ru
+  copy:
+    src: config.ru
+    dest: /hyperbola/wiki.hyperbo.la/config.ru
+    mode: 0444
+  notify: restart wiki
+
+# services
+- name: Install systemd units
+  copy:
+    src: hyperbola-wiki@.service
+    dest: /etc/systemd/system
+    mode: 0444
+  register: install_config
+- name: notify systemd of config changes
+  command: systemctl daemon-reload
+  when: install_config.changed == True
+- name: Enable wiki instantiated units
+  systemd:
+    name: "hyperbola-wiki@{{ item }}.service"
+    state: started
+    enabled: true
+  with_items:
+    - 0
+    - 1
+    - 2
+
+# nginx
+- name: wiki htpasswd
+  htpasswd:
+    path: /hyperbola/wiki.hyperbo.la/wiki-auth
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    owner: root
+    group: www-data
+    mode: 0640
+  no_log: true
+  with_items:
+    "{{ wiki_htpasswd.users }}"
+  notify: reload nginx

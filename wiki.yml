@@ -1,0 +1,18 @@
+---
+- hosts: wiki
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+  - role: apt_upgrade
+  - role: ruby
+    ruby_install_from_source: true
+    ruby_download_url: http://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz
+    ruby_version: 2.3.1
+  - role: nginx
+    nginx_vhosts:
+    - domain: "{{ wiki_nginx_domain }}"
+      index: "02"
+      ssl_enabled: false
+      template: roles/wiki/templates/02-wiki.hyperbo.la.j2
+  - role: wiki

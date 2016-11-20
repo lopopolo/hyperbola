@@ -1,0 +1,12 @@
+---
+chdir: "/hyperbola/wiki.hyperbo.la/wiki"
+environment: "{{ wiki_environment }}"
+timeout: 30
+max_conns: 1024
+max_persistent_conns: 100
+require: []
+wait: 30
+threadpool_size: 20
+stats: "/stats"
+rackup: "/hyperbola/wiki.hyperbo.la/config.ru"
+
