@@ -7,15 +7,27 @@ require 'rack/ssl'
 class LopopoloGollumAuthor
   def initialize(app)
     @app = app
+    @fqdn = '{{ ansible_fqdn }}'
   end
 
   def call(env)
     env['rack.session'] ||= {}
     env['rack.session']['gollum.author'] = {
-        name: 'Ryan Lopopolo (gollum)',
-        email: 'rjl@hyperbo.la'
+      name: 'Ryan Lopopolo (gollum)',
+      email: 'rjl@hyperbo.la'
     }
-    @app.call(env)
+    status, headers, response = @app.call(env)
+    if headers["Content-Type"] =~ /text\/html|application\/xhtml\+xml/
+      body = ''
+      response.each { |part| body << part }
+      index = body.rindex('</body>')
+      if index
+        body.insert(index, "<!-- canonical hostname: #{@fqdn} -->")
+        headers["Content-Length"] = body.length.to_s
+        response = [body]
+      end
+    end
+    [status, headers, response]
   end
 end
 
