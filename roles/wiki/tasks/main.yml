@@ -113,3 +113,16 @@
   with_items:
     "{{ wiki_htpasswd.users }}"
   notify: reload nginx
+- name: Make acme-challenge directory for Let's Encrypt
+  file:
+    path: /hyperbola/wiki.hyperbo.la/document-root/.well-known/acme-challenge
+    state: directory
+    owner: www-data
+    group: www-data
+- name: wiki favicon
+  copy:
+    src: favicon.ico
+    dest: /hyperbola/wiki.hyperbo.la/document-root/favicon.ico
+    owner: www-data
+    group: www-data
+    mode: 0664
