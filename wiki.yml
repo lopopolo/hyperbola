@@ -13,6 +13,6 @@
     nginx_vhosts:
     - domain: "{{ wiki_nginx_domain }}"
       index: "02"
-      ssl_enabled: false
+      ssl_enabled: "{{ wiki_environment != 'localhost' }}"
       template: roles/wiki/templates/02-wiki.hyperbo.la.j2
   - role: wiki

@@ -29,6 +29,8 @@ Gollum::Hook.register(:post_commit, :git_resync) do
   puts `git-resync`
 end
 
+$stdout.sync = true
+
 use LopopoloGollumAuthor
 use Rack::SSL, hsts: false unless ENV['RACK_ENV'] == 'localhost'
 run Precious::App

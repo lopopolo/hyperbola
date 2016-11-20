@@ -56,7 +56,7 @@
   git:
     repo: git@github.com:lopopolo/wiki.hyperbo.la.git
     dest: /hyperbola/wiki.hyperbo.la/wiki
-    version: origin/master
+    version: master
   become: true
   become_user: hyperbola-wiki
 
