@@ -6,8 +6,8 @@ export PATH := ./venv/bin:$(PATH)
 all: lint
 
 lint:
-	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-tzdata --exclude=roles/ruby provision.yml
-	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-tzdata --exclude=roles/ruby wiki.yml
+	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-security --exclude=roles/ansible-tzdata --exclude=roles/ruby provision.yml
+	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-security --exclude=roles/ansible-tzdata --exclude=roles/ruby wiki.yml
 
 hooks:
 	venv/bin/pre-commit install

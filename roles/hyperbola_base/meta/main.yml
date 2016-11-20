@@ -2,3 +2,5 @@
 dependencies:
 - role: ansible-tzdata
   tzdata_timezone: America/New_York
+- role: ansible-security
+  security_ssh_port: "{% if hyperbola_environment == 'localhost' %}22{% else %}222{% endif %}"

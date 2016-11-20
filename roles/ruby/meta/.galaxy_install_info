@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {install_date: 'Sun Nov 20 04:52:09 2016', version: 2.4.1}
+=======
+{install_date: 'Sun Nov 20 20:27:49 2016', version: 2.4.1}
+>>>>>>> 6a3603d... Configure sshd with ansible using geerlinguy.security

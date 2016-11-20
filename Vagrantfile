@@ -87,7 +87,7 @@ Vagrant.configure("2") do |config|
       ansible.ask_vault_pass = true
       ansible.groups = {
         "wiki" => ["wiki-test-1"],
-        "wiki:vars" => { "wiki_environment" => "localhost",
+        "wiki:vars" => { "hyperbola_environment" => "localhost",
                          "wiki_nginx_domain" => "wiki.local.hyperbo.la" },
         "all_groups:children" => ["wiki"]
       }

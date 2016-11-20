@@ -183,4 +183,4 @@
     job: /hyperbola/tools/bin/wiki-certs >>/var/log/wiki-certs.log 2>&1
     minute: 15
     hour: 6
-  when: "{{ wiki_environment != 'localhost' }}"
+  when: "{{ hyperbola_environment != 'localhost' }}"
