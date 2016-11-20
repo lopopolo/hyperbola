@@ -42,6 +42,9 @@ server {
     location / {
         root /hyperbola/wiki.hyperbo.la/document-root/;
         try_files  $uri @hyperbola_wiki;
+
+        location = /robots.txt  { access_log off; log_not_found off; }
+        location = /favicon.ico { access_log off; log_not_found off; }
     }
 
     location @hyperbola_wiki {
