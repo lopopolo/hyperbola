@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+echo "Begin renewal attempt at: $(date)"
+
+sg www-data "/hyperbola/tools/dehydrated/dehydrated --cron --config /hyperbola/tools/tls/wiki.hyperbo.la/config"
+
+echo "Exit code from dehydrated: $?"
+
+umask 0037
+chmod -R g+rX "/hyperbola/tls/wiki.hyperbo.la/certs"
+
+sleep 30
+
+systemctl reload nginx

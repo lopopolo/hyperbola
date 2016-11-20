@@ -9,3 +9,12 @@
   with_items:
   - git
   - vim
+- name: /hyperbola directory
+  file:
+    path: /hyperbola
+    state: directory
+- name: Install dehydrated
+  git:
+    repo: https://github.com/lukas2511/dehydrated.git
+    dest: /hyperbola/tools/dehydrated
+    version: 607c89cae2cac91ee5baa42d991cf95def9e1172

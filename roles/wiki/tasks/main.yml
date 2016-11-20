@@ -126,3 +126,35 @@
     owner: www-data
     group: www-data
     mode: 0664
+
+# TLS
+- name: TLS config dir
+  file:
+    path: /hyperbola/tools/tls/wiki.hyperbo.la
+    state: directory
+- name: TLS config - domains.txt
+  copy:
+    src: tls/domains.txt
+    dest: /hyperbola/tools/tls/wiki.hyperbo.la/domains.txt
+    mode: 0444
+- name: TLS config - config.sh
+  copy:
+    src: tls/config
+    dest: /hyperbola/tools/tls/wiki.hyperbo.la/config
+    mode: 0444
+- name: hyperbola tools bin directory
+  file:
+    path: /hyperbola/tools/bin
+    state: directory
+- name: wiki.hyperbo.la cert renewal script
+  copy:
+    src: tls/wiki-certs
+    dest: /hyperbola/tools/bin/wiki-certs
+    mode: 0554
+- name: wiki-certs crontab
+  cron:
+    name: wiki-certs daily renewal check
+    job: /hyperbola/tools/bin/wiki-certs >>/var/log/wiki-certs.log 2>&1
+    minute: 15
+    hour: 6
+  when: "{{ wiki_environment != 'localhost' }}"
