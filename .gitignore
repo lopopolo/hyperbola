@@ -2,7 +2,7 @@
 
 ### Ansible ###
 *.retry
-
+/venv
 
 ### Vagrant ###
 .vagrant/

@@ -11,9 +11,9 @@
 - name: Add nginx ppa
   apt_repository: repo='ppa:nginx/stable'
 - name: Install nginx
-  apt: name=nginx-full state=latest
+  apt: name=nginx-full state=present
 - name: Install snakeoil ssl certs for default ssl server
-  apt: name=ssl-cert state=latest
+  apt: name=ssl-cert state=present
 
 # Default config
 - name: Remove default nginx vhost config file

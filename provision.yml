@@ -1,9 +1,15 @@
 ---
 - hosts: all
+  become: true
   become_method: sudo
+  become_user: root
   gather_facts: no
   pre_tasks:
   - name: 'install aptitude'
-    raw: sudo apt-get -y install aptitude
+    raw: apt-get -y install aptitude
+    tags:
+    - skip_ansible_lint
   - name: 'install python2' # http://stackoverflow.com/a/34402816
-    raw: sudo apt-get -y install python python-simplejson python-apt python-passlib
+    raw: apt-get -y install python python-simplejson python-apt python-passlib
+    tags:
+    - skip_ansible_lint

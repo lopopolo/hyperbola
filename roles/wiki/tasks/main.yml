@@ -1,7 +1,9 @@
 ---
-- include_vars: deploy-keys.yml
+- name: Load deploy key variables
+  include_vars: deploy-keys.yml
   no_log: true
-- include_vars: htpasswd.yml
+- name: Load wiki htpasswd user variables
+  include_vars: htpasswd.yml
   no_log: true
 
 # deploy user
@@ -55,6 +57,7 @@
     repo: git@github.com:lopopolo/wiki.hyperbo.la.git
     dest: /hyperbola/wiki.hyperbo.la/wiki
     version: origin/master
+  become: true
   become_user: hyperbola-wiki
 
 # wiki ruby + gollum deps and config
@@ -86,10 +89,7 @@
     src: hyperbola-wiki@.service
     dest: /etc/systemd/system
     mode: 0444
-  register: install_config
-- name: notify systemd of config changes
-  command: systemctl daemon-reload
-  when: install_config.changed == True
+  notify: reload systemd units
 - name: Enable wiki instantiated units
   systemd:
     name: "hyperbola-wiki@{{ item }}.service"

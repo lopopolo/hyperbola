@@ -1,3 +1,5 @@
 ---
+- name: reload systemd units
+  command: systemctl daemon-reload
 - name: restart wiki
   service: name='hyperbola-wiki@*' state=restarted
