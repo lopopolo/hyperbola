@@ -5,13 +5,22 @@
   become_user: root
   gather_facts: no
   pre_tasks:
-  - name: install aptitude
-    raw: apt-get -y install aptitude
-    tags:
-    - skip_ansible_lint
   - name: install python2 # http://stackoverflow.com/a/34402816
-    raw: apt-get -y install python python-simplejson python-apt python-passlib
+    raw: apt-get -y install python
     tags:
     - skip_ansible_lint
+  tasks:
+  - name: Gathering facts
+    setup:
+  - name: install aptitude
+    command: apt-get -y install aptitude
+    args:
+      creates: /usr/bin/aptitude
+  - name: Install ansible dependencies
+    apt: name={{ item }} state=present
+    with_items:
+    - python-apt
+    - python-passlib
+    - python-simplejson
   - name: Install filesystem acls # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
     apt: name=acl state=present
