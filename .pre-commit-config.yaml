@@ -12,3 +12,10 @@
   sha: v1.0.0
   hooks:
   - id: terraform_fmt
+- repo: local
+  hooks:
+    - id: ansible-lint
+      name: ansible-lint
+      entry: make lint
+      language: system
+      files: .yml$

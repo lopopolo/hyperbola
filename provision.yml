@@ -16,6 +16,9 @@
     command: apt-get -y install aptitude
     args:
       creates: /usr/bin/aptitude
+      warn: false
+    tags:
+    - skip_ansible_lint
   - name: Install ansible dependencies
     apt: name={{ item }} state=present
     with_items:
@@ -27,9 +30,15 @@
     args:
       creates: /root/base-system-packages.txt
     no_log: true # noise
-    register: dpkg_base_packages
-  - name: Save base package manifest
-    copy: content="{{ dpkg_base_packages.stdout }}" dest=/root/base-system-packages.txt
-    when: dpkg_base_packages|changed
+    register: dpkg_get_selections
+    notify: save base package manifest
+  - name: Set dpkg selections fact for handler
+    set_fact:
+      dpkg_base_packages: "{{ dpkg_get_selections.stdout }}"
+    no_log: true
   - name: Install filesystem acls # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
     apt: name=acl state=present
+  handlers:
+  - name: save base package manifest
+    copy: content="{{ dpkg_base_packages }}" dest=/root/base-system-packages.txt
+    no_log: true

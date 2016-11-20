@@ -6,8 +6,11 @@ export PATH := ./venv/bin:$(PATH)
 all: lint
 
 lint:
-	ansible-lint provision.yml
-	ansible-lint wiki.yml
+	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-tzdata --exclude=roles/ruby provision.yml
+	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-tzdata --exclude=roles/ruby wiki.yml
+
+hooks:
+	venv/bin/pre-commit install
 
 install_roles:
 	ansible-galaxy install -r roles/requirements.yml -p ./roles/ --force
