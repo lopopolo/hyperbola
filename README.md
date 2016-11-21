@@ -10,13 +10,13 @@ set of ansible playbooks.
 ### Goals
 
 - No login deploys
-  - wiki gems
-	- hyperbola app (production and staging)
+- [x] wiki gems
+- [ ] hyperbola app (production and staging)
 - No manual server configuration
-  - first five minutes
-	- app config
-
-### Non-goals
-
-- Let's Encrypt bootstrapping
-
+- [ ] app: first five minutes
+- [ ] app: app config
+- [x] wiki: first five minutes
+- [x] wiki: app config
+- Let's Encrypt
+- [x] Let's Encrypt bootstrapping
+- [x] TLS in vagrant instances
