@@ -10,6 +10,10 @@
   - git
   - ntp
   - vim
+- name: Lock root account # http://stackoverflow.com/a/39018859
+  user:
+    name: root
+    state: present
 - name: Passwordless sudo --list
   lineinfile:
     dest: /etc/sudoers
