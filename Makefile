@@ -15,11 +15,14 @@ hooks:
 install_roles:
 	ansible-galaxy install -r roles/requirements.yml -p ./roles/ --force
 
+# Ansible config
+export ANSIBLE_CALLBACK_WHITELIST := profile_tasks
+
 provision:
-	PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook --connection=ssh --timeout=30 --inventory-file=/Users/lopopolo/dev/repos/hyperbola-tools/production.ini --ask-become-pass -v provision.yml
+	 ansible-playbook --connection=ssh --timeout=30 --inventory-file=./production.ini --ask-become-pass -v provision.yml
 
 wiki:
-	PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook --connection=ssh --timeout=30 --inventory-file=/Users/lopopolo/dev/repos/hyperbola-tools/production.ini --ask-become-pass --ask-vault-pass -v wiki.yml
+	ansible-playbook --connection=ssh --timeout=30 --inventory-file=./production.ini --ask-become-pass --ask-vault-pass -v wiki.yml
 
 virtualenv: wipe-virtualenv
 	virtualenv --python=$$(which python2) venv

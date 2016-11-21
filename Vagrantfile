@@ -82,6 +82,7 @@ Vagrant.configure("2") do |config|
     end
 
     wiki.vm.provision "wiki", type: "ansible" do |ansible|
+      ENV["ANSIBLE_CALLBACK_WHITELIST"] = "profile_tasks"
       ansible.verbose = "v"
       ansible.playbook = "wiki.yml"
       ansible.ask_vault_pass = true
