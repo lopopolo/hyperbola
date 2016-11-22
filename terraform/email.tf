@@ -1,9 +1,11 @@
+# G Suite MX record values: https://support.google.com/a/answer/174125?hl=en
+
 resource "cloudflare_record" "hyperbo_la_MX_27ba48a0e93a5bd8f94ed2899bca69b1" {
   domain   = "hyperbo.la"
   name     = "hyperbo.la"
   value    = "aspmx.l.google.com"
   type     = "MX"
-  ttl      = 1
+  ttl      = 86400
   priority = 1
   proxied  = false
 }
@@ -13,7 +15,7 @@ resource "cloudflare_record" "hyperbo_la_MX_c3e2f533bb53628ad23142348b227715" {
   name     = "hyperbo.la"
   value    = "alt1.aspmx.l.google.com"
   type     = "MX"
-  ttl      = 1
+  ttl      = 86400
   priority = 5
   proxied  = false
 }
@@ -23,7 +25,7 @@ resource "cloudflare_record" "hyperbo_la_MX_94ff23d8f35747b75d1ed74326585eff" {
   name     = "hyperbo.la"
   value    = "alt2.aspmx.l.google.com"
   type     = "MX"
-  ttl      = 1
+  ttl      = 86400
   priority = 5
   proxied  = false
 }
@@ -31,9 +33,9 @@ resource "cloudflare_record" "hyperbo_la_MX_94ff23d8f35747b75d1ed74326585eff" {
 resource "cloudflare_record" "hyperbo_la_MX_644df9106b3c20e18d4661da88a17631" {
   domain   = "hyperbo.la"
   name     = "hyperbo.la"
-  value    = "aspmx2.googlemail.com"
+  value    = "alt3.aspmx.l.google.com"
   type     = "MX"
-  ttl      = 1
+  ttl      = 86400
   priority = 10
   proxied  = false
 }
@@ -41,9 +43,9 @@ resource "cloudflare_record" "hyperbo_la_MX_644df9106b3c20e18d4661da88a17631" {
 resource "cloudflare_record" "hyperbo_la_MX_2f1ca08d6b1c599f10e5c2fe5da4f28e" {
   domain   = "hyperbo.la"
   name     = "hyperbo.la"
-  value    = "aspmx3.googlemail.com"
+  value    = "alt4.aspmx.l.google.com"
   type     = "MX"
-  ttl      = 1
+  ttl      = 86400
   priority = 10
   proxied  = false
 }
