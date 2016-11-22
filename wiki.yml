@@ -4,7 +4,7 @@
   become_method: sudo
   become_user: root
   vars_files:
-    - vars/cloudfront.yml
+    - vars/cloudflare.yml
   roles:
   - role: hyperbola_base
   - role: ruby

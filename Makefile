@@ -6,6 +6,8 @@ export PATH := ./venv/bin:$(PATH)
 all: lint
 
 lint:
+	ansible-playbook -i "localhost," provision.yml --syntax-check
+	ansible-playbook -i "localhost," wiki.yml --syntax-check --vault-password-file=.ansible/vault-password.txt
 	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-security --exclude=roles/ansible-tzdata --exclude=roles/ruby provision.yml
 	ansible-lint --exclude=roles/ansible-hostname --exclude=roles/ansible-security --exclude=roles/ansible-tzdata --exclude=roles/ruby wiki.yml
 
