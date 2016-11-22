@@ -50,6 +50,8 @@ resource "cloudflare_record" "hyperbo_la_MX_2f1ca08d6b1c599f10e5c2fe5da4f28e" {
   proxied  = false
 }
 
+# G Suite TXT record values: https://support.google.com/a/answer/2716802?hl=en
+
 resource "cloudflare_record" "google__domainkey_hyperbo_la_TXT_46408b4e05fccf582ba7cbc654e990b8" {
   domain  = "hyperbo.la"
   name    = "google._domainkey"
