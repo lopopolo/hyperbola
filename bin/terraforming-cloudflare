@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require "terraforming/cloudflare"
+
+Terraforming::CloudFlare::CLI.start(ARGV)
