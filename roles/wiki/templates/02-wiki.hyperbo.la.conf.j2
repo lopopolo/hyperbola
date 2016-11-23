@@ -16,6 +16,12 @@ server {
     }
 
     location / {
+        include conf.d/nginx-base-config/location/*.conf;
+        location = /healthz {
+            proxy_pass            http://wiki_thin$request_uri;
+            proxy_http_version    1.1;
+            proxy_redirect        off;
+        }
         return 301 https://$host$request_uri;
     }
 }
@@ -27,11 +33,11 @@ server {
     server_name  {{ item.domain }};
 
     {% if item.ssl_enabled %}
-    include conf.d/nginx-base-config/ssl-directive-only/ssl.conf;
+    include conf.d/nginx-base-config/directive-only/ssl/ssl.conf;
     {% if item.hsts %}
-    include conf.d/nginx-base-config/ssl-directive-only/hsts.conf;
+    include conf.d/nginx-base-config/directive-only/ssl/hsts.conf;
     {% endif %}
-    include conf.d/nginx-base-config/ssl-directive-only/ssl-stapling.conf;
+    include conf.d/nginx-base-config/directive-only/ssl/ssl-stapling.conf;
 
     ssl_certificate          /hyperbola/tls/wiki.hyperbo.la/certs/{{ item.domain }}/fullchain.pem;
     ssl_certificate_key      /hyperbola/tls/wiki.hyperbo.la/certs/{{ item.domain }}/privkey.pem;
@@ -46,8 +52,7 @@ server {
         root /hyperbola/wiki.hyperbo.la/document-root/;
         try_files  $uri @hyperbola_wiki;
 
-        location = /robots.txt  { access_log off; log_not_found off; }
-        location = /favicon.ico { access_log off; log_not_found off; }
+        include conf.d/nginx-base-config/location/*.conf;
     }
 
     location @hyperbola_wiki {
@@ -63,6 +68,7 @@ server {
     }
 
     location /.well-known/ {
+        root /hyperbola/wiki.hyperbo.la/document-root/;
         auth_basic off;
     }
 

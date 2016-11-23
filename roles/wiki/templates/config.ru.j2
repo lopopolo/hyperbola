@@ -43,6 +43,16 @@ end
 
 $stdout.sync = true
 
-use LopopoloGollumAuthor
-use Rack::SSL, hsts: false
-run Precious::App
+app = Rack::Builder.new do
+  map '/' do
+    use LopopoloGollumAuthor
+    use Rack::SSL, hsts: false
+    run Precious::App
+  end
+
+  map '/healthz' do
+    run lambda { |env| [200, {'Content-Type' => 'text/plain'}, ['OK']] }
+  end
+end
+
+run app
