@@ -177,6 +177,7 @@ SENDFILE_URL = '/media'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = True if ENVIRONMENT in ['production', 'staging'] else False
+SECURE_REDIRECT_EXEMPT = ['/healthz']
 SESSION_COOKIE_SECURE = True if ENVIRONMENT in ['production', 'staging'] else False
 CSRF_COOKIE_SECURE = True if ENVIRONMENT in ['production', 'staging'] else False
 CSRF_COOKIE_HTTPONLY = True

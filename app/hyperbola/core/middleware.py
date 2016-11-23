@@ -17,8 +17,11 @@ class FQDNMiddleware(object):
 
         if response and response.content:
             content = response.content
-            index = content.index(b'</body>')
-            content = content[:index] + _COMMENT + content[index:]
-            response.content = content
+            try:
+                index = content.index(b'</body>')
+                content = content[:index] + _COMMENT + content[index:]
+                response.content = content
+            except ValueError:
+                pass
 
         return response
