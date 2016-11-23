@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh Let's Encrypt certs for hyperbola-wiki
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/hyperbola/tools/bin/wiki-certs
+ExecStopPost=/bin/systemctl reload nginx
+
+[Install]
+WantedBy=multi-user.target

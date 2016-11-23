@@ -177,10 +177,25 @@
     group: "{{ nginx_user }}"
     mode: 440
   notify: reload nginx
-- name: wiki-certs crontab
-  cron:
-    name: wiki-certs daily renewal check
-    job: /hyperbola/tools/bin/wiki-certs >>/var/log/wiki-certs.log 2>&1
-    minute: 15
-    hour: 6
-  when: "{{ hyperbola_environment != 'localhost' }}"
+- name: Install cert refresh service
+  copy:
+    src: hyperbola-wiki-certs.service
+    dest: /etc/systemd/system
+    mode: 0444
+  notify: reload systemd units
+- name: Install cert refresh timer
+  copy:
+    src: hyperbola-wiki-certs.timer
+    dest: /etc/systemd/system
+    mode: 0444
+  notify: reload systemd units
+- name: Enable wiki-certs timer
+  systemd:
+    name: hyperbola-wiki-certs.timer
+    state: started
+    enabled: true
+- name: Execute wiki-certs service on boot and playbook run time
+  systemd:
+    name: hyperbola-wiki-certs.service
+    state: started
+    enabled: true

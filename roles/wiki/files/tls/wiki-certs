@@ -11,9 +11,3 @@ echo "Exit code from dehydrated: $?"
 
 umask 0037
 chmod -R g+rX "/hyperbola/tls/wiki.hyperbo.la/certs"
-
-CERTS_SKIP_NGINX_RELOAD=${CERTS_SKIP_NGINX_RELOAD:-}
-if [ -z "$CERTS_SKIP_NGINX_RELOAD" ]; then
-  sleep 30
-  systemctl reload nginx
-fi
