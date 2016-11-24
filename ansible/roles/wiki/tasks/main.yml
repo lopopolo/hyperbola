@@ -36,16 +36,17 @@
     state: present
     line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
+    owner: hyperbola-wiki
+    group: hyperbola-wiki
 
 # install wiki repo
-- name: Create tls directory
+- name: Create directories
   file:
-    path: /hyperbola/tls
+    path: "{{ item }}"
     state: directory
-- name: Create hyperbola directories
-  file:
-    path: /hyperbola/wiki.hyperbo.la
-    state: directory
+  with_items:
+  - /hyperbola/tls
+  - /hyperbola/wiki.hyperbo.la
 - name: Set perms on git repo
   file:
     path: /hyperbola/wiki.hyperbo.la/wiki
@@ -59,6 +60,16 @@
     version: master
   become: true
   become_user: hyperbola-wiki
+- name: Install wiki update on boot unit
+  copy:
+    src: hyperbola-wiki-update.service
+    dest: /etc/systemd/system
+    mode: 0444
+  notify: reload systemd units
+- name: Enable wiki update unit
+  systemd:
+    name: hyperbola-wiki-update.service
+    enabled: true
 
 # wiki ruby + gollum deps and config
 - name: Install gollum build deps

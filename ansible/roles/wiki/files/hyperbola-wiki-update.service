@@ -1,0 +1,16 @@
+[Unit]
+Description=Update wiki git repo on boot
+After=syslog.target
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=hyperbola-wiki
+Group=hyperbola-wiki
+WorkingDirectory=/hyperbola/wiki.hyperbo.la/wiki
+ExecPre=/bin/sleep 30
+ExecStart=/usr/bin/git pull
+
+[Install]
+WantedBy=multi-user.target
