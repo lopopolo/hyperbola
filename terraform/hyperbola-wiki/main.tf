@@ -14,8 +14,6 @@ variable "private_subnet_ids" {}
 
 variable "public_subnet_ids" {}
 
-variable "bastion_private_ip" {}
-
 variable "instance_type" {
   default = "t2.small"
 }
@@ -60,81 +58,6 @@ resource "aws_security_group" "elb" {
     to_port         = 443
     security_groups = ["${aws_security_group.backend.id}"]
   }
-}
-
-resource "aws_security_group" "backend" {
-  name   = "${var.name}-backend-sg"
-  vpc_id = "${var.vpc_id}"
-
-  # ssh
-  ingress {
-    protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
-    cidr_blocks = ["${var.bastion_private_ip}/32"]
-  }
-
-  # web requests, apt update
-  egress {
-    protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # github: https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist/
-  egress {
-    protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
-    cidr_blocks = ["192.30.252.0/22"]
-  }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
-    cidr_blocks = ["192.30.252.0/22"]
-  }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
-    cidr_blocks = ["192.30.252.0/22"]
-  }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 9418
-    to_port     = 9418
-    cidr_blocks = ["192.30.252.0/22"]
-  }
-}
-
-resource "aws_security_group_rule" "elb-to-backend-80" {
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 80
-  to_port                  = 80
-  security_group_id        = "${aws_security_group.backend.id}"
-  source_security_group_id = "${aws_security_group.elb.id}"
-}
-
-resource "aws_security_group_rule" "elb-to-backend-443" {
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 443
-  to_port                  = 443
-  security_group_id        = "${aws_security_group.backend.id}"
-  source_security_group_id = "${aws_security_group.elb.id}"
 }
 
 resource "aws_elb" "elb" {
