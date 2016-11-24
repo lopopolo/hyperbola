@@ -206,16 +206,16 @@ resource "aws_launch_configuration" "backend" {
 }
 
 resource "aws_autoscaling_group" "backend" {
-  name                  = "${aws_launch_configuration.backend.name}"
-  launch_configuration  = "${aws_launch_configuration.backend.name}"
-  desired_capacity      = "1"
-  min_size              = "1"
-  max_size              = "1"
-  wait_for_elb_capacity = "1"
-  availability_zones    = ["${split(",", var.azs)}"]
-  vpc_zone_identifier   = ["${split(",", var.private_subnet_ids)}"]
-  load_balancers        = ["${aws_elb.elb.id}"]
-  health_check_type     = "EC2"
+  name                      = "${aws_launch_configuration.backend.name}"
+  launch_configuration      = "${aws_launch_configuration.backend.name}"
+  desired_capacity          = "1"
+  min_size                  = "1"
+  max_size                  = "1"
+  wait_for_elb_capacity     = "1"
+  wait_for_capacity_timeout = "30m"
+  availability_zones        = ["${split(",", var.azs)}"]
+  vpc_zone_identifier       = ["${split(",", var.private_subnet_ids)}"]
+  load_balancers            = ["${aws_elb.elb.id}"]
 
   lifecycle {
     create_before_destroy = true
