@@ -20,25 +20,16 @@ variable "host" {
 
 # Cloudflare DNS
 
-resource "cloudflare_record" "wiki_hyperbo_la_A" {
+resource "cloudflare_record" "wiki" {
   domain  = "hyperbo.la"
   name    = "wiki"
-  value   = "${lookup(var.ipv4_addresses, var.host)}"
-  type    = "A"
+  value   = "${aws_elb.elb.dns_name}"
+  type    = "CNAME"
   ttl     = 1
   proxied = false
 }
 
-resource "cloudflare_record" "wiki_hyperbo_la_AAAA" {
-  domain  = "hyperbo.la"
-  name    = "wiki"
-  value   = "${lookup(var.ipv6_addresses, var.host)}"
-  type    = "AAAA"
-  ttl     = 1
-  proxied = false
-}
-
-resource "cloudflare_record" "wiki_local_hyperbo_la_A" {
+resource "cloudflare_record" "wiki-local" {
   domain  = "hyperbo.la"
   name    = "wiki.local"
   value   = "${lookup(var.ipv4_addresses, "wiki-local-1")}"
