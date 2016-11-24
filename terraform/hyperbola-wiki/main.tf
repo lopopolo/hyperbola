@@ -14,6 +14,8 @@ variable "private_subnet_ids" {}
 
 variable "public_subnet_ids" {}
 
+variable "bastion_private_ip" {}
+
 variable "instance_type" {
   default = "t2.small"
 }
@@ -63,6 +65,29 @@ resource "aws_security_group" "elb" {
 resource "aws_security_group" "backend" {
   name   = "${var.name}-backend-sg"
   vpc_id = "${var.vpc_id}"
+
+  # ssh
+  ingress {
+    protocol    = "tcp"
+    from_port   = 22
+    to_port     = 22
+    cidr_blocks = ["${var.bastion_private_ip}/32"]
+  }
+
+  # web requests, apt update
+  egress {
+    protocol    = "tcp"
+    from_port   = 80
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   # github: https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist/
   egress {
@@ -190,6 +215,7 @@ resource "aws_autoscaling_group" "backend" {
   availability_zones    = ["${split(",", var.azs)}"]
   vpc_zone_identifier   = ["${split(",", var.private_subnet_ids)}"]
   load_balancers        = ["${aws_elb.elb.id}"]
+  health_check_type     = "EC2"
 
   lifecycle {
     create_before_destroy = true
@@ -212,4 +238,8 @@ output "private_fqdn" {
 
 output "elb_dns" {
   value = "${aws_elb.elb.dns_name}"
+}
+
+output "user_data" {
+  value = "${template_file.user_data.rendered}"
 }

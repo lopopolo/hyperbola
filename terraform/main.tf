@@ -82,7 +82,12 @@ module "hyperbola-wiki" {
   azs                = "${var.azs}"
   private_subnet_ids = "${module.network.private_subnet_ids}"
   public_subnet_ids  = "${module.network.public_subnet_ids}"
+  bastion_private_ip = "${module.network.bastion_private_ip}"
 
   prod_zone_id  = "${aws_route53_zone.hyperbola-zone.id}"
   local_zone_id = "${aws_route53_zone.hyperbola-local-zone.id}"
+}
+
+output "wiki_user_data" {
+  value = "${module.hyperbola-wiki.user_data}"
 }
