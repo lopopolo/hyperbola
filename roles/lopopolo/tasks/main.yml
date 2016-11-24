@@ -1,0 +1,20 @@
+---
+# sysadmin user
+- name: Include lopopolo password variable
+  include_vars: lopopolo.yml
+  no_log: true
+- name: Create lopopolo group
+  group:
+    name: lopopolo
+- name: Create lopopolo user
+  user:
+    name: lopopolo
+    group: lopopolo
+    groups: sudo
+    append: true
+    password: "{{ lopopolo_password }}"
+    shell: /bin/bash
+- name: Add lopopolo authorized keys from github
+  authorized_key:
+    key: https://github.com/lopopolo.keys
+    user: lopopolo

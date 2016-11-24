@@ -1,0 +1,10 @@
+---
+- name: ruby
+  src: https://github.com/geerlingguy/ansible-role-ruby.git
+  version: 2.4.1
+- name: ansible-tzdata
+  src: https://github.com/pantarei/ansible-role-tzdata.git
+  version: 6.1.0
+- name: ansible-security
+  src: https://github.com/geerlingguy/ansible-role-security.git
+  version: 1.4.0

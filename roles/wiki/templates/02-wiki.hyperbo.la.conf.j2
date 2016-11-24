@@ -1,0 +1,78 @@
+#jinja2: lstrip_blocks: "True"
+upstream wiki_thin {
+    server unix:/var/run/hyperbola-wiki/hyperbola-wiki.0.sock;
+    server unix:/var/run/hyperbola-wiki/hyperbola-wiki.1.sock;
+    server unix:/var/run/hyperbola-wiki/hyperbola-wiki.2.sock;
+}
+
+{% if item.ssl_enabled %}
+server {
+    listen       [::]:80;
+    listen       80;
+    server_name  {{ item.domain }};
+
+    location /.well-known/ {
+        root /hyperbola/wiki.hyperbo.la/document-root/;
+    }
+
+    location / {
+        include conf.d/nginx-base-config/location/*.conf;
+        location = /healthz {
+            proxy_pass            http://wiki_thin$request_uri;
+            proxy_http_version    1.1;
+            proxy_redirect        off;
+        }
+        return 301 https://$host$request_uri;
+    }
+}
+{% endif %}
+
+server {
+    listen       [::]:{% if item.ssl_enabled %}443 ssl http2{% else %}80{% endif %};
+    listen       {% if item.ssl_enabled %}443 ssl http2{% else %}80{% endif %};
+    server_name  {{ item.domain }};
+
+    {% if item.ssl_enabled %}
+    include conf.d/nginx-base-config/directive-only/ssl/ssl.conf;
+    {% if item.hsts %}
+    include conf.d/nginx-base-config/directive-only/ssl/hsts.conf;
+    {% endif %}
+    include conf.d/nginx-base-config/directive-only/ssl/ssl-stapling.conf;
+
+    ssl_certificate          /hyperbola/tls/wiki.hyperbo.la/certs/{{ item.domain }}/fullchain.pem;
+    ssl_certificate_key      /hyperbola/tls/wiki.hyperbo.la/certs/{{ item.domain }}/privkey.pem;
+    ssl_dhparam              /hyperbola/tls/wiki.hyperbo.la/certs/dhparam.pem;
+    ssl_trusted_certificate  /hyperbola/tls/lets-encrypt-x3-cross-signed.pem;
+    {% endif %}
+
+    auth_basic            "Restricted by Roofie";
+    auth_basic_user_file  /hyperbola/wiki.hyperbo.la/wiki-auth;
+
+    location / {
+        root /hyperbola/wiki.hyperbo.la/document-root/;
+        try_files  $uri @hyperbola_wiki;
+
+        include conf.d/nginx-base-config/location/*.conf;
+    }
+
+    location @hyperbola_wiki {
+        internal;
+        proxy_pass            http://wiki_thin$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+        proxy_set_header      X-Real-IP         $remote_addr;
+        proxy_set_header      X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header      X-Forwarded-Host  {{ item.domain }};
+        proxy_set_header      X-Forwarded-Proto $scheme;
+        client_max_body_size  10m;
+    }
+
+    location /.well-known/ {
+        root /hyperbola/wiki.hyperbo.la/document-root/;
+        auth_basic off;
+    }
+
+    include conf.d/nginx-base-config/directive-only/*.conf;
+}
+
+# vim: set ft=nginx:

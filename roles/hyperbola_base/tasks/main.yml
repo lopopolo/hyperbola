@@ -1,0 +1,52 @@
+---
+- name: apt update && apt upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 3600
+- name: base packages
+  apt: name={{ item }} state=present
+  with_items:
+  - git
+  - ntp
+  - vim
+- name: Lock root account # http://stackoverflow.com/a/39018859
+  user:
+    name: root
+    state: present
+- name: Passwordless sudo --list
+  lineinfile:
+    dest: /etc/sudoers
+    line: "{{ item }}"
+    state: present
+    validate: 'visudo -cf %s'
+  with_items:
+    - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo -l"
+    - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo --list"
+- name: /hyperbola directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - /hyperbola
+  - /hyperbola/tools
+  - /hyperbola/tools/venv
+- name: Install dehydrated
+  git:
+    repo: https://github.com/lukas2511/dehydrated.git
+    dest: /hyperbola/tools/dehydrated
+    version: 607c89cae2cac91ee5baa42d991cf95def9e1172
+- name: Install dehydrated cloudflare dns hook
+  git:
+    repo: https://github.com/kappataumu/letsencrypt-cloudflare-hook.git
+    dest: /hyperbola/tools/dehydrated/hooks/cloudflare
+    version: a6a7cfbf564ede7621f53bfc49b0c2dd694ee19e
+- name: Create dehydrated virtualenv
+  command: pyvenv /hyperbola/tools/venv
+  args:
+    creates: /hyperbola/tools/venv/bin/python
+- name: Install cloudflare hook dependencies
+  pip:
+    state: present
+    executable: /hyperbola/tools/venv/bin/pip
+    requirements: /hyperbola/tools/dehydrated/hooks/cloudflare/requirements.txt

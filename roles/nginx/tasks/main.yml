@@ -1,0 +1,45 @@
+---
+# Variable setup
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: Define nginx_user
+  set_fact:
+    nginx_user: "{{ __nginx_user }}"
+  when: nginx_user is not defined
+
+# Packages
+- name: Add nginx ppa
+  apt_repository: repo='ppa:nginx/stable'
+- name: Install nginx
+  apt: name=nginx-full state=present
+- name: Install snakeoil ssl certs for default ssl server
+  apt: name=ssl-cert state=present
+
+# Default config
+- name: Remove default nginx vhost config file
+  file:
+    path: "{{ nginx_default_vhost_path }}"
+    state: absent
+  notify: reload nginx
+- name: Install default http and ssl servers
+  copy:
+    src: sites/00-no-default.conf
+    dest: "{{ nginx_vhost_path }}"
+    mode: 0444
+  notify: reload nginx
+- name: Install hyperbola nginx base directives
+  copy:
+    src: nginx-base-config
+    dest: "{{ nginx_conf_path }}"
+    mode: 0444
+  notify: reload nginx
+
+# Install configured vhosts
+- name: Install passed-in vhosts
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ nginx_vhost_path }}/{{ item.index }}-{{ item.domain }}.conf"
+    mode: 0444
+  with_items:
+    "{{ nginx_vhosts }}"
+  notify: reload nginx

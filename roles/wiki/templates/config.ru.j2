@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'gollum/app'
+require 'rack/ssl'
+
+class LopopoloGollumAuthor
+  def initialize(app)
+    @app = app
+    @fqdn = '{{ ansible_fqdn }}'
+  end
+
+  def call(env)
+    env['rack.session'] ||= {}
+    env['rack.session']['gollum.author'] = {
+      name: 'Ryan Lopopolo (gollum)',
+      email: 'rjl@hyperbo.la'
+    }
+    status, headers, response = @app.call(env)
+    if headers["Content-Type"] =~ /text\/html|application\/xhtml\+xml/
+      body = ''
+      response.each { |part| body << part }
+      index = body.rindex('</body>')
+      if index
+        body.insert(index, "<!-- canonical hostname: #{@fqdn} -->")
+        headers["Content-Length"] = body.length.to_s
+        response = [body]
+      end
+    end
+    [status, headers, response]
+  end
+end
+
+GOLLUM_PATH = '/hyperbola/wiki.hyperbo.la/wiki'
+
+Precious::App.set(:gollum_path, GOLLUM_PATH)
+Precious::App.set(:default_markup, :markdown)
+Precious::App.set(:wiki_options, universal_toc: false, live_preview: false)
+
+Gollum::Hook.register(:post_commit, :git_resync) do
+  puts `git-resync`
+end
+
+$stdout.sync = true
+
+app = Rack::Builder.new do
+  map '/' do
+    use LopopoloGollumAuthor
+    use Rack::SSL, hsts: false
+    run Precious::App
+  end
+
+  map '/healthz' do
+    run lambda { |env| [200, {'Content-Type' => 'text/plain'}, ['OK']] }
+  end
+end
+
+run app
