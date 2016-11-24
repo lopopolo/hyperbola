@@ -87,7 +87,3 @@ module "hyperbola-wiki" {
   prod_zone_id  = "${aws_route53_zone.hyperbola-zone.id}"
   local_zone_id = "${aws_route53_zone.hyperbola-local-zone.id}"
 }
-
-output "wiki_user_data" {
-  value = "${module.hyperbola-wiki.user_data}"
-}

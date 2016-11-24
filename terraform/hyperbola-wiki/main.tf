@@ -243,7 +243,3 @@ output "private_fqdn" {
 output "elb_dns" {
   value = "${aws_elb.elb.dns_name}"
 }
-
-output "user_data" {
-  value = "${template_file.user_data.rendered}"
-}
