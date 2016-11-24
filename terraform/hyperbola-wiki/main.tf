@@ -95,33 +95,22 @@ resource "aws_elb" "elb" {
   }
 }
 
-resource "template_file" "user_data" {
-  template = "${file("${path.module}/provision.sh.tpl")}"
+data "aws_ami" "wiki" {
+  most_recent = true
+  owners      = ["self"]
 
-  lifecycle {
-    create_before_destroy = true
+  filter {
+    name   = "tag:ami"
+    values = ["aws-us-east-1-hyperbola-wiki"]
   }
-
-  vars {
-    ansible_vault_password = "${replace(file("${path.root}/../.secrets/vault-password.txt"), "\n", "")}"
-  }
-}
-
-module "ami" {
-  source        = "github.com/terraform-community-modules/tf_aws_ubuntu_ami/ebs"
-  instance_type = "${var.instance_type}"
-  region        = "${var.region}"
-  distribution  = "xenial"
-  storagetype   = "ebs-ssd"
 }
 
 resource "aws_launch_configuration" "backend" {
   name_prefix     = "${var.name}-"
-  image_id        = "${module.ami.ami_id}"
+  image_id        = "${data.aws_ami.wiki.id}"
   instance_type   = "${var.instance_type}"
   key_name        = "${var.key_name}"
   security_groups = ["${aws_security_group.backend.id}"]
-  user_data       = "${template_file.user_data.rendered}"
 
   lifecycle {
     create_before_destroy = true
@@ -135,10 +124,6 @@ resource "aws_autoscaling_group" "backend" {
   min_size              = "1"
   max_size              = "1"
   wait_for_elb_capacity = "1"
-
-  # provisioning takes up to 15 minutes
-  # TODO: remove when we switch to prebaking images with packer
-  wait_for_capacity_timeout = "30m"
 
   availability_zones  = ["${split(",", var.azs)}"]
   vpc_zone_identifier = ["${split(",", var.private_subnet_ids)}"]
