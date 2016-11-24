@@ -16,7 +16,7 @@ configs by adding the following lines to the end of the server block:
 ```nginx
 server {
     // snip ...
-  
+
     include conf.d/nginx-base-config/location/*.conf;
     include conf.d/nginx-base-config/directive-only/*.conf;
 }

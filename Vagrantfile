@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
 
     wiki.vm.provision "bootstrap", type: "ansible" do |ansible|
       ansible.verbose = "v"
-      ansible.playbook = "provision.yml"
+      ansible.playbook = "ansible/provision.yml"
       ansible.groups = {
         "wiki" => ["wiki-test-1"],
         "all_groups:children" => ["wiki"]
@@ -84,7 +84,7 @@ Vagrant.configure("2") do |config|
     wiki.vm.provision "wiki", type: "ansible" do |ansible|
       ENV["ANSIBLE_CALLBACK_WHITELIST"] = "profile_tasks"
       ansible.verbose = "v"
-      ansible.playbook = "wiki.yml"
+			ansible.playbook = "ansible/wiki.yml"
       ansible.vault_password_file = ".secrets/vault-password.txt"
       ansible.groups = {
         "wiki" => ["wiki-test-1"],
