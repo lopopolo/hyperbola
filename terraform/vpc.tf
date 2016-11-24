@@ -26,7 +26,7 @@ output "configuration" {
   value = <<CONFIGURATION
 
 Add your private key and SSH into any private node via the Bastion host:
-  ssh-add ../../../modules/keys/demo.pem
+  ssh-add ~/.ssh/hyperbola-cas
   ssh -A ${module.network.bastion_user}@${module.network.bastion_public_ip}
 
 CONFIGURATION
