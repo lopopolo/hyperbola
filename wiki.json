@@ -21,7 +21,7 @@
     "instance_type": "c4.large",
     "ssh_username": "ubuntu",
     "ssh_timeout": "10m",
-    "ami_name": "hyperbola-wiki {{timestamp}}",
+    "ami_name": "hyperbola-wiki {{isotime | clean_ami_name}}",
     "ami_description": "hyperbola-wiki AMI",
     "run_tags": {
       "ami-create": "aws-us-east-1-hyperbola-wiki"
