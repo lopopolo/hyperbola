@@ -85,7 +85,7 @@ Vagrant.configure("2") do |config|
       ENV["ANSIBLE_CALLBACK_WHITELIST"] = "profile_tasks"
       ansible.verbose = "v"
       ansible.playbook = "wiki.yml"
-      ansible.vault_password_file = ".ansible/vault-password.txt"
+      ansible.vault_password_file = ".secrets/vault-password.txt"
       ansible.groups = {
         "wiki" => ["wiki-test-1"],
         "wiki:vars" => { "hyperbola_environment" => "localhost",

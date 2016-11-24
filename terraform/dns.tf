@@ -2,11 +2,21 @@ variable "cloudflare_email" {
   default = "rjl@hyperbo.la"
 }
 
-variable "cloudflare_token" {}
+variable "cloudflare_token" {
+  default = ""
+}
+
+data template_file "cloudflare_token" {
+  template = "$${token}"
+
+  vars {
+    token = "${coalesce(var.cloudflare_token, replace(file("../.secrets/cloudflare-api-key.txt"), "\n", ""))}"
+  }
+}
 
 provider "cloudflare" {
   email = "${var.cloudflare_email}"
-  token = "${var.cloudflare_token}"
+  token = "${data.template_file.cloudflare_token.rendered}"
 }
 
 variable "ipv4_addresses" {
@@ -22,12 +32,15 @@ variable "ipv4_addresses" {
 
 variable "ipv6_addresses" {
   description = "IPv6 addresses of hyperbola machines"
+  type        = "map"
 
   default = {
     hyperbola2 = "2600:3c03::f03c:91ff:fe0a:ec23"
     hyperbola3 = "2600:3c03::f03c:91ff:fe2c:b8c8"
   }
 }
+
+# Cloudflare DNS
 
 resource "cloudflare_record" "hyperbola1_dc_hyperbo_la_A" {
   domain  = "hyperbo.la"
@@ -54,4 +67,14 @@ resource "cloudflare_record" "hyperbola3_dc_hyperbo_la_A" {
   type    = "A"
   ttl     = 1
   proxied = false
+}
+
+# Route 53 DNS
+
+resource "aws_route53_zone" "hyperbola-zone" {
+  name = "hyperbo.la"
+}
+
+output "hyperbola-zone-id" {
+  value = "${aws_route53_zone.hyperbola-zone.zone_id}"
 }
