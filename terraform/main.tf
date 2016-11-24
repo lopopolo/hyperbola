@@ -73,4 +73,16 @@ module "hyperbola-wiki" {
   host           = "hyperbola2"
   ipv4_addresses = "${var.ipv4_addresses}"
   ipv6_addresses = "${var.ipv6_addresses}"
+
+  name               = "${var.name}-wiki"
+  region             = "${var.region}"
+  vpc_id             = "${module.network.vpc_id}"
+  vpc_cidr           = "${var.vpc_cidr}"
+  key_name           = "${aws_key_pair.site_key.key_name}"
+  azs                = "${var.azs}"
+  private_subnet_ids = "${module.network.private_subnet_ids}"
+  public_subnet_ids  = "${module.network.public_subnet_ids}"
+
+  prod_zone_id  = "${aws_route53_zone.hyperbola-zone.id}"
+  local_zone_id = "${aws_route53_zone.hyperbola-local-zone.id}"
 }
