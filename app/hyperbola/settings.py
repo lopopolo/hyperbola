@@ -63,13 +63,13 @@ if ENVIRONMENT in ['production', 'staging']:
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'Etc/UTC'
 
 USE_I18N = False
 
 USE_L10N = False
 
-USE_TZ = False
+USE_TZ = True
 
 # Media and Static Files
 
