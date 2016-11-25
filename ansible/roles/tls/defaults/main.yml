@@ -1,0 +1,7 @@
+---
+tls_domain: ~ # www.example.com
+tls_san_list: [] # [example.com, web.example.com]
+
+# DNS challenges
+tls_cloudflare_api_key: ~
+tls_cloudflare_email: ~

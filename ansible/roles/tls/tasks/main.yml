@@ -1,0 +1,91 @@
+---
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - /hyperbola/tls
+  - /hyperbola/tools/bin
+  - /hyperbola/tools/tls
+  - "/hyperbola/tools/tls/{{ tls_domain }}"
+  - /hyperbola/tools/venv
+- name: Install dehydrated
+  git:
+    repo: https://github.com/lukas2511/dehydrated.git
+    dest: /hyperbola/tools/dehydrated
+    version: 607c89cae2cac91ee5baa42d991cf95def9e1172
+- name: Install dehydrated cloudflare dns hook
+  git:
+    repo: https://github.com/kappataumu/letsencrypt-cloudflare-hook.git
+    dest: /hyperbola/tools/dehydrated/hooks/cloudflare
+    version: a6a7cfbf564ede7621f53bfc49b0c2dd694ee19e
+- name: Create dehydrated virtualenv
+  command: pyvenv /hyperbola/tools/venv
+  args:
+    creates: /hyperbola/tools/venv/bin/python
+- name: Install cloudflare hook dependencies
+  pip:
+    state: present
+    executable: /hyperbola/tools/venv/bin/pip
+    requirements: /hyperbola/tools/dehydrated/hooks/cloudflare/requirements.txt
+- name: TLS config - domains.txt
+  template:
+    src: domains.txt.j2
+    dest: "/hyperbola/tools/tls/{{ tls_domain }}/domains.txt"
+    mode: 0444
+- name: TLS config - config.sh
+  template:
+    src: config.j2
+    dest: "/hyperbola/tools/tls/{{ tls_domain }}/config"
+    mode: 0444
+- name: cert renewal script
+  template:
+    src: refresh-certs.j2
+    dest: "/hyperbola/tools/bin/refresh-certs-{{ tls_domain }}"
+    mode: 0554
+- name: Install trusted certificate
+  copy:
+    src: lets-encrypt-x3-cross-signed.pem
+    dest: /hyperbola/tls/lets-encrypt-x3-cross-signed.pem
+    owner: root
+    group: "{{ nginx_user }}"
+    mode: 0640
+- name: bootstrap certs
+  command: "/hyperbola/tools/bin/refresh-certs-{{ tls_domain }}"
+  args:
+    creates: /hyperbola/tls/{{ tls_domain }}/certs/{{ tls_domain }}/fullchain.pem
+  notify: reload nginx
+- name: Generate dhparams
+  command: "openssl dhparam -out /hyperbola/tls/{{ tls_domain }}/certs/dhparam.pem 2048"
+  args:
+    creates: "/hyperbola/tls/{{ tls_domain }}/certs/dhparam.pem"
+  notify: reload nginx
+- name: Make dhparams readable by nginx
+  file:
+    path: "/hyperbola/tls/{{ tls_domain }}/certs/dhparam.pem"
+    owner: root
+    group: "{{ nginx_user }}"
+    mode: 440
+  notify: reload nginx
+- name: Install refresh-certs service
+  template:
+    src: refresh-certs.service.j2
+    dest: "/etc/systemd/system/refresh-certs@{{ tls_domain }}.service"
+    mode: 0444
+  notify: reload systemd units
+- name: Install cert refresh timer
+  template:
+    src: refresh-certs.timer.j2
+    dest: "/etc/systemd/system/refresh-certs@{{ tls_domain }}.timer"
+    mode: 0444
+  notify: reload systemd units
+- name: Enable refresh-certs timer
+  systemd:
+    name: "refresh-certs@{{ tls_domain }}.timer"
+    state: started
+    enabled: true
+- name: Execute refresh-certs service on boot and playbook run time
+  systemd:
+    name: "refresh-certs@{{ tls_domain }}.service"
+    state: started
+    enabled: true

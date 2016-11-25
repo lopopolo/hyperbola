@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh Let's Encrypt certs for {{ tls_domain }}
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/hyperbola/tools/bin/refresh-certs-{{ tls_domain }}
+ExecStopPost=/bin/systemctl reload nginx
+
+[Install]
+WantedBy=multi-user.target
