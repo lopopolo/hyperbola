@@ -1,6 +1,6 @@
 ---
 dependencies:
 - role: ansible-tzdata
-  tzdata_timezone: America/New_York
+  tzdata_timezone: Etc/UTC
 - role: lopopolo
 - role: ansible-security
