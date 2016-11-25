@@ -15,7 +15,7 @@ class FQDNMiddleware(object):
     def __call__(self, request):
         response = self.get_response(request)
 
-        if response and response.content:
+        if response and hasattr(response, 'content'):
             content = response.content
             try:
                 index = content.index(b'</body>')
