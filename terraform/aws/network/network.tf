@@ -123,6 +123,10 @@ output "bastion_security_group_id" {
   value = "${module.bastion.security_group_id}"
 }
 
+output "bastion_ingress_cidr" {
+  value = "${module.bastion.ingress_cidr}"
+}
+
 # NAT
 output "nat_gateway_ids" {
   value = "${module.nat.nat_gateway_ids}"

@@ -19,7 +19,26 @@ variable "key_name" {}
 
 variable "instance_type" {}
 
+resource "null_resource" "bastion-ingress-ip" {
+  triggers {
+    always = "${uuid()}"
+  }
+
+  provisioner "local-exec" {
+    command = "curl icanhazip.com --silent -o ${path.root}/../.secrets/bastion-ingress-ip.txt"
+  }
+}
+
+data "template_file" "bastion-ingress-cidr" {
+  template = "$${ingress}/32"
+
+  vars {
+    ingress = "${replace(file("${path.root}/../.secrets/bastion-ingress-ip.txt"), "\n", "")}"
+  }
+}
+
 resource "aws_security_group" "bastion" {
+  depends_on  = ["null_resource.bastion-ingress-ip"]
   name        = "${var.name}"
   vpc_id      = "${var.vpc_id}"
   description = "Bastion security group"
@@ -43,7 +62,7 @@ resource "aws_security_group" "bastion" {
     protocol    = "tcp"
     from_port   = 22
     to_port     = 22
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${data.template_file.bastion-ingress-cidr.rendered}"]
   }
 
   egress {
@@ -171,4 +190,8 @@ output "public_ip" {
 
 output "security_group_id" {
   value = "${aws_security_group.bastion.id}"
+}
+
+output "ingress_cidr" {
+  value = "${data.template_file.bastion-ingress-cidr.rendered}"
 }
