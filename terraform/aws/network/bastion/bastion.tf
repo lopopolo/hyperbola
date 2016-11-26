@@ -81,8 +81,12 @@ module "ami" {
 }
 
 resource "aws_iam_instance_profile" "bastion" {
-  name  = "test_profile"
+  name  = "bastion_profile"
   roles = ["${aws_iam_role.bastion.name}"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role" "bastion" {
@@ -141,7 +145,7 @@ resource "aws_launch_configuration" "bastion" {
   name_prefix          = "${var.name}-"
   image_id             = "${module.ami.ami_id}"
   instance_type        = "${var.instance_type}"
-  user_data            = "${file("${path.module}/user-data.sh")}"
+  user_data            = "${file("${path.module}/combined-userdata.txt")}"
   key_name             = "${var.key_name}"
   security_groups      = ["${aws_security_group.bastion.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.bastion.name}"

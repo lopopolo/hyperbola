@@ -3,10 +3,8 @@
 ##############
 # Install deps
 ##############
-# Ubuntu
-apt-get update
+## aws
 apt-get install -y python-pip jq
-
 pip install --upgrade awscli
 
 #############
