@@ -19,9 +19,9 @@ variable "instance_type" {
 }
 
 resource "aws_security_group" "elb" {
-  name        = "${var.name}.elb"
+  name_prefix = "${var.name}-elb-"
   vpc_id      = "${var.vpc_id}"
-  description = "Security group for Nodejs ELB"
+  description = "Security group for ${var.name} ELB"
 
   tags {
     Name = "${var.name}-elb"
@@ -57,6 +57,10 @@ resource "aws_security_group" "elb" {
     from_port       = 443
     to_port         = 443
     security_groups = ["${aws_security_group.backend.id}"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 

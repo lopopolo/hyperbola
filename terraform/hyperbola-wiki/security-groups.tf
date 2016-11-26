@@ -6,21 +6,26 @@ variable "github_ports" {
 variable "bastion_security_group_id" {}
 
 resource "aws_security_group" "backend" {
-  name   = "${var.name}-backend-sg"
-  vpc_id = "${var.vpc_id}"
+  name_prefix = "${var.name}-backend-sg-"
+  vpc_id      = "${var.vpc_id}"
 
   tags {
     Name = "${var.name}-backend"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
 # ssh from bastion
 resource "aws_security_group_rule" "ssh-to-backend" {
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 22
-  to_port           = 22
-  security_group_id = "${aws_security_group.backend.id}"
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 22
+  to_port                  = 22
+  security_group_id        = "${aws_security_group.backend.id}"
+  source_security_group_id = "${var.bastion_security_group_id}"
 }
 
 # github: https://help.github.com/articles/what-ip-addresses-does-github-use-that-i-should-whitelist/
