@@ -69,11 +69,7 @@ module "hyperbola-cdn" {
 }
 
 module "hyperbola-wiki" {
-  source         = "./hyperbola-wiki"
-  host           = "hyperbola2"
-  ipv4_addresses = "${var.ipv4_addresses}"
-  ipv6_addresses = "${var.ipv6_addresses}"
-
+  source                    = "./hyperbola-wiki"
   name                      = "${var.name}-wiki"
   region                    = "${var.region}"
   vpc_id                    = "${module.network.vpc_id}"
@@ -84,6 +80,7 @@ module "hyperbola-wiki" {
   public_subnet_ids         = "${module.network.public_subnet_ids}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
 
+  local_ip      = "192.168.10.10"
   prod_zone_id  = "${aws_route53_zone.hyperbola-zone.id}"
   local_zone_id = "${aws_route53_zone.hyperbola-local-zone.id}"
 }
