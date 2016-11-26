@@ -1,0 +1,53 @@
+- repo: https://github.com/pre-commit/pre-commit-hooks.git
+  sha: v0.6.0  # Use the sha you want to point at
+  hooks:
+  - id: check-byte-order-marker
+  - id: check-symlinks
+  - id: check-yaml
+  - id: detect-private-key
+  - id: end-of-file-fixer
+    exclude: (generated|purified|min\.js$|vendor)
+  - id: requirements-txt-fixer
+  - id: trailing-whitespace
+    exclude: (generated|purified|min\.js$|vendor)
+- repo: local
+  hooks:
+  - id: eslint
+    name: eslint js linter
+    entry: ./node_modules/.bin/eslint
+    language: system
+    files: \.js$
+    exclude: (vendor|generated)
+  - id: eslint-html
+    name: eslint html linter
+    entry: ./node_modules/.bin/eslint
+    language: system
+    files: bin/.*\.html$
+  - id: htmlhint
+    name: htmlhint linter
+    entry: ./node_modules/.bin/htmlhint
+    language: system
+    files: bin/.*\.html$
+  - id: flake8
+    name: flake8 linter
+    entry: ./virtualenv/bin/flake8 app bin
+    language: system
+    files: \.py$
+    exclude: migrations
+  - id: isort
+    name: isort linter
+    entry: ./virtualenv/bin/isort --apply --recursive app bin
+    language: system
+    files: \.py$
+    exclude: migrations
+  - id: pep257
+    name: pep257 linter
+    entry: ./virtualenv/bin/pep257 app bin
+    language: system
+    files: \.py$
+  - id: pylint
+    name: pylint linter
+    entry: ./virtualenv/bin/pylint --rcfile setup.cfg app bin
+    language: system
+    files: \.py$
+    exclude: migrations

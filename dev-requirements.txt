@@ -1,10 +1,11 @@
 -r requirements.txt
 django-debug-toolbar
-git+https://github.com/orf/django-debug-toolbar-template-timings.git@d1a123d#egg=django-debug-toolbar-template-timings
 flake8
+git+https://github.com/orf/django-debug-toolbar-template-timings.git@d1a123d#egg=django-debug-toolbar-template-timings
 isort
-pep8
 pep257
+pep8
+pre-commit
 pylint
 pylint-django
 yapf

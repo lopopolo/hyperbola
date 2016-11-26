@@ -3,6 +3,9 @@ export PATH := $(shell npm bin):./virtualenv/bin:$(PATH)
 
 all: lint
 
+hooks:
+	virtualenv/bin/pre-commit install
+
 ## Linters
 
 lint: eslint htmlhint flake8 isort pep257 pylint
@@ -15,20 +18,16 @@ htmlhint:
 	htmlhint bin/*.html
 
 flake8:
-	flake8 app
-	flake8 bin
+	flake8 app bin
 
 isort:
-	isort --apply --recursive app
-	isort --apply --recursive bin
+	isort --apply --recursive app bin
 
 pep257:
-	pep257 app
-	pep257 bin
+	pep257 app bin
 
 pylint:
-	pylint --rcfile setup.cfg app
-	pylint --rcfile setup.cfg bin
+	pylint --rcfile setup.cfg app bin
 
 # must manually run and compare `git diff` output
 yapf:
@@ -40,7 +39,6 @@ virtualenv: wipe-virtualenv
 	virtualenv --python=python3 virtualenv
 	pip install -U virtualenv pip wheel setuptools
 	pip install -r dev-requirements.txt --ignore-installed
-
 
 wipe-virtualenv:
 	rm -rf ./virtualenv
