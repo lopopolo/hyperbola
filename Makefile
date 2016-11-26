@@ -22,6 +22,5 @@ virtualenv: wipe-virtualenv
 	pip install -U virtualenv pip wheel setuptools
 	pip install -r requirements.txt --ignore-installed
 
-
 wipe-virtualenv:
 	rm -rf ./venv
