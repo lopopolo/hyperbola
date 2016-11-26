@@ -1,7 +1,7 @@
 # Django settings for hyperbola
 
-from enum import Enum, unique
 import os
+from enum import Enum, unique
 
 
 @unique
