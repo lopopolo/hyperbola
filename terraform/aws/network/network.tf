@@ -115,10 +115,6 @@ output "bastion_user" {
   value = "${module.bastion.user}"
 }
 
-output "bastion_private_ip" {
-  value = "${module.bastion.private_ip}"
-}
-
 output "bastion_public_ip" {
   value = "${module.bastion.public_ip}"
 }

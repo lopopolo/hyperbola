@@ -22,7 +22,7 @@ module "network" {
   bastion_instance_type = "${var.bastion_instance_type}"
 }
 
-output "configuration" {
+output "bastion-configuration" {
   value = <<CONFIGURATION
 
 Add your private key and SSH into any private node via the Bastion host:
