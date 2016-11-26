@@ -1,37 +1,142 @@
 # Django settings for hyperbola
 
+from enum import Enum, unique
 import os
 
-from django.core.exceptions import ImproperlyConfigured
+
+@unique
+class Env(Enum):
+    production = 'production'
+    staging = 'staging'
+    dev = 'dev'
+
+    @classmethod
+    def source(cls, env, default=None):
+        from django.core.exceptions import ImproperlyConfigured
+        prop = os.environ.get(env, default)
+        if prop is None:
+            raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+
+        if isinstance(prop, str) and prop.strip().lower() in ['1', 'true', 'yes', 'on']:
+            return True
+        elif isinstance(prop, str) and prop.strip().lower() in ['0', 'false', 'no', 'off']:
+            return False
+        else:
+            return prop
+
+    @classmethod
+    def make(cls, env):
+        """
+        Construct an Env by loading the environment constant from an env variable.
+
+        :rtype: Env
+        """
+        environment = cls.source(env)
+        return cls(environment)
 
 
-def source(env, default=None):
-    prop = os.environ.get(env, default)
-    if prop is None:
-        raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+class EnvironmentConfig(object):
+    """Compute environment-specific settings."""
 
-    if prop in ['yes', 'true']:
-        return True
-    elif prop in ['no', 'false']:
+    def __init__(self, root_path):
+        self.environment = Env.make('ENVIRONMENT')
+        self.secret_key = Env.source('SECRET_KEY')
+        self.db = self.DBConfig()
+        self.content = self.ContentConfig(self.environment, root_path)
+        self.email_backup = self.EmailBackupConfig()
+
+    @property
+    def redis_enabled(self):
+        return self.environment in [Env.production, Env.staging]
+
+    @property
+    def allowed_hosts(self):
+        if self.environment is Env.production:
+            return ['hyperbo.la']
+        elif self.environment is Env.staging:
+            return ['staging.hyperbo.la']
+        return ['localhost', '127.0.0.1', '[::1]']
+
+    @property
+    def is_secure(self):
+        return self.environment in [Env.production, Env.staging]
+
+    @property
+    def additional_installed_apps(self):
+        apps = []
+        if self.environment in [Env.production, Env.dev]:
+            apps.extend(['django.contrib.admin'])
+        if self.environment is Env.dev:
+            apps.extend(['debug_toolbar', 'template_timings_panel'])
+        return apps
+
+    @property
+    def additional_urls(self):
+        from django.conf.urls import include, url
+        urls = []
+        if self.environment in [Env.production, Env.dev]:
+            from django.contrib import admin
+            # only enable admin urls in production and dev
+            urls.extend([url(r'^ssb/', admin.site.urls)])
+        if self.environment is Env.dev:
+            import debug_toolbar
+            from django.conf.urls.static import static
+            urls.extend(static(MEDIA_URL, document_root=MEDIA_ROOT))
+            urls.extend([url(r'^__debug__/', include(debug_toolbar.urls))])
+        return urls
+
+    @property
+    def debug(self):
+        if self.environment is Env.dev:
+            return True
+        if self.environment is Env.staging:
+            return Env.source('DEBUG', False)
         return False
-    else:
-        return prop
 
-ENVIRONMENT = source('ENVIRONMENT')
+    class DBConfig(object):
+        def __init__(self):
+            self.name = Env.source('DB_NAME')
+            self.user = Env.source('DB_USER')
+            self.password = Env.source('DB_PASSWORD')
+            self.host = Env.source('DB_HOST')
+            self.port = Env.source('DB_PORT')
 
-USE_X_FORWARDED_HOST = True
+    class ContentConfig(object):
+        def __init__(self, environment, root_path):
+            self.media_root = os.path.join(root_path, 'media', environment.value)
+            self.static_root = os.path.join(root_path, 'assets')
+            if environment in [Env.production, Env.staging]:
+                self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
+                self.static_url = 'https://www.hyperbolacdn.com/assets/{}/'.format(environment.value)
+            else:
+                self.media_url = '/media/'
+                self.static_url = '/static/'
+
+    class EmailBackupConfig(object):
+        def __init__(self):
+            self.username = Env.source('BACKUP_EMAIL_LOGIN_USERNAME')
+            self.password = Env.source('BACKUP_EMAIL_LOGIN_PASSWORD')
+
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 ROOT_PATH = os.path.dirname(os.path.dirname(PROJECT_PATH))
 
+ENVIRONMENT = EnvironmentConfig(ROOT_PATH)
+
+DEBUG = ENVIRONMENT.debug
+
+ALLOWED_HOSTS = ENVIRONMENT.allowed_hosts
+
+USE_X_FORWARDED_HOST = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': source('DB_NAME'),
-        'USER': source('DB_USER'),
-        'PASSWORD': source('DB_PASSWORD'),
-        'HOST': source('DB_HOST'),
-        'PORT': source('DB_PORT'),
+        'NAME': ENVIRONMENT.db.name,
+        'USER': ENVIRONMENT.db.user,
+        'PASSWORD': ENVIRONMENT.db.password,
+        'HOST': ENVIRONMENT.db.host,
+        'PORT': ENVIRONMENT.db.port,
         'ATOMIC_REQUESTS': True,
         'OPTIONS': {
             # Create database with:
@@ -45,7 +150,7 @@ DATABASES = {
     }
 }
 
-if ENVIRONMENT in ['production', 'staging']:
+if ENVIRONMENT.redis_enabled:
     CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
@@ -53,10 +158,19 @@ if ENVIRONMENT in ['production', 'staging']:
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             }
+        },
+        'imagekit': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://127.0.0.1:6379/2',
+            'TIMEOUT': None,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
         }
     }
     SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
     SESSION_CACHE_ALIAS = 'default'
+    IMAGEKIT_CACHE_BACKEND = 'imagekit'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -73,13 +187,13 @@ USE_TZ = True
 
 # Media and Static Files
 
-MEDIA_ROOT = os.path.join(ROOT_PATH, 'media', ENVIRONMENT)
+MEDIA_ROOT = ENVIRONMENT.content.media_root
 
-MEDIA_URL = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
+MEDIA_URL = ENVIRONMENT.content.media_url
 
-STATIC_ROOT = os.path.join(ROOT_PATH, 'assets')
+STATIC_ROOT = ENVIRONMENT.content.static_root
 
-STATIC_URL = 'https://www.hyperbolacdn.com/assets/{}/'.format(ENVIRONMENT)
+STATIC_URL = ENVIRONMENT.content.static_url
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static'),
@@ -89,7 +203,7 @@ STATICFILES_STORAGE = 'hyperbola.core.static.PipelineManifestStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
-SECRET_KEY = source('SECRET_KEY')
+SECRET_KEY = ENVIRONMENT.secret_key
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -106,7 +220,7 @@ INSTALLED_APPS = [
     'hyperbola.core',
     'hyperbola.frontpage',
     'hyperbola.lifestream',
-]
+] + ENVIRONMENT.additional_installed_apps
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -176,39 +290,23 @@ SENDFILE_URL = '/media'
 # Security
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_SSL_REDIRECT = True if ENVIRONMENT in ['production', 'staging'] else False
+SECURE_SSL_REDIRECT = ENVIRONMENT.is_secure
 SECURE_REDIRECT_EXEMPT = ['healthz']
-SESSION_COOKIE_SECURE = True if ENVIRONMENT in ['production', 'staging'] else False
-CSRF_COOKIE_SECURE = True if ENVIRONMENT in ['production', 'staging'] else False
+SESSION_COOKIE_SECURE = ENVIRONMENT.is_secure
+CSRF_COOKIE_SECURE = ENVIRONMENT.is_secure
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
 
 # backups
-BACKUP_EMAIL_LOGIN_USERNAME = source('BACKUP_EMAIL_LOGIN_USERNAME')
-BACKUP_EMAIL_LOGIN_PASSWORD = source('BACKUP_EMAIL_LOGIN_PASSWORD')
+BACKUP_EMAIL_LOGIN_USERNAME = ENVIRONMENT.email_backup.username
+BACKUP_EMAIL_LOGIN_PASSWORD = ENVIRONMENT.email_backup.password
 
 # Environment-specific configuration
-if ENVIRONMENT == 'production':
-    DEBUG = False
-    ALLOWED_HOSTS = ['hyperbo.la']
-    # enable admin interface only on production
-    INSTALLED_APPS.append('django.contrib.admin')
-elif ENVIRONMENT == 'staging':
-    DEBUG = source('DEBUG', False)
-    ALLOWED_HOSTS = ['staging.hyperbo.la']
-elif ENVIRONMENT == 'dev':
-    DEBUG = True
-    MEDIA_URL = '/media/'
+if ENVIRONMENT.environment is Env.dev:
     SENDFILE_BACKEND = 'sendfile.backends.development'
     PIPELINE['PIPELINE_ENABLED'] = False
-    STATIC_URL = '/static/'
-    # enable admin interface in dev (sandbox)
-    INSTALLED_APPS.append('django.contrib.admin')
     # debug toolbar
     from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
-    INSTALLED_APPS.extend(['debug_toolbar', 'template_timings_panel'])
     DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
-else:
-    raise ImproperlyConfigured('Invalid ENVIRONMENT: {0}'.format(ENVIRONMENT))
