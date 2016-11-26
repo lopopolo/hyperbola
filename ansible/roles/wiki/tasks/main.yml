@@ -75,8 +75,12 @@
 # wiki ruby + gollum deps and config
 - name: Install gollum build deps
   apt: name={{ item }} state=present
-  with_items:
+  with_items: # https://github.com/gollum/gollum/wiki/Installation#ubuntu-150415101604
+  - make
   - libicu-dev
+  - zlib1g-dev
+  - build-essential
+  - git
 - name: bundle install
   bundler:
     chdir: /hyperbola/wiki.hyperbo.la/wiki
