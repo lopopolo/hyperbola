@@ -110,19 +110,12 @@ echo "export PATH=$ARTIFACT_ROOT/virtualenv/bin:$ARTIFACT_ROOT/bin:"'$PATH' > "$
 
 # build static assets
 
-set +x # don't dump secrets to screen
-for env in "$ARTIFACT_ROOT"/env/*.env; do
-    . "$env"
-done
-set -x
-
 # setup node+yuglify
 node --version
 npm --version
 npm install --production
-export PATH="$(npm bin):$PATH"
 
-"$ARTIFACT_ROOT/virtualenv/bin/python" app/manage.py collectstatic --noinput
+env PATH="$(npm bin):$PATH" "$ARTIFACT_ROOT/bin/artifact-exec" python app/manage.py collectstatic --noinput
 
 ln -snfv "/hyperbola/media" "$ARTIFACT_ROOT/media/$ENV"
 
