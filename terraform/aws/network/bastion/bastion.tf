@@ -19,16 +19,6 @@ variable "key_name" {}
 
 variable "instance_type" {}
 
-resource "null_resource" "bastion-ingress-ip" {
-  triggers {
-    always = "${uuid()}"
-  }
-
-  provisioner "local-exec" {
-    command = "curl icanhazip.com --silent -o ${path.root}/../.secrets/bastion-ingress-ip.txt"
-  }
-}
-
 data "template_file" "bastion-ingress-cidr" {
   template = "$${ingress}/32"
 
@@ -38,7 +28,6 @@ data "template_file" "bastion-ingress-cidr" {
 }
 
 resource "aws_security_group" "bastion" {
-  depends_on  = ["null_resource.bastion-ingress-ip"]
   name        = "${var.name}"
   vpc_id      = "${var.vpc_id}"
   description = "Bastion security group"
