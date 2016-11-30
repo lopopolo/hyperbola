@@ -61,6 +61,17 @@
     version: master
   become: true
   become_user: hyperbola-wiki
+- name: git config
+  git_config:
+    name: "{{ item.name }}"
+    scope: global
+    value: "{{ item.value }}"
+  with_items:
+  - { name: user.email, value: hyperbola-wiki@hyperbo.la }
+  - { name: user.name, value: hyperbola-wiki }
+  - { name: push.default, value: simple }
+  become: true
+  become_user: hyperbola-wiki
 - name: Install wiki update on boot unit
   copy:
     src: hyperbola-wiki-update.service
