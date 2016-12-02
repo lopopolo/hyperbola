@@ -84,3 +84,15 @@ module "hyperbola-wiki" {
   prod_zone_id  = "${aws_route53_zone.hyperbola-zone.id}"
   local_zone_id = "${aws_route53_zone.hyperbola-local-zone.id}"
 }
+
+output "wiki_elb_zone_id" {
+  value = "${module.hyperbola-wiki.elb_zone_id}"
+}
+
+output "wiki_private_fqdn" {
+  value = "${module.hyperbola-wiki.private_fqdn}"
+}
+
+output "wiki_elb_dns" {
+  value = "${module.hyperbola-wiki.elb_dns}"
+}

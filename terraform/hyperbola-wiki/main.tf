@@ -15,7 +15,7 @@ variable "private_subnet_ids" {}
 variable "public_subnet_ids" {}
 
 variable "instance_type" {
-  default = "t2.small"
+  default = "t2.micro"
 }
 
 resource "aws_security_group" "elb" {
