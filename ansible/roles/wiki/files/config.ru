@@ -4,6 +4,7 @@
 require 'rubygems'
 require 'gollum/app'
 require 'open3'
+require 'rack'
 require 'rack/ssl'
 require 'socket'
 
@@ -33,7 +34,7 @@ class HyperbolaMiddleware
   end
 
   def insert_comment(response)
-    body = ''
+    body = ''.dup
     response.each { |part| body << part }
     index = body.rindex('</body>')
     return response, {} unless index
