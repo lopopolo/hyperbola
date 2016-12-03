@@ -49,7 +49,7 @@ Precious::App.set(:default_markup, :markdown)
 Precious::App.set(:wiki_options, universal_toc: false, live_preview: false)
 
 Gollum::Hook.register(:post_commit, :git_resync) do
-  out, _ = Open3.capture2e('git-resync')
+  out, = Open3.capture2e('git-resync')
   puts out
 end
 
