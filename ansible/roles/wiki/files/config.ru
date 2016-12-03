@@ -3,6 +3,7 @@
 
 require 'rubygems'
 require 'gollum/app'
+require 'open3'
 require 'rack/ssl'
 require 'socket'
 
@@ -48,7 +49,8 @@ Precious::App.set(:default_markup, :markdown)
 Precious::App.set(:wiki_options, universal_toc: false, live_preview: false)
 
 Gollum::Hook.register(:post_commit, :git_resync) do
-  puts `git-resync`
+  out, _ = Open3.capture2e('git-resync')
+  puts out
 end
 
 $stdout.sync = true
