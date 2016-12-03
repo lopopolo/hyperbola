@@ -25,7 +25,7 @@ class HyperbolaMiddleware
       env['rack.session']['gollum.author'] = @users[env['HTTP_X_FORWARDED_USER']]
     end
     status, headers, response = @app.call(env)
-    if headers['Content-Type'] =~ %r{text/html|application/xhtml+xml}
+    if headers['Content-Type'] =~ %r{text/html|application/xhtml\+xml}
       response, updated_headers = insert_comment(response)
       headers.merge! updated_headers
     end
