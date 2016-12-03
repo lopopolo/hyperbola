@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -W0
+# frozen_string_literal: true
 
 require 'aws-sdk-v1'
 

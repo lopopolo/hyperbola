@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -W0
+# frozen_string_literal: true
 
 require 'aws-sdk-v1'
 
@@ -12,13 +13,14 @@ amis = client.instances.map do |instance|
 end.compact.uniq
 
 puts '# Loading available AMIs...'
-images = client.images.with_owner('self').sort_by { |i| i.name }
+images = client.images.with_owner('self').sort_by(&:name)
 images.each do |image|
   next if amis.include?(image.id)
-  fields = []
-  fields << image.id
-  fields << image.block_device_mappings.values.map(&:snapshot_id).compact.join(',')
-  fields << image.name
+  fields = [
+    image.id,
+    image.block_device_mappings.values.map(&:snapshot_id).compact.join(','),
+    image.name
+  ]
 
   puts(fields.join("\t"))
 end
