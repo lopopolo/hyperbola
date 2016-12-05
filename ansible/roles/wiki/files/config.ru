@@ -3,6 +3,7 @@
 
 require 'rubygems'
 require 'gollum/app'
+require 'kramdown'
 require 'open3'
 require 'rack'
 require 'rack/ssl'
@@ -52,6 +53,10 @@ Precious::App.set(:wiki_options, universal_toc: false, live_preview: false)
 Gollum::Hook.register(:post_commit, :git_resync) do
   out, = Open3.capture2e('git-resync')
   puts out
+end
+
+GitHub::Markup::Markdown::MARKDOWN_GEMS['kramdown'] = lambda do |content|
+  Kramdown::Document.new(content, auto_ids: false).to_html
 end
 
 $stdout.sync = true
