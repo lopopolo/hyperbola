@@ -23,7 +23,7 @@ data "template_file" "bastion-ingress-cidr" {
   template = "$${ingress}/32"
 
   vars {
-    ingress = "${replace(file("${path.root}/../.secrets/bastion-ingress-ip.txt"), "\n", "")}"
+    ingress = "${trimspace(file("${path.root}/../.secrets/bastion-ingress-ip.txt"))}"
   }
 }
 

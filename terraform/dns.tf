@@ -10,7 +10,7 @@ data template_file "cloudflare_token" {
   template = "$${token}"
 
   vars {
-    token = "${coalesce(var.cloudflare_token, replace(file("${path.root}/../.secrets/cloudflare-api-key.txt"), "\n", ""))}"
+    token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../.secrets/cloudflare-api-key.txt")))}"
   }
 }
 
