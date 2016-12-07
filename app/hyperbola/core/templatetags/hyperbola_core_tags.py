@@ -1,3 +1,4 @@
+import markdown as _markdown
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
@@ -28,3 +29,8 @@ def anti_spamize(email, autoescape=True):
         link=encode("mailto:{}".format(esc(email))),
         text=encode(esc(email)))
     return mark_safe(result)
+
+
+@register.filter
+def markdown(text):
+    return mark_safe(_markdown.markdown(text, safe_mode="escape"))

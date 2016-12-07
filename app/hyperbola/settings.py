@@ -214,7 +214,6 @@ INSTALLED_APPS = [
     'django_mysql',
     'imagekit',
     'localflavor',
-    'markdown_deux',
     'pipeline',
     'hyperbola.contact',
     'hyperbola.core',
