@@ -1,11 +1,11 @@
 // minified and inlined in lifestream_base.html
 
-/* exported HyperbolaDateFormatter */
-var HyperbolaDateFormatter = (function() {
+(function(exports) {
     "use strict";
 
-    var formatDate = function(date) {
-        var formatter = window.Intl.DateTimeFormat(undefined, {
+    var localizeDate = function() {}; // noop
+    if (exports.Intl && typeof exports.Intl === "object") {
+        var formatter = new exports.Intl.DateTimeFormat(undefined, {
             day: "numeric",
             month: "short",
             year: "numeric",
@@ -13,21 +13,14 @@ var HyperbolaDateFormatter = (function() {
             minute: "2-digit",
             timeZoneName: "short"
         });
-        return formatter.format(date);
-    };
-
-    var localizeDate = function() {}; // noop
-    if (window.Intl && typeof window.Intl === "object") {
         localizeDate = function(timestamp, selector) {
             var d = new Date();
             d.setTime(timestamp * 1000);
-            document.getElementById(selector).innerText = formatDate(d);
+            document.getElementById(selector).innerText = formatter.format(d);
         };
     }
 
-    return {
+    exports["HyperbolaDateFormatter"] = {
         "localize": localizeDate
     };
-})();
-
-window["HyperbolaDateFormatter"] = HyperbolaDateFormatter;
+})(window);

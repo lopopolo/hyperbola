@@ -1,7 +1,9 @@
 var gulp = require("gulp");
 var concat = require("gulp-concat");
+var rename = require("gulp-rename");
 var del = require("del");
 var eslint = require("gulp-eslint");
+var compiler = require("google-closure-compiler-js").gulp();
 var postcss = require("gulp-postcss");
 var purify = require("gulp-purifycss");
 var autoprefixer = require("autoprefixer");
@@ -36,13 +38,26 @@ gulp.task("css", ["clean"], function () {
         .pipe(gulp.dest("./app/hyperbola/dist"));
 });
 
-gulp.task("js", ["clean", "js:lint", "js:copy"]);
+gulp.task("js", ["clean", "js:lint", "js:compile", "js:copy"]);
 
 gulp.task("js:lint", function () {
     return gulp.src(["**/*.js", "!**/*.min.js", "!node_modules/**", "!**/vendor/**", "!virtualenv/**", "!assets/**"])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
+});
+
+gulp.task("js:compile", function () {
+    return gulp.src("./app/hyperbola/static/js/lifestream-date-formatter.js")
+        .pipe(compiler({
+            compilationLevel: "ADVANCED_OPTIMIZATIONS",
+            warningLevel: "VERBOSE",
+            jsOutputFile: "lifestream-date-formatter.js",
+        }))
+        .pipe(rename(function (path) {
+            path.basename += ".generated.min";
+        }))
+        .pipe(gulp.dest("./app/hyperbola/lifestream/templates"));
 });
 
 gulp.task("js:copy", [
