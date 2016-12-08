@@ -38,11 +38,11 @@ class Env(Enum):
 class EnvironmentConfig(object):
     """Compute environment-specific settings."""
 
-    def __init__(self, root_path):
+    def __init__(self, root_path, project_path):
         self.environment = Env.make('ENVIRONMENT')
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
-        self.content = self.ContentConfig(self.environment, root_path)
+        self.content = self.ContentConfig(self.environment, root_path, project_path)
         self.email_backup = self.EmailBackupConfig()
 
     @property
@@ -102,15 +102,17 @@ class EnvironmentConfig(object):
             self.port = Env.source('DB_PORT')
 
     class ContentConfig(object):
-        def __init__(self, environment, root_path):
+        def __init__(self, environment, root_path, project_path):
             self.media_root = os.path.join(root_path, 'media', environment.value)
             self.static_root = os.path.join(root_path, 'assets')
             if environment in [Env.production, Env.staging]:
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
                 self.static_url = 'https://www.hyperbolacdn.com/assets/{}/'.format(environment.value)
+                self.static_dirs = [os.path.join(project_path, 'dist')]
             else:
                 self.media_url = '/media/'
                 self.static_url = '/static/'
+                self.static_dirs = [os.path.join(project_path, 'static')]
 
     class EmailBackupConfig(object):
         def __init__(self):
@@ -121,7 +123,7 @@ class EnvironmentConfig(object):
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 ROOT_PATH = os.path.dirname(os.path.dirname(PROJECT_PATH))
 
-ENVIRONMENT = EnvironmentConfig(ROOT_PATH)
+ENVIRONMENT = EnvironmentConfig(ROOT_PATH, PROJECT_PATH)
 
 DEBUG = ENVIRONMENT.debug
 
@@ -195,11 +197,9 @@ STATIC_ROOT = ENVIRONMENT.content.static_root
 
 STATIC_URL = ENVIRONMENT.content.static_url
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_PATH, 'static'),
-]
+STATICFILES_DIRS = ENVIRONMENT.content.static_dirs
 
-STATICFILES_STORAGE = 'hyperbola.core.static.PipelineManifestStorage'
+STATICFILES_STORAGE = 'hyperbola.core.static.HyperbolaManifestStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
@@ -214,7 +214,6 @@ INSTALLED_APPS = [
     'django_mysql',
     'imagekit',
     'localflavor',
-    'pipeline',
     'hyperbola.contact',
     'hyperbola.core',
     'hyperbola.frontpage',
@@ -264,22 +263,6 @@ WSGI_APPLICATION = 'hyperbola.wsgi.application'
 IMAGEKIT_CACHEFILE_DIR = 'cache/g'
 IMAGEKIT_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
 
-# Asset caching
-PIPELINE = {
-    'PIPELINE_ENABLED': True,
-    'STYLESHEETS': {
-        'sitewide': {
-            'source_filenames': (
-                'css/bootstrap.purified.css',
-                'css/sitewide.css',
-            ),
-            'output_filename': 'css/sitewide.min.css',
-        },
-    },
-    'CSS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
-    'JS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
-}
-
 # Sendfile
 # https://github.com/johnsensible/django-sendfile#nginx-backend
 SENDFILE_BACKEND = 'sendfile.backends.nginx'
@@ -303,7 +286,6 @@ BACKUP_EMAIL_LOGIN_PASSWORD = ENVIRONMENT.email_backup.password
 # Environment-specific configuration
 if ENVIRONMENT.environment is Env.dev:
     SENDFILE_BACKEND = 'sendfile.backends.development'
-    PIPELINE['PIPELINE_ENABLED'] = False
     # debug toolbar
     from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
     DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']

@@ -1,4 +1,5 @@
 @CHARSET "UTF-8" ;
+@import "../vendor/bootstrap-css-only/css/bootstrap.css";
 
 /* global overrides */
 html {
