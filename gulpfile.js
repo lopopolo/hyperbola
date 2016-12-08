@@ -3,6 +3,7 @@ var concat = require("gulp-concat");
 var rename = require("gulp-rename");
 var del = require("del");
 var eslint = require("gulp-eslint");
+var htmlhint = require("gulp-htmlhint");
 var compiler = require("google-closure-compiler-js").gulp();
 var postcss = require("gulp-postcss");
 var purify = require("gulp-purifycss");
@@ -14,7 +15,7 @@ var stylefmt = require("stylefmt");
 
 gulp.task("default", ["build"]);
 
-gulp.task("build", ["clean", "css", "js", "img"]);
+gulp.task("build", ["clean", "css", "js", "html", "img"]);
 
 gulp.task("clean", function () {
     return del([
@@ -67,6 +68,14 @@ gulp.task("js:copy", [
 gulp.task("js:copy:retinajs", ["clean"], function () {
     return gulp.src("./app/hyperbola/static/vendor/retina.js/dist/retina.min.js")
         .pipe(gulp.dest("./app/hyperbola/dist/vendor/retina.js/dist"));
+});
+
+gulp.task("html", ["clean", "html:lint"]);
+
+gulp.task("html:lint", function () {
+    return gulp.src("./bin/**/*.html")
+        .pipe(htmlhint())
+        .pipe(htmlhint.failReporter());
 });
 
 gulp.task("img", ["clean", "img:copy"]);
