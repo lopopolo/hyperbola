@@ -4,6 +4,7 @@ var rename = require("gulp-rename");
 var del = require("del");
 var eslint = require("gulp-eslint");
 var htmlhint = require("gulp-htmlhint");
+var imagemin = require("gulp-imagemin");
 var compiler = require("google-closure-compiler-js").gulp();
 var postcss = require("gulp-postcss");
 var purify = require("gulp-purifycss");
@@ -82,5 +83,6 @@ gulp.task("img", ["clean", "img:copy"]);
 
 gulp.task("img:copy", ["clean"], function () {
     return gulp.src("./app/hyperbola/static/img/artifact/**/*")
+        .pipe(imagemin())
         .pipe(gulp.dest("./app/hyperbola/dist/img/artifact"));
 });
