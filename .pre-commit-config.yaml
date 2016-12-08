@@ -12,20 +12,15 @@
     exclude: (generated|purified|min\.js$|vendor)
 - repo: local
   hooks:
-  - id: eslint
-    name: eslint js linter
-    entry: ./node_modules/.bin/eslint
+  - id: gulp
+    name: gulp linting and code generation
+    entry: bin/gulp-hook
     language: system
-    files: \.js$
+    files: (static|dist|\.css$|\.html$|\.js$)
     exclude: (vendor|generated)
   - id: eslint-html
     name: eslint html linter
     entry: ./node_modules/.bin/eslint
-    language: system
-    files: bin/.*\.html$
-  - id: htmlhint
-    name: htmlhint linter
-    entry: ./node_modules/.bin/htmlhint
     language: system
     files: bin/.*\.html$
   - id: flake8
