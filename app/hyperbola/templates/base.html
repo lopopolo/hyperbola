@@ -8,9 +8,9 @@
     <meta name="description" content="The personal website of Ryan Lopopolo">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="{% static "img/artifact/favicon.png" %}">
-    <!--[if IE]><link rel="shortcut icon" href="{% static "img/artifact/favicon.ico" %}"><![endif]-->
-    <link rel="apple-touch-icon" href="{% static "img/artifact/apple-touch-icon.png" %}">
+    <link rel="icon" href="{% static "img/favicon.png" %}">
+    <!--[if IE]><link rel="shortcut icon" href="{% static "img/favicon.ico" %}"><![endif]-->
+    <link rel="apple-touch-icon" href="{% static "img/apple-touch-icon.png" %}">
 
     <link href="{% static "css/sitewide.css" %}" rel="stylesheet" type="text/css">
     {% endblock head %}
@@ -48,7 +48,7 @@
       </div>
     </div>
     {% block footer %}
-    <script src="{% static "vendor/retina.js/dist/retina.min.js" %}" async defer onload="retinajs()"></script>
+    <script src="{% static "js/retina.min.js" %}" async defer onload="retinajs()"></script>
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
       ga('create','UA-30651847-1','auto');ga('send','pageview')

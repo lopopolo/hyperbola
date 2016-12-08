@@ -1,5 +1,5 @@
 {
-  "directory": "app/hyperbola/static/vendor",
+  "directory": "static/src/vendor",
   "color": true,
   "save": true
 }

@@ -1,16 +1,16 @@
-var gulp = require("gulp");
-var concat = require("gulp-concat");
-var rename = require("gulp-rename");
-var del = require("del");
-var eslint = require("gulp-eslint");
-var htmlhint = require("gulp-htmlhint");
-var imagemin = require("gulp-imagemin");
-var compiler = require("google-closure-compiler-js").gulp();
-var postcss = require("gulp-postcss");
-var purify = require("gulp-purifycss");
 var autoprefixer = require("autoprefixer");
 var colorguard = require("colorguard");
 var cssnano = require("cssnano");
+var del = require("del");
+var compiler = require("google-closure-compiler-js").gulp();
+var gulp = require("gulp");
+var concat = require("gulp-concat");
+var eslint = require("gulp-eslint");
+var htmlhint = require("gulp-htmlhint");
+var imagemin = require("gulp-imagemin");
+var postcss = require("gulp-postcss");
+var purify = require("gulp-purifycss");
+var rename = require("gulp-rename");
 var filterStream = require("postcss-filter-stream");
 var stylefmt = require("stylefmt");
 
@@ -20,9 +20,9 @@ gulp.task("build", ["clean", "css", "js", "html", "img"]);
 
 gulp.task("clean", function () {
     return del([
-        "./app/hyperbola/dist/**",
-        "!./app/hyperbola/dist",
-        "!./app/hyperbola/dist/.gitignore",
+        "./static/dist/**",
+        "!./static/dist",
+        "!./static/dist/.gitignore",
     ]);
 });
 
@@ -33,11 +33,11 @@ gulp.task("css", ["clean"], function () {
         filterStream("**/vendor/**", colorguard()),
         cssnano(),
     ];
-    return gulp.src(["./app/hyperbola/static/vendor/bootstrap-css-only/css/bootstrap.css", "./app/hyperbola/static/css/sitewide.css"])
+    return gulp.src(["./static/src/vendor/bootstrap-css-only/css/bootstrap.css", "./static/src/css/sitewide.css"])
         .pipe(purify(["./app/hyperbola/**/templates/*.html"]))
         .pipe(postcss(processors))
         .pipe(concat("css/sitewide.css"))
-        .pipe(gulp.dest("./app/hyperbola/dist"));
+        .pipe(gulp.dest("./static/dist"));
 });
 
 gulp.task("js", ["clean", "js:lint", "js:compile", "js:copy"]);
@@ -50,7 +50,7 @@ gulp.task("js:lint", function () {
 });
 
 gulp.task("js:compile", function () {
-    return gulp.src("./app/hyperbola/static/js/lifestream-date-formatter.js")
+    return gulp.src("./static/src/js/lifestream-date-formatter.js")
         .pipe(compiler({
             compilationLevel: "ADVANCED_OPTIMIZATIONS",
             warningLevel: "VERBOSE",
@@ -67,8 +67,8 @@ gulp.task("js:copy", [
 ]);
 
 gulp.task("js:copy:retinajs", ["clean"], function () {
-    return gulp.src("./app/hyperbola/static/vendor/retina.js/dist/retina.min.js")
-        .pipe(gulp.dest("./app/hyperbola/dist/vendor/retina.js/dist"));
+    return gulp.src("./static/src/vendor/retina.js/dist/retina.min.js")
+        .pipe(gulp.dest("./static/dist/js"));
 });
 
 gulp.task("html", ["clean", "html:lint"]);
@@ -82,7 +82,7 @@ gulp.task("html:lint", function () {
 gulp.task("img", ["clean", "img:copy"]);
 
 gulp.task("img:copy", ["clean"], function () {
-    return gulp.src("./app/hyperbola/static/img/artifact/**/*")
+    return gulp.src("./static/src/img/artifact/**/*")
         .pipe(imagemin())
-        .pipe(gulp.dest("./app/hyperbola/dist/img/artifact"));
+        .pipe(gulp.dest("./static/dist/img"));
 });
