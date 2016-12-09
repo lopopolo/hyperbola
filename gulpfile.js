@@ -6,11 +6,15 @@ var compiler = require("google-closure-compiler-js").gulp();
 var gulp = require("gulp");
 var concat = require("gulp-concat");
 var eslint = require("gulp-eslint");
+var favicons = require("gulp-favicons");
+var filter = require("gulp-filter");
 var htmlhint_inline = require("gulp-htmlhint-inline");
 var imagemin = require("gulp-imagemin");
 var postcss = require("gulp-postcss");
 var purify = require("gulp-purifycss");
 var rename = require("gulp-rename");
+var svg2png = require("gulp-svg2png");
+var merge = require("merge-stream");
 var filterStream = require("postcss-filter-stream");
 var stylefmt = require("stylefmt");
 
@@ -23,6 +27,8 @@ gulp.task("clean", function () {
         "./static/dist/**",
         "!./static/dist",
         "!./static/dist/.gitignore",
+        "./document-root/**/*.ico",
+        "./document-root/**/*.png",
     ]);
 });
 
@@ -102,10 +108,41 @@ gulp.task("html:lint", function () {
         .pipe(htmlhint_inline.reporter("fail"));
 });
 
-gulp.task("img", ["clean", "img:copy"]);
+gulp.task("img", ["clean", "img:favicon", "img:logo"]);
 
-gulp.task("img:copy", ["clean"], function () {
-    return gulp.src("./static/src/img/artifact/**/*")
+gulp.task("img:favicon", ["clean"], function () {
+    return gulp.src("./static/src/img/logo.favicon.svg")
+        .pipe(svg2png({width: 160* 3, height: 160 * 3}))
+        .pipe(favicons({
+            icons: {
+                android: false,
+                appleIcon: true,
+                appleStartup: false,
+                coast: false,
+                favicons: true,
+                firefox: false,
+                windows: false,
+                yandex: false
+            },
+            url: "https://hyperbo.la/",
+            display: "standalone",
+            orientation: "portrait",
+            replace: true
+        }))
+        .pipe(filter(["favicon.ico", "apple-touch-icon.png"]))
+        .pipe(imagemin())
+        .pipe(gulp.dest("./document-root"));
+});
+
+gulp.task("img:logo", ["clean"], function () {
+    var logo1x = gulp.src("./static/src/img/logo.header.svg")
+        .pipe(svg2png({width: 230, height: 80}));
+    var logo2x = gulp.src("./static/src/img/logo.header.svg")
+        .pipe(svg2png({width: 230 * 2, height: 80 * 2}))
+        .pipe(rename(function (path) {
+            path.basename += "@2x";
+        }));
+    return merge(logo1x, logo2x)
         .pipe(imagemin())
         .pipe(gulp.dest("./static/dist/img"));
 });
