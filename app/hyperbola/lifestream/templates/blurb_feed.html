@@ -1,5 +1,26 @@
-This post was published on {{ obj.pub_date|date:"H:i T b d Y"|lower }}.
-{% if obj.lifestreampicture %}
-This post has a picture.
-{% endif %}
-{{ obj.blurb|escape }}
+{% load hyperbola_lifestream_tags imagekit %}
+<div class="panel panel-hyperbola">
+  <div class="panel-heading lifestream-entry-header">
+    <span class="date">
+      <time datetime="{{ obj.pub_date|date:"c" }}" id="lifestream-entry-date-{{ obj.id }}">{{ obj.pub_date|date:"H:i T b d Y"|lower }}</time>
+    </span>
+    <a href="{{ obj.get_absolute_url|escape }}">permalink</a>
+  </div>
+  <div class="panel-body">
+    {% if obj.lifestreampicture %}
+      {% thumbnail "hyperbola:thumbnail" "500x500" obj.lifestreampicture.picture retina_scale=1 as card_1x %}
+      {% thumbnail "hyperbola:thumbnail" "500x500" obj.lifestreampicture.picture retina_scale=2 as card_2x %}
+      {% thumbnail "hyperbola:thumbnail" "500x500" obj.lifestreampicture.picture retina_scale=3 as card_3x %}
+      {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
+      <div>
+        <a href="{{ card_3x.url|escape }}">
+          <img alt="Photo for post {{ obj.id|escape }}" width="{{ card_1x.width|escape }}" height="{{ card_1x.height|escape }}" src="{{ card_1x.url|escape }}" data-rjs="3" class="center-block img-thumbnail img-thumbnail-hyperbola">
+          <!-- 1x: {{ card_1x.url }} -->
+          <!-- 2x: {{ card_2x.url }} -->
+          <!-- 3x: {{ card_3x.url }} -->
+        </a>
+      </div>
+    {% endif %}
+    <p class="lifestream-content">{{ obj.blurb|urlize|hashtagize }}</p>
+  </div>
+</div>
