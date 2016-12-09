@@ -39,6 +39,7 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^3.0.1",
+    "gulp-htmlhint-inline": "0.0.7",
     "gulp-imagemin": "^3.1.1",
     "gulp-postcss": "^6.2.0",
     "gulp-purifycss": "^0.2.0",

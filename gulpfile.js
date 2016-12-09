@@ -6,7 +6,7 @@ var compiler = require("google-closure-compiler-js").gulp();
 var gulp = require("gulp");
 var concat = require("gulp-concat");
 var eslint = require("gulp-eslint");
-var htmlhint = require("gulp-htmlhint");
+var htmlhint_inline = require("gulp-htmlhint-inline");
 var imagemin = require("gulp-imagemin");
 var postcss = require("gulp-postcss");
 var purify = require("gulp-purifycss");
@@ -74,9 +74,32 @@ gulp.task("js:copy:retinajs", ["clean"], function () {
 gulp.task("html", ["clean", "html:lint"]);
 
 gulp.task("html:lint", function () {
-    return gulp.src("./bin/**/*.html")
-        .pipe(htmlhint())
-        .pipe(htmlhint.failReporter());
+    return gulp.src(["./bin/**/*.html", "./app/**/*.html"])
+        .pipe(htmlhint_inline({
+            ignores: {
+                "{% load staticfiles": "%}",
+            },
+            patterns: [
+                {
+                    match: /\{% extends .+? %\}/g,
+                    replacement: "<!doctype html>"
+                },
+                {
+                    match: /\{% load hyperbola_lifestream_tags imagekit %\}/g,
+                    replacement: "<!doctype html>"
+                },
+                {
+                    match: /\{% (url|static) .+? %\}/g,
+                    replacement: "https://example.com"
+                },
+                {
+                    match: /\{\{ .+? \}\}/g,
+                    replacement: "foo.bar"
+                }
+            ]
+        }))
+        .pipe(htmlhint_inline.reporter())
+        .pipe(htmlhint_inline.reporter("fail"));
 });
 
 gulp.task("img", ["clean", "img:copy"]);
