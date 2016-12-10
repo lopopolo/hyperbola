@@ -42,14 +42,17 @@ wipe-virtualenv:
 ## clean
 
 clean: clean-pyc clean-assets
+	find . -name '.DS_Store' -exec rm -f {} +
+	find . -name '*~' -exec rm -f {} +
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
+	find . -name '__pycache__' -exec rm -rf {} +
 
 clean-assets:
 	find assets -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
+	rm -f assets/staticfiles.json
 
 .PHONY: flake8 isort pep257 pylint yapf \
 	virtualenv wipe-virtualenv \
