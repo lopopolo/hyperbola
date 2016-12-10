@@ -37,12 +37,12 @@ gulp.task("css", ["clean"], function () {
         autoprefixer({browsers: ["last 1 version"]}),
         stylefmt(),
         filterStream("**/vendor/**", colorguard()),
-        cssnano(),
     ];
     return gulp.src(["./static/src/vendor/bootstrap-css-only/css/bootstrap.css", "./static/src/css/sitewide.css"])
         .pipe(purify(["./app/hyperbola/**/templates/*.html"]))
         .pipe(postcss(processors))
         .pipe(concat("css/sitewide.css"))
+        .pipe(postcss([cssnano()]))
         .pipe(gulp.dest("./static/dist"));
 });
 
