@@ -6,10 +6,10 @@
   - id: check-yaml
   - id: detect-private-key
   - id: end-of-file-fixer
-    exclude: (generated|purified|min\.js$|vendor)
+    exclude: (min\.js$|vendor)
   - id: requirements-txt-fixer
   - id: trailing-whitespace
-    exclude: (generated|purified|min\.js$|vendor)
+    exclude: (min\.js$|vendor)
 - repo: local
   hooks:
   - id: gulp
@@ -18,31 +18,26 @@
     language: system
     files: (static|dist|\.css$|\.html$|\.js$)
     exclude: (vendor|generated)
-  - id: eslint-html
-    name: eslint html linter
-    entry: ./node_modules/.bin/eslint
-    language: system
-    files: bin/.*\.html$
   - id: flake8
     name: flake8 linter
-    entry: ./virtualenv/bin/flake8 app bin
+    entry: ./virtualenv/bin/flake8
     language: system
     files: \.py$
     exclude: migrations
   - id: isort
     name: isort linter
-    entry: ./virtualenv/bin/isort --apply --recursive app bin
+    entry: ./virtualenv/bin/isort --apply
     language: system
     files: \.py$
     exclude: migrations
   - id: pep257
     name: pep257 linter
-    entry: ./virtualenv/bin/pep257 app bin
+    entry: ./virtualenv/bin/pep257
     language: system
     files: \.py$
   - id: pylint
     name: pylint linter
-    entry: ./virtualenv/bin/pylint --rcfile setup.cfg app bin
+    entry: ./virtualenv/bin/pylint --rcfile setup.cfg
     language: system
     files: \.py$
     exclude: migrations
