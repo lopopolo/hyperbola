@@ -6,10 +6,10 @@
   - id: check-yaml
   - id: detect-private-key
   - id: end-of-file-fixer
-    exclude: (min\.js$|vendor)
+    exclude: (min\.js$|dist|vendor)
   - id: requirements-txt-fixer
   - id: trailing-whitespace
-    exclude: (min\.js$|vendor)
+    exclude: (min\.js$|dist|vendor)
 - repo: local
   hooks:
   - id: gulp

@@ -68,9 +68,7 @@ gulp.task("js:compile", function () {
         .pipe(gulp.dest("./app/hyperbola/lifestream/templates"));
 });
 
-gulp.task("js:copy", [
-    "js:copy:retinajs",
-]);
+gulp.task("js:copy", ["js:copy:retinajs"]);
 
 gulp.task("js:copy:retinajs", ["clean"], function () {
     return gulp.src("./static/src/vendor/retina.js/dist/retina.min.js")
