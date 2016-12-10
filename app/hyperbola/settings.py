@@ -282,6 +282,37 @@ X_FRAME_OPTIONS = 'DENY'
 BACKUP_EMAIL_LOGIN_USERNAME = ENVIRONMENT.email_backup.username
 BACKUP_EMAIL_LOGIN_PASSWORD = ENVIRONMENT.email_backup.password
 
+# logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[contactor] %(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        # Send all messages to console
+        'console': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        # This is the "catch all" logger
+        '': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
+
 # Environment-specific configuration
 if ENVIRONMENT.environment is Env.dev:
     SENDFILE_BACKEND = 'sendfile.backends.development'
