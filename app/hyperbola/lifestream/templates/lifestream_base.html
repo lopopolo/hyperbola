@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load cache pipeline staticfiles %}
+{% load cache staticfiles %}
 
 {% block active_app %} lifestream {% endblock active_app %}
 {% block title %} {{ block.super }} :: lifestream {% endblock title %}
@@ -10,14 +10,10 @@
 <!-- feed discovery -->
 <link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
 <link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
-{% if debug %}
-<script src="{% static "js/lifestream-date-formatter.js" %}"></script>
-{% else %}
 {# cache template tag does not allow indefinite caching, so cache for 1 year #}
 {% cache 31536000 lifestream:dateformatter request.DATE_FORMATTER_VERSION %}
 <script>{% include "lifestream-date-formatter.generated.min.js" %}</script>
 {% endcache %}
-{% endif %}
 {% endblock head %}
 
 {% block content %}

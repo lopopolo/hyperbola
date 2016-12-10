@@ -105,6 +105,7 @@ class EnvironmentConfig(object):
         def __init__(self, environment, root_path):
             self.media_root = os.path.join(root_path, 'media', environment.value)
             self.static_root = os.path.join(root_path, 'assets')
+            self.static_dirs = [os.path.join(root_path, 'static', 'dist')]
             if environment in [Env.production, Env.staging]:
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
                 self.static_url = 'https://www.hyperbolacdn.com/assets/{}/'.format(environment.value)
@@ -195,11 +196,9 @@ STATIC_ROOT = ENVIRONMENT.content.static_root
 
 STATIC_URL = ENVIRONMENT.content.static_url
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_PATH, 'static'),
-]
+STATICFILES_DIRS = ENVIRONMENT.content.static_dirs
 
-STATICFILES_STORAGE = 'hyperbola.core.static.PipelineManifestStorage'
+STATICFILES_STORAGE = 'hyperbola.core.static.HyperbolaManifestStorage'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
@@ -214,7 +213,6 @@ INSTALLED_APPS = [
     'django_mysql',
     'imagekit',
     'localflavor',
-    'pipeline',
     'hyperbola.contact',
     'hyperbola.core',
     'hyperbola.frontpage',
@@ -264,22 +262,6 @@ WSGI_APPLICATION = 'hyperbola.wsgi.application'
 IMAGEKIT_CACHEFILE_DIR = 'cache/g'
 IMAGEKIT_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
 
-# Asset caching
-PIPELINE = {
-    'PIPELINE_ENABLED': True,
-    'STYLESHEETS': {
-        'sitewide': {
-            'source_filenames': (
-                'css/bootstrap.purified.css',
-                'css/sitewide.css',
-            ),
-            'output_filename': 'css/sitewide.min.css',
-        },
-    },
-    'CSS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
-    'JS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
-}
-
 # Sendfile
 # https://github.com/johnsensible/django-sendfile#nginx-backend
 SENDFILE_BACKEND = 'sendfile.backends.nginx'
@@ -300,10 +282,40 @@ X_FRAME_OPTIONS = 'DENY'
 BACKUP_EMAIL_LOGIN_USERNAME = ENVIRONMENT.email_backup.username
 BACKUP_EMAIL_LOGIN_PASSWORD = ENVIRONMENT.email_backup.password
 
+# logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[contactor] %(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        # Send all messages to console
+        'console': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        # This is the "catch all" logger
+        '': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
+
 # Environment-specific configuration
 if ENVIRONMENT.environment is Env.dev:
     SENDFILE_BACKEND = 'sendfile.backends.development'
-    PIPELINE['PIPELINE_ENABLED'] = False
     # debug toolbar
     from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
     DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']

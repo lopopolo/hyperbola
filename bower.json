@@ -1,7 +1,7 @@
 {
   "name": "hyperbola",
   "description": "Build pipeline for Ryan Lopopolo's website - hyperbo.la",
-  "main": "app/hyperbola/static",
+  "main": "static",
   "authors": [
     "Ryan Lopopolo <rjl@hyperbo.la>"
   ],

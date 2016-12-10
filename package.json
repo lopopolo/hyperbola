@@ -1,6 +1,6 @@
 {
   "name": "hyperbola",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Build pipeline for Ryan Lopopolo's website - hyperbo.la",
   "keywords": [
     "javascript minification",
@@ -8,7 +8,7 @@
     "asset caching",
     "build pipeline"
   ],
-  "homepage": "http://hyperbo.la",
+  "homepage": "https://hyperbo.la",
   "bugs": "https://github.com/lopopolo/hyperbola/issues",
   "license": "MIT",
   "author": {
@@ -27,23 +27,34 @@
     "type": "git",
     "url": "https://github.com/lopopolo/hyperbola.git"
   },
-  "dependencies": {
-    "yuglify": "latest"
-  },
   "devDependencies": {
     "autoprefixer": "^6.5.3",
     "bower": "^1.8.0",
     "colorguard": "^1.2.0",
     "cssnano": "^3.8.1",
+    "del": "^2.2.2",
     "eslint": "^3.11.1",
     "eslint-plugin-html": "^1.7.0",
-    "google-closure-compiler": "^20161024.3.0",
+    "google-closure-compiler-js": "^20161201.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-favicons": "^2.2.7",
+    "gulp-filter": "^4.0.0",
+    "gulp-htmlhint-inline": "0.0.7",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-postcss": "^6.2.0",
+    "gulp-purifycss": "^0.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-stylefmt": "^1.0.0",
+    "gulp-svg2png": "^2.0.2",
     "htmlhint": "^0.9.13",
     "postcss-cli": "^2.6.0",
+    "postcss-filter-stream": "0.0.6",
     "purifycss": "^1.1.9",
     "stylefmt": "^5.0.2"
   },
   "engines": {
-    "node": "^4.2.0"
+    "node": "^6.9.0"
   }
 }
