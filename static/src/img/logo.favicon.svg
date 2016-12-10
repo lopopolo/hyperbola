@@ -1,14 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
 <!-- Created lovingly by hand -->
+<title>hyperbo.la Icon</title>
+<metadata>
+  <rdf:RDF
+       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+       xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+       xmlns:dc="http://purl.org/dc/elements/1.1/" >
+    <rdf:Description about="https://hyperbo.la/"
+         dc:title="hyperbo.la Icon"
+         dc:description="Icon to be shown in favicon and mobile bookmarks for https://hyperbo.la"
+         dc:publisher="Ryan Lopopolo"
+         dc:format="image/svg+xml"
+         dc:language="en"
+         dc:source="https://en.wikipedia.org/wiki/File:Hyperbola_properties.svg">
+      <dc:creator>
+        <rdf:Bag>
+          <rdf:li>Inductiveload - https://commons.wikimedia.org/wiki/User:Inductiveload</rdf:li>
+          <rdf:li>Ryan Lopopolo</rdf:li>
+        </rdf:Bag>
+      </dc:creator>
+    </rdf:Description>
+  </rdf:RDF>
+</metadata>
 <g>
-<title>hyperbola favicon</title>
-<metadata id="svg_155">image/svg+xmlThales' theorem31 jan 2007Erwin85</metadata>
-<metadata id="source">https://en.wikipedia.org/wiki/File:Hyperbola_properties.svg</metadata>
 <g id="hyperbola-logo">
 <rect width="100%" height="100%" fill="#222222"/>
 <g id="axes">
-<path id="svg_6" fill="none" stroke="#aaaaaa" stroke-linecap="none" stroke-miterlimit="4" stroke-dashoffset="0" d="m 80 0 l 0 160" stroke-width="4"/>
-<path id="svg_7" fill="none" stroke-width="4" stroke-linecap="none" stroke-miterlimit="4" stroke-dashoffset="0" d="m 0 80 l 160 0" stroke="#aaaaaa"/>
+<path id="svg_6" fill="none" stroke="#aaaaaa" stroke-linecap="butt" stroke-miterlimit="4" stroke-dashoffset="0" d="m 80 0 l 0 160" stroke-width="4"/>
+<path id="svg_7" fill="none" stroke-width="4" stroke-linecap="butt" stroke-miterlimit="4" stroke-dashoffset="0" d="m 0 80 l 160 0" stroke="#aaaaaa"/>
 </g>
 <g id="hyperbola-shape" transform="translate(0, 10)">
 <path id="svg_9" fill="none" stroke="#28dcdc" stroke-width="4" d="m10.878479,136c4.10199,-4.349 8.20203,-8.69897 12.29199,-13.05701c4.40604,-4.95703 8.84302,-9.88597 13.22703,-14.85902c2.54098,-3.11298 5.13198,-6.18799 7.64297,-9.32497c1.53903,-2.106 3.14801,-4.164 4.642,-6.30199c1.49301,-2.138 3.535,-5.20803 4.92204,-8.03703c2.39397,-4.54699 4.07597,-9.647 3.77298,-14.841c-0.27799,-5.265 -2.41798,-10.22698 -5.03001,-14.73299c-1.11996,-1.93599 -2.39899,-3.777 -3.59601,-5.666c-1.76898,-2.362 -3.47498,-4.77399 -5.28497,-7.105c-2.54603,-3.071 -5.03901,-6.186 -7.616,-9.22999c-3.896,-4.37 -7.75501,-8.77401 -11.67502,-13.12201c-3.66699,-3.896 -7.32898,-7.79599 -10.99197,-11.695"/>
