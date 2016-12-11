@@ -37,6 +37,7 @@
     "eslint-plugin-html": "^1.7.0",
     "google-closure-compiler-js": "^20161201.0.0",
     "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^3.0.1",
     "gulp-favicons": "^2.2.7",

@@ -4,6 +4,7 @@ var cssnano = require("cssnano");
 var del = require("del");
 var compiler = require("google-closure-compiler-js").gulp();
 var gulp = require("gulp");
+var bower = require("gulp-bower");
 var concat = require("gulp-concat");
 var eslint = require("gulp-eslint");
 var favicons = require("gulp-favicons");
@@ -32,7 +33,11 @@ gulp.task("clean", function () {
     ]);
 });
 
-gulp.task("css", ["clean"], function () {
+gulp.task("bower", function () {
+    return bower({cmd: "update"});
+});
+
+gulp.task("css", ["clean", "bower"], function () {
     var processors = [
         autoprefixer({browsers: ["last 1 version"]}),
         stylefmt(),
@@ -70,7 +75,7 @@ gulp.task("js:compile", function () {
 
 gulp.task("js:copy", ["js:copy:retinajs"]);
 
-gulp.task("js:copy:retinajs", ["clean"], function () {
+gulp.task("js:copy:retinajs", ["clean", "bower"], function () {
     return gulp.src("./static/src/vendor/retina.js/dist/retina.min.js")
         .pipe(gulp.dest("./static/dist/js"));
 });
