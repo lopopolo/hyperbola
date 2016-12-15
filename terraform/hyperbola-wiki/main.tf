@@ -23,14 +23,6 @@ resource "aws_security_group" "elb" {
   vpc_id      = "${var.vpc_id}"
   description = "Security group for ${var.name} ELB"
 
-  tags {
-    Name = "${var.name}-elb"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
   ingress {
     protocol    = "tcp"
     from_port   = 80
@@ -57,6 +49,10 @@ resource "aws_security_group" "elb" {
     from_port       = 443
     to_port         = 443
     security_groups = ["${aws_security_group.backend.id}"]
+  }
+
+  tags {
+    Name = "${var.name}-elb"
   }
 
   lifecycle {
