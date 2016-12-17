@@ -19,12 +19,8 @@ variable "key_name" {}
 
 variable "instance_type" {}
 
-data "template_file" "bastion-ingress-cidr" {
-  template = "$${ingress}/32"
-
-  vars {
-    ingress = "${trimspace(file("${path.root}/../.secrets/bastion-ingress-ip.txt"))}"
-  }
+data "external" "bastion-ingress" {
+  program = ["bash", "external/my-ip.sh"]
 }
 
 resource "aws_security_group" "bastion" {
@@ -51,7 +47,7 @@ resource "aws_security_group" "bastion" {
     protocol    = "tcp"
     from_port   = 22
     to_port     = 22
-    cidr_blocks = ["${data.template_file.bastion-ingress-cidr.rendered}"]
+    cidr_blocks = ["${data.external.bastion-ingress.result.cidr}"]
   }
 
   egress {
@@ -186,5 +182,5 @@ output "security_group_id" {
 }
 
 output "ingress_cidr" {
-  value = "${data.template_file.bastion-ingress-cidr.rendered}"
+  value = "${data.external.bastion-ingress.result.cidr}"
 }
