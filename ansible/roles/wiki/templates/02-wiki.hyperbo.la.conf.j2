@@ -33,11 +33,11 @@ server {
     server_name  {{ item.domain }};
 
     {% if item.ssl_enabled %}
-    include conf.d/nginx-base-config/directive-only/ssl/ssl.conf;
+    include conf.d/nginx-base-config/directive-only/ssl/ssl.nginx.conf;
     {% if item.hsts %}
-    include conf.d/nginx-base-config/directive-only/ssl/hsts.conf;
+    include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
     {% endif %}
-    include conf.d/nginx-base-config/directive-only/ssl/ssl-stapling.conf;
+    include conf.d/nginx-base-config/directive-only/ssl/ssl-stapling.nginx.conf;
 
     ssl_certificate          /hyperbola/tls/{{ item.domain }}/certs/{{ item.domain }}/fullchain.pem;
     ssl_certificate_key      /hyperbola/tls/{{ item.domain }}/certs/{{ item.domain }}/privkey.pem;
