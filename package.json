@@ -28,12 +28,12 @@
     "url": "https://github.com/lopopolo/hyperbola.git"
   },
   "devDependencies": {
-    "autoprefixer": "^6.5.3",
+    "autoprefixer": "^6.5.4",
     "bower": "^1.8.0",
     "colorguard": "^1.2.0",
-    "cssnano": "^3.8.1",
+    "cssnano": "^3.9.1",
     "del": "^2.2.2",
-    "eslint": "^3.11.1",
+    "eslint": "^3.12.2",
     "eslint-plugin-html": "^1.7.0",
     "google-closure-compiler-js": "^20161201.0.0",
     "gulp": "^3.9.1",
@@ -53,7 +53,7 @@
     "postcss-cli": "^2.6.0",
     "postcss-filter-stream": "0.0.6",
     "purifycss": "^1.1.9",
-    "stylefmt": "^5.0.2"
+    "stylefmt": "^5.0.3"
   },
   "engines": {
     "node": "^6.9.0"
