@@ -29,7 +29,7 @@ gulp.task("clean", function () {
         "!./static/dist",
         "!./static/dist/.gitignore",
         "./document-root/**/*.ico",
-        "./document-root/**/*.png",
+        "./document-root/**/*.png"
     ]);
 });
 
@@ -41,7 +41,7 @@ gulp.task("css", ["clean", "bower"], function () {
     var processors = [
         autoprefixer({browsers: ["last 1 version"]}),
         stylefmt(),
-        filterStream("**/vendor/**", colorguard()),
+        filterStream("**/vendor/**", colorguard())
     ];
     return gulp.src(["./static/src/vendor/bootstrap-css-only/css/bootstrap.css", "./static/src/css/sitewide.css"])
         .pipe(purify(["./app/hyperbola/**/templates/*.html"]))
@@ -65,7 +65,7 @@ gulp.task("js:compile", function () {
         .pipe(compiler({
             compilationLevel: "ADVANCED_OPTIMIZATIONS",
             warningLevel: "VERBOSE",
-            jsOutputFile: "lifestream-date-formatter.js",
+            jsOutputFile: "lifestream-date-formatter.js"
         }))
         .pipe(rename(function (path) {
             path.basename += ".generated.min";
@@ -86,23 +86,23 @@ gulp.task("html:lint", function () {
     return gulp.src(["./bin/**/*.html", "./app/**/*.html"])
         .pipe(htmlhint_inline({
             ignores: {
-                "{% load staticfiles": "%}",
+                "{% load staticfiles": "%}"
             },
             patterns: [
                 {
-                    match: /\{% extends .+? %\}/g,
+                    match: /\{% extends .+? %}/g,
                     replacement: "<!doctype html>"
                 },
                 {
-                    match: /\{% load hyperbola_lifestream_tags imagekit %\}/g,
+                    match: /\{% load hyperbola_lifestream_tags imagekit %}/g,
                     replacement: "<!doctype html>"
                 },
                 {
-                    match: /\{% (url|static) .+? %\}/g,
+                    match: /\{% (url|static) .+? %}/g,
                     replacement: "https://example.com"
                 },
                 {
-                    match: /\{\{ .+? \}\}/g,
+                    match: /\{\{ .+? }}/g,
                     replacement: "foo.bar"
                 }
             ]
