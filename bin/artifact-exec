@@ -3,16 +3,16 @@
 # Source artifact-specific .env configuration and then exec
 # the program supplied via ARGV.
 
-ARTIFACT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &> /dev/null && pwd)"
+ARTIFACT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &>/dev/null && pwd)"
 
 if [ ! -d "$ARTIFACT_ROOT/env" ]; then
-  >&2 echo "No env directory to source ... aborting artifact-exec"
-  >&2 echo "ARTIFACT_ROOT=$ARTIFACT_ROOT"
-  exit 1
+	echo >&2 "No env directory to source ... aborting artifact-exec"
+	echo >&2 "ARTIFACT_ROOT=$ARTIFACT_ROOT"
+	exit 1
 fi
 
 for env in "$ARTIFACT_ROOT/env/"*.env; do
-  . "$env"
+	. "$env"
 done
 
 exec "$@"

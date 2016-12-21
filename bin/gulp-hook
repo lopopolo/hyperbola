@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-HYPERBOLA_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-
-exec $HYPERBOLA_BIN/artifact-exec gulp
+unset CDPATH
+cd "${BASH_SOURCE%/*}" || exit
+exec ./artifact-exec gulp
