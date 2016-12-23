@@ -11,7 +11,6 @@ iam_admins        = "hyperbola-admin" # Comma separated list of admins (e.g. cam
 #--------------------------------------------------------------
 
 name              = "prod"
-artifact_type     = "amazon.image"
 region            = "us-east-1"
 
 #--------------------------------------------------------------

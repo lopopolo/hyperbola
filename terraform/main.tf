@@ -1,3 +1,5 @@
+variable "name" {}
+
 variable "iam_admins" {}
 
 resource "aws_key_pair" "site_key" {

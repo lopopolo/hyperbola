@@ -1,5 +1,3 @@
-variable "name" {}
-
 variable "region" {}
 
 provider "aws" {

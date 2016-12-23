@@ -1,5 +1,3 @@
-variable "artifact_type" {}
-
 variable "vpc_cidr" {}
 
 variable "azs" {}
