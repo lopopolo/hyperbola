@@ -57,21 +57,21 @@ output "iam_admin_secret_keys" {
 }
 
 module "hyperbola-app" {
-  source         = "./hyperbola-app"
+  source         = "./hyperbola/app"
   host           = "hyperbola3"
   ipv4_addresses = "${var.ipv4_addresses}"
   ipv6_addresses = "${var.ipv6_addresses}"
 }
 
 module "hyperbola-cdn" {
-  source         = "./hyperbola-cdn"
+  source         = "./hyperbola/cdn"
   host           = "hyperbola3"
   ipv4_addresses = "${var.ipv4_addresses}"
   ipv6_addresses = "${var.ipv6_addresses}"
 }
 
 module "hyperbola-wiki" {
-  source                    = "./hyperbola-wiki"
+  source                    = "./hyperbola/wiki"
   name                      = "${var.name}-wiki"
   region                    = "${var.region}"
   vpc_id                    = "${module.network.vpc_id}"
