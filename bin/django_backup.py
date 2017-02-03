@@ -46,7 +46,7 @@ def send_mail(send_from, send_to, subject, text='', files=None, server='smtp.gma
 
 
 def make_tarfile(output_filename, source_dir, tarfilter=None):
-    with tarfile.open(output_filename, 'w:gz') as tar:
+    with tarfile.open(output_filename, 'w:gz', dereference=True) as tar:
         tar.add(source_dir, arcname=os.path.basename(source_dir), filter=tarfilter)
 
 
@@ -61,7 +61,7 @@ def tempdir():
 
 
 if __name__ == '__main__':
-    backup_time = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
+    backup_time = datetime.datetime.now().strftime('%Y-%m-%dT%H%M')
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hyperbola.settings')
     django.setup()
@@ -90,7 +90,7 @@ if __name__ == '__main__':
 
         # Backup all django media from hyperbola.settings.MEDIA_ROOT
         def prune_cache_from_media(tarinfo):
-            if tarinfo.name.startswith("media/cache"):
+            if tarinfo.name.startswith("{}/cache".format(settings.ENVIRONMENT.environment.value)):
                 return None
             return tarinfo
 
