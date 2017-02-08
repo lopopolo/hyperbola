@@ -25,9 +25,9 @@ class ReadinessCheckView(View):
         try:
             with django.db.connection.cursor() as c:
                 c.execute("SELECT 0")
-        except django.db.Error as e:
+        except django.db.Error:
             return HttpResponseServiceUnavailable("Database health check failed")
 
-        return HttpResponse("OK")
+        return HttpResponse("OK", content_type="text/plain")
 
     head = get
