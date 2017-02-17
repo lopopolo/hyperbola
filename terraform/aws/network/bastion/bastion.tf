@@ -58,11 +58,24 @@ resource "aws_security_group" "bastion" {
   }
 }
 
-module "ami" {
-  source        = "github.com/terraform-community-modules/tf_aws_ubuntu_ami/ebs"
-  instance_type = "${var.instance_type}"
-  region        = "${var.region}"
-  distribution  = "trusty"
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "name"
+    values = ["*ubuntu-xenial-16.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
 }
 
 resource "aws_iam_instance_profile" "bastion" {
@@ -128,9 +141,9 @@ resource "aws_eip" "bastion" {
 
 resource "aws_launch_configuration" "bastion" {
   name_prefix          = "${var.name}-"
-  image_id             = "${module.ami.ami_id}"
+  image_id             = "${data.aws_ami.ubuntu.id}"
   instance_type        = "${var.instance_type}"
-  user_data            = "${file("${path.module}/combined-userdata.txt")}"
+  user_data            = "${file("${path.module}/bastion_init.sh")}"
   key_name             = "${var.key_name}"
   security_groups      = ["${aws_security_group.bastion.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.bastion.name}"
