@@ -1,10 +1,12 @@
 SHELL := /bin/bash
-export PATH := $(shell npm bin):./virtualenv/bin:$(PATH)
+export PATH := ./virtualenv/bin:$(PATH)
+
+PYTHON_VERSION := $(shell cat .python-version)
 
 all: lint
 
 hooks:
-	virtualenv/bin/pre-commit install
+	pre-commit install
 
 ## Linters
 
@@ -31,7 +33,7 @@ yapf:
 ## Virtualenv
 
 virtualenv: wipe-virtualenv
-	virtualenv --python=python3 virtualenv
+	pyenv virtualenv $(PYTHON_VERSION) virtualenv
 	pip install -U virtualenv pip wheel setuptools
 	pip install -r dev-requirements.txt --ignore-installed
 
