@@ -1,43 +1,43 @@
-- repo: https://github.com/pre-commit/pre-commit-hooks.git
-  sha: v0.6.0  # Use the sha you want to point at
-  hooks:
-  - id: check-byte-order-marker
-  - id: check-symlinks
-  - id: check-yaml
-  - id: detect-private-key
-  - id: end-of-file-fixer
-    exclude: (min\.js$|dist|vendor)
-  - id: requirements-txt-fixer
-  - id: trailing-whitespace
-    exclude: (min\.js$|dist|vendor)
-- repo: local
-  hooks:
-  - id: gulp
-    name: gulp linting and code generation
-    entry: bin/gulp-hook
-    language: system
-    files: (static|dist|\.css$|\.html$|\.js$)
-    exclude: (vendor|generated)
-  - id: flake8
-    name: flake8 linter
-    entry: ./virtualenv/bin/flake8
-    language: system
-    files: \.py$
-    exclude: migrations
-  - id: isort
-    name: isort linter
-    entry: ./virtualenv/bin/isort --apply
-    language: system
-    files: \.py$
-    exclude: migrations
-  - id: pep257
-    name: pep257 linter
-    entry: ./virtualenv/bin/pep257
-    language: system
-    files: \.py$
-  - id: pylint
-    name: pylint linter
-    entry: ./virtualenv/bin/pylint --rcfile setup.cfg
-    language: system
-    files: \.py$
-    exclude: migrations
+-   repo: https://github.com/pre-commit/pre-commit-hooks.git
+    sha: a11d9314b22d8f8c7556443875b731ef05965464
+    hooks:
+    -   id: check-byte-order-marker
+    -   id: check-symlinks
+    -   id: check-yaml
+    -   id: detect-private-key
+    -   id: end-of-file-fixer
+        exclude: (min\.js$|dist|vendor)
+    -   id: requirements-txt-fixer
+    -   id: trailing-whitespace
+        exclude: (min\.js$|dist|vendor)
+-   repo: local
+    hooks:
+    -   id: gulp
+        name: gulp linting and code generation
+        entry: bin/gulp-hook
+        language: system
+        files: (static|dist|\.css$|\.html$|\.js$)
+        exclude: (vendor|generated)
+    -   id: flake8
+        name: flake8 linter
+        entry: ./virtualenv/bin/flake8
+        language: system
+        files: \.py$
+        exclude: migrations
+    -   id: isort
+        name: isort linter
+        entry: ./virtualenv/bin/isort --apply
+        language: system
+        files: \.py$
+        exclude: migrations
+    -   id: pep257
+        name: pep257 linter
+        entry: ./virtualenv/bin/pep257
+        language: system
+        files: \.py$
+    -   id: pylint
+        name: pylint linter
+        entry: ./virtualenv/bin/pylint --rcfile setup.cfg
+        language: system
+        files: \.py$
+        exclude: migrations
