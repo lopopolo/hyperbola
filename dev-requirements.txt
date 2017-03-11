@@ -5,7 +5,6 @@ git+https://github.com/orf/django-debug-toolbar-template-timings.git@d1a123d#egg
 isort
 pep257
 pep8
-pre-commit
 pylint
 pylint-django
 yapf

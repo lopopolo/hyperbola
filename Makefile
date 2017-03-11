@@ -33,7 +33,7 @@ yapf:
 ## Virtualenv
 
 virtualenv: wipe-virtualenv
-	pyenv virtualenv $(PYTHON_VERSION) virtualenv
+	python -m venv virtualenv
 	pip install -U virtualenv pip wheel setuptools
 	pip install -r dev-requirements.txt --ignore-installed
 
