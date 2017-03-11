@@ -1,8 +1,8 @@
 import re
 
 from django import template
-from django.core.urlresolvers import reverse
 from django.template.defaultfilters import stringfilter
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from ...core import make_escape_function

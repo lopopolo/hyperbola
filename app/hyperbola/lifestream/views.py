@@ -3,11 +3,11 @@ from datetime import date
 from functools import wraps
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.core.urlresolvers import reverse
 from django.db import connection
 from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import render
+from django.urls import reverse
 
 from .models import LifeStreamItem
 

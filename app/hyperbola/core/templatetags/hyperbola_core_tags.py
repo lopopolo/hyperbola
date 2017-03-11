@@ -33,4 +33,9 @@ def anti_spamize(email, autoescape=True):
 
 @register.filter
 def markdown(text):
-    return mark_safe(_markdown.markdown(text, safe_mode="escape"))
+    class EscapeHTML(_markdown.Extension):
+        def extendMarkdown(self, md, md_globals):
+            del md.preprocessors['html_block']
+            del md.inlinePatterns['html']
+
+    return mark_safe(_markdown.markdown(text, extensions=[EscapeHTML()]))
