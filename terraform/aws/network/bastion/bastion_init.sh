@@ -3,7 +3,8 @@
 ##############
 # Install deps
 ##############
-apt-get update && apt-get upgrade -y
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 ## aws
 apt-get install -y python-pip jq
 pip install --upgrade awscli
