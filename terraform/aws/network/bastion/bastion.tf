@@ -79,8 +79,8 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_iam_instance_profile" "bastion" {
-  name  = "bastion_profile"
-  roles = ["${aws_iam_role.bastion.name}"]
+  name = "bastion_profile"
+  role = "${aws_iam_role.bastion.name}"
 
   lifecycle {
     create_before_destroy = true
