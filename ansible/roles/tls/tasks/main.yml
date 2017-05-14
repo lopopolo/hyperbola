@@ -11,14 +11,14 @@
   - /hyperbola/tools/venv
 - name: Install dehydrated
   git:
-    repo: https://github.com/lukas2511/dehydrated.git
+    repo: https://github.com/lopopolo/dehydrated.git
     dest: /hyperbola/tools/dehydrated
-    version: 607c89cae2cac91ee5baa42d991cf95def9e1172
+    version: 116386486b3749e4c5e1b4da35904f30f8b2749b
 - name: Install dehydrated cloudflare dns hook
   git:
-    repo: https://github.com/kappataumu/letsencrypt-cloudflare-hook.git
+    repo: https://github.com/lopopolo/letsencrypt-cloudflare-hook.git
     dest: /hyperbola/tools/dehydrated/hooks/cloudflare
-    version: a6a7cfbf564ede7621f53bfc49b0c2dd694ee19e
+    version: a3c899d26e79cfa45e873dacbe85169cf84ea910
 - name: Create dehydrated virtualenv
   command: pyvenv /hyperbola/tools/venv
   args:
