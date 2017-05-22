@@ -54,7 +54,7 @@ gulp.task("css", ["clean", "bower"], function () {
 gulp.task("js", ["clean", "js:lint", "js:compile", "js:copy"]);
 
 gulp.task("js:lint", function () {
-    return gulp.src(["**/*.js", "!**/*.min.js", "!node_modules/**", "!**/vendor/**", "!virtualenv/**", "!assets/**"])
+    return gulp.src(["**/*.js", "!**/*.min.js", "!node_modules/**", "!bin/dist/**", "!**/vendor/**", "!virtualenv/**", "!assets/**"])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());

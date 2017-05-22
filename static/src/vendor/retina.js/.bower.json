@@ -1,6 +1,6 @@
 {
   "name": "retinajs",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "homepage": "http://retinajs.com",
   "authors": [
     "Axial <developer@axial.agency>"
@@ -22,11 +22,11 @@
     "node",
     "yui"
   ],
-  "_release": "2.1.0",
+  "_release": "2.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.0",
-    "commit": "ba3dee4bbeb2ec57773083639907e7f6ee08c102"
+    "tag": "v2.1.1",
+    "commit": "e5202551d00a9112048cc9dd5212418823bccfe1"
   },
   "_source": "https://github.com/imulus/retinajs.git",
   "_target": "^2.1.0",
