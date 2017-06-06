@@ -52,7 +52,7 @@
     "htmlhint": "^0.9.13",
     "postcss-cli": "^4.0.0",
     "postcss-filter-stream": "0.0.6",
-    "purify-css": "1.2.2",
+    "purify-css": "^1.2.6",
     "stylefmt": "^6.0.0"
   },
   "engines": {
