@@ -32,14 +32,12 @@ yapf:
 
 ## Virtualenv
 
-virtualenv: wipe-virtualenv
-	python -m venv virtualenv
-	pip install -U virtualenv pip wheel setuptools
-	pip install -r dev-requirements.txt --ignore-installed
+virtualenv: virtualenv/bin/activate
 
-wipe-virtualenv:
-	rm -rf ./virtualenv
-	git checkout -- virtualenv
+virtualenv/bin/activate: dev-requirements.txt requirements.txt
+	python -m venv virtualenv
+	pip install -U virtualenv pip pip-tools wheel setuptools
+	pip-sync $<
 
 ## clean
 
@@ -57,6 +55,6 @@ clean-assets:
 	rm -f assets/staticfiles.json
 
 .PHONY: flake8 isort pep257 pylint yapf \
-	virtualenv wipe-virtualenv \
+	virtualenv \
 	clean clean-pyc clean-assets
 
