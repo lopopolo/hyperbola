@@ -7,7 +7,7 @@
 django-appconf==1.0.2     # via django-imagekit
 django-imagekit==4.0.1
 django-localflavor==1.5
-django-mysql==2.0.0
+django-mysql==2.1.0
 django-redis==4.8.0
 django-sendfile==0.3.11
 django==1.11.2            # via django-localflavor, django-mysql, django-sendfile

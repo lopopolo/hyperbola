@@ -32,6 +32,12 @@ yapf:
 
 ## Virtualenv
 
+requirements.txt: requirements.in
+	pip-compile $<
+
+dev-requirements.txt: dev-requirements.in requirements.txt
+	pip-compile $<
+
 virtualenv: virtualenv/bin/activate
 
 virtualenv/bin/activate: dev-requirements.txt requirements.txt
@@ -55,6 +61,5 @@ clean-assets:
 	rm -f assets/staticfiles.json
 
 .PHONY: flake8 isort pep257 pylint yapf \
-	virtualenv \
 	clean clean-pyc clean-assets
 

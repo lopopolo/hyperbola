@@ -76,7 +76,7 @@ gulp.task("js:compile", function () {
 gulp.task("js:copy", ["js:copy:retinajs"]);
 
 gulp.task("js:copy:retinajs", ["clean", "bower"], function () {
-    return gulp.src("./static/src/vendor/retina.js/dist/retina.min.js")
+    return gulp.src("./static/src/vendor/retinajs/dist/retina.min.js")
         .pipe(gulp.dest("./static/dist/js"));
 });
 

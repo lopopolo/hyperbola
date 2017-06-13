@@ -1,0 +1,14 @@
+{
+  "name": "retina.js",
+  "homepage": "https://github.com/imulus/retinajs",
+  "version": "2.1.2",
+  "_release": "2.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.1.2",
+    "commit": "6a354a599fe946f9f94b49ee0dc24e8c88d83ca0"
+  },
+  "_source": "https://github.com/imulus/retinajs.git",
+  "_target": "^2.1.2",
+  "_originalSource": "retinajs"
+}
