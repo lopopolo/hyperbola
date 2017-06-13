@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
-    bucket     = "hyperbola-terraform-state"
-    region     = "us-east-1"
-    key        = "terraform/state-infra/terraform.tfstate"
-    encrypt    = true
-    lock_table = "terraform_statelock"
+    bucket         = "hyperbola-terraform-state"
+    region         = "us-east-1"
+    key            = "terraform/state-infra/terraform.tfstate"
+    encrypt        = true
+    dynamodb_table = "terraform_statelock"
   }
 }
 
