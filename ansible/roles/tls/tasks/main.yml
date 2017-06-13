@@ -20,7 +20,7 @@
     dest: /hyperbola/tools/dehydrated/hooks/cloudflare
     version: a3c899d26e79cfa45e873dacbe85169cf84ea910
 - name: Create dehydrated virtualenv
-  command: pyvenv /hyperbola/tools/venv
+  command: python3 -m venv /hyperbola/tools/venv
   args:
     creates: /hyperbola/tools/venv/bin/python
 - name: Install cloudflare hook dependencies
@@ -50,6 +50,10 @@
     owner: root
     group: "{{ nginx_user }}"
     mode: 0640
+- name: Accept Let's Encrypt ToS
+  command: "/hyperbola/tools/dehydrated/dehydrated --register --accept-terms --config /hyperbola/tools/tls/{{ tls_domain }}/config"
+  tags:
+  - skip_ansible_lint # ANSIBLE0012 Commands should not change things if nothing needs doing
 - name: bootstrap certs
   command: "/hyperbola/tools/bin/refresh-certs-{{ tls_domain }}"
   args:
