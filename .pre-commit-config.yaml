@@ -9,7 +9,6 @@
   - id: detect-private-key
   - id: end-of-file-fixer
   - id: flake8
-  - id: pyflakes
   - id: trailing-whitespace
 - repo: git://github.com/antonbabenko/pre-commit-terraform
   sha: v1.2.0
