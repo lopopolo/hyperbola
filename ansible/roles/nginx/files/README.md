@@ -24,13 +24,13 @@ server {
 
         include conf.d/nginx-base-config/location/*.conf;
     }
-    
+
     location /static {
         alias /hyperbola/static/;
         include /hyperbola/tools/nginx/location/static/*.conf;
         include /hyperbola/tools/nginx/directive-only/static/*.conf;
     }
-    
+
     include conf.d/nginx-base-config/directive-only/*.conf;
 }
 ```

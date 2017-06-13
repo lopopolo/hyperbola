@@ -16,11 +16,16 @@
   - id: terraform_fmt
 - repo: local
   hooks:
-    - id: ansible-lint
-      name: ansible-lint
-      entry: make lint
-      language: system
-      files: .yml$
+  - id: ansible-lint
+    name: ansible-lint
+    entry: make lint
+    language: system
+    files: \.(yaml|yml)$
+  - id: rubocop
+    name: Rubocop
+    entry: rubocop
+    language: ruby
+    files: (\.rb$|config\.ru|Vagrantfile|Gemfile)
 # Pending support for vault password files
 #- repo: https://github.com/willthames/ansible-lint.git
 #  sha: v3.4.13
