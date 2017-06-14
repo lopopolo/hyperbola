@@ -90,19 +90,19 @@ gulp.task("html:lint", function () {
             },
             patterns: [
                 {
-                    match: /\{% extends .+? %}/g,
+                    match: /{% extends .+? %}/g,
                     replacement: "<!doctype html>"
                 },
                 {
-                    match: /\{% load hyperbola_lifestream_tags imagekit %}/g,
+                    match: /{% load hyperbola_lifestream_tags imagekit %}/g,
                     replacement: "<!doctype html>"
                 },
                 {
-                    match: /\{% (url|static) .+? %}/g,
+                    match: /{% (url|static) .+? %}/g,
                     replacement: "https://example.com"
                 },
                 {
-                    match: /\{\{ .+? }}/g,
+                    match: /{{ .+? }}/g,
                     replacement: "foo.bar"
                 }
             ]

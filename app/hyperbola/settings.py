@@ -321,3 +321,22 @@ if ENVIRONMENT.environment is Env.dev:
     DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
+    if False:
+        # workaround for intellij dying on dynamically-created INSTALLED_APPS
+        # https://stackoverflow.com/a/42672633
+        INSTALLED_APPS = [
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.messages',
+            'django.contrib.staticfiles',
+            'django_mysql',
+            'imagekit',
+            'localflavor',
+            'hyperbola.contact',
+            'hyperbola.core',
+            'hyperbola.frontpage',
+            'hyperbola.lifestream',
+        ]
+        # workaround for intellij dying on dynamically-created STATIC_ROOT
+        STATIC_ROOT = "static/dist"
