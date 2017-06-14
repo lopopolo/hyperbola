@@ -67,7 +67,7 @@ a:focus {
     margin: 0;
     border-style: none;
     background: url("../img/logo.header.png") no-repeat;
-    background-size: 230px 80px;
+    background-size: cover;
     height: 80px;
     width: 230px;
 }
@@ -78,7 +78,7 @@ a:focus {
         margin: 0;
         border-style: none;
         background: url("../img/logo.header@2x.png") no-repeat;
-        background-size: 230px 80px;
+        background-size: cover;
         height: 80px;
         width: 230px;
     }
