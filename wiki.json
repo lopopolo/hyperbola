@@ -8,7 +8,7 @@
     "type": "amazon-ebs",
     "region": "us-east-1",
     "vpc_id": "vpc-69b6490f",
-    "subnet_id": "subnet-b71ba29a",
+    "subnet_id": "subnet-bddc61e6",
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
