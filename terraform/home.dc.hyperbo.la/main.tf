@@ -21,4 +21,25 @@ resource "aws_s3_bucket" "home-dc-hyperbola" {
   lifecycle {
     prevent_destroy = true
   }
+
+  lifecycle_rule {
+    id      = "media-backup"
+    prefix  = "/"
+    enabled = true
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      days          = 60
+      storage_class = "GLACIER"
+    }
+  }
 }
