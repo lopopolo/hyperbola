@@ -8,6 +8,11 @@ all: lint
 hooks:
 	pre-commit install
 
+yarn-update:
+	rm -rf ./bin/dist
+	wget -O- https://yarnpkg.com/latest.tar.gz | tar zvx -C ./bin
+	echo '*' > ./bin/dist/.gitignore
+
 ## Linters
 
 lint: lint-py
