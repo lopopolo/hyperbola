@@ -14,7 +14,7 @@ hooks:
 	pre-commit install
 
 install_roles:
-	ansible-galaxy install -r roles/requirements.yml -p ./roles/ --force
+	ansible-galaxy install -r ansible/roles/requirements.yml -p ansible/roles/ --force
 
 ## Virtualenv
 
