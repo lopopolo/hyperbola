@@ -6,13 +6,5 @@
   vars_files:
     - vars/cloudflare.yml
   roles:
-  - role: hyperbola-base
-  - role: geerlingguy.ruby
-  - role: hyperbola-nginx
-    nginx_vhosts:
-    - domain: "{{ wiki_nginx_domain }}"
-      index: "02"
-      ssl_enabled: "{{ hyperbola_environment != 'localhost' }}"
-      template: roles/wiki/templates/02-wiki.hyperbo.la.conf.j2
   - role: hyperbola-wiki
     ssl_enabled: "{{ hyperbola_environment != 'localhost' }}"
