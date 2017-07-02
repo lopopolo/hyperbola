@@ -37,13 +37,11 @@ module "public_subnet" {
 module "bastion" {
   source = "./bastion"
 
-  name              = "${var.name}-bastion"
-  vpc_id            = "${module.vpc.vpc_id}"
-  vpc_cidr          = "${module.vpc.vpc_cidr}"
-  region            = "${var.region}"
-  public_subnet_ids = "${module.public_subnet.subnet_ids}"
-  key_name          = "${var.key_name}"
-  instance_type     = "${var.bastion_instance_type}"
+  name               = "${var.name}-bastion"
+  vpc_id             = "${module.vpc.vpc_id}"
+  public_subnet_name = "${module.public_subnet.tag_value}"
+  key_name           = "${var.key_name}"
+  instance_type      = "${var.bastion_instance_type}"
 }
 
 module "nat" {
@@ -103,11 +101,11 @@ output "vpc_cidr" {
 
 # Subnets
 output "public_subnet_name" {
-  value = "${var.name}-public"
+  value = "${module.public_subnet.tag_value}"
 }
 
 output "private_subnet_name" {
-  value = "${var.name}-private"
+  value = "${module.private_subnet.tag_value}"
 }
 
 # Bastion

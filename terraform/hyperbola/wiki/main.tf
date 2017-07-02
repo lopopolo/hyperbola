@@ -76,7 +76,7 @@ resource "aws_security_group" "alb" {
   }
 
   tags {
-    Name = "${var.name}-elb"
+    Name = "${var.name}-alb-sg"
   }
 
   lifecycle {

@@ -62,3 +62,8 @@ resource "aws_route_table_association" "private" {
 output "subnet_ids" {
   value = "${join(",", aws_subnet.private.*.id)}"
 }
+
+output "tag_value" {
+  value      = "${var.name}"
+  depends_on = ["aws_subnet.private"]
+}

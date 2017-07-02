@@ -8,16 +8,23 @@ variable "name" {
 }
 
 variable "vpc_id" {}
-
-variable "vpc_cidr" {}
-
-variable "region" {}
-
-variable "public_subnet_ids" {}
+variable "public_subnet_name" {}
 
 variable "key_name" {}
 
 variable "instance_type" {}
+
+data "aws_vpc" "selected" {
+  id = "${var.vpc_id}"
+}
+
+data "aws_subnet_ids" "public" {
+  vpc_id = "${data.aws_vpc.selected.id}"
+
+  tags {
+    Network = "${var.public_subnet_name}"
+  }
+}
 
 data "external" "bastion-ingress" {
   program = ["bash", "external/my-ip.sh"]
@@ -25,7 +32,7 @@ data "external" "bastion-ingress" {
 
 resource "aws_security_group" "bastion" {
   name        = "${var.name}"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = "${data.aws_vpc.selected.id}"
   description = "Bastion security group"
 
   tags {
@@ -40,7 +47,7 @@ resource "aws_security_group" "bastion" {
     protocol    = -1
     from_port   = 0
     to_port     = 0
-    cidr_blocks = ["${var.vpc_cidr}"]
+    cidr_blocks = ["${data.aws_vpc.selected.cidr_block}"]
   }
 
   ingress {
@@ -155,7 +162,7 @@ resource "aws_launch_configuration" "bastion" {
 
 resource "aws_autoscaling_group" "bastion" {
   name                      = "${aws_launch_configuration.bastion.name}"
-  vpc_zone_identifier       = ["${split(",", var.public_subnet_ids)}"]
+  vpc_zone_identifier       = ["${data.aws_subnet_ids.public.ids}"]
   desired_capacity          = "1"
   min_size                  = "1"
   max_size                  = "1"
