@@ -1,5 +1,4 @@
 variable "prod_zone_id" {}
-
 variable "local_zone_id" {}
 
 variable "local_ip" {
@@ -11,7 +10,7 @@ variable "local_ip" {
 resource "cloudflare_record" "wiki" {
   domain  = "hyperbo.la"
   name    = "wiki"
-  value   = "${aws_elb.elb.dns_name}"
+  value   = "${aws_alb.alb.dns_name}"
   type    = "CNAME"
   ttl     = 1
   proxied = false
@@ -33,8 +32,8 @@ resource "aws_route53_record" "wiki" {
   type    = "A"
 
   alias {
-    name                   = "${aws_elb.elb.dns_name}"
-    zone_id                = "${aws_elb.elb.zone_id}"
+    name                   = "${aws_alb.alb.dns_name}"
+    zone_id                = "${aws_alb.alb.zone_id}"
     evaluate_target_health = true
   }
 }
@@ -46,4 +45,8 @@ resource "aws_route53_record" "wiki-local" {
 
   ttl     = 300
   records = ["${var.local_ip}"]
+}
+
+output "private_fqdn" {
+  value = "${aws_route53_record.wiki.fqdn}"
 }

@@ -65,7 +65,9 @@ $stderr.sync = true
 app = Rack::Builder.new do
   map '/' do
     use HyperbolaMiddleware
+    {% if ssl_enabled %}
     use Rack::SSL, hsts: false
+    {% endif %}
     run Precious::App
   end
 

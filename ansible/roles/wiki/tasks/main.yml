@@ -104,8 +104,8 @@
     mode: 0444
   notify: restart wiki
 - name: Install config.ru
-  copy:
-    src: config.ru
+  template:
+    src: config.ru.j2
     dest: /hyperbola/wiki.hyperbo.la/config.ru
     mode: 0554
   notify: restart wiki

@@ -87,11 +87,9 @@ module "hyperbola-wiki" {
   name                      = "${var.name}-wiki"
   region                    = "${var.region}"
   vpc_id                    = "${module.network.vpc_id}"
-  vpc_cidr                  = "${var.vpc_cidr}"
-  key_name                  = "${aws_key_pair.site_key.key_name}"
-  azs                       = "${var.azs}"
-  private_subnet_ids        = "${module.network.private_subnet_ids}"
   public_subnet_ids         = "${module.network.public_subnet_ids}"
+  private_subnet_ids        = "${module.network.private_subnet_ids}"
+  key_name                  = "${aws_key_pair.site_key.key_name}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
 
   local_ip      = "192.168.10.10"
@@ -100,7 +98,7 @@ module "hyperbola-wiki" {
 }
 
 output "wiki_elb_zone_id" {
-  value = "${module.hyperbola-wiki.elb_zone_id}"
+  value = "${module.hyperbola-wiki.alb_zone_id}"
 }
 
 output "wiki_private_fqdn" {
@@ -108,5 +106,5 @@ output "wiki_private_fqdn" {
 }
 
 output "wiki_elb_dns" {
-  value = "${module.hyperbola-wiki.elb_dns}"
+  value = "${module.hyperbola-wiki.alb_dns}"
 }

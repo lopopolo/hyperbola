@@ -3,25 +3,33 @@ variable "name" {}
 variable "region" {}
 
 variable "vpc_id" {}
-
-variable "vpc_cidr" {}
-
-variable "key_name" {}
-
-variable "azs" {}
-
+variable "public_subnet_ids" {}
 variable "private_subnet_ids" {}
 
-variable "public_subnet_ids" {}
+variable "key_name" {}
 
 variable "instance_type" {
   default = "t2.micro"
 }
 
-resource "aws_security_group" "elb" {
-  name_prefix = "${var.name}-elb-"
-  vpc_id      = "${var.vpc_id}"
-  description = "Security group for ${var.name} ELB"
+data "aws_vpc" "selected" {
+  id = "${var.vpc_id}"
+}
+
+data "aws_subnet" "public" {
+  count = "${length(var.public_subnet_ids)}"
+  id    = "${element(split(",", var.public_subnet_ids), count.index)}"
+}
+
+data "aws_subnet" "private" {
+  count = "${length(var.private_subnet_ids)}"
+  id    = "${element(split(",", var.private_subnet_ids), count.index)}"
+}
+
+resource "aws_security_group" "alb" {
+  name_prefix = "${var.name}-alb-"
+  vpc_id      = "${data.aws_vpc.selected.id}"
+  description = "Security group for ${var.name} ALB"
 
   ingress {
     protocol    = "tcp"
@@ -46,8 +54,8 @@ resource "aws_security_group" "elb" {
 
   egress {
     protocol        = "tcp"
-    from_port       = 443
-    to_port         = 443
+    from_port       = 8888
+    to_port         = 8888
     security_groups = ["${aws_security_group.backend.id}"]
   }
 
@@ -60,38 +68,58 @@ resource "aws_security_group" "elb" {
   }
 }
 
-resource "aws_elb" "elb" {
-  name                        = "${var.name}-elb"
-  connection_draining         = true
-  connection_draining_timeout = 400
+resource "aws_alb" "alb" {
+  name     = "${var.name}-alb"
+  internal = false
 
-  subnets         = ["${split(",", var.public_subnet_ids)}"]
-  security_groups = ["${aws_security_group.elb.id}"]
+  subnets         = ["${data.aws_subnet.public.*.id}"]
+  security_groups = ["${aws_security_group.alb.id}"]
 
   lifecycle {
     create_before_destroy = true
   }
+}
 
-  listener {
-    lb_port           = 80
-    lb_protocol       = "tcp"
-    instance_port     = 80
-    instance_protocol = "tcp"
-  }
+data "aws_acm_certificate" "wiki-hyperbo-la" {
+  domain   = "wiki.hyperbo.la"
+  statuses = ["ISSUED"]
+}
 
-  listener {
-    lb_port           = 443
-    lb_protocol       = "tcp"
-    instance_port     = 443
-    instance_protocol = "tcp"
+resource "aws_alb_listener" "alb-https" {
+  load_balancer_arn = "${aws_alb.alb.arn}"
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
+  certificate_arn   = "${data.aws_acm_certificate.wiki-hyperbo-la.arn}"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.wiki.arn}"
+    type             = "forward"
   }
+}
+
+resource "aws_alb_listener" "alb-http" {
+  load_balancer_arn = "${aws_alb.alb.arn}"
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.wiki.arn}"
+    type             = "forward"
+  }
+}
+
+resource "aws_alb_target_group" "wiki" {
+  name     = "${var.name}-alb-tg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = "${data.aws_vpc.selected.id}"
+
+  deregistration_delay = 0 # because the wiki is internal
 
   health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 3
-    timeout             = 10
-    interval            = 15
-    target              = "HTTP:80/ping"
+    path = "/healthz" # runs a request through nginx to rack
+    port = 8888
   }
 }
 
@@ -125,9 +153,9 @@ resource "aws_autoscaling_group" "backend" {
   max_size              = "1"
   wait_for_elb_capacity = "1"
 
-  availability_zones  = ["${split(",", var.azs)}"]
-  vpc_zone_identifier = ["${split(",", var.private_subnet_ids)}"]
-  load_balancers      = ["${aws_elb.elb.id}"]
+  availability_zones  = ["${data.aws_subnet.private.*.availability_zone}"]
+  vpc_zone_identifier = ["${data.aws_subnet.private.*.id}"]
+  target_group_arns   = ["${aws_alb_target_group.wiki.arn}"]
 
   lifecycle {
     create_before_destroy = true
@@ -140,14 +168,10 @@ resource "aws_autoscaling_group" "backend" {
   }
 }
 
-output "elb_zone_id" {
-  value = "${aws_elb.elb.zone_id}"
+output "alb_zone_id" {
+  value = "${aws_alb.alb.zone_id}"
 }
 
-output "private_fqdn" {
-  value = "${aws_route53_record.wiki.fqdn}"
-}
-
-output "elb_dns" {
-  value = "${aws_elb.elb.dns_name}"
+output "alb_dns" {
+  value = "${aws_alb.alb.dns_name}"
 }

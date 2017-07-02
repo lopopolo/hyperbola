@@ -69,14 +69,14 @@ resource "aws_security_group_rule" "elb-to-backend-80" {
   from_port                = 80
   to_port                  = 80
   security_group_id        = "${aws_security_group.backend.id}"
-  source_security_group_id = "${aws_security_group.elb.id}"
+  source_security_group_id = "${aws_security_group.alb.id}"
 }
 
-resource "aws_security_group_rule" "elb-to-backend-443" {
+resource "aws_security_group_rule" "elb-to-backend-8888" {
   type                     = "ingress"
   protocol                 = "tcp"
-  from_port                = 443
-  to_port                  = 443
+  from_port                = 8888
+  to_port                  = 8888
   security_group_id        = "${aws_security_group.backend.id}"
-  source_security_group_id = "${aws_security_group.elb.id}"
+  source_security_group_id = "${aws_security_group.alb.id}"
 }
