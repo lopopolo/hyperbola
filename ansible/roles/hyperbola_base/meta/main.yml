@@ -1,6 +1,0 @@
----
-dependencies:
-- role: ansible-tzdata
-  tzdata_timezone: Etc/UTC
-- role: lopopolo
-- role: ansible-security

@@ -7,8 +7,8 @@ all: lint
 lint:
 	ansible-playbook -i "localhost," ansible/provision.yml --syntax-check
 	ansible-playbook -i "localhost," ansible/wiki.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
-	./venv/bin/ansible-lint --exclude=ansible/roles/ansible-security --exclude=ansible/roles/ansible-tzdata --exclude=ansible/roles/ruby ansible/provision.yml
-	./venv/bin/ansible-lint --exclude=ansible/roles/ansible-security --exclude=ansible/roles/ansible-tzdata --exclude=ansible/roles/ruby ansible/wiki.yml
+	./venv/bin/ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/provision.yml
+	./venv/bin/ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/wiki.yml
 
 hooks:
 	pre-commit install

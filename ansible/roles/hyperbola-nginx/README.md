@@ -1,4 +1,4 @@
-# nginx
+# hyperbola-nginx
 
 Install and configure nginx for hyperbola sites.
 
