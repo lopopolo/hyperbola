@@ -22,7 +22,8 @@ resource "aws_subnet" "private" {
   count             = "${length(split(",", var.cidrs))}"
 
   tags {
-    Name = "${var.name}.${element(split(",", var.azs), count.index)}"
+    Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
+    Network = "${var.name}"
   }
 
   lifecycle {

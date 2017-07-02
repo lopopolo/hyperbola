@@ -3,8 +3,8 @@ variable "name" {}
 variable "region" {}
 
 variable "vpc_id" {}
-variable "public_subnet_ids" {}
-variable "private_subnet_ids" {}
+variable "public_subnet_name" {}
+variable "private_subnet_name" {}
 
 variable "key_name" {}
 
@@ -16,14 +16,30 @@ data "aws_vpc" "selected" {
   id = "${var.vpc_id}"
 }
 
+data "aws_subnet_ids" "public" {
+  vpc_id = "${data.aws_vpc.selected.id}"
+
+  tags {
+    Network = "${var.public_subnet_name}"
+  }
+}
+
 data "aws_subnet" "public" {
-  count = "${length(var.public_subnet_ids)}"
-  id    = "${element(split(",", var.public_subnet_ids), count.index)}"
+  count = "${length(data.aws_subnet_ids.public.ids)}"
+  id    = "${data.aws_subnet_ids.public.ids[count.index]}"
+}
+
+data "aws_subnet_ids" "private" {
+  vpc_id = "${data.aws_vpc.selected.id}"
+
+  tags {
+    Network = "${var.private_subnet_name}"
+  }
 }
 
 data "aws_subnet" "private" {
-  count = "${length(var.private_subnet_ids)}"
-  id    = "${element(split(",", var.private_subnet_ids), count.index)}"
+  count = "${length(data.aws_subnet_ids.private.ids)}"
+  id    = "${data.aws_subnet_ids.private.ids[count.index]}"
 }
 
 resource "aws_security_group" "alb" {

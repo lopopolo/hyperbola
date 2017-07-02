@@ -87,8 +87,8 @@ module "hyperbola-wiki" {
   name                      = "${var.name}-wiki"
   region                    = "${var.region}"
   vpc_id                    = "${module.network.vpc_id}"
-  public_subnet_ids         = "${module.network.public_subnet_ids}"
-  private_subnet_ids        = "${module.network.private_subnet_ids}"
+  public_subnet_name        = "${module.network.public_subnet_name}"
+  private_subnet_name       = "${module.network.private_subnet_name}"
   key_name                  = "${aws_key_pair.site_key.key_name}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
 
