@@ -34,6 +34,17 @@ module "public_subnet" {
   azs    = "${var.azs}"
 }
 
+module "private_subnet" {
+  source = "./private_subnet"
+
+  name   = "${var.name}-private"
+  vpc_id = "${module.vpc.vpc_id}"
+  cidrs  = "${var.private_subnets}"
+  azs    = "${var.azs}"
+
+  nat_gateway_ids = "${module.nat.nat_gateway_ids}"
+}
+
 module "bastion" {
   source = "./bastion"
 
@@ -47,20 +58,9 @@ module "bastion" {
 module "nat" {
   source = "./nat"
 
-  name              = "${var.name}-nat"
-  azs               = "${var.azs}"
-  public_subnet_ids = "${module.public_subnet.subnet_ids}"
-}
-
-module "private_subnet" {
-  source = "./private_subnet"
-
-  name   = "${var.name}-private"
-  vpc_id = "${module.vpc.vpc_id}"
-  cidrs  = "${var.private_subnets}"
-  azs    = "${var.azs}"
-
-  nat_gateway_ids = "${module.nat.nat_gateway_ids}"
+  name               = "${var.name}-nat"
+  vpc_id             = "${module.vpc.vpc_id}"
+  public_subnet_name = "${module.public_subnet.tag_value}"
 }
 
 resource "aws_network_acl" "acl" {
