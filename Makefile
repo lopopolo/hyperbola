@@ -37,6 +37,10 @@ yapf:
 
 ## Virtualenv
 
+upgrade-py-deps: requirements.in dev-requirements.in
+	for req in $^; do pip-compile --upgrade "$$req"; done
+	$(MAKE) virtualenv
+
 requirements.txt: requirements.in
 	pip-compile $<
 
@@ -66,5 +70,6 @@ clean-assets:
 	rm -f assets/staticfiles.json
 
 .PHONY: flake8 isort pep257 pylint yapf \
+	upgrade-py-deps \
 	clean clean-pyc clean-assets
 

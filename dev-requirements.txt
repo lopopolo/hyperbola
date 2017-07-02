@@ -10,11 +10,11 @@ django-appconf==1.0.2
 django-debug-toolbar-template-timings==0.7
 django-debug-toolbar==1.8
 django-imagekit==4.0.1
-django-localflavor==1.5
+django-localflavor==1.5.1
 django-mysql==2.1.0
 django-redis==4.8.0
 django-sendfile==0.3.11
-django==1.11.2
+django==1.11.3
 first==2.0.1              # via pip-tools
 flake8==3.3.0
 gunicorn==19.7.1
@@ -27,13 +27,13 @@ olefile==0.44
 pep257==0.7.0
 pep8==1.7.0
 pilkit==2.0
-pillow==4.1.1
+pillow==4.2.0
 pip-tools==1.9.0
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.5.0           # via flake8
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.6  # via pylint-django
-pylint==1.7.1
+pylint==1.7.2
 pytz==2017.2
 redis==2.10.5
 six==1.10.0
