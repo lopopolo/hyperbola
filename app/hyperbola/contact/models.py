@@ -1,4 +1,7 @@
+from django.core.files.storage import FileSystemStorage, get_storage_class
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from localflavor.us.models import PhoneNumberField
 
@@ -70,6 +73,8 @@ class IMContact(Contact):
 
 
 class Resume(models.Model):
+    WELL_KNOWN = "resume/latest.pdf"
+
     date = models.DateField(auto_now_add=True, db_index=True)
 
     resume = models.FileField(upload_to=MakeUploadTo("resume"))
@@ -83,6 +88,18 @@ class Resume(models.Model):
 
     def __str__(self):
         return "version {0} as of {1}".format(self.id, self.date)
+
+
+@receiver(post_save, sender=Resume)
+def persist_latest_resume_at_well_known_location(sender, instance, created, **_kwargs):
+    del sender
+    if created:
+        try:
+            if get_storage_class() is FileSystemStorage:
+                instance.resume.storage.delete(instance.WELL_KNOWN)
+            instance.resume.storage.save(instance.WELL_KNOWN, instance.resume)
+        finally:
+            instance.resume.close()
 
 
 class AboutMe(models.Model):
