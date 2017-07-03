@@ -54,7 +54,6 @@
     "purify-css": "^1.2.6",
     "purifycss-webpack": "^0.7.0",
     "resolve-url-loader": "^2.1.0",
-    "retinajs": "^2.1.2",
     "style-loader": "^0.18.2",
     "stylefmt": "^6.0.0",
     "svgo": "^0.7.2",
@@ -65,5 +64,8 @@
   "engines": {
     "node": "^6.9.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "retinajs": "^2.1.2",
+    "time-elements": "^0.6.1"
+  }
 }

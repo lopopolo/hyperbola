@@ -9,10 +9,9 @@
 {% for post in posts %}
 <div class="panel panel-hyperbola">
   <div class="panel-heading lifestream-entry-header">
-    <span class="date">
-      <time datetime="{{ post.pub_date|date:"Y-m-d" }}T{{ post.pub_date|time:"H:i:s" }}Z" id="lifestream-entry-date-{{ post.id }}">{{ post.pub_date|date:"H:i T b d Y"|lower }}</time>
-      <script>HyperbolaDateFormatter.localize({{ post.pub_date|date:"U" }}, "lifestream-entry-date-{{ post.id }}")</script>
-    </span>
+    <local-time datetime="{{ post.pub_date|date:"Y-m-d" }}T{{ post.pub_date|time:"H:i:s" }}Z" month="short" day="numeric" year="numeric" hour="numeric" minute="numeric">
+      {{ post.pub_date|date:"H:i T b d Y"|lower }}
+    </local-time>
     <a href="{{ post.get_absolute_url|escape }}">permalink</a>
   </div>
   <div class="panel-body">

@@ -143,7 +143,7 @@ a:focus {
     padding: 0 15px;
 }
 
-.lifestream-entry-header .date:after {
+.lifestream-entry-header  local-time:after {
     content: " ";
 }
 

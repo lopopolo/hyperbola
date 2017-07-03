@@ -6463,6 +6463,10 @@ tildify@^1.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
+time-elements@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/time-elements/-/time-elements-0.6.1.tgz#587358d176b9a928865c293d439a19636f1d6631"
+
 time-stamp@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/time-stamp/-/time-stamp-1.1.0.tgz#764a5a11af50561921b133f3b44e618687e0f5c3"
