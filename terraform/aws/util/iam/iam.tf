@@ -2,12 +2,8 @@
 # This module is used to create an AWS IAM group and its users
 #--------------------------------------------------------------
 
-variable "name" {
-  default = "iam"
-}
-
+variable "name" {}
 variable "users" {}
-
 variable "policy" {}
 
 resource "aws_iam_group" "group" {
