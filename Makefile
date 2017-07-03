@@ -3,7 +3,7 @@ export PATH := ./virtualenv/bin:$(PATH)
 
 PYTHON_VERSION := $(shell cat .python-version)
 
-all: lint
+all: lint build
 
 hooks:
 	pre-commit install
@@ -12,6 +12,11 @@ yarn-update:
 	rm -rf ./bin/dist
 	wget -O- https://yarnpkg.com/latest.tar.gz | tar zvx -C ./bin
 	echo '*' > ./bin/dist/.gitignore
+
+## Build
+
+build:
+	./bin/artifact-exec gulp
 
 ## Linters
 
@@ -71,5 +76,6 @@ clean-assets:
 
 .PHONY: flake8 isort pep257 pylint yapf \
 	upgrade-py-deps \
+	build \
 	clean clean-pyc clean-assets
 

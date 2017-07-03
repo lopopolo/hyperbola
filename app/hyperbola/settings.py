@@ -105,14 +105,13 @@ class EnvironmentConfig(object):
     class ContentConfig(object):
         def __init__(self, environment, root_path):
             self.media_root = root_path.joinpath('media', environment.value)
-            self.static_root = root_path.joinpath('assets')
-            self.static_dirs = [root_path.joinpath('static', 'dist')]
+            self.static_root = root_path.joinpath('document-root', 'static')
+            self.static_dirs = [root_path.joinpath('dist')]
+            self.static_url = '/static/'
             if environment in [Env.production, Env.staging]:
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
-                self.static_url = 'https://www.hyperbolacdn.com/assets/{}/'.format(environment.value)
             else:
                 self.media_url = '/media/'
-                self.static_url = '/static/'
 
     class EmailBackupConfig(object):
         def __init__(self):
@@ -340,4 +339,4 @@ if ENVIRONMENT.environment is Env.dev:
             'hyperbola.lifestream',
         ]
         # workaround for intellij dying on dynamically-created STATIC_ROOT
-        STATIC_ROOT = "static/dist"
+        STATIC_ROOT = 'dist'

@@ -69,11 +69,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
 build/
 develop-eggs/
-dist/*
-!vendor/*/dist/*
 downloads/
 eggs/
 .eggs/

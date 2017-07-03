@@ -11,13 +11,6 @@ from django.urls import reverse
 
 from .models import LifeStreamItem
 
-DATE_FORMATTER_VERSION = "v3"
-"""
-Cache-buster for hyperbola-date-formatter.js generated and minified fragment.
-
-Whenever this file is regenerated, bump this version number.
-"""
-
 NUM_PER_PAGE = 20
 PageLinks = namedtuple("PageLinks", "newer older")
 
@@ -26,7 +19,6 @@ def handle_lifestream_404(view):
     @wraps(view)
     def inner(request, *args, **kwargs):
         try:
-            request.DATE_FORMATTER_VERSION = DATE_FORMATTER_VERSION
             return view(request, *args, **kwargs)
         except Http404:
             context = {

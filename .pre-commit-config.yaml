@@ -14,15 +14,17 @@
     exclude: (min\.js$|dist|vendor)
 - repo: local
   hooks:
-  - id: gulp
-    name: Gulp lint and codegen tasks
-    entry: bin/gulp-hook
+  - id: build-frontend
+    name: Frontend codegen
+    entry: make build
     language: system
-    files: (static|dist|\.css$|\.html$|\.js$)
+    files: (src|dist|\.css$|\.html$|\.js$|\.svg$|\.png$)
     exclude: (vendor|generated)
+    pass_filenames: false
   - id: lint-py
     name: Python linters
     entry: make lint-py
     language: system
     files: \.py$
     exclude: migrations
+    pass_filenames: false
