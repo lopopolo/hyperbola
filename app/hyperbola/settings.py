@@ -1,7 +1,8 @@
 # Django settings for hyperbola
 
-import os
 from enum import Enum, unique
+from os import environ
+from pathlib import Path
 
 
 @unique
@@ -13,7 +14,7 @@ class Env(Enum):
     @classmethod
     def source(cls, env, default=None):
         from django.core.exceptions import ImproperlyConfigured
-        prop = os.environ.get(env, default)
+        prop = environ.get(env, default)
         if prop is None:
             raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
 
@@ -103,9 +104,9 @@ class EnvironmentConfig(object):
 
     class ContentConfig(object):
         def __init__(self, environment, root_path):
-            self.media_root = os.path.join(root_path, 'media', environment.value)
-            self.static_root = os.path.join(root_path, 'assets')
-            self.static_dirs = [os.path.join(root_path, 'static', 'dist')]
+            self.media_root = root_path.joinpath('media', environment.value)
+            self.static_root = root_path.joinpath('assets')
+            self.static_dirs = [root_path.joinpath('static', 'dist')]
             if environment in [Env.production, Env.staging]:
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
                 self.static_url = 'https://www.hyperbolacdn.com/assets/{}/'.format(environment.value)
@@ -119,8 +120,8 @@ class EnvironmentConfig(object):
             self.password = Env.source('BACKUP_EMAIL_LOGIN_PASSWORD')
 
 
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-ROOT_PATH = os.path.dirname(os.path.dirname(PROJECT_PATH))
+PROJECT_PATH = Path(__file__).resolve().parent
+ROOT_PATH = PROJECT_PATH.parent.parent
 
 ENVIRONMENT = EnvironmentConfig(ROOT_PATH)
 
@@ -188,15 +189,15 @@ USE_TZ = True
 
 # Media and Static Files
 
-MEDIA_ROOT = ENVIRONMENT.content.media_root
+MEDIA_ROOT = str(ENVIRONMENT.content.media_root)
 
 MEDIA_URL = ENVIRONMENT.content.media_url
 
-STATIC_ROOT = ENVIRONMENT.content.static_root
+STATIC_ROOT = str(ENVIRONMENT.content.static_root)
 
 STATIC_URL = ENVIRONMENT.content.static_url
 
-STATICFILES_DIRS = ENVIRONMENT.content.static_dirs
+STATICFILES_DIRS = list(map(str, ENVIRONMENT.content.static_dirs))
 
 STATICFILES_STORAGE = 'hyperbola.core.static.HyperbolaManifestStorage'
 
@@ -234,7 +235,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(PROJECT_PATH, 'templates'),
+            str(PROJECT_PATH.joinpath('templates')),
         ],
         'OPTIONS': {
             'context_processors': [
