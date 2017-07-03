@@ -10,7 +10,8 @@
 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link href="{% static "css/sitewide.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "main.bundle.css" %}" rel="stylesheet" type="text/css">
+    <script src="{% static "main.bundle.js" %}"></script>
     {% endblock head %}
   </head>
   <body class="{% block active_app %}{% endblock active_app %}">
@@ -46,7 +47,7 @@
       </div>
     </div>
     {% block footer %}
-    <script src="{% static "js/retina.min.js" %}" async defer onload="retinajs()"></script>
+    <script>retinajs();</script>
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
       ga('create','UA-30651847-1','auto');ga('send','pageview')

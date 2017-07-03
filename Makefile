@@ -3,7 +3,7 @@ export PATH := ./virtualenv/bin:$(PATH)
 
 PYTHON_VERSION := $(shell cat .python-version)
 
-all: lint
+all: lint build
 
 hooks:
 	pre-commit install
@@ -12,6 +12,15 @@ yarn-update:
 	rm -rf ./bin/dist
 	wget -O- https://yarnpkg.com/latest.tar.gz | tar zvx -C ./bin
 	echo '*' > ./bin/dist/.gitignore
+
+## Build
+
+build: clean-build svg-minimize
+	./bin/artifact-exec gulp
+	./bin/artifact-exec webpack -p
+
+svg-minimize: src/img/Feed-icon.svg src/img/logo.header.svg
+	for svg in $^; do bin/artifact-exec svgo "$$svg" "$$(dirname "$$svg")/$$(basename "$$svg" ".svg").min.svg"; done
 
 ## Linters
 
@@ -69,7 +78,11 @@ clean-assets:
 	find assets -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
 	rm -f assets/staticfiles.json
 
+clean-build:
+	./bin/artifact-exec gulp clean
+
 .PHONY: flake8 isort pep257 pylint yapf \
 	upgrade-py-deps \
-	clean clean-pyc clean-assets
+	build svg-minimize \
+	clean clean-pyc clean-assets clean-build
 
