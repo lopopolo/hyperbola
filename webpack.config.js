@@ -60,8 +60,36 @@ module.exports = {
         }),
       },
       {
-        test: /\.(jpe?g|png|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-        use: "base64-inline-loader?limit=2000&name=[name].[ext]",
+        test: /\.(jpe?g|png|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        use: {
+          loader: "base64-inline-loader",
+          options: {
+            limit: 2000,
+            name: "[name].[ext]",
+          },
+        },
+      },
+      {
+        test: /\.(svg)(\?[a-z0-9=&.]+)?$/,
+        use: [
+          {
+            loader: "base64-inline-loader",
+            options: {
+              limit: 2000,
+              name: "[name].[ext]",
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                {removeTitle: true},
+                {convertColors: {shorthex: false}},
+                {convertPathData: false}
+              ]
+            }
+          },
+        ],
       },
     ],
   },

@@ -57,6 +57,7 @@
     "style-loader": "^0.18.2",
     "stylefmt": "^6.0.0",
     "svgo": "^0.7.2",
+    "svgo-loader": "^1.2.1",
     "url-loader": "^0.5.9",
     "webpack": "^2.2.0",
     "webpack-stream": "^3.2.0"

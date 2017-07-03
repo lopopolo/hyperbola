@@ -15,12 +15,9 @@ yarn-update:
 
 ## Build
 
-build: clean-build svg-minimize
+build: clean-build
 	./bin/artifact-exec gulp
 	./bin/artifact-exec webpack -p
-
-svg-minimize: src/img/Feed-icon.svg src/img/logo.header.svg
-	for svg in $^; do bin/artifact-exec svgo "$$svg" "$$(dirname "$$svg")/$$(basename "$$svg" ".svg").min.svg"; done
 
 ## Linters
 
@@ -83,6 +80,6 @@ clean-build:
 
 .PHONY: flake8 isort pep257 pylint yapf \
 	upgrade-py-deps \
-	build svg-minimize \
+	build \
 	clean clean-pyc clean-assets clean-build
 

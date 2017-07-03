@@ -66,7 +66,7 @@ a:focus {
     display: block;
     margin: 0;
     border-style: none;
-    background: url("img/logo.header.min.svg") no-repeat;
+    background: url("img/logo.header.svg") no-repeat;
     background-size: cover;
     height: 80px;
     width: 230px;
@@ -148,7 +148,7 @@ a:focus {
 }
 
 .feed-icon {
-    background: url(img/Feed-icon.min.svg) no-repeat left center;
+    background: url(img/Feed-icon.svg) no-repeat left center;
     background-size: 14px 14px;
     padding-left: 20px;
 }
