@@ -21,6 +21,8 @@ gulp.task("clean", function () {
     return del([
         "./dist/**",
         "!./dist/**/.gitignore",
+        "./document-root/**/*.ico",
+        "./document-root/**/*.png",
     ]);
 });
 
@@ -57,5 +59,5 @@ gulp.task("img:favicon", function () {
         }))
         .pipe(filter(["favicon.ico", "apple-touch-icon.png"]))
         .pipe(imagemin())
-        .pipe(gulp.dest("./dist"));
+        .pipe(gulp.dest("./document-root"));
 });
