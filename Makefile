@@ -15,9 +15,8 @@ yarn-update:
 
 ## Build
 
-build: clean-build
+build:
 	./bin/artifact-exec gulp
-	./bin/artifact-exec webpack -p
 
 ## Linters
 
@@ -75,11 +74,8 @@ clean-assets:
 	find assets -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
 	rm -f assets/staticfiles.json
 
-clean-build:
-	./bin/artifact-exec gulp clean
-
 .PHONY: flake8 isort pep257 pylint yapf \
 	upgrade-py-deps \
 	build \
-	clean clean-pyc clean-assets clean-build
+	clean clean-pyc clean-assets
 

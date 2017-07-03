@@ -3,11 +3,19 @@ var favicons = require("gulp-favicons");
 var filter = require("gulp-filter");
 var gulp = require("gulp");
 var imagemin = require("gulp-imagemin");
+var runSequence = require("run-sequence");
 var svg2png = require("gulp-svg2png");
+var webpack = require("webpack-stream");
 
 gulp.task("default", ["build"]);
 
-gulp.task("build", ["clean", "img"]);
+gulp.task("build", function(callback) {
+    runSequence(
+        "clean",
+        ["build:webpack", "img"],
+        callback
+    );
+});
 
 gulp.task("clean", function () {
     return del([
@@ -16,9 +24,19 @@ gulp.task("clean", function () {
     ]);
 });
 
-gulp.task("img", ["clean", "img:favicon"]);
+gulp.task("build:webpack", function() {
+    return gulp.src("./src/main.js")
+        .pipe(webpack(require("./webpack.config.js"), require("webpack")))
+        .on("error", function(errorInfo) {
+            console.log(errorInfo.toString());
+            this.emit("end");
+        })
+        .pipe(gulp.dest("./dist"));
+});
 
-gulp.task("img:favicon", ["clean"], function () {
+gulp.task("img", ["img:favicon"]);
+
+gulp.task("img:favicon", function () {
     return gulp.src("./src/img/logo.favicon.svg")
         .pipe(svg2png({width: 160* 3, height: 160 * 3}))
         .pipe(favicons({
