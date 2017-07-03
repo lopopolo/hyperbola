@@ -1,4 +1,4 @@
-.PHONY: install_roles
+.PHONY: hooks install_roles upgrade-py-deps
 
 SHELL := /bin/bash
 
@@ -17,6 +17,10 @@ install_roles:
 	ansible-galaxy install -r ansible/roles/requirements.yml -p ansible/roles/ --force
 
 ## Virtualenv
+
+upgrade-py-deps: requirements.in
+	for req in $^; do CUSTOM_COMPILE_COMMAND="make $@" pip-compile --upgrade "$$req"; done
+	$(MAKE) virtualenv
 
 requirements.txt: requirements.in
 	./venv/bin/pip-compile $<
