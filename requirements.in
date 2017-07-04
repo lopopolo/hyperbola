@@ -1,12 +1,1 @@
-Django ~= 1.11.0
-django-imagekit
-django-localflavor
-django-missing
-django-mysql
-django-redis
-django-sendfile
-gunicorn
-markdown
-mysqlclient >= 1.3.3
-Pillow
-pytz
+-e .
