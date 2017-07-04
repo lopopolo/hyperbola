@@ -1,14 +1,16 @@
 """A setuptools based setup module.
+
 See:
 https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
-# Always prefer setuptools over distutils
-from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 from pathlib import Path
+
+# Always prefer setuptools over distutils
+from setuptools import find_packages, setup
 
 here = Path(__file__).resolve().parent
 

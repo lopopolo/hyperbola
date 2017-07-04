@@ -28,16 +28,16 @@ lint: lint-py
 lint-py: flake8 isort pep257 pylint
 
 flake8:
-	flake8 app bin
+	flake8 app bin *.py
 
 isort:
-	isort --apply --recursive app bin
+	isort --apply --recursive app bin *.py
 
 pep257:
-	pep257 app bin
+	pep257 app bin *.py
 
 pylint:
-	pylint --rcfile setup.cfg app bin
+	pylint --rcfile setup.cfg app bin *.py
 
 # must manually run and compare `git diff` output
 yapf:
