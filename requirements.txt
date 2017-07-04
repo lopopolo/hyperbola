@@ -4,20 +4,21 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
+
 django-appconf==1.0.2     # via django-imagekit
 django-imagekit==4.0.1
-django-localflavor==1.5.1
+django-localflavor==1.5.2
 django-missing==0.2.1
 django-mysql==2.1.0
 django-redis==4.8.0
 django-sendfile==0.3.11
-django==1.11.3
+django==1.11.3            # via django-localflavor, django-missing, django-mysql, django-sendfile
 gunicorn==19.7.1
 markdown==2.6.8
 mysqlclient==1.3.10
 olefile==0.44             # via pillow
 pilkit==2.0               # via django-imagekit
 pillow==4.2.0
-pytz==2017.2
+pytz==2017.2              # via django
 redis==2.10.5             # via django-redis
 six==1.10.0               # via django-imagekit

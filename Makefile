@@ -18,6 +18,9 @@ yarn-update:
 build:
 	./bin/artifact-exec gulp
 
+release:
+	bumpversion minor
+
 ## Linters
 
 lint: lint-py
@@ -42,22 +45,24 @@ yapf:
 
 ## Virtualenv
 
-upgrade-py-deps: requirements.in dev-requirements.in
-	for req in $^; do CUSTOM_COMPILE_COMMAND="make $@" pip-compile --upgrade "$$req"; done
+upgrade-py-deps: setup.py requirements.in dev-requirements.in
+	for req in $^; do if [[ "$$req" != "setup.py" ]]; then CUSTOM_COMPILE_COMMAND="make $@" pip-compile --upgrade "$$req"; sed -i '' "s|-e file://$$(pwd)||" "$$(basename "$$req" ".in").txt"; fi; done
 	$(MAKE) virtualenv
 
-requirements.txt: requirements.in
-	pip-compile $<
+requirements.txt: requirements.in setup.py
+	pip-compile --output-file "$@" "$<"
+	sed -i '' "s|-e file://$$(pwd)||" "$@"
 
-dev-requirements.txt: dev-requirements.in requirements.txt
-	pip-compile $<
+dev-requirements.txt: dev-requirements.in setup.py
+	pip-compile --output-file "$@" "$<"
+	sed -i '' "s|-e file://$$(pwd)||" "$@"
 
 virtualenv: virtualenv/bin/activate
 
 virtualenv/bin/activate: dev-requirements.txt requirements.txt
 	python -m venv virtualenv
 	pip install -U virtualenv pip pip-tools wheel setuptools
-	pip-sync $<
+	pip-sync $^
 
 ## clean
 

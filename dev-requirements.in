@@ -1,11 +1,1 @@
--r requirements.txt
-django-debug-toolbar
-django-debug-toolbar-template-timings >= 0.7
-flake8
-isort
-pep257
-pep8
-pip-tools
-pylint
-pylint-django
-yapf
+-e .[dev]
