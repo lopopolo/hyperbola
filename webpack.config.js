@@ -6,7 +6,9 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const extractCSS = new ExtractTextPlugin({ filename: "[name].bundle.css" });
 
 module.exports = {
-  entry: "main",
+  entry: {
+    main: ["main", "hyperbola.browser"],
+  },
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "[name].bundle.js",
