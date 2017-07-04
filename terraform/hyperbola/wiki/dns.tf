@@ -1,6 +1,3 @@
-variable "prod_zone_id" {}
-variable "local_zone_id" {}
-
 variable "local_ip" {
   description = "IP assigned to a local vagrant box for testing"
 }
@@ -16,18 +13,14 @@ resource "cloudflare_record" "wiki" {
   proxied = false
 }
 
-resource "cloudflare_record" "wiki-local" {
-  domain  = "hyperbo.la"
-  name    = "wiki.local"
-  value   = "${var.local_ip}"
-  type    = "A"
-  ttl     = 1
-  proxied = false
+# Route 53 DNS
+data "aws_route53_zone" "hyperbola" {
+  name         = "hyperbo.la."
+  private_zone = false
 }
 
-# Route 53 DNS
 resource "aws_route53_record" "wiki" {
-  zone_id = "${var.prod_zone_id}"
+  zone_id = "${data.aws_route53_zone.hyperbola.zone_id}"
   name    = "wiki"
   type    = "A"
 
@@ -38,8 +31,13 @@ resource "aws_route53_record" "wiki" {
   }
 }
 
+data "aws_route53_zone" "local-dc" {
+  name         = "local.hyperboladc.net."
+  private_zone = false
+}
+
 resource "aws_route53_record" "wiki-local" {
-  zone_id = "${var.local_zone_id}"
+  zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
   name    = "wiki"
   type    = "A"
 

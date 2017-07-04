@@ -146,6 +146,19 @@ resource "aws_eip" "bastion" {
   }
 }
 
+data "aws_route53_zone" "aws-dc" {
+  name         = "aws.hyperboladc.net."
+  private_zone = false
+}
+
+resource "aws_route53_record" "aws-dc" {
+  zone_id = "${data.aws_route53_zone.aws-dc.zone_id}"
+  name    = "bastion"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_eip.bastion.public_ip}"]
+}
+
 resource "aws_launch_configuration" "bastion" {
   name_prefix          = "${var.name}-"
   image_id             = "${data.aws_ami.ubuntu.id}"
@@ -195,6 +208,10 @@ output "user" {
 
 output "public_ip" {
   value = "${aws_eip.bastion.public_ip}"
+}
+
+output "fqdn" {
+  value = "${aws_route53_record.aws-dc.fqdn}"
 }
 
 output "security_group_id" {

@@ -117,6 +117,10 @@ output "bastion_public_ip" {
   value = "${module.bastion.public_ip}"
 }
 
+output "bastion_public_fqdn" {
+  value = "${module.bastion.fqdn}"
+}
+
 output "bastion_security_group_id" {
   value = "${module.bastion.security_group_id}"
 }

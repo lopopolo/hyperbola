@@ -62,8 +62,21 @@ resource "cloudflare_record" "www_hyperbo_la_AAAA" {
 resource "cloudflare_record" "staging_hyperbo_la_AAAA" {
   domain  = "hyperbo.la"
   name    = "staging"
-  value   = "${lookup(var.ipv6_addresses, "hyperbola3")}"
+  value   = "${lookup(var.ipv6_addresses, var.host)}"
   type    = "AAAA"
   ttl     = 1
   proxied = false
+}
+
+data "aws_route53_zone" "linode-dc" {
+  name         = "linode.hyperboladc.net."
+  private_zone = false
+}
+
+resource "aws_route53_record" "dc-linode" {
+  zone_id = "${data.aws_route53_zone.linode-dc.zone_id}"
+  name    = "${var.host}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${lookup(var.ipv4_addresses, var.host)}"]
 }

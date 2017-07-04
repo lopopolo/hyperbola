@@ -92,9 +92,7 @@ module "hyperbola-wiki" {
   key_name                  = "${aws_key_pair.site_key.key_name}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
 
-  local_ip      = "192.168.10.10"
-  prod_zone_id  = "${aws_route53_zone.hyperbola-zone.id}"
-  local_zone_id = "${aws_route53_zone.hyperbola-local-zone.id}"
+  local_ip = "192.168.10.10"
 }
 
 output "wiki_elb_zone_id" {

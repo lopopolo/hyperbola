@@ -29,49 +29,57 @@ variable "ipv6_addresses" {
   }
 }
 
-# Cloudflare DNS
-
-resource "cloudflare_record" "hyperbola3_dc_hyperbo_la_A" {
-  domain  = "hyperbo.la"
-  name    = "hyperbola3.dc"
-  value   = "${lookup(var.ipv4_addresses, "hyperbola3")}"
-  type    = "A"
-  ttl     = 1
-  proxied = false
-}
-
 # Route 53 DNS
 
 resource "aws_route53_zone" "hyperbola-zone" {
   name = "hyperbo.la"
 }
 
-resource "aws_route53_zone" "hyperbola-local-zone" {
-  name = "local.hyperbo.la"
-
-  tags {
-    Environment = "localhost"
-  }
+resource "aws_route53_zone" "hyperbolausercontent-net-public" {
+  name    = "hyperbolausercontent.net."
+  comment = "HostedZone created by Route53 Registrar"
 }
 
-resource "aws_route53_record" "hyperbola-local-ns" {
-  zone_id = "${aws_route53_zone.hyperbola-local-zone.zone_id}"
-  name    = "local.hyperbo.la"
-  type    = "NS"
-  ttl     = "30"
+resource "aws_route53_zone" "hyperboladc-net-public" {
+  name    = "hyperboladc.net."
+  comment = "HostedZone created by Route53 Registrar"
+}
 
-  records = [
-    "${aws_route53_zone.hyperbola-local-zone.name_servers.0}",
-    "${aws_route53_zone.hyperbola-local-zone.name_servers.1}",
-    "${aws_route53_zone.hyperbola-local-zone.name_servers.2}",
-    "${aws_route53_zone.hyperbola-local-zone.name_servers.3}",
-  ]
+module "aws-dc" {
+  source = "./hyperbola/dc"
+  dc     = "aws"
+}
+
+module "linode-dc" {
+  source = "./hyperbola/dc"
+  dc     = "linode"
+}
+
+module "local-dc" {
+  source = "./hyperbola/dc"
+  dc     = "local"
 }
 
 output "hyperbola-zone-id" {
   value = "${aws_route53_zone.hyperbola-zone.zone_id}"
 }
 
-output "hyperbola-local-zone-id" {
-  value = "${aws_route53_zone.hyperbola-local-zone.zone_id}"
+output "hyperbolausercontent-zone-id" {
+  value = "${aws_route53_zone.hyperbolausercontent-net-public.zone_id}"
+}
+
+output "hyperboladc-zone-id" {
+  value = "${aws_route53_zone.hyperboladc-net-public.zone_id}"
+}
+
+output "aws-hyperboladc-zone-id" {
+  value = "${module.aws-dc.zone-id}"
+}
+
+output "linode-hyperboladc-zone-id" {
+  value = "${module.linode-dc.zone-id}"
+}
+
+output "local-hyperboladc-zone-id" {
+  value = "${module.local-dc.zone-id}"
 }

@@ -30,7 +30,7 @@ Vagrant.configure('2') do |config|
         'wiki' => ['wiki-test-1'],
         'wiki:vars' => {
           'hyperbola_environment' => 'localhost',
-          'wiki_nginx_domain' => 'wiki.local.hyperbo.la'
+          'wiki_nginx_domain' => 'wiki.local.hyperboladc.net'
         },
         'all_groups:children' => ['wiki']
       }

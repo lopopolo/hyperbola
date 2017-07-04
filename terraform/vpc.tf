@@ -25,7 +25,7 @@ output "bastion-configuration" {
 
 Add your private key and SSH into any private node via the Bastion host:
   ssh-add ~/.ssh/hyperbola-cas
-  ssh -A ${module.network.bastion_user}@${module.network.bastion_public_ip}
+  ssh -A ${module.network.bastion_user}@${module.network.bastion_public_fqdn}
 
 Bastion security group ${module.network.bastion_security_group_id} only allows
 ingress from ${module.network.bastion_ingress_cidr}.
