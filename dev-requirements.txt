@@ -11,6 +11,7 @@ django-debug-toolbar-template-timings==0.7
 django-debug-toolbar==1.8
 django-imagekit==4.0.1
 django-localflavor==1.5.1
+django-missing==0.2.1
 django-mysql==2.1.0
 django-redis==4.8.0
 django-sendfile==0.3.11

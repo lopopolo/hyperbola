@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load hyperbola_core_tags imagekit %}
+{% load hyperbola_core_tags imagekit url_tags %}
 
 {% block active_app %} contact {% endblock active_app %}
 {% block title %} {{ block.super }} :: Contact {% endblock title %}
@@ -29,9 +29,13 @@
     {% if resume %}
     <h2>Résumé</h2>
     <div class="row">
-      <div class="col-md-4 hyperbola-ellipsis">{{ resume.display_name|escape }}</div>
+      <div class="col-md-4 hyperbola-ellipsis">
+        <relative-time datetime="{{ resume.date|date:"Y-m-d" }}" month="short" day="numeric" year="numeric" hour="numeric" minute="numeric">
+          {{ resume.date|date:"b d Y" }}
+        </relative-time>
+      </div>
       <div class="col-md-8 hyperbola-ellipsis">
-        <a href="{{ resume.url|escape }}">{{ resume.url|escape }}</a>
+        <a href="{%  fullurl resume.get_absolute_url %}">{%  fullurl resume.get_absolute_url %}</a>
       </div>
     </div>
     {% endif %}
