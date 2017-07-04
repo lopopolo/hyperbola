@@ -2,6 +2,7 @@ var del = require("del");
 var favicons = require("gulp-favicons");
 var filter = require("gulp-filter");
 var gulp = require("gulp");
+var gutil = require("gulp-util");
 var imagemin = require("gulp-imagemin");
 var runSequence = require("run-sequence");
 var svg2png = require("gulp-svg2png");
@@ -30,7 +31,7 @@ gulp.task("build:webpack", function() {
     return gulp.src("./src/main.js")
         .pipe(webpack(require("./webpack.config.js"), require("webpack")))
         .on("error", function(errorInfo) {
-            console.log(errorInfo.toString());
+            gutil.log(errorInfo.toString());
             this.emit("end");
         })
         .pipe(gulp.dest("./dist"));

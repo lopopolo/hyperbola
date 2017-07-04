@@ -21,6 +21,12 @@
     files: (src|dist|\.css$|\.html$|\.js$|\.svg$|\.png$)
     exclude: (vendor|generated)
     pass_filenames: false
+  - id: lint-js
+    name: JavaScript config linters
+    entry: make lint-js
+    language: system
+    files: \.js$
+    pass_filenames: false
   - id: lint-py
     name: Python linters
     entry: make lint-py

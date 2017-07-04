@@ -23,7 +23,7 @@ release:
 
 ## Linters
 
-lint: lint-py
+lint: lint-py lint-js
 
 lint-py: flake8 isort pep257 pylint
 
@@ -42,6 +42,9 @@ pylint:
 # must manually run and compare `git diff` output
 yapf:
 	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
+
+lint-js: $(wildcard *.js)
+	./bin/artifact-exec eslint $^
 
 ## Virtualenv
 

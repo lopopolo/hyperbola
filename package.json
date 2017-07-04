@@ -47,6 +47,7 @@
     "gulp-imagemin": "^3.3.0",
     "gulp-purifycss": "^0.2.0",
     "gulp-svg2png": "^2.0.2",
+    "gulp-util": "^3.0.8",
     "ignore-loader": "^0.1.2",
     "postcss-cssnext": "^2.11.0",
     "postcss-import": "^10.0.0",
