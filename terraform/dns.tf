@@ -6,17 +6,9 @@ variable "cloudflare_token" {
   default = ""
 }
 
-data template_file "cloudflare_token" {
-  template = "$${token}"
-
-  vars {
-    token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../.secrets/cloudflare-api-key.txt")))}"
-  }
-}
-
 provider "cloudflare" {
   email = "${var.cloudflare_email}"
-  token = "${data.template_file.cloudflare_token.rendered}"
+  token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../.secrets/cloudflare-api-key.txt")))}"
 }
 
 variable "ipv4_addresses" {
