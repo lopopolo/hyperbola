@@ -53,8 +53,22 @@
     src: "{{ app_release_download_url }}"
     dest: "{{ deploy_helper.new_release_path }}"
     remote_src: True
-- name: un-nest release download
-  shell: "rsync -av {{ deploy_helper.new_release_path }}/*hyperbola*/ {{ deploy_helper.new_release_path }}"
+- name: Find unpacked archive name
+  find:
+    paths: "{{ deploy_helper.new_release_path }}"
+    patterns: "*hyperbola*"
+    file_type: directory
+  register: app_release
+- name: Un-nest release download
+  command: "rsync -av {{ item.path }}/ {{ deploy_helper.new_release_path }}"
+  with_items:
+    "{{ app_release.files }}"
+- name: Remove nested release directory
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items:
+    "{{ app_release.files }}"
 - name: Create app virtualenv
   command: "python3 -m venv {{ deploy_helper.new_release_path }}/virtualenv"
   args:
