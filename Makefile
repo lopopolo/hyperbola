@@ -4,9 +4,17 @@ SHELL := /bin/bash
 
 all: lint
 
+## Tunnel
+
+tunnel:
+	vagrant ssh app-test-1 -- -R 3306:localhost:3306
+
+## Lint
+
 lint:
 	ansible-playbook -i "localhost," ansible/provision.yml --syntax-check
 	ansible-playbook -i "localhost," ansible/wiki.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
+	ansible-playbook -i "localhost," ansible/app.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
 	./venv/bin/ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/provision.yml
 	./venv/bin/ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/wiki.yml
 

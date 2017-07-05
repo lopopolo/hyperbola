@@ -13,7 +13,10 @@ Environment="PATH=/hyperbola/wiki.hyperbo.la/wiki/bin:/usr/local/sbin:/usr/local
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-wiki
 ExecStartPre=/bin/chown -R hyperbola-wiki:hyperbola-wiki /var/run/hyperbola-wiki/
-ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start -C /hyperbola/wiki.hyperbo.la/hyperbola-wiki.yaml -S /var/run/hyperbola-wiki/hyperbola-wiki.%i.sock -P /var/run/hyperbola-wiki/thin.%i.pid
+ExecStart=/hyperbola/wiki.hyperbo.la/wiki/bin/thin start \
+    -C /hyperbola/wiki.hyperbo.la/hyperbola-wiki.yaml \
+    -S /var/run/hyperbola-wiki/hyperbola-wiki.%i.sock \
+    -P /var/run/hyperbola-wiki/thin.%i.pid
 Restart=on-failure
 
 [Install]

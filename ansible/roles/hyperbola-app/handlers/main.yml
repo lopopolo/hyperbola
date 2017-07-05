@@ -1,0 +1,5 @@
+---
+- name: reload systemd units
+  command: systemctl daemon-reload
+- name: restart app
+  service: name='hyperbola-app@*' state=restarted

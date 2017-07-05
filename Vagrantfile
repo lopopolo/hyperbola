@@ -10,6 +10,33 @@ Vagrant.configure('2') do |config|
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
+  config.vm.define 'app-test-1' do |app|
+    app.vm.network 'private_network', ip: '192.168.10.20'
+
+    app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'ansible/provision.yml'
+      ansible.groups = {
+        'wiki' => ['wiki-test-1'],
+        'all_groups:children' => ['wiki']
+      }
+    end
+
+    app.vm.provision 'app', type: 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'ansible/app.yml'
+      ansible.vault_password_file = '.secrets/vault-password.txt'
+      ansible.groups = {
+        'app' => ['app-test-1'],
+        'app:vars' => {
+          'hyperbola_environment' => 'localhost',
+          'app_nginx_domain' => 'app.local.hyperboladc.net'
+        },
+        'all_groups:children' => ['app']
+      }
+    end
+  end
+
   config.vm.define 'wiki-test-1' do |wiki|
     wiki.vm.network 'private_network', ip: '192.168.10.10'
 

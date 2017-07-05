@@ -1,0 +1,123 @@
+---
+- name: Include vars of stuff.yml into the 'stuff' variable (2.2).
+  include_vars:
+    file: "{{ hyperbola_environment }}.yml"
+    name: app_hyperbola_env
+
+# deploy user
+- name: Create app group
+  group:
+    name: hyperbola-app
+    state: present
+- name: Create app user
+  user:
+    name: hyperbola-app
+    state: present
+    group: hyperbola-app
+    shell: /bin/bash
+
+# install system package dependencies
+- name: Install hyperbola build deps
+  apt: name={{ item }} state=present
+  with_items:
+  - make
+  - build-essential
+  - libssl-dev
+  - libffi-dev
+  - rsync
+  - python3
+  - python3-dev
+  - python3-pip
+  - libmysqlclient-dev
+
+# install python app
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - /hyperbola/app
+- name: Initialize the deploy root and gather facts
+  deploy_helper:
+    path: /hyperbola/app
+- name: Create new release path
+  file:
+    path: "{{ deploy_helper.new_release_path }}"
+    state: directory
+- name: Add an unfinished file, to allow cleanup on successful finalize
+  file:
+    path: "{{ deploy_helper.new_release_path }}/{{ deploy_helper.unfinished_filename }}"
+    state: touch
+- name: Fetch git tag
+  unarchive:
+    src: "{{ app_release_download_url }}"
+    dest: "{{ deploy_helper.new_release_path }}"
+    remote_src: True
+- name: un-nest release download
+  shell: "rsync -av {{ deploy_helper.new_release_path }}/*hyperbola*/ {{ deploy_helper.new_release_path }}"
+- name: Create app virtualenv
+  command: "python3 -m venv {{ deploy_helper.new_release_path }}/virtualenv"
+  args:
+    creates: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python"
+- name: Install app dependencies
+  pip:
+    state: present
+    executable: "{{ deploy_helper.new_release_path }}/virtualenv/bin/pip"
+    requirements: "{{ deploy_helper.new_release_path }}/requirements.txt"
+- set_fact:
+    app_artifact_root: "{{ deploy_helper.new_release_path }}"
+- name: Generate settings.SECRET_KEY
+  command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'"
+  register: app_django_secret_key
+  no_log: True
+- name: Install 12factor environment
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ deploy_helper.new_release_path }}/env/{{ item }}"
+    mode: 0444
+  with_items:
+  - 00-path.env
+  - 01-configuration.env
+- name: compileall app
+  command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -m compileall app"
+- name: manage.py collectstatic
+  command: "{{ deploy_helper.new_release_path }}/bin/artifact-exec python {{ deploy_helper.new_release_path }}/app/manage.py collectstatic --no-input"
+- name: Install gunicorn config
+  template:
+    src: "gunicorn.py.j2"
+    dest: "{{ deploy_helper.new_release_path }}/gunicorn.py"
+    mode: a=r
+- name: get site-packages directory
+  command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -c 'import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())'"
+  register: app_python_site_packages_dir
+- name: add hyperbola-app to pythonpath of virtualenv
+  copy:
+    content: "{{ deploy_helper.new_release_path }}/app"
+    dest: "{{ app_python_site_packages_dir.stdout }}/hyperbola.pth"
+    mode: a=r
+- name: Set owner of deployment to hyperbola-app:hyperbola-app
+  file:
+    dest: "{{ deploy_helper.new_release_path }}"
+    owner: hyperbola-app
+    group: hyperbola-app
+    mode: a=rX
+    recurse: true
+- name: Finalize the deploy, removing the unfinished file and switching the symlink
+  deploy_helper:
+    path: /hyperbola/app
+    release: "{{ deploy_helper.new_release }}"
+    state: finalize
+  notify: restart app
+
+# services
+- name: Install systemd units
+  copy:
+    src: hyperbola-app@.service
+    dest: /etc/systemd/system
+    mode: 0444
+  notify: reload systemd units
+- name: Enable wiki instantiated units
+  systemd:
+    name: "hyperbola-app@{{ hyperbola_environment }}.service"
+    state: started
+    enabled: true
