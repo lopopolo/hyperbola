@@ -9,7 +9,7 @@ from pathlib import Path
 class Env(Enum):
     production = 'production'
     staging = 'staging'
-    localhost = 'localhost'
+    local = 'local'
     dev = 'dev'
 
     @classmethod
@@ -57,7 +57,7 @@ class EnvironmentConfig(object):
             return ['hyperbo.la']
         elif self.environment is Env.staging:
             return ['staging.hyperbo.la']
-        elif self.environment is Env.localhost:
+        elif self.environment is Env.local:
             return ['app.local.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
@@ -68,7 +68,7 @@ class EnvironmentConfig(object):
     @property
     def additional_installed_apps(self):
         apps = []
-        if self.environment in [Env.production, Env.localhost, Env.dev]:
+        if self.environment in [Env.production, Env.local, Env.dev]:
             apps.extend(['django.contrib.admin'])
         if self.environment is Env.dev:
             apps.extend(['debug_toolbar', 'template_timings_panel'])
@@ -78,20 +78,21 @@ class EnvironmentConfig(object):
     def additional_urls(self):
         from django.conf.urls import include, url
         urls = []
-        if self.environment in [Env.production, Env.localhost, Env.dev]:
+        if self.environment in [Env.production, Env.local, Env.dev]:
             from django.contrib import admin
             # only enable admin urls in production and dev
             urls.extend([url(r'^ssb/', admin.site.urls)])
         if self.environment is Env.dev:
             import debug_toolbar
+            urls.extend([url(r'^__debug__/', include(debug_toolbar.urls))])
+        if self.environment in [Env.local, Env.dev]:
             from django.conf.urls.static import static
             urls.extend(static(MEDIA_URL, document_root=MEDIA_ROOT))
-            urls.extend([url(r'^__debug__/', include(debug_toolbar.urls))])
         return urls
 
     @property
     def debug(self):
-        if self.environment in [Env.localhost, Env.dev]:
+        if self.environment in [Env.local, Env.dev]:
             return True
         if self.environment is Env.staging:
             return Env.source('DEBUG', False)
