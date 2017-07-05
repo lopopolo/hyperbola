@@ -128,6 +128,15 @@ a:focus {
     overflow: hidden;
 }
 
+.img-thumbnail-hyperbola-contact {
+    background-color: transparent;
+    border: none;
+    width: auto;
+    height: auto;
+    max-width: 240px;
+    max-height: 240px;
+}
+
 /* lifestream */
 .lifestream-content a {
     display: inline-block;
@@ -145,6 +154,15 @@ a:focus {
 
 .lifestream-entry-header  local-time:after {
     content: " ";
+}
+
+.img-thumbnail-hyperbola-lifestream {
+    background-color: transparent;
+    border: none;
+    width: auto;
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
 }
 
 .feed-icon {

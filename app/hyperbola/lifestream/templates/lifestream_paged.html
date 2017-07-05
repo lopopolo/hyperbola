@@ -18,7 +18,7 @@
     {% if post.lifestreampicture %}
     <div>
       <a href="{{ post.lifestreampicture.picture.url|escape }}">
-        <img alt="Photo for post {{ post.id|escape }}" width="{{ post.lifestreampicture.picture.x1.width|escape }}" height="{{ post.lifestreampicture.picture.x1.height|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" data-rjs="{{ post.lifestreampicture.picture.x2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
+        <img alt="Photo for post {{ post.id|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" data-rjs="{{ post.lifestreampicture.picture.x2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola-lifestream">
       </a>
     </div>
     {% endif %}
