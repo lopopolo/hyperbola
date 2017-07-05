@@ -1,23 +1,16 @@
-{% load hyperbola_lifestream_tags imagekit %}
+{% load hyperbola_lifestream_tags %}
 <div class="panel panel-hyperbola">
   <div class="panel-heading lifestream-entry-header">
-    <span class="date">
-      <time datetime="{{ obj.pub_date|date:"c" }}" id="lifestream-entry-date-{{ obj.id }}">{{ obj.pub_date|date:"H:i T b d Y"|lower }}</time>
-    </span>
+    <local-time datetime="{{ post.pub_date|date:"Y-m-d" }}T{{ post.pub_date|time:"H:i:s" }}Z" month="short" day="numeric" year="numeric" hour="numeric" minute="numeric">
+      {{ post.pub_date|date:"H:i T b d Y"|lower }}
+    </local-time>
     <a href="{{ obj.get_absolute_url|escape }}">permalink</a>
   </div>
   <div class="panel-body">
     {% if obj.lifestreampicture %}
-      {% thumbnail "hyperbola:thumbnail" "500x500" obj.lifestreampicture.picture retina_scale=1 as card_1x %}
-      {% thumbnail "hyperbola:thumbnail" "500x500" obj.lifestreampicture.picture retina_scale=2 as card_2x %}
-      {% thumbnail "hyperbola:thumbnail" "500x500" obj.lifestreampicture.picture retina_scale=3 as card_3x %}
-      {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
       <div>
-        <a href="{{ card_3x.url|escape }}">
-          <img alt="Photo for post {{ obj.id|escape }}" width="{{ card_1x.width|escape }}" height="{{ card_1x.height|escape }}" src="{{ card_1x.url|escape }}" data-rjs="3" class="center-block img-thumbnail img-thumbnail-hyperbola">
-          <!-- 1x: {{ card_1x.url }} -->
-          <!-- 2x: {{ card_2x.url }} -->
-          <!-- 3x: {{ card_3x.url }} -->
+        <a href="{{ post.lifestreampicture.picture.url|escape }}">
+          <img alt="Photo for post {{ post.id|escape }}" width="{{ post.lifestreampicture.picture.x1.width|escape }}" height="{{ post.lifestreampicture.picture.x1.height|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" data-rjs="{{ post.lifestreampicture.picture.x2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola">
         </a>
       </div>
     {% endif %}

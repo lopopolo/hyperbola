@@ -116,6 +116,7 @@ class EnvironmentConfig(object):
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
             else:
                 self.media_url = 'http://local.hyperbolausercontent.net/'
+                self.media_bucket_name = 'local.hyperbolausercontent.net'
 
     class EmailBackupConfig(object):
         def __init__(self):
@@ -192,6 +193,12 @@ USE_TZ = True
 
 # Media and Static Files
 
+DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+
+AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
+AWS_S3_BUCKET_AUTH = False
+AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
+
 MEDIA_ROOT = str(ENVIRONMENT.content.media_root)
 
 MEDIA_URL = ENVIRONMENT.content.media_url
@@ -215,9 +222,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_mysql',
-    'imagekit',
+    'django_s3_storage',
     'localflavor',
     'missing',
+    'stdimage',
     'hyperbola.contact',
     'hyperbola.core',
     'hyperbola.frontpage',
@@ -266,6 +274,7 @@ WSGI_APPLICATION = 'hyperbola.wsgi.application'
 
 IMAGEKIT_CACHEFILE_DIR = 'cache/g'
 IMAGEKIT_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
+
 
 # Sendfile
 # https://github.com/johnsensible/django-sendfile#nginx-backend
@@ -336,9 +345,10 @@ if ENVIRONMENT.environment is Env.dev:
             'django.contrib.messages',
             'django.contrib.staticfiles',
             'django_mysql',
-            'imagekit',
+            'django_s3_storage',
             'localflavor',
             'missing',
+            'stdimage',
             'hyperbola.contact',
             'hyperbola.core',
             'hyperbola.frontpage',

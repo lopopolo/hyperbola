@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from stdimage.models import StdImageField
 
 from ..core import MakeUploadTo
 
@@ -19,4 +20,8 @@ class LifeStreamItem(models.Model):
 
 
 class LifeStreamPicture(LifeStreamItem):
-    picture = models.ImageField(upload_to=MakeUploadTo("lifestream"))
+    picture = StdImageField(upload_to=MakeUploadTo("lifestream"), variations={
+        "x1": (500, 500),
+        "x2": (1000, 1000),
+        "x3": (1500, 1500),
+    })

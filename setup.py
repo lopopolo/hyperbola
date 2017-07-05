@@ -84,12 +84,13 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'Django ~= 1.11.0',
-        'django-imagekit',
         'django-localflavor',
         'django-missing',
         'django-mysql',
         'django-redis',
+        'django-s3-storage',
         'django-sendfile',
+        'django-stdimage',
         'gunicorn',
         'markdown',
         'mysqlclient >= 1.3.3',
