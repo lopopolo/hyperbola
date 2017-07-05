@@ -115,8 +115,8 @@ class EnvironmentConfig(object):
             if environment in [Env.production, Env.staging]:
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
             else:
-                self.media_url = 'http://local.hyperbolausercontent.net/'
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
+                self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
     class EmailBackupConfig(object):
         def __init__(self):
