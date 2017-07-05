@@ -11,12 +11,16 @@ resource "aws_route53_record" "bucket" {
   name    = "${var.bucket}"
   type    = "CNAME"
   ttl     = "300"
-  records = ["${aws_s3_bucket.bucket.bucket_domain_name}"]
+  records = ["${aws_s3_bucket.bucket.website_endpoint}"]
 }
 
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.bucket}.hyperbolausercontent.net"
   acl    = "public-read"
+
+  website {
+    index_document = "index.html"
+  }
 
   versioning {
     enabled = true
