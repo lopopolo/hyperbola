@@ -75,6 +75,12 @@ module "hyperbola-app" {
   ipv6_addresses = "${var.ipv6_addresses}"
 }
 
+module "hyperbola-app-local" {
+  source = "./hyperbola/app2"
+  env    = "local"
+  bucket = "local"
+}
+
 module "hyperbola-cdn" {
   source         = "./hyperbola/cdn"
   host           = "hyperbola3"
