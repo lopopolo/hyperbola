@@ -80,3 +80,16 @@ resource "aws_route53_record" "dc-linode" {
   ttl     = "300"
   records = ["${lookup(var.ipv4_addresses, var.host)}"]
 }
+
+data "aws_route53_zone" "local-dc" {
+  name         = "local.hyperboladc.net."
+  private_zone = false
+}
+
+resource "aws_route53_record" "app-local-dc" {
+  zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
+  name    = "app"
+  type    = "A"
+  ttl     = "300"
+  records = ["192.168.10.20"]
+}
