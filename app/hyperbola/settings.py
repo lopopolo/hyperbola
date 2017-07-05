@@ -9,6 +9,7 @@ from pathlib import Path
 class Env(Enum):
     production = 'production'
     staging = 'staging'
+    localhost = 'localhost'
     dev = 'dev'
 
     @classmethod
@@ -56,6 +57,8 @@ class EnvironmentConfig(object):
             return ['hyperbo.la']
         elif self.environment is Env.staging:
             return ['staging.hyperbo.la']
+        elif self.environment is Env.localhost:
+            return ['app.local.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
@@ -65,7 +68,7 @@ class EnvironmentConfig(object):
     @property
     def additional_installed_apps(self):
         apps = []
-        if self.environment in [Env.production, Env.dev]:
+        if self.environment in [Env.production, Env.localhost, Env.dev]:
             apps.extend(['django.contrib.admin'])
         if self.environment is Env.dev:
             apps.extend(['debug_toolbar', 'template_timings_panel'])
@@ -75,7 +78,7 @@ class EnvironmentConfig(object):
     def additional_urls(self):
         from django.conf.urls import include, url
         urls = []
-        if self.environment in [Env.production, Env.dev]:
+        if self.environment in [Env.production, Env.localhost, Env.dev]:
             from django.contrib import admin
             # only enable admin urls in production and dev
             urls.extend([url(r'^ssb/', admin.site.urls)])
@@ -88,7 +91,7 @@ class EnvironmentConfig(object):
 
     @property
     def debug(self):
-        if self.environment is Env.dev:
+        if self.environment in [Env.localhost, Env.dev]:
             return True
         if self.environment is Env.staging:
             return Env.source('DEBUG', False)
@@ -115,8 +118,8 @@ class EnvironmentConfig(object):
 
     class EmailBackupConfig(object):
         def __init__(self):
-            self.username = Env.source('BACKUP_EMAIL_LOGIN_USERNAME')
-            self.password = Env.source('BACKUP_EMAIL_LOGIN_PASSWORD')
+            self.username = Env.source('BACKUP_EMAIL_LOGIN_USERNAME', False)
+            self.password = Env.source('BACKUP_EMAIL_LOGIN_PASSWORD', False)
 
 
 PROJECT_PATH = Path(__file__).resolve().parent
