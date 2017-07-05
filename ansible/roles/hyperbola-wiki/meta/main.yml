@@ -6,5 +6,5 @@ dependencies:
   nginx_vhosts:
   - domain: "{{ wiki_nginx_domain }}"
     index: "01"
-    ssl_enabled: "{{ hyperbola_environment != 'localhost' }}"
+    ssl_enabled: "{{ hyperbola_environment != 'local' }}"
     template: roles/hyperbola-wiki/templates/wiki.hyperbo.la.conf.j2

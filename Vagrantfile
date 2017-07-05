@@ -29,7 +29,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'app' => ['app-test-1'],
         'app:vars' => {
-          'hyperbola_environment' => 'localhost',
+          'hyperbola_environment' => 'local',
           'app_nginx_domain' => 'app.local.hyperboladc.net'
         },
         'all_groups:children' => ['app']
@@ -56,7 +56,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'wiki' => ['wiki-test-1'],
         'wiki:vars' => {
-          'hyperbola_environment' => 'localhost',
+          'hyperbola_environment' => 'local',
           'wiki_nginx_domain' => 'wiki.local.hyperboladc.net'
         },
         'all_groups:children' => ['wiki']
