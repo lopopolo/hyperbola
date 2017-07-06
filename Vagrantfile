@@ -11,6 +11,8 @@ Vagrant.configure('2') do |config|
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
   config.vm.define 'app-test-1' do |app|
+    app.vm.synced_folder '~/.aws', '/home/hyperbola-app/.aws', owner: 'hyperbola-app'
+
     app.vm.network 'private_network', ip: '192.168.10.20'
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
