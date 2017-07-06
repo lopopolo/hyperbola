@@ -18,6 +18,8 @@ class Env(Enum):
         prop = environ.get(env, default)
         if prop is None:
             raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+        if prop == "" and default is not None:
+            return default
 
         if isinstance(prop, str) and prop.strip().lower() in ['1', 'true', 'yes', 'on']:
             return True
@@ -44,12 +46,9 @@ class EnvironmentConfig(object):
         self.environment = Env.make('ENVIRONMENT')
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
+        self.redis = self.RedisConfig()
         self.content = self.ContentConfig(self.environment, root_path)
         self.email_backup = self.EmailBackupConfig()
-
-    @property
-    def redis_enabled(self):
-        return self.environment in [Env.production, Env.staging]
 
     @property
     def allowed_hosts(self):
@@ -100,11 +99,26 @@ class EnvironmentConfig(object):
 
     class DBConfig(object):
         def __init__(self):
-            self.name = Env.source('DB_NAME')
-            self.user = Env.source('DB_USER')
-            self.password = Env.source('DB_PASSWORD')
             self.host = Env.source('DB_HOST')
             self.port = Env.source('DB_PORT')
+            self.user = Env.source('DB_USER')
+            self.password = Env.source('DB_PASSWORD')
+            self.name = Env.source('DB_NAME')
+
+    class RedisConfig(object):
+        def __init__(self):
+            self.host = Env.source('REDIS_HOST')
+            self.port = Env.source('REDIS_PORT')
+            self.password = Env.source('REDIS_PASSWORD')
+            self.name = Env.source('REDIS_NAME', 0)
+
+        def connection_string(self, name=None):
+            if name is None:
+                name = self.name
+            if self.password:
+                return'redis://:{}@{}:{}/{}'.format(self.password, self.host, self.port, name),
+            else:
+                return'redis://{}:{}/{}'.format(self.host, self.port, name),
 
     class ContentConfig(object):
         def __init__(self, environment, root_path):
@@ -156,27 +170,25 @@ DATABASES = {
     }
 }
 
-if ENVIRONMENT.redis_enabled:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/1',
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
-        },
-        'imagekit': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/2',
-            'TIMEOUT': None,
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': ENVIRONMENT.redis.connection_string(0),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
+    'sessions': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': ENVIRONMENT.redis.connection_string(1),
+        'OPTIONS': {
+            'IGNORE_EXCEPTIONS': True,
         }
     }
-    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-    SESSION_CACHE_ALIAS = 'default'
-    IMAGEKIT_CACHE_BACKEND = 'imagekit'
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'sessions'
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -269,11 +281,6 @@ TEMPLATES = [
 ROOT_URLCONF = 'hyperbola.urls'
 
 WSGI_APPLICATION = 'hyperbola.wsgi.application'
-
-# Thumbnailing
-
-IMAGEKIT_CACHEFILE_DIR = 'cache/g'
-IMAGEKIT_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
 
 
 # Sendfile
