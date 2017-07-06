@@ -6,8 +6,28 @@ all: lint
 
 ## Tunnel
 
+SSH_APP := vagrant ssh app-test-1
+
 tunnel:
-	vagrant ssh app-test-1 -- -R 3306:localhost:3306
+ifneq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
+	@echo "Tunnel already established"
+else
+	$(SSH_APP) -- -M -S .vagrant/control-socket -fnNT -R 3306:localhost:3306
+endif
+
+tunnel-status:
+ifeq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
+	@echo "No control socket"
+else
+	$(SSH_APP) -- -S .vagrant/control-socket -O check
+endif
+
+tunnel-kill:
+ifeq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
+	@echo "No control socket"
+else
+	$(SSH_APP) -- -S .vagrant/control-socket -O exit
+endif
 
 ## Lint
 
