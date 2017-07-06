@@ -37,6 +37,18 @@ Vagrant.configure('2') do |config|
         'all_groups:children' => ['app']
       }
     end
+
+    # redis
+    app.vm.network :forwarded_port, guest: 6379, host: 6379
+    app.vm.provision :shell, inline: <<-SCRIPT
+      sudo add-apt-repository ppa:chris-lea/redis-server
+      sudo apt-get update
+      sudo apt-get install -y 'redis-server=3:3.2.*'
+      sudo mv /etc/redis/redis.conf /etc/redis/redis.conf.old
+      echo "bind 0.0.0.0" | sudo tee /etc/redis/redis.conf
+      cat /etc/redis/redis.conf.old | grep -v bind | sudo tee -a /etc/redis/redis.conf > /dev/null
+      sudo service redis-server restart
+    SCRIPT
   end
 
   config.vm.define 'wiki-test-1' do |wiki|
