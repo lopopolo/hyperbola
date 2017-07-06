@@ -8,18 +8,23 @@ variable "name" {
 }
 
 variable "vpc_id" {}
-
 variable "cidrs" {}
-
 variable "azs" {}
-
 variable "nat_gateway_ids" {}
+variable "egress_gateway_id" {}
+
+data "aws_vpc" "current" {
+  id = "${var.vpc_id}"
+}
 
 resource "aws_subnet" "private" {
-  vpc_id            = "${var.vpc_id}"
+  vpc_id            = "${data.aws_vpc.current.id}"
   cidr_block        = "${element(split(",", var.cidrs), count.index)}"
   availability_zone = "${element(split(",", var.azs), count.index)}"
   count             = "${length(split(",", var.cidrs))}"
+
+  ipv6_cidr_block                 = "${cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 8 ,count.index)}"
+  assign_ipv6_address_on_creation = true
 
   tags {
     Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
@@ -32,12 +37,17 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_route_table" "private" {
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${data.aws_vpc.current.id}"
   count  = "${length(split(",", var.cidrs))}"
 
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = "${element(split(",", var.nat_gateway_ids), count.index)}"
+  }
+
+  route {
+    ipv6_cidr_block        = "::/0"
+    egress_only_gateway_id = "${var.egress_gateway_id}"
   }
 
   tags {

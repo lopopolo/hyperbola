@@ -48,17 +48,19 @@ resource "aws_security_group" "alb" {
   description = "Security group for ${var.name} ALB"
 
   ingress {
-    protocol    = "tcp"
-    from_port   = 80
-    to_port     = 80
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol         = "tcp"
+    from_port        = 80
+    to_port          = 80
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   ingress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol         = "tcp"
+    from_port        = 443
+    to_port          = 443
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
@@ -90,6 +92,7 @@ resource "aws_alb" "alb" {
 
   subnets         = ["${data.aws_subnet.public.*.id}"]
   security_groups = ["${aws_security_group.alb.id}"]
+  ip_address_type = "dualstack"
 
   lifecycle {
     create_before_destroy = true

@@ -32,6 +32,8 @@ module "public_subnet" {
   vpc_id = "${module.vpc.vpc_id}"
   cidrs  = "${var.public_subnets}"
   azs    = "${var.azs}"
+
+  egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
 
 module "private_subnet" {
@@ -42,7 +44,8 @@ module "private_subnet" {
   cidrs  = "${var.private_subnets}"
   azs    = "${var.azs}"
 
-  nat_gateway_ids = "${module.nat.nat_gateway_ids}"
+  nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
+  egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
 
 module "bastion" {
@@ -76,6 +79,15 @@ resource "aws_network_acl" "acl" {
     to_port    = 0
   }
 
+  ingress {
+    protocol        = "-1"
+    rule_no         = 200
+    action          = "allow"
+    ipv6_cidr_block = "::/0"
+    from_port       = 0
+    to_port         = 0
+  }
+
   egress {
     protocol   = "-1"
     rule_no    = 100
@@ -83,6 +95,15 @@ resource "aws_network_acl" "acl" {
     cidr_block = "0.0.0.0/0"
     from_port  = 0
     to_port    = 0
+  }
+
+  egress {
+    protocol        = "-1"
+    rule_no         = 200
+    action          = "allow"
+    ipv6_cidr_block = "::/0"
+    from_port       = 0
+    to_port         = 0
   }
 
   tags {

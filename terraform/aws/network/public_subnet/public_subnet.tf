@@ -8,13 +8,16 @@ variable "name" {
 }
 
 variable "vpc_id" {}
-
 variable "cidrs" {}
-
 variable "azs" {}
+variable "egress_gateway_id" {}
+
+data "aws_vpc" "current" {
+  id = "${var.vpc_id}"
+}
 
 resource "aws_internet_gateway" "public" {
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${data.aws_vpc.current.id}"
 
   tags {
     Name = "${var.name}"
@@ -22,10 +25,13 @@ resource "aws_internet_gateway" "public" {
 }
 
 resource "aws_subnet" "public" {
-  vpc_id            = "${var.vpc_id}"
+  vpc_id            = "${data.aws_vpc.current.id}"
   cidr_block        = "${element(split(",", var.cidrs), count.index)}"
   availability_zone = "${element(split(",", var.azs), count.index)}"
   count             = "${length(split(",", var.cidrs))}"
+
+  ipv6_cidr_block                 = "${cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 8 ,10 + count.index)}"
+  assign_ipv6_address_on_creation = true
 
   tags {
     Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
@@ -40,11 +46,16 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_route_table" "public" {
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${data.aws_vpc.current.id}"
 
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.public.id}"
+  }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id      = "${aws_internet_gateway.public.id}"
   }
 
   tags {

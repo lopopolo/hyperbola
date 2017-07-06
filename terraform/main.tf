@@ -105,10 +105,6 @@ output "wiki_elb_zone_id" {
   value = "${module.hyperbola-wiki.alb_zone_id}"
 }
 
-output "wiki_private_fqdn" {
-  value = "${module.hyperbola-wiki.private_fqdn}"
-}
-
 output "wiki_elb_dns" {
   value = "${module.hyperbola-wiki.alb_dns}"
 }
