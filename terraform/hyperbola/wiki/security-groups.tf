@@ -3,6 +3,11 @@ variable "github_cidrs" {
   default = ["192.30.252.0/22", "185.199.108.0/22"]
 }
 
+variable "github_ipv6_cidrs" {
+  type    = "list"
+  default = ["2620:112:3000::/44"]
+}
+
 variable "github_ports" {
   type    = "list"
   default = [22, 80, 443, 9418]
@@ -41,6 +46,7 @@ resource "aws_security_group_rule" "backend-to-github" {
   from_port         = "${element(var.github_ports, count.index)}"
   to_port           = "${element(var.github_ports, count.index)}"
   cidr_blocks       = ["${var.github_cidrs}"]
+  ipv6_cidr_blocks  = ["${var.github_ipv6_cidrs}"]
   security_group_id = "${aws_security_group.backend.id}"
 }
 
