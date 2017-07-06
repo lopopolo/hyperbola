@@ -48,7 +48,9 @@ class EnvironmentConfig(object):
         self.db = self.DBConfig()
         self.redis = self.RedisConfig()
         self.content = self.ContentConfig(self.environment, root_path)
-        self.email_backup = self.EmailBackupConfig()
+
+    def __str__(self):
+        return self.environment.value
 
     @property
     def allowed_hosts(self):
@@ -131,11 +133,6 @@ class EnvironmentConfig(object):
             else:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
                 self.media_url = 'https://{}/'.format(self.media_bucket_name)
-
-    class EmailBackupConfig(object):
-        def __init__(self):
-            self.username = Env.source('BACKUP_EMAIL_LOGIN_USERNAME', False)
-            self.password = Env.source('BACKUP_EMAIL_LOGIN_PASSWORD', False)
 
 
 PROJECT_PATH = Path(__file__).resolve().parent
@@ -298,10 +295,6 @@ SESSION_COOKIE_SECURE = ENVIRONMENT.is_secure
 CSRF_COOKIE_SECURE = ENVIRONMENT.is_secure
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
-
-# backups
-BACKUP_EMAIL_LOGIN_USERNAME = ENVIRONMENT.email_backup.username
-BACKUP_EMAIL_LOGIN_PASSWORD = ENVIRONMENT.email_backup.password
 
 # logging
 LOGGING = {
