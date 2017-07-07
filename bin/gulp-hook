@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-unset CDPATH
-cd "${BASH_SOURCE%/*}" || exit
-exec ./artifact-exec gulp

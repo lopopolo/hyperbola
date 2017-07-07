@@ -23,19 +23,22 @@ present:
 
 ```sh
 # environment
-export ENVIRONMENT="production or staging or dev"
-export SECRET_KEY="secret"
+export ENVIRONMENT="production|staging|local|dev"
+# virtualenv/bin/python -c 'import django.core.management.utils as u; print(u.get_random_secret_key())'
+export SECRET_KEY=""
 
 # database
-export DB_NAME="mysql database"
-export DB_USER="mysql username"
-export DB_PASSWORD="mysql password"
-export DB_HOST="name of database server"
-export DB_PORT="port to connect to database server"
+export DB_HOST='127.0.0.1'
+export DB_PORT='3306'
+export DB_USER='root'
+export DB_PASSWORD=''
+export DB_NAME='hyperbola'
 
-# email
-export BACKUP_EMAIL_LOGIN_USERNAME="foo"
-export BACKUP_EMAIL_LOGIN_PASSWORD="bar"
+# cache
+export REDIS_HOST='redis.local.hyperboladc.net'
+export REDIS_PORT='6379'
+export REDIS_PASSWORD=''
+export REDIS_NAME='0'
 
 # debug
 export DEBUG="true if in debug mode" # optional, defaults to false
