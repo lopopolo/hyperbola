@@ -35,35 +35,34 @@ release:
 ## Linters
 
 .PHONY: lint
-lint: lint-py lint-js lint-ansible
+lint: lint-pre-commit lint-ansible
 
-.PHONY: lint-py
-lint-py: flake8 isort pep257 pylint
+PRE_COMMIT := pre-commit run --all-files
 
-.PHONY: flake8
-flake8:
-	flake8 app bin *.py
-
-.PHONY: isort
-isort:
-	isort --apply --recursive app bin *.py
-
-.PHONY: pep257
-pep257:
-	pep257 app bin *.py
-
-.PHONY: pylint
-pylint:
-	pylint --rcfile setup.cfg app bin *.py
+.PHONY: lint-pre-commit
+lint-pre-commit:
+	$(PRE_COMMIT) check-ast
+	$(PRE_COMMIT) check-docstring-first
+	$(PRE_COMMIT) check-executables-have-shebangs
+	$(PRE_COMMIT) check-json
+	$(PRE_COMMIT) check-yaml
+	$(PRE_COMMIT) end-of-file-fixer
+	$(PRE_COMMIT) flake8
+	$(PRE_COMMIT) trailing-whitespace
+	$(PRE_COMMIT) python-import-sorter
+	$(PRE_COMMIT) pydocstyle
+	$(PRE_COMMIT) pylint
+	$(PRE_COMMIT) pyupgrade
+	$(PRE_COMMIT) terraform_fmt
+	$(PRE_COMMIT) eslint
+	$(PRE_COMMIT) csslint
+	$(PRE_COMMIT) rubocop
+	$(PRE_COMMIT) shell-lint
 
 # must manually run and compare `git diff` output
 .PHONY: yapf
 yapf:
 	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
-
-.PHONY: lint-js
-lint-js: $(wildcard *.js)
-	eslint $^
 
 lint-ansible:
 	ansible-playbook -i "localhost," ansible/provision.yml --syntax-check

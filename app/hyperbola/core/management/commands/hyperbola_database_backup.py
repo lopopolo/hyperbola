@@ -28,7 +28,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         s3 = boto3.resource('s3')
 
-        dumpdata_file_name = 'hyperbola-app-{0}.json'.format(self.S3_BACKUP_TIMESTAMP)
+        dumpdata_file_name = 'hyperbola-app-{}.json'.format(self.S3_BACKUP_TIMESTAMP)
         dumpdata_file_key = str(self.S3_BACKUP_KEY_PREFIX.joinpath('database', dumpdata_file_name))
 
         self.stdout.write('Preparing backup at {}'.format(self.now.isoformat()))

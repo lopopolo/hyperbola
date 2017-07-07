@@ -17,16 +17,15 @@ class Env(Enum):
         from django.core.exceptions import ImproperlyConfigured
         prop = environ.get(env, default)
         if prop is None:
-            raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+            raise ImproperlyConfigured('Environment variable {} not set'.format(env))
         if prop == "" and default is not None:
             return default
 
         if isinstance(prop, str) and prop.strip().lower() in ['1', 'true', 'yes', 'on']:
             return True
-        elif isinstance(prop, str) and prop.strip().lower() in ['0', 'false', 'no', 'off']:
+        if isinstance(prop, str) and prop.strip().lower() in ['0', 'false', 'no', 'off']:
             return False
-        else:
-            return prop
+        return prop
 
     @classmethod
     def make(cls, env):
@@ -119,8 +118,7 @@ class EnvironmentConfig(object):
                 name = self.name
             if self.password:
                 return'redis://:{}@{}:{}/{}'.format(self.password, self.host, self.port, name),
-            else:
-                return'redis://{}:{}/{}'.format(self.host, self.port, name),
+            return'redis://{}:{}/{}'.format(self.host, self.port, name),
 
     class ContentConfig(object):
         def __init__(self, environment, root_path):
@@ -332,10 +330,11 @@ if ENVIRONMENT.environment is Env.dev:
     SENDFILE_BACKEND = 'sendfile.backends.development'
     # debug toolbar
     from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
-    DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
+    DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + \
+        ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
-    if False:
+    if False:  # pylint: disable=using-constant-test
         # workaround for intellij dying on dynamically-created INSTALLED_APPS
         # https://stackoverflow.com/a/42672633
         INSTALLED_APPS = [

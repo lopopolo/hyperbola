@@ -27,4 +27,3 @@ sync-s3-movies:
 
 sync-s3-music:
 	aws s3 sync --sse AES256 --exclude ".*" ./media/music s3://home-dc-hyperbola/music/
-

@@ -11,7 +11,7 @@ class Blurb(models.Model):
         ordering = ['display_order']
 
     def __str__(self):
-        return "{0} - {1}".format(self.display_order, self.title)
+        return "{} - {}".format(self.display_order, self.title)
 
 
 class Schedule(models.Model):
@@ -23,4 +23,4 @@ class Schedule(models.Model):
         ordering = ['display_order']
 
     def __str__(self):
-        return "{0} - {1}".format(self.display_order, self.body[:50])
+        return "{} - {}".format(self.display_order, self.body[:50])
