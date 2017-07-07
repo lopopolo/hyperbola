@@ -73,6 +73,17 @@
   command: "python3 -m venv {{ deploy_helper.new_release_path }}/virtualenv"
   args:
     creates: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python"
+- name: Update pip infra
+  pip:
+    state: latest
+    executable: "{{ deploy_helper.new_release_path }}/virtualenv/bin/pip"
+    name: "{{ item }}"
+  with_items:
+    - virtualenv
+    - pip
+    - pip-tools
+    - wheel
+    - setuptools
 - name: Install app dependencies
   pip:
     state: present
