@@ -66,6 +66,13 @@ module "nat" {
   public_subnet_name = "${module.public_subnet.tag_value}"
 }
 
+module "s3" {
+  source = "./s3"
+
+  vpc_id              = "${module.vpc.vpc_id}"
+  private_subnet_name = "${module.private_subnet.tag_value}"
+}
+
 resource "aws_network_acl" "acl" {
   vpc_id     = "${module.vpc.vpc_id}"
   subnet_ids = ["${concat(split(",", module.public_subnet.subnet_ids), split(",", module.private_subnet.subnet_ids))}"]
