@@ -5,17 +5,10 @@
 variable "name" {}
 
 variable "vpc_cidr" {}
-
 variable "azs" {}
-
 variable "region" {}
 
-variable "private_subnets" {}
-
-variable "public_subnets" {}
-
 variable "key_name" {}
-
 variable "bastion_instance_type" {}
 
 module "vpc" {
@@ -30,7 +23,6 @@ module "public_subnet" {
 
   name   = "${var.name}-public"
   vpc_id = "${module.vpc.vpc_id}"
-  cidrs  = "${var.public_subnets}"
   azs    = "${var.azs}"
 
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
@@ -41,7 +33,6 @@ module "private_subnet" {
 
   name   = "${var.name}-private"
   vpc_id = "${module.vpc.vpc_id}"
-  cidrs  = "${var.private_subnets}"
   azs    = "${var.azs}"
 
   nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
