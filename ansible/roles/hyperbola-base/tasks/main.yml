@@ -1,0 +1,32 @@
+---
+- name: apt update && apt upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 3600
+- name: base packages
+  apt: name={{ item }} state=present
+  with_items:
+  - git
+  - ntp
+  - vim
+- name: Lock root account # http://stackoverflow.com/a/39018859
+  user:
+    name: root
+    state: present
+- name: Passwordless sudo --list
+  lineinfile:
+    dest: /etc/sudoers
+    line: "{{ item }}"
+    state: present
+    validate: 'visudo -cf %s'
+  with_items:
+    - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo -l"
+    - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo --list"
+- name: /hyperbola directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+  - /hyperbola
+  - /hyperbola/tools

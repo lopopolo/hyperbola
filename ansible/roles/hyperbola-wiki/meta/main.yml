@@ -1,0 +1,10 @@
+---
+dependencies:
+- role: hyperbola-base
+- role: geerlingguy.ruby
+- role: hyperbola-nginx
+  nginx_vhosts:
+  - domain: "{{ wiki_nginx_domain }}"
+    index: "01"
+    ssl_enabled: "{{ hyperbola_environment != 'localhost' }}"
+    template: roles/hyperbola-wiki/templates/wiki.hyperbo.la.conf.j2

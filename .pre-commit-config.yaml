@@ -1,25 +1,40 @@
 - repo: https://github.com/pre-commit/pre-commit-hooks.git
-  sha: v0.8.0
+  sha: v0.9.1
   hooks:
+  - id: check-added-large-files
   - id: check-ast
   - id: check-byte-order-marker
+  - id: check-case-conflict
+  - id: check-docstring-first
+  - id: check-executables-have-shebangs
+  - id: check-json
+  - id: check-merge-conflict
   - id: check-symlinks
   - id: check-yaml
+  - id: detect-aws-credentials
   - id: detect-private-key
   - id: end-of-file-fixer
-    exclude: (min\.js$|dist|vendor)
+    exclude: (min\.(css|js)$|\.svg$|dist)
   - id: flake8
     exclude: migrations
+  - id: forbid-new-submodules
   - id: trailing-whitespace
-    exclude: (min\.js$|dist|vendor)
+    exclude: (min\.(css|js)$|\.svg$|dist)
+- repo: https://github.com/antonbabenko/pre-commit-terraform.git
+  sha: v1.2.0
+  hooks:
+  - id: terraform_fmt
+- repo: https://github.com/pricematch/mirrors-rubocop.git
+  sha: v0.29.1
+  hooks:
+  - id: rubocop
 - repo: local
   hooks:
   - id: build-frontend
     name: Frontend codegen
     entry: make build
     language: system
-    files: (src|dist|\.css$|\.html$|\.js$|\.svg$|\.png$)
-    exclude: (vendor|generated)
+    files: (src|dist|\.css$|\.js$|\.svg$|\.png$)
     pass_filenames: false
   - id: lint-js
     name: JavaScript config linters
@@ -34,3 +49,15 @@
     files: \.py$
     exclude: migrations
     pass_filenames: false
+  - id: ansible-lint
+    name: Ansible playbook and role linters
+    entry: make lint-ansible
+    language: system
+    files: \.(yaml|yml)$
+    pass_filenames: false
+# Pending support for vault password files
+#- repo: https://github.com/willthames/ansible-lint.git
+#  sha: v3.4.13
+#  hooks:
+#    - id: ansible-lint
+#      files: \.(yaml|yml)$

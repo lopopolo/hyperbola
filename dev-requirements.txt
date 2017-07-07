@@ -5,9 +5,15 @@
 #    pip-compile --output-file dev-requirements.txt dev-requirements.in
 #
 
+ansible-lint==3.4.13
+ansible==2.3.1.0          # via ansible-lint
+asn1crypto==0.22.0        # via cryptography
 astroid==1.5.3            # via pylint, pylint-plugin-utils
+bcrypt==3.1.3             # via paramiko
 bumpversion==0.5.3
+cffi==1.10.0              # via bcrypt, cryptography, pynacl
 click==6.7                # via pip-tools
+cryptography==1.9         # via paramiko
 django-appconf==1.0.2     # via django-imagekit
 django-debug-toolbar-template-timings==0.7
 django-debug-toolbar==1.8  # via django-debug-toolbar-template-timings
@@ -21,25 +27,34 @@ django==1.11.3            # via django-debug-toolbar, django-debug-toolbar-templ
 first==2.0.1              # via pip-tools
 flake8==3.3.0
 gunicorn==19.7.1
+idna==2.5                 # via cryptography
 isort==4.2.15             # via pylint
+jinja2==2.9.6             # via ansible
 lazy-object-proxy==1.3.1  # via astroid
 markdown==2.6.8
+markupsafe==1.0           # via jinja2
 mccabe==0.6.1             # via flake8, pylint
 mysqlclient==1.3.10
 olefile==0.44             # via pillow
+paramiko==2.2.1           # via ansible
 pep257==0.7.0
 pep8==1.7.0
 pilkit==2.0               # via django-imagekit
-pillow==4.2.0
+pillow==4.2.1
 pip-tools==1.9.0
+pyasn1==0.2.3             # via paramiko
 pycodestyle==2.3.1        # via flake8
+pycparser==2.18           # via cffi
+pycrypto==2.6.1           # via ansible
 pyflakes==1.5.0           # via flake8
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.6  # via pylint-django
 pylint==1.7.2             # via pylint-django, pylint-plugin-utils
+pynacl==1.1.2             # via paramiko
 pytz==2017.2              # via django
+pyyaml==3.12              # via ansible, ansible-lint
 redis==2.10.5             # via django-redis
-six==1.10.0               # via astroid, django-imagekit, pip-tools, pylint
+six==1.10.0               # via ansible-lint, astroid, bcrypt, cryptography, django-imagekit, pip-tools, pylint, pynacl
 sqlparse==0.2.3           # via django-debug-toolbar
 wrapt==1.10.10            # via astroid
 yapf==0.16.2

@@ -1,0 +1,74 @@
+#jinja2: lstrip_blocks: "True"
+upstream wiki_thin {
+    server unix:/var/run/hyperbola-wiki/hyperbola-wiki.0.sock;
+    server unix:/var/run/hyperbola-wiki/hyperbola-wiki.1.sock;
+    server unix:/var/run/hyperbola-wiki/hyperbola-wiki.2.sock;
+}
+
+server {
+    listen       [::]:80;
+    listen       80;
+    server_name  {{ item.domain }};
+
+    auth_basic            "Restricted";
+    auth_basic_user_file  /hyperbola/wiki.hyperbo.la/wiki-auth;
+
+    location / {
+        {% if item.ssl_enabled %}
+        if ($http_x_forwarded_proto != 'https') {
+            return 301 https://$host$request_uri;
+        }
+        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        {% endif %}
+
+        root /hyperbola/wiki.hyperbo.la/document-root/;
+        try_files  $uri @hyperbola_wiki;
+
+        include conf.d/nginx-base-config/location/*.conf;
+    }
+
+    location @hyperbola_wiki {
+        internal;
+        proxy_pass            http://wiki_thin$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+        proxy_set_header      X-Real-IP         $remote_addr;
+        proxy_set_header      X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header      X-Forwarded-Host  {{ item.domain }};
+        proxy_set_header      X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_set_header      X-Forwarded-User  $remote_user;
+        client_max_body_size  10m;
+    }
+
+    location /.well-known/ {
+        root /hyperbola/wiki.hyperbo.la/document-root/;
+        auth_basic off;
+    }
+
+    location = /healthz {
+        proxy_pass            http://wiki_thin$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+        auth_basic            off;
+    }
+
+    include conf.d/nginx-base-config/directive-only/*.conf;
+}
+
+# health check server
+server {
+    listen       [::]:8888;
+    listen       8888;
+    server_name  {{ item.domain }};
+
+    include conf.d/nginx-base-config/location/*.conf;
+
+    location = /healthz {
+        proxy_pass            http://wiki_thin$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+    }
+
+    include conf.d/nginx-base-config/directive-only/*.conf;
+}
+# vim: set ft=nginx:

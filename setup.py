@@ -115,5 +115,8 @@ setup(
             'pylint-django',
             'yapf',
         ],
+        'tools': [
+            'ansible-lint',
+        ],
     },
 )

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+exec >>/var/log/media-certs.log 2>&1
+
+echo "Begin renewal attempt at: $(date)"
+
+sg www-data "/hyperbola/tools/dehydrated/dehydrated --cron --config /hyperbola/tools/tls/www.hyperbolacdn.com/config"
+
+echo "Exit code from dehydrated: $?"
+
+umask 0037
+chmod -R g+rX "/hyperbola/tls/www.hyperbolacdn.com/certs"
+
+sleep 30
+
+systemctl reload nginx
