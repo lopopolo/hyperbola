@@ -63,6 +63,8 @@
   command: "rsync -av {{ item.path }}/ {{ deploy_helper.new_release_path }}"
   with_items:
     "{{ app_release.files }}"
+  tags:
+    - skip_ansible_lint
 - name: Remove nested release directory
   file:
     path: "{{ item.path }}"
@@ -84,17 +86,22 @@
     - pip-tools
     - wheel
     - setuptools
+  tags:
+    - skip_ansible_lint
 - name: Install app dependencies
   pip:
     state: present
     executable: "{{ deploy_helper.new_release_path }}/virtualenv/bin/pip"
     requirements: "{{ deploy_helper.new_release_path }}/requirements.txt"
-- set_fact:
+- name: Set artifact root
+  set_fact:
     app_artifact_root: "{{ deploy_helper.new_release_path }}"
 - name: Generate settings.SECRET_KEY
   command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'"
   register: app_django_secret_key
   no_log: True
+  tags:
+    - skip_ansible_lint
 - name: Install 12factor environment
   template:
     src: "{{ item }}.j2"
@@ -105,8 +112,12 @@
   - 01-configuration.env
 - name: compileall app
   command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -m compileall app"
+  tags:
+    - skip_ansible_lint
 - name: manage.py collectstatic
   command: "{{ deploy_helper.new_release_path }}/bin/artifact-exec python {{ deploy_helper.new_release_path }}/app/manage.py collectstatic --no-input"
+  tags:
+    - skip_ansible_lint
 - name: Install gunicorn config
   template:
     src: "gunicorn.py.j2"
@@ -115,6 +126,8 @@
 - name: get site-packages directory
   command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -c 'import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())'"
   register: app_python_site_packages_dir
+  tags:
+    - skip_ansible_lint
 - name: add hyperbola-app to pythonpath of virtualenv
   copy:
     content: "{{ deploy_helper.new_release_path }}/app"

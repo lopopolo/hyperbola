@@ -64,12 +64,11 @@ lint-pre-commit:
 yapf:
 	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
 
+ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata
 lint-ansible:
-	ansible-playbook -i "localhost," ansible/provision.yml --syntax-check
-	ansible-playbook -i "localhost," ansible/wiki.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
-	ansible-playbook -i "localhost," ansible/app.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
-	ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/provision.yml
-	ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/wiki.yml
+	ansible-playbook -i "localhost," --syntax-check --vault-password-file=.secrets/vault-password.txt ansible/*.yml
+	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/roles/hyperbola*
+	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/*.yml
 ## Virtualenv
 
 .PHONY: upgrade-py-deps
