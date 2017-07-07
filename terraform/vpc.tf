@@ -10,7 +10,7 @@ module "network" {
   vpc_cidr              = "${var.vpc_cidr}"
   azs                   = "${var.azs}"
   region                = "${var.region}"
-  key_name              = "${aws_key_pair.site_key.key_name}"
+  key_name              = "hyperbola-cas"
   bastion_instance_type = "${var.bastion_instance_type}"
 }
 

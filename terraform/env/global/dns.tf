@@ -8,25 +8,7 @@ variable "cloudflare_token" {
 
 provider "cloudflare" {
   email = "${var.cloudflare_email}"
-  token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../.secrets/cloudflare-api-key.txt")))}"
-}
-
-variable "ipv4_addresses" {
-  description = "IPv4 addresses of hyperbola machines"
-  type        = "map"
-
-  default = {
-    hyperbola3 = "69.164.208.10"
-  }
-}
-
-variable "ipv6_addresses" {
-  description = "IPv6 addresses of hyperbola machines"
-  type        = "map"
-
-  default = {
-    hyperbola3 = "2600:3c03::f03c:91ff:fe2c:b8c8"
-  }
+  token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../../../.secrets/cloudflare-api-key.txt")))}"
 }
 
 # Route 53 DNS
@@ -46,17 +28,17 @@ resource "aws_route53_zone" "hyperboladc-net-public" {
 }
 
 module "aws-dc" {
-  source = "./hyperbola/dc"
+  source = "../../hyperbola/dc"
   dc     = "aws"
 }
 
 module "linode-dc" {
-  source = "./hyperbola/dc"
+  source = "../../hyperbola/dc"
   dc     = "linode"
 }
 
 module "local-dc" {
-  source = "./hyperbola/dc"
+  source = "../../hyperbola/dc"
   dc     = "local"
 }
 

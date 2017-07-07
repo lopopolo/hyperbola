@@ -1,12 +1,5 @@
-variable "ipv4_addresses" {
-  description = "hyperbola inventory ipv4 addresses"
-  type        = "map"
-}
-
-variable "ipv6_addresses" {
-  description = "hyperbola inventory ipv6 addresses"
-  type        = "map"
-}
+variable "ipv4_address" {}
+variable "ipv6_address" {}
 
 variable "host" {
   description = "host the wiki runs on"
@@ -17,7 +10,7 @@ variable "host" {
 resource "cloudflare_record" "hyperbolacdn_com_A" {
   domain  = "hyperbolacdn.com"
   name    = "hyperbolacdn.com"
-  value   = "${lookup(var.ipv4_addresses, var.host)}"
+  value   = "${var.ipv4_address}"
   type    = "A"
   ttl     = 1
   proxied = true
@@ -26,7 +19,7 @@ resource "cloudflare_record" "hyperbolacdn_com_A" {
 resource "cloudflare_record" "www_hyperbolacdn_com_A" {
   domain  = "hyperbolacdn.com"
   name    = "www"
-  value   = "${lookup(var.ipv4_addresses, var.host)}"
+  value   = "${var.ipv4_address}"
   type    = "A"
   ttl     = 1
   proxied = true
@@ -35,7 +28,7 @@ resource "cloudflare_record" "www_hyperbolacdn_com_A" {
 resource "cloudflare_record" "hyperbolacdn_com_AAAA" {
   domain  = "hyperbolacdn.com"
   name    = "hyperbolacdn.com"
-  value   = "${lookup(var.ipv6_addresses, var.host)}"
+  value   = "${var.ipv6_address}"
   type    = "AAAA"
   ttl     = 1
   proxied = true
@@ -44,7 +37,7 @@ resource "cloudflare_record" "hyperbolacdn_com_AAAA" {
 resource "cloudflare_record" "www_hyperbolacdn_com_AAAA" {
   domain  = "hyperbolacdn.com"
   name    = "www"
-  value   = "${lookup(var.ipv6_addresses, var.host)}"
+  value   = "${var.ipv6_address}"
   type    = "AAAA"
   ttl     = 1
   proxied = true
