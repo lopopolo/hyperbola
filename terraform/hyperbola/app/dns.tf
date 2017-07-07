@@ -1,12 +1,5 @@
-variable "ipv4_addresses" {
-  description = "hyperbola inventory ipv4 addresses"
-  type        = "map"
-}
-
-variable "ipv6_addresses" {
-  description = "hyperbola inventory ipv6 addresses"
-  type        = "map"
-}
+variable "ipv4_address" {}
+variable "ipv6_address" {}
 
 variable "host" {
   description = "host the wiki runs on"
@@ -17,7 +10,7 @@ variable "host" {
 resource "cloudflare_record" "hyperbo_la_A" {
   domain  = "hyperbo.la"
   name    = "hyperbo.la"
-  value   = "${lookup(var.ipv4_addresses, var.host)}"
+  value   = "${var.ipv4_address}"
   type    = "A"
   ttl     = 1
   proxied = false
@@ -26,7 +19,7 @@ resource "cloudflare_record" "hyperbo_la_A" {
 resource "cloudflare_record" "www_hyperbo_la_A" {
   domain  = "hyperbo.la"
   name    = "www"
-  value   = "${lookup(var.ipv4_addresses, var.host)}"
+  value   = "${var.ipv4_address}"
   type    = "A"
   ttl     = 1
   proxied = false
@@ -35,7 +28,7 @@ resource "cloudflare_record" "www_hyperbo_la_A" {
 resource "cloudflare_record" "staging_hyperbo_la_A" {
   domain  = "hyperbo.la"
   name    = "staging"
-  value   = "${lookup(var.ipv4_addresses, var.host)}"
+  value   = "${var.ipv4_address}"
   type    = "A"
   ttl     = 1
   proxied = false
@@ -44,7 +37,7 @@ resource "cloudflare_record" "staging_hyperbo_la_A" {
 resource "cloudflare_record" "hyperbo_la_AAAA" {
   domain  = "hyperbo.la"
   name    = "hyperbo.la"
-  value   = "${lookup(var.ipv6_addresses, var.host)}"
+  value   = "${var.ipv6_address}"
   type    = "AAAA"
   ttl     = 1
   proxied = false
@@ -53,7 +46,7 @@ resource "cloudflare_record" "hyperbo_la_AAAA" {
 resource "cloudflare_record" "www_hyperbo_la_AAAA" {
   domain  = "hyperbo.la"
   name    = "www"
-  value   = "${lookup(var.ipv6_addresses, var.host)}"
+  value   = "${var.ipv6_address}"
   type    = "AAAA"
   ttl     = 1
   proxied = false
@@ -62,7 +55,7 @@ resource "cloudflare_record" "www_hyperbo_la_AAAA" {
 resource "cloudflare_record" "staging_hyperbo_la_AAAA" {
   domain  = "hyperbo.la"
   name    = "staging"
-  value   = "${lookup(var.ipv6_addresses, var.host)}"
+  value   = "${var.ipv6_address}"
   type    = "AAAA"
   ttl     = 1
   proxied = false
@@ -78,5 +71,5 @@ resource "aws_route53_record" "dc-linode" {
   name    = "${var.host}"
   type    = "A"
   ttl     = "300"
-  records = ["${lookup(var.ipv4_addresses, var.host)}"]
+  records = ["${var.ipv4_address}"]
 }

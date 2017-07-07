@@ -19,10 +19,22 @@ data "aws_route53_zone" "hyperbola" {
   private_zone = false
 }
 
-resource "aws_route53_record" "wiki" {
+resource "aws_route53_record" "wiki-A" {
   zone_id = "${data.aws_route53_zone.hyperbola.zone_id}"
   name    = "wiki"
   type    = "A"
+
+  alias {
+    name                   = "${aws_alb.alb.dns_name}"
+    zone_id                = "${aws_alb.alb.zone_id}"
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "wiki-AAAA" {
+  zone_id = "${data.aws_route53_zone.hyperbola.zone_id}"
+  name    = "wiki"
+  type    = "AAAA"
 
   alias {
     name                   = "${aws_alb.alb.dns_name}"
@@ -43,8 +55,4 @@ resource "aws_route53_record" "wiki-local" {
 
   ttl     = 300
   records = ["${var.local_ip}"]
-}
-
-output "private_fqdn" {
-  value = "${aws_route53_record.wiki.fqdn}"
 }

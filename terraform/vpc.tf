@@ -2,10 +2,6 @@ variable "vpc_cidr" {}
 
 variable "azs" {}
 
-variable "private_subnets" {}
-
-variable "public_subnets" {}
-
 variable "bastion_instance_type" {}
 
 module "network" {
@@ -14,9 +10,7 @@ module "network" {
   vpc_cidr              = "${var.vpc_cidr}"
   azs                   = "${var.azs}"
   region                = "${var.region}"
-  key_name              = "${aws_key_pair.site_key.key_name}"
-  private_subnets       = "${var.private_subnets}"
-  public_subnets        = "${var.public_subnets}"
+  key_name              = "hyperbola-cas"
   bastion_instance_type = "${var.bastion_instance_type}"
 }
 

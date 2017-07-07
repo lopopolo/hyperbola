@@ -5,17 +5,10 @@
 variable "name" {}
 
 variable "vpc_cidr" {}
-
 variable "azs" {}
-
 variable "region" {}
 
-variable "private_subnets" {}
-
-variable "public_subnets" {}
-
 variable "key_name" {}
-
 variable "bastion_instance_type" {}
 
 module "vpc" {
@@ -30,8 +23,9 @@ module "public_subnet" {
 
   name   = "${var.name}-public"
   vpc_id = "${module.vpc.vpc_id}"
-  cidrs  = "${var.public_subnets}"
   azs    = "${var.azs}"
+
+  egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
 
 module "private_subnet" {
@@ -39,10 +33,10 @@ module "private_subnet" {
 
   name   = "${var.name}-private"
   vpc_id = "${module.vpc.vpc_id}"
-  cidrs  = "${var.private_subnets}"
   azs    = "${var.azs}"
 
-  nat_gateway_ids = "${module.nat.nat_gateway_ids}"
+  nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
+  egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
 
 module "bastion" {
@@ -63,6 +57,13 @@ module "nat" {
   public_subnet_name = "${module.public_subnet.tag_value}"
 }
 
+module "s3" {
+  source = "./s3"
+
+  vpc_id              = "${module.vpc.vpc_id}"
+  private_subnet_name = "${module.private_subnet.tag_value}"
+}
+
 resource "aws_network_acl" "acl" {
   vpc_id     = "${module.vpc.vpc_id}"
   subnet_ids = ["${concat(split(",", module.public_subnet.subnet_ids), split(",", module.private_subnet.subnet_ids))}"]
@@ -76,6 +77,15 @@ resource "aws_network_acl" "acl" {
     to_port    = 0
   }
 
+  ingress {
+    protocol        = "-1"
+    rule_no         = 200
+    action          = "allow"
+    ipv6_cidr_block = "::/0"
+    from_port       = 0
+    to_port         = 0
+  }
+
   egress {
     protocol   = "-1"
     rule_no    = 100
@@ -83,6 +93,15 @@ resource "aws_network_acl" "acl" {
     cidr_block = "0.0.0.0/0"
     from_port  = 0
     to_port    = 0
+  }
+
+  egress {
+    protocol        = "-1"
+    rule_no         = 200
+    action          = "allow"
+    ipv6_cidr_block = "::/0"
+    from_port       = 0
+    to_port         = 0
   }
 
   tags {
