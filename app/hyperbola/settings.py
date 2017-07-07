@@ -9,6 +9,7 @@ from pathlib import Path
 class Env(Enum):
     production = 'production'
     staging = 'staging'
+    local = 'local'
     dev = 'dev'
 
     @classmethod
@@ -17,6 +18,8 @@ class Env(Enum):
         prop = environ.get(env, default)
         if prop is None:
             raise ImproperlyConfigured('Environment variable {0} not set'.format(env))
+        if prop == "" and default is not None:
+            return default
 
         if isinstance(prop, str) and prop.strip().lower() in ['1', 'true', 'yes', 'on']:
             return True
@@ -43,12 +46,11 @@ class EnvironmentConfig(object):
         self.environment = Env.make('ENVIRONMENT')
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
+        self.redis = self.RedisConfig()
         self.content = self.ContentConfig(self.environment, root_path)
-        self.email_backup = self.EmailBackupConfig()
 
-    @property
-    def redis_enabled(self):
-        return self.environment in [Env.production, Env.staging]
+    def __str__(self):
+        return self.environment.value
 
     @property
     def allowed_hosts(self):
@@ -56,6 +58,8 @@ class EnvironmentConfig(object):
             return ['hyperbo.la']
         elif self.environment is Env.staging:
             return ['staging.hyperbo.la']
+        elif self.environment is Env.local:
+            return ['app.local.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
@@ -65,7 +69,7 @@ class EnvironmentConfig(object):
     @property
     def additional_installed_apps(self):
         apps = []
-        if self.environment in [Env.production, Env.dev]:
+        if self.environment in [Env.production, Env.local, Env.dev]:
             apps.extend(['django.contrib.admin'])
         if self.environment is Env.dev:
             apps.extend(['debug_toolbar', 'template_timings_panel'])
@@ -75,20 +79,21 @@ class EnvironmentConfig(object):
     def additional_urls(self):
         from django.conf.urls import include, url
         urls = []
-        if self.environment in [Env.production, Env.dev]:
+        if self.environment in [Env.production, Env.local, Env.dev]:
             from django.contrib import admin
             # only enable admin urls in production and dev
             urls.extend([url(r'^ssb/', admin.site.urls)])
         if self.environment is Env.dev:
             import debug_toolbar
+            urls.extend([url(r'^__debug__/', include(debug_toolbar.urls))])
+        if self.environment in [Env.local, Env.dev]:
             from django.conf.urls.static import static
             urls.extend(static(MEDIA_URL, document_root=MEDIA_ROOT))
-            urls.extend([url(r'^__debug__/', include(debug_toolbar.urls))])
         return urls
 
     @property
     def debug(self):
-        if self.environment is Env.dev:
+        if self.environment in [Env.local, Env.dev]:
             return True
         if self.environment is Env.staging:
             return Env.source('DEBUG', False)
@@ -96,11 +101,26 @@ class EnvironmentConfig(object):
 
     class DBConfig(object):
         def __init__(self):
-            self.name = Env.source('DB_NAME')
-            self.user = Env.source('DB_USER')
-            self.password = Env.source('DB_PASSWORD')
             self.host = Env.source('DB_HOST')
             self.port = Env.source('DB_PORT')
+            self.user = Env.source('DB_USER')
+            self.password = Env.source('DB_PASSWORD')
+            self.name = Env.source('DB_NAME')
+
+    class RedisConfig(object):
+        def __init__(self):
+            self.host = Env.source('REDIS_HOST')
+            self.port = Env.source('REDIS_PORT')
+            self.password = Env.source('REDIS_PASSWORD')
+            self.name = Env.source('REDIS_NAME', 0)
+
+        def connection_string(self, name=None):
+            if name is None:
+                name = self.name
+            if self.password:
+                return'redis://:{}@{}:{}/{}'.format(self.password, self.host, self.port, name),
+            else:
+                return'redis://{}:{}/{}'.format(self.host, self.port, name),
 
     class ContentConfig(object):
         def __init__(self, environment, root_path):
@@ -111,12 +131,8 @@ class EnvironmentConfig(object):
             if environment in [Env.production, Env.staging]:
                 self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
             else:
-                self.media_url = '/media/'
-
-    class EmailBackupConfig(object):
-        def __init__(self):
-            self.username = Env.source('BACKUP_EMAIL_LOGIN_USERNAME')
-            self.password = Env.source('BACKUP_EMAIL_LOGIN_PASSWORD')
+                self.media_bucket_name = 'local.hyperbolausercontent.net'
+                self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
 PROJECT_PATH = Path(__file__).resolve().parent
@@ -151,27 +167,25 @@ DATABASES = {
     }
 }
 
-if ENVIRONMENT.redis_enabled:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/1',
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
-        },
-        'imagekit': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/2',
-            'TIMEOUT': None,
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': ENVIRONMENT.redis.connection_string(0),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
+    'sessions': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': ENVIRONMENT.redis.connection_string(1),
+        'OPTIONS': {
+            'IGNORE_EXCEPTIONS': True,
         }
     }
-    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-    SESSION_CACHE_ALIAS = 'default'
-    IMAGEKIT_CACHE_BACKEND = 'imagekit'
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'sessions'
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -187,6 +201,12 @@ USE_L10N = False
 USE_TZ = True
 
 # Media and Static Files
+
+DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
+
+AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
+AWS_S3_BUCKET_AUTH = False
+AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
 
 MEDIA_ROOT = str(ENVIRONMENT.content.media_root)
 
@@ -211,9 +231,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_mysql',
-    'imagekit',
+    'django_s3_storage',
     'localflavor',
     'missing',
+    'stdimage',
     'hyperbola.contact',
     'hyperbola.core',
     'hyperbola.frontpage',
@@ -258,10 +279,6 @@ ROOT_URLCONF = 'hyperbola.urls'
 
 WSGI_APPLICATION = 'hyperbola.wsgi.application'
 
-# Thumbnailing
-
-IMAGEKIT_CACHEFILE_DIR = 'cache/g'
-IMAGEKIT_CACHEFILE_NAMER = 'hyperbola.core.hash_with_extension'
 
 # Sendfile
 # https://github.com/johnsensible/django-sendfile#nginx-backend
@@ -278,10 +295,6 @@ SESSION_COOKIE_SECURE = ENVIRONMENT.is_secure
 CSRF_COOKIE_SECURE = ENVIRONMENT.is_secure
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
-
-# backups
-BACKUP_EMAIL_LOGIN_USERNAME = ENVIRONMENT.email_backup.username
-BACKUP_EMAIL_LOGIN_PASSWORD = ENVIRONMENT.email_backup.password
 
 # logging
 LOGGING = {
@@ -332,9 +345,10 @@ if ENVIRONMENT.environment is Env.dev:
             'django.contrib.messages',
             'django.contrib.staticfiles',
             'django_mysql',
-            'imagekit',
+            'django_s3_storage',
             'localflavor',
             'missing',
+            'stdimage',
             'hyperbola.contact',
             'hyperbola.core',
             'hyperbola.frontpage',

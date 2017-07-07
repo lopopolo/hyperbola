@@ -38,4 +38,4 @@ class AtomLatestEntriesFeed(LatestEntriesFeed):
 
     @staticmethod
     def feed_url():
-        return reverse("lifestream-atom")
+        return reverse("lifestream:atom")

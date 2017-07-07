@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load hyperbola_core_tags imagekit url_tags %}
+{% load hyperbola_core_tags url_tags %}
 
 {% block active_app %} contact {% endblock active_app %}
 {% block title %} {{ block.super }} :: Contact {% endblock title %}
@@ -43,16 +43,9 @@
   {% if about %}
   <div class="col-md-3">
     <h2>About</h2>
-    {% thumbnail "hyperbola:thumbnail" "240x240" about.photo retina_scale=1 as prof_1x %}
-    {% thumbnail "hyperbola:thumbnail" "240x240" about.photo retina_scale=2 as prof_2x %}
-    {% thumbnail "hyperbola:thumbnail" "240x240" about.photo retina_scale=3 as prof_3x %}
     <div>
       <a href="{{ about.photo.url|escape }}">
-        {# access width and height before url: https://github.com/matthewwithanm/django-imagekit/issues/350 #}
-        <img alt="Ryan Lopopolo" width="{{ prof_1x.width|escape }}" height="{{ prof_1x.height|escape }}" src="{{ prof_1x.url|escape }}" data-rjs="3" class="center-block img-thumbnail img-thumbnail-hyperbola">
-        <!-- 1x: {{ prof_1x.url }} -->
-        <!-- 2x: {{ prof_2x.url }} -->
-        <!-- 3x: {{ prof_3x.url }} -->
+        <img alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" data-rjs="{{ about.photo.x2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola-contact">
       </a>
     </div>
     <p>{{ about.blurb|escape }}</p>

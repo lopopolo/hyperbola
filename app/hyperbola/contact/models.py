@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from localflavor.us.models import PhoneNumberField
+from stdimage.models import StdImageField
 
 from ..core import MakeUploadTo
 
@@ -103,7 +104,11 @@ def persist_latest_resume_at_well_known_location(sender, instance, created, **_k
 
 
 class AboutMe(models.Model):
-    photo = models.ImageField(upload_to=MakeUploadTo("about"))
+    photo = StdImageField(upload_to=MakeUploadTo("about"), variations={
+        'x1': (240, 240),
+        'x2': (480, 480),
+        'x3': (720, 720),
+    })
     blurb = models.TextField()
 
     def __str__(self):
