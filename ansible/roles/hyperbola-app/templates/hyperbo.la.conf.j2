@@ -1,0 +1,83 @@
+#jinja2: lstrip_blocks: "True"
+upstream app_gunicorn {
+    server unix:/var/run/hyperbola-{{ hyperbola_environment }}/hyperbola.sock;
+}
+
+server {
+    listen       [::]:80;
+    listen       80;
+    server_name  www.{{ item.domain }};
+
+    location /.well-known/ {
+        root /hyperbola/app/current/document-root/;
+        auth_basic off;
+    }
+
+    location / {
+        return 301 https://{{ item.domain }}$request_uri;
+    }
+}
+
+server {
+    listen       [::]:80;
+    listen       80;
+    server_name  {{ item.domain }};
+
+    location / {
+        {% if item.ssl_enabled %}
+        if ($http_x_forwarded_proto != 'https') {
+            return 301 https://$host$request_uri;
+        }
+        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        {% endif %}
+
+        root /hyperbola/app/current/document-root/;
+        try_files  $uri @hyperbola_app;
+
+        include conf.d/nginx-base-config/location/*.conf;
+    }
+
+    location @hyperbola_app {
+        internal;
+        proxy_pass            http://app_gunicorn$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+        proxy_set_header      X-Real-IP         $remote_addr;
+        proxy_set_header      X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header      X-Forwarded-Host  {{ item.domain }};
+        proxy_set_header      X-Forwarded-Proto $http_x_forwarded_proto;
+        client_max_body_size  10m;
+    }
+
+    location /.well-known/ {
+        root /hyperbola/app/current/document-root/;
+        auth_basic off;
+    }
+
+    location = /healthz {
+        proxy_pass            http://app_gunicorn$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+        auth_basic            off;
+    }
+
+    include conf.d/nginx-base-config/directive-only/*.conf;
+}
+
+# health check server
+server {
+    listen       [::]:8888;
+    listen       8888;
+    server_name  {{ item.domain }};
+
+    include conf.d/nginx-base-config/location/*.conf;
+
+    location = /healthz {
+        proxy_pass            http://app_gunicorn$request_uri;
+        proxy_http_version    1.1;
+        proxy_redirect        off;
+    }
+
+    include conf.d/nginx-base-config/directive-only/*.conf;
+}
+# vim: set ft=nginx:

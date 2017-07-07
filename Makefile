@@ -5,6 +5,9 @@ all: lint build
 
 ## Development environment
 
+.PHONY: dev-bootstrap
+dev-bootstrap: hooks yarn-dist-update virtualenv
+
 .PHONY: hooks
 hooks:
 	pre-commit install
@@ -14,6 +17,10 @@ yarn-dist-update:
 	rm -rf ./bin/dist
 	wget -O- https://yarnpkg.com/latest.tar.gz | tar zvx -C ./bin
 	echo '*' > ./bin/dist/.gitignore
+
+.PHONY: install_roles
+install_roles:
+	ansible-galaxy install -r ansible/roles/requirements.yml -p ansible/roles/ --force
 
 ## Build
 
@@ -28,7 +35,7 @@ release:
 ## Linters
 
 .PHONY: lint
-lint: lint-py lint-js
+lint: lint-py lint-js lint-ansible
 
 .PHONY: lint-py
 lint-py: flake8 isort pep257 pylint
@@ -58,6 +65,12 @@ yapf:
 lint-js: $(wildcard *.js)
 	eslint $^
 
+lint-ansible:
+	ansible-playbook -i "localhost," ansible/provision.yml --syntax-check
+	ansible-playbook -i "localhost," ansible/wiki.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
+	ansible-playbook -i "localhost," ansible/app.yml --syntax-check --vault-password-file=.secrets/vault-password.txt
+	ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/provision.yml
+	ansible-lint --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata ansible/wiki.yml
 ## Virtualenv
 
 .PHONY: upgrade-py-deps
@@ -73,12 +86,12 @@ dev-requirements.txt: dev-requirements.in setup.py
 	pip-compile --output-file "$@" "$<"
 	sed -i '' "s|-e file://$$(pwd)||" "$@"
 
-virtualenv: virtualenv/bin/activate
+virtualenv: virtualenv/bin/activate dev-requirements.txt requirements.txt
+	pip-sync *requirements.txt
 
-virtualenv/bin/activate: dev-requirements.txt requirements.txt
+virtualenv/bin/activate:
 	python -m venv virtualenv
 	pip install -U virtualenv pip pip-tools wheel setuptools
-	pip-sync $^
 
 ## clean
 
@@ -92,3 +105,31 @@ clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -rf {} +
+
+## Tunnel
+
+SSH_APP := vagrant ssh app-test-1
+
+.PHONY: tunnel
+tunnel:
+ifneq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
+	@echo "Tunnel already established"
+else
+	$(SSH_APP) -- -M -S .vagrant/control-socket -fnNT -R 3306:localhost:3306
+endif
+
+.PHONY: tunnel-status
+tunnel-status:
+ifeq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
+	@echo "No control socket"
+else
+	$(SSH_APP) -- -S .vagrant/control-socket -O check
+endif
+
+.PHONY: tunnel-kill
+tunnel-kill:
+ifeq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
+	@echo "No control socket"
+else
+	$(SSH_APP) -- -S .vagrant/control-socket -O exit
+endif
