@@ -1,2 +1,0 @@
-hyperbo.la www.hyperbo.la
-staging.hyperbo.la
