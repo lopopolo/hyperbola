@@ -1,4 +1,4 @@
-SHELL := ./bin/artifact-exec /bin/bash
+SHELL := ./bin/artifact-exec bash
 
 .PHONY: all
 all: lint build
