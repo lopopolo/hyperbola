@@ -7,11 +7,12 @@
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/xenial64'
 
+  provisioned = true
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
   config.vm.define 'app-test-1' do |app|
-    app.vm.synced_folder '~/.aws', '/home/hyperbola-app/.aws', owner: 'hyperbola-app'
+    app.vm.synced_folder '~/.aws', '/home/hyperbola-app/.aws', disabled: !provisioned, owner: 'hyperbola-app'
 
     app.vm.network 'private_network', ip: '192.168.10.20'
 
