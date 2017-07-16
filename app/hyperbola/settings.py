@@ -330,6 +330,7 @@ if ENVIRONMENT.environment is Env.dev:
         ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
+    HYPERBOLA_S3_BACKUP_BUCKET = 'hyperbola-app-backup-local'
     if False:  # pylint: disable=using-constant-test
         # workaround for intellij dying on dynamically-created INSTALLED_APPS
         # https://stackoverflow.com/a/42672633

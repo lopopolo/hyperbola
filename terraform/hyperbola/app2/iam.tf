@@ -39,8 +39,8 @@ resource "aws_iam_role_policy" "app" {
     "Action": "s3:*",
     "Resource": ["${aws_s3_bucket.media.arn}",
                  "${aws_s3_bucket.media.arn}/*",
-                 "${data.terraform_remote_state.global.backup_bucket_arn}",
-                 "${data.terraform_remote_state.global.backup_bucket_arn}/*"]
+                 "${aws_s3_bucket.backup.arn}",
+                 "${aws_s3_bucket.backup.arn}/*"]
     }
   ]
 }
