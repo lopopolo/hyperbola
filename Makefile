@@ -84,11 +84,11 @@ dev-requirements.txt: dev-requirements.in setup.py
 	pip-compile --output-file "$@" "$<"
 	sed -i '' "s|-e file://$$(pwd)||" "$@"
 
-virtualenv: virtualenv/bin/activate dev-requirements.txt requirements.txt
+virtualenv: venv/bin/activate dev-requirements.txt requirements.txt
 	pip-sync *requirements.txt
 
-virtualenv/bin/activate:
-	python -m venv virtualenv
+venv/bin/activate:
+	python -m venv venv
 	pip install -U virtualenv pip pip-tools wheel setuptools
 
 ## clean

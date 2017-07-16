@@ -23,11 +23,8 @@ pyenv install "$(cat .python-version)"
 
 ```bash
 brew install node@6
-cd bin
-wget https://yarnpkg.com/latest.tar.gz
-tar xzf latest.tar.gz
-echo '*' > dist/.gitignore
-rm latest.tar.gz
+echo 'export PATH="./bin/dist/bin:/usr/local/opt/node@6/bin:$PATH"' >> env/00-path.env
+make yarn-dist-update
 ```
 
 
@@ -35,8 +32,6 @@ rm latest.tar.gz
 
 ```bash
 git clone git@github.com:lopopolo/hyperbola.git
-# make local media directory
-mkdir media/dev
 make virtualenv
 bin/artifact-exec python -Wall app/manage.py migrate
 ```

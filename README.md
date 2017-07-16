@@ -8,7 +8,7 @@ found in [hyperbola-tools](https://github.com/lopopolo/hyperbola-tools).
 
 ## Dependencies
 
-* python3 >= 3.5
+* python3 ~= 3.5.3
 * mysql
 * nginx
 * nodejs >= 6.9 LTS

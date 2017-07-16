@@ -72,13 +72,13 @@
   with_items:
     "{{ app_release.files }}"
 - name: Create app virtualenv
-  command: "python3 -m venv {{ deploy_helper.new_release_path }}/virtualenv"
+  command: "python3 -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
-    creates: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python"
+    creates: "{{ deploy_helper.new_release_path }}/venv/bin/python"
 - name: Update pip infra
   pip:
     state: latest
-    executable: "{{ deploy_helper.new_release_path }}/virtualenv/bin/pip"
+    executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
     name: "{{ item }}"
   with_items:
     - virtualenv
@@ -91,13 +91,13 @@
 - name: Install app dependencies
   pip:
     state: present
-    executable: "{{ deploy_helper.new_release_path }}/virtualenv/bin/pip"
+    executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
     requirements: "{{ deploy_helper.new_release_path }}/requirements.txt"
 - name: Set artifact root
   set_fact:
     app_artifact_root: "{{ deploy_helper.new_release_path }}"
 - name: Generate settings.SECRET_KEY
-  command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'"
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'"
   register: app_django_secret_key
   no_log: True
   tags:
@@ -111,7 +111,7 @@
   - 00-path.env
   - 01-configuration.env
 - name: compileall app
-  command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -m compileall app"
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python -m compileall app"
   tags:
     - skip_ansible_lint
 - name: manage.py collectstatic
@@ -124,7 +124,7 @@
     dest: "{{ deploy_helper.new_release_path }}/gunicorn.py"
     mode: a=r
 - name: get site-packages directory
-  command: "{{ deploy_helper.new_release_path }}/virtualenv/bin/python -c 'import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())'"
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python -c 'import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())'"
   register: app_python_site_packages_dir
   tags:
     - skip_ansible_lint
