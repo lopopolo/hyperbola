@@ -23,9 +23,8 @@ django-missing==0.2.1
 django-mysql==2.1.0
 django-redis==4.8.0
 django-s3-storage==0.11.3
-django-sendfile==0.3.11
 django-stdimage==2.4.1
-django==1.11.3            # via django-debug-toolbar, django-debug-toolbar-template-timings, django-localflavor, django-missing, django-mysql, django-s3-storage, django-sendfile
+django==1.11.3            # via django-debug-toolbar, django-debug-toolbar-template-timings, django-localflavor, django-missing, django-mysql, django-s3-storage
 docutils==0.13.1          # via botocore
 first==2.0.1              # via pip-tools
 flake8==3.3.0

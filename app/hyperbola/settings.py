@@ -62,6 +62,10 @@ class EnvironmentConfig(object):
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
+    def is_alb(self):
+        return False
+
+    @property
     def is_secure(self):
         return self.environment in [Env.production, Env.staging]
 
@@ -277,13 +281,6 @@ ROOT_URLCONF = 'hyperbola.urls'
 
 WSGI_APPLICATION = 'hyperbola.wsgi.application'
 
-
-# Sendfile
-# https://github.com/johnsensible/django-sendfile#nginx-backend
-SENDFILE_BACKEND = 'sendfile.backends.nginx'
-SENDFILE_ROOT = MEDIA_ROOT
-SENDFILE_URL = '/media'
-
 # Security
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -327,7 +324,6 @@ LOGGING = {
 
 # Environment-specific configuration
 if ENVIRONMENT.environment is Env.dev:
-    SENDFILE_BACKEND = 'sendfile.backends.development'
     # debug toolbar
     from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
     DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + \

@@ -1,8 +1,8 @@
 import itertools
 
+from django.conf import settings
 from django.http import Http404
-from django.shortcuts import render
-from sendfile import sendfile
+from django.shortcuts import redirect, render
 
 from .models import (
     AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
@@ -36,8 +36,11 @@ def index(request):
 
 
 def resume(request):
+    del request
     try:
         newest = Resume.objects.latest("date")
-        return sendfile(request, newest.resume.path)
     except Resume.DoesNotExist:
         raise Http404
+    if settings.ENVIRONMENT.is_alb:
+        raise NotImplementedError("ALB should handle serving resume from S3")
+    return redirect(newest.resume.url)

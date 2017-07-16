@@ -89,7 +89,6 @@ setup(
         'django-mysql',
         'django-redis',
         'django-s3-storage',
-        'django-sendfile',
         'django-stdimage',
         'gunicorn',
         'markdown',
