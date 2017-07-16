@@ -12,17 +12,21 @@ variable "azs" {}
 variable "nat_gateway_ids" {}
 variable "egress_gateway_id" {}
 
+variable "subnet_tier" {
+  default = 2
+}
+
 data "aws_vpc" "current" {
   id = "${var.vpc_id}"
 }
 
 resource "aws_subnet" "private" {
   vpc_id            = "${data.aws_vpc.current.id}"
-  cidr_block        = "${cidrsubnet(data.aws_vpc.current.cidr_block, 8 ,1 + count.index)}"
+  cidr_block        = "${cidrsubnet(cidrsubnet(data.aws_vpc.current.cidr_block, 3, var.subnet_tier), 5, count.index)}"
   availability_zone = "${element(split(",", var.azs), count.index)}"
   count             = "${length(split(",", var.azs))}"
 
-  ipv6_cidr_block                 = "${cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 8 ,count.index)}"
+  ipv6_cidr_block                 = "${cidrsubnet(cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 3, var.subnet_tier), 5, count.index)}"
   assign_ipv6_address_on_creation = true
 
   tags {

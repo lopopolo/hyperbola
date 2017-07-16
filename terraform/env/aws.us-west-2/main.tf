@@ -1,3 +1,5 @@
+variable "name" {}
+
 terraform {
   required_version = "> 0.9.7"
 
@@ -15,6 +17,7 @@ data "aws_route53_zone" "aws-dc" {
   private_zone = false
 }
 
+/*
 module "hyperbola-app-aws" {
   source              = "../../hyperbola/app2"
   env                 = "production"
@@ -22,3 +25,5 @@ module "hyperbola-app-aws" {
   redis               = "app.local.hyperboladc.net"
   hyperboladc_zone_id = "${data.aws_route53_zone.aws-dc.zone_id}"
 }
+*/
+

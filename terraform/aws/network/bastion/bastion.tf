@@ -3,9 +3,7 @@
 # host
 #--------------------------------------------------------------
 
-variable "name" {
-  default = "bastion"
-}
+variable "name" {}
 
 variable "vpc_id" {}
 variable "public_subnet_name" {}
@@ -24,10 +22,6 @@ data "aws_subnet_ids" "public" {
   tags {
     Network = "${var.public_subnet_name}"
   }
-}
-
-data "external" "bastion-ingress" {
-  program = ["bash", "external/my-ip.sh"]
 }
 
 resource "aws_security_group" "bastion" {
@@ -54,7 +48,7 @@ resource "aws_security_group" "bastion" {
     protocol    = "tcp"
     from_port   = 22
     to_port     = 22
-    cidr_blocks = ["${data.external.bastion-ingress.result.cidr}"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -86,7 +80,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_iam_instance_profile" "bastion" {
-  name = "bastion_profile"
+  name = "${var.name}-profile"
   role = "${aws_iam_role.bastion.name}"
 
   lifecycle {
@@ -95,7 +89,7 @@ resource "aws_iam_instance_profile" "bastion" {
 }
 
 resource "aws_iam_role" "bastion" {
-  name = "bastion"
+  name = "${var.name}-role"
 
   assume_role_policy = <<EOF
 {
@@ -117,7 +111,7 @@ EOF
 # https://github.com/skymill/aws-ec2-assign-elastic-ip#required-iam-permissions
 # as well as describe autoscaling for motd script
 resource "aws_iam_role_policy" "bastion" {
-  name = "bastion"
+  name = "${var.name}-policy"
   role = "${aws_iam_role.bastion.id}"
 
   policy = <<EOF
@@ -153,7 +147,7 @@ data "aws_route53_zone" "aws-dc" {
 
 resource "aws_route53_record" "aws-dc" {
   zone_id = "${data.aws_route53_zone.aws-dc.zone_id}"
-  name    = "bastion"
+  name    = "${var.name}"
   type    = "A"
   ttl     = "300"
   records = ["${aws_eip.bastion.public_ip}"]
@@ -219,5 +213,5 @@ output "security_group_id" {
 }
 
 output "ingress_cidr" {
-  value = "${data.external.bastion-ingress.result.cidr}"
+  value = "0.0.0.0/0"
 }
