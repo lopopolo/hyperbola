@@ -1,6 +1,8 @@
 const path = require("path");
+const glob = require("glob-all");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const PurifyCSSPlugin = require("purifycss-webpack");
 
 module.exports = {
     entry: {
@@ -18,7 +20,15 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production")
         }),
-        new ExtractTextPlugin({ filename: "[name].bundle.css" }),
+        new ExtractTextPlugin("[name].bundle.css"),
+        new PurifyCSSPlugin({
+            // Give paths to parse for rules. These should be absolute!
+            paths: glob.sync([
+                path.join(__dirname, "app/hyperbola/templates/*.html"),
+                path.join(__dirname, "app/hyperbola/*/templates/*.html"),
+            ]),
+            minimize: true,
+        }),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -40,7 +50,7 @@ module.exports = {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    use: "css-loader!postcss-loader",
+                    use: "css-loader",
                 }),
             },
             {
