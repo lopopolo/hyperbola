@@ -1,7 +1,13 @@
 variable "env" {}
 variable "bucket" {}
 
+provider "aws" {
+  region = "us-east-1"
+  alias  = "cloudfront-acm-region"
+}
+
 data "aws_acm_certificate" "cdn" {
+  provider = "aws.cloudfront-acm-region"
   domain   = "*.hyperbolausercontent.net"
   statuses = ["ISSUED"]
 }

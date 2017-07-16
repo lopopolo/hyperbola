@@ -1,0 +1,12 @@
+---
+# MySQL
+db_host: ~
+db_port: 3306
+db_name: hyperbola
+db_user: ~
+db_password: ~
+# Redis
+redis_host: redis.aws.hyperboladc.net
+redis_port: 6379
+redis_name: ""
+redis_password: ""

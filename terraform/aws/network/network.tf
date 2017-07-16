@@ -118,6 +118,10 @@ output "vpc_cidr" {
   value = "${module.vpc.vpc_cidr}"
 }
 
+output "egress_gateway_id" {
+  value = "${module.vpc.egress_gateway_id}"
+}
+
 # Subnets
 output "public_subnet_name" {
   value = "${module.public_subnet.tag_value}"

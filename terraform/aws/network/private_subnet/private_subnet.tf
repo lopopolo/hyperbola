@@ -9,6 +9,11 @@ variable "name" {
 
 variable "vpc_id" {}
 variable "azs" {}
+
+variable "nat_enabled" {
+  default = true
+}
+
 variable "nat_gateway_ids" {}
 variable "egress_gateway_id" {}
 
@@ -41,7 +46,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_route_table" "private" {
   vpc_id = "${data.aws_vpc.current.id}"
-  count  = "${length(split(",", var.azs))}"
+  count  = "${var.nat_enabled ? length(split(",", var.azs)) : 0}"
 
   route {
     cidr_block     = "0.0.0.0/0"
@@ -63,7 +68,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  count          = "${length(split(",", var.azs))}"
+  count          = "${var.nat_enabled ? length(split(",", var.azs)) : 0}"
   subnet_id      = "${element(aws_subnet.private.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
 

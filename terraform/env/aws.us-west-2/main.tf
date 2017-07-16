@@ -17,13 +17,19 @@ data "aws_route53_zone" "aws-dc" {
   private_zone = false
 }
 
-/*
 module "hyperbola-app-aws" {
-  source              = "../../hyperbola/app2"
+  source = "../../hyperbola/app2/aws"
+  name   = "${var.name}"
+  env    = "production"
+
+  vpc_id = "${module.network.vpc_id}"
+  azs    = "${var.azs}"
+}
+
+module "hyperbola-app-base" {
+  source              = "../../hyperbola/app2/base"
   env                 = "production"
   bucket              = "www"
-  redis               = "app.local.hyperboladc.net"
+  redis               = "${module.hyperbola-app-aws.redis_domain}"
   hyperboladc_zone_id = "${data.aws_route53_zone.aws-dc.zone_id}"
 }
-*/
-
