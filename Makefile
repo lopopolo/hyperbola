@@ -84,6 +84,7 @@ dev-requirements.txt: dev-requirements.in setup.py
 	pip-compile --output-file "$@" "$<"
 	sed -i '' "s|-e file://$$(pwd)||" "$@"
 
+.PHONY: virtualenv
 virtualenv: venv/bin/activate dev-requirements.txt requirements.txt
 	pip-sync *requirements.txt
 

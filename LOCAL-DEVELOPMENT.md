@@ -42,7 +42,7 @@ To enable `artifact-exec` in dev, set `$PATH` in `env/00-path.env`:
 
 ```bash
 export PATH="./bin/dist/bin:/usr/local/opt/node@6/bin:$PATH"
-export PATH="./virtualenv/bin:$(npm bin):$PATH"
+export PATH="./venv/bin:$(npm bin):$PATH"
 ```
 
 Set the following parameters in `env/01-dev.env`:
