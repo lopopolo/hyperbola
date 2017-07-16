@@ -2,8 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const extractCSS = new ExtractTextPlugin({ filename: "[name].bundle.css" });
-
 module.exports = {
     entry: {
         main: ["main", "hyperbola.browser"],
@@ -20,7 +18,8 @@ module.exports = {
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production")
         }),
-        extractCSS,
+        new ExtractTextPlugin({ filename: "[name].bundle.css" }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false,
@@ -42,13 +41,6 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: "css-loader!postcss-loader",
-                }),
-            },
-            {
-                test: /\.scss$/,
-                use: extractCSS.extract({
-                    fallback: "style-loader",
-                    use: "css-loader!postcss-loader!sass-loader",
                 }),
             },
             {
