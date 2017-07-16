@@ -15,13 +15,13 @@
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
-        exclude: (min\.(css|js)$|\.svg$|dist|ansible\/roles\/(geerlingguy|hswong3i))
+        exclude: (min\.(css|js)$|\.svg$|dist|ansible\/roles\/(geerlingguy|hswong3i)|.bumpversion.cfg)
     -   id: flake8
         exclude: migrations
         language_version: python3
     -   id: forbid-new-submodules
     -   id: trailing-whitespace
-        exclude: (min\.(css|js)$|\.svg$|dist|ansible\/roles\/(geerlingguy|hswong3i))
+        exclude: (min\.(css|js)$|\.svg$|dist|ansible\/roles\/(geerlingguy|hswong3i)|.bumpversion.cfg)
 -   repo: https://github.com/FalconSocial/pre-commit-python-sorter.git
     sha: b57843b0b874df1d16eb0bef00b868792cb245c2
     hooks:
