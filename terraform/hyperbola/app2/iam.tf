@@ -1,5 +1,3 @@
-variable "backup_s3_arn" {}
-
 resource "aws_iam_instance_profile" "app" {
   name = "hyperbola-app-${var.env}"
   role = "${aws_iam_role.app.name}"
@@ -41,8 +39,8 @@ resource "aws_iam_role_policy" "app" {
     "Action": "s3:*",
     "Resource": ["${aws_s3_bucket.media.arn}",
                  "${aws_s3_bucket.media.arn}/*",
-                 "${var.backup_s3_arn}",
-                 "${var.backup_s3_arn}/*"]
+                 "${data.terraform_remote_state.global.backup_bucket_arn}",
+                 "${data.terraform_remote_state.global.backup_bucket_arn}/*"]
     }
   ]
 }

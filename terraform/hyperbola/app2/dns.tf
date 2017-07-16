@@ -1,3 +1,4 @@
+variable "hyperboladc_zone_id" {}
 variable "redis" {}
 
 data "aws_route53_zone" "hyperbolausercontent" {
@@ -29,13 +30,8 @@ resource "aws_route53_record" "cdn-AAAA" {
   }
 }
 
-data "aws_route53_zone" "hyperboladc" {
-  name         = "${var.env}.hyperboladc.net."
-  private_zone = false
-}
-
 resource "aws_route53_record" "redis-CNAME" {
-  zone_id = "${data.aws_route53_zone.hyperboladc.zone_id}"
+  zone_id = "${var.hyperboladc_zone_id}"
   name    = "redis"
   type    = "CNAME"
   ttl     = 300

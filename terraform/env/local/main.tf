@@ -24,5 +24,9 @@ resource "aws_route53_record" "app-local-dc" {
 }
 
 module "hyperbola-app-aws" {
-  source = "../../hyperbola/app2"
+  source              = "../../hyperbola/app2"
+  env                 = "local"
+  bucket              = "local"
+  redis               = "app.local.hyperboladc.net"
+  hyperboladc_zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
 }
