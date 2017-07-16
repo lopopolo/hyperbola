@@ -1,0 +1,7 @@
+---
+# test file for hswong3i.tzdata
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - ansible-role-tzdata

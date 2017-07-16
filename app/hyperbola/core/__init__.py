@@ -13,8 +13,7 @@ def make_escape_function(autoescape=True):
     from django.utils.html import conditional_escape
     if autoescape:
         return conditional_escape
-    else:
-        return lambda x: x
+    return lambda x: x
 
 
 @deconstructible

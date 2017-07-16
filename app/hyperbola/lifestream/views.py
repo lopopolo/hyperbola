@@ -103,7 +103,7 @@ def archive(request, year, month, page=1):
 def hashtag(request, tag, page=1):
     # WARNING: MySQL does not recognize standard regexp character class
     # shorthand: http://dev.mysql.com/doc/refman/5.6/en/regexp.html
-    search = r"#{0}([^[:alnum:]]|$)".format(tag)
+    search = r"#{}([^[:alnum:]]|$)".format(tag)
 
     posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(blurb__iregex=search)
     if not posts.exists():

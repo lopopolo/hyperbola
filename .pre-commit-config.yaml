@@ -1,43 +1,82 @@
-- repo: https://github.com/pre-commit/pre-commit-hooks.git
-  sha: v0.9.1
-  hooks:
-  - id: check-added-large-files
-  - id: check-ast
-  - id: check-byte-order-marker
-  - id: check-case-conflict
-  - id: check-docstring-first
-  - id: check-executables-have-shebangs
-  - id: check-json
-  - id: check-merge-conflict
-  - id: check-symlinks
-  - id: check-yaml
-  - id: detect-aws-credentials
-  - id: detect-private-key
-  - id: end-of-file-fixer
-    exclude: (min\.(css|js)$|\.svg$|dist)
-  - id: flake8
-    exclude: migrations
-  - id: forbid-new-submodules
-  - id: trailing-whitespace
-    exclude: (min\.(css|js)$|\.svg$|dist)
-- repo: local
-  hooks:
-  - id: build-frontend
-    name: Frontend codegen
-    entry: make build
-    language: system
-    files: (src|dist|\.css$|\.js$|\.svg$|\.png$)
-    pass_filenames: false
-  - id: lint-js
-    name: JavaScript config linters
-    entry: make lint-js
-    language: system
-    files: \.js$
-    pass_filenames: false
-  - id: lint-py
-    name: Python linters
-    entry: make lint-py
-    language: system
-    files: \.py$
-    exclude: migrations
-    pass_filenames: false
+-   repo: https://github.com/pre-commit/pre-commit-hooks.git
+    sha: v0.9.1
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-ast
+        language_version: python3
+    -   id: check-byte-order-marker
+    -   id: check-case-conflict
+    -   id: check-docstring-first
+    -   id: check-executables-have-shebangs
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-yaml
+    -   id: detect-aws-credentials
+    -   id: detect-private-key
+    -   id: end-of-file-fixer
+        exclude: (min\.(css|js)$|\.svg$|dist|ansible\/roles\/(geerlingguy|hswong3i))
+    -   id: flake8
+        exclude: migrations
+        language_version: python3
+    -   id: forbid-new-submodules
+    -   id: trailing-whitespace
+        exclude: (min\.(css|js)$|\.svg$|dist|ansible\/roles\/(geerlingguy|hswong3i))
+-   repo: https://github.com/FalconSocial/pre-commit-python-sorter.git
+    sha: b57843b0b874df1d16eb0bef00b868792cb245c2
+    hooks:
+    -   id: python-import-sorter
+-   repo: https://github.com/chewse/pre-commit-mirrors-pydocstyle.git
+    sha: v0.0.2
+    hooks:
+    -   id: pydocstyle
+-   repo: local
+    hooks:
+    -   id: pylint
+        name: pylint
+        entry: bin/artifact-exec pylint
+        language: script
+        files: \.py$
+-   repo: https://github.com/asottile/pyupgrade.git
+    sha: v1.1.2
+    hooks:
+    -   id: pyupgrade
+-   repo: https://github.com/antonbabenko/pre-commit-terraform.git
+    sha: v1.2.0
+    hooks:
+    -   id: terraform_fmt
+-   repo: https://github.com/pre-commit/mirrors-eslint.git
+    sha: v4.1.1
+    hooks:
+    -   id: eslint
+        exclude: min\.js$|dist
+-   repo: https://github.com/pre-commit/mirrors-csslint.git
+    sha: v1.0.5
+    hooks:
+    -   id: csslint
+        exclude: min\.css$|dist
+-   repo: local
+    hooks:
+    -   id: rubocop
+        name: rubocop
+        entry: rubocop
+        language: system
+        files: (Vagrant|Gem)file|\.rb$
+-   repo: https://github.com/detailyang/pre-commit-shell
+    sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
+    hooks:
+    -   id: shell-lint
+-   repo: local
+    hooks:
+    -   id: build-frontend
+        name: Frontend codegen
+        entry: make build
+        language: system
+        files: (src|dist|\.css$|\.js$|\.svg$|\.png$)
+        pass_filenames: false
+    -   id: ansible-lint
+        name: Ansible playbook and role linters
+        entry: make lint-ansible
+        language: system
+        files: \.(yaml|yml)$
+        pass_filenames: false

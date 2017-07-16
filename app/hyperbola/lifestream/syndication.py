@@ -25,7 +25,7 @@ class LatestEntriesFeed(Feed):
         return LifeStreamItem.objects.all().select_related("lifestreampicture")
 
     def item_title(self, item):
-        return "Post #{0}".format(item.pk)
+        return "Post #{}".format(item.pk)
 
     def item_link(self, item):
         return item.get_absolute_url()
