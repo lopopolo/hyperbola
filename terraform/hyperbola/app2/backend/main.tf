@@ -137,6 +137,8 @@ resource "aws_alb_target_group" "backend" {
   protocol = "HTTP"
   vpc_id   = "${data.aws_vpc.selected.id}"
 
+  deregistration_delay = 30
+
   health_check {
     path = "/healthz" # runs a request through nginx to rack
     port = 8888
