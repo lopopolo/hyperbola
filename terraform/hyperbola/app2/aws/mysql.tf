@@ -98,3 +98,7 @@ output "mysql_endpoint" {
 output "mysql_port" {
   value = "3306"
 }
+
+output "mysql_security_group_id" {
+  value = "${aws_security_group.main_db_access.id}"
+}

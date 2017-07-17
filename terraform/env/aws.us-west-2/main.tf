@@ -56,6 +56,18 @@ module "hyperbola-app-base" {
   bucket = "www"
 }
 
+module "hyperbola-app-backend" {
+  source   = "../../hyperbola/app2/backend"
+  name     = "${var.name}"
+  env      = "production"
+  key_name = "hyperbola-cas"
+
+  vpc_id                    = "${module.network.vpc_id}"
+  public_subnet_name        = "${module.network.public_subnet_name}"
+  private_subnet_name       = "${module.network.private_subnet_name}"
+  bastion_security_group_id = "${module.network.bastion_security_group_id}"
+}
+
 output "redis_endpoint" {
   value = "${module.hyperbola-app-aws.redis_endpoint}"
 }
