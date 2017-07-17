@@ -34,7 +34,7 @@ resource "aws_db_parameter_group" "main_rds_instance" {
 
   parameter {
     name  = "sql_mode"
-    value = "STRICT_TRANS_TABLES"
+    value = "TRADITIONAL"
   }
 
   parameter {
