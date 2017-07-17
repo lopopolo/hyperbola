@@ -131,10 +131,10 @@ class EnvironmentConfig(object):
             self.static_dirs = [root_path.joinpath('dist')]
             self.static_url = '/static/'
             if environment in [Env.production, Env.staging]:
-                self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
-            else:
+                self.media_bucket_name = 'www.hyperbolausercontent.net'
+            elif environment in [Env.local, Env.dev]:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
-                self.media_url = 'https://{}/'.format(self.media_bucket_name)
+            self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
 PROJECT_PATH = Path(__file__).resolve().parent

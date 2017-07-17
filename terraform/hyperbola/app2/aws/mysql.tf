@@ -33,6 +33,11 @@ resource "aws_db_parameter_group" "main_rds_instance" {
   family = "mysql5.7"
 
   parameter {
+    name  = "sql_mode"
+    value = "STRICT_TRANS_TABLES"
+  }
+
+  parameter {
     name  = "character_set_server"
     value = "utf8mb4"
   }
