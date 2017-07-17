@@ -59,6 +59,7 @@ server {
         proxy_http_version    1.1;
         proxy_redirect        off;
         auth_basic            off;
+        proxy_set_header      X-Forwarded-Host  {{ item.domain }};
     }
 
     include conf.d/nginx-base-config/directive-only/*.conf;
@@ -76,6 +77,7 @@ server {
         proxy_pass            http://app_gunicorn$request_uri;
         proxy_http_version    1.1;
         proxy_redirect        off;
+        proxy_set_header      X-Forwarded-Host  {{ item.domain }};
     }
 
     include conf.d/nginx-base-config/directive-only/*.conf;

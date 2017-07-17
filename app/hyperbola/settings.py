@@ -45,7 +45,7 @@ class EnvironmentConfig(object):
         self.environment = Env.make('ENVIRONMENT')
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
-        self.redis = self.RedisConfig()
+        self.redis = self.RedisConfig(self.environment)
         self.content = self.ContentConfig(self.environment, root_path)
 
     def __str__(self):
@@ -111,11 +111,18 @@ class EnvironmentConfig(object):
             self.name = Env.source('DB_NAME')
 
     class RedisConfig(object):
-        def __init__(self):
+        def __init__(self, environment):
+            self.environment = environment
             self.host = Env.source('REDIS_HOST')
             self.port = Env.source('REDIS_PORT')
             self.password = Env.source('REDIS_PASSWORD')
             self.name = Env.source('REDIS_NAME', 0)
+
+        @property
+        def backend(self):
+            if self.environment in [Env.production]:
+                return 'django_redis_cluster.cache.RedisClusterCache'
+            return 'django_redis.cache.RedisCache'
 
         def connection_string(self, name=None):
             if name is None:
@@ -171,23 +178,16 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
+        'BACKEND': ENVIRONMENT.redis.backend,
         'LOCATION': ENVIRONMENT.redis.connection_string(0),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
     },
     'sessions': {
-        'BACKEND': 'django_redis.cache.RedisCache',
+        'BACKEND': ENVIRONMENT.redis.backend,
         'LOCATION': ENVIRONMENT.redis.connection_string(1),
-        'OPTIONS': {
-            'IGNORE_EXCEPTIONS': True,
-        }
     }
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'sessions'
-DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

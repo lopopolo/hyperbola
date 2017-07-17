@@ -88,6 +88,7 @@ setup(
         'django-missing',
         'django-mysql',
         'django-redis',
+        'django-redis-cluster',
         'django-s3-storage',
         'django-stdimage',
         'gunicorn',
