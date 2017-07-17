@@ -24,9 +24,16 @@ resource "aws_route53_record" "app-local-dc" {
 }
 
 module "hyperbola-app-aws" {
-  source              = "../../hyperbola/app2/base"
-  env                 = "local"
-  bucket              = "local"
-  redis               = "app.local.hyperboladc.net"
-  hyperboladc_zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
+  source = "../../hyperbola/app2/base"
+  env    = "local"
+  bucket = "local"
+}
+
+resource "aws_route53_record" "redis-CNAME" {
+  zone_id = "${data.aws_route53_zone.local-dc.id}"
+  name    = "redis"
+  type    = "CNAME"
+  ttl     = 300
+
+  records = ["app.local.hyperboladc.net"]
 }

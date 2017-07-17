@@ -11,9 +11,7 @@ variable "vpc_id" {}
 variable "azs" {}
 variable "egress_gateway_id" {}
 
-variable "subnet_tier" {
-  default = 1
-}
+variable "subnet_tier" {}
 
 data "aws_vpc" "current" {
   id = "${var.vpc_id}"

@@ -1,13 +1,3 @@
-variable "name" {}
-variable "env" {}
-
-variable "vpc_id" {}
-variable "azs" {}
-
-data "aws_vpc" "current" {
-  id = "${var.vpc_id}"
-}
-
 resource "aws_security_group" "redis" {
   vpc_id      = "${data.aws_vpc.current.id}"
   name_prefix = "${var.name}-redis-sg-"
@@ -24,7 +14,7 @@ module "redis-subnets" {
   vpc_id = "${data.aws_vpc.current.id}"
   azs    = "${var.azs}"
 
-  subnet_tier       = 3
+  subnet_tier       = "${module.tier.private-redis}"
   nat_enabled       = false
   nat_gateway_ids   = ""
   egress_gateway_id = ""
@@ -64,10 +54,6 @@ output "redis_sg_id" {
 
 output "redis_endpoint" {
   value = "${aws_elasticache_replication_group.redis.configuration_endpoint_address}"
-}
-
-output "redis_domain" {
-  value = "${replace(aws_elasticache_replication_group.redis.configuration_endpoint_address, format(":%s", aws_elasticache_replication_group.redis.port), "")}"
 }
 
 output "redis_port" {

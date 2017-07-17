@@ -18,6 +18,10 @@ module "vpc" {
   cidr = "${var.vpc_cidr}"
 }
 
+module "tier" {
+  source = "./subnet_tier"
+}
+
 module "public_subnet" {
   source = "./public_subnet"
 
@@ -25,6 +29,7 @@ module "public_subnet" {
   vpc_id = "${module.vpc.vpc_id}"
   azs    = "${var.azs}"
 
+  subnet_tier       = "${module.tier.public}"
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
 
@@ -35,6 +40,7 @@ module "private_subnet" {
   vpc_id = "${module.vpc.vpc_id}"
   azs    = "${var.azs}"
 
+  subnet_tier       = "${module.tier.private}"
   nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
