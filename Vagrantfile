@@ -20,8 +20,8 @@ Vagrant.configure('2') do |config|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
-        'wiki' => ['wiki-test-1'],
-        'all_groups:children' => ['wiki']
+        'app' => ['app-test-1'],
+        'all_groups:children' => ['app']
       }
     end
 

@@ -1,0 +1,67 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [{
+    "name": "aws-us-west-2-hyperbola-app",
+    "type": "amazon-ebs",
+    "region": "us-west-2",
+    "vpc_id": "vpc-08d0186e",
+    "subnet_id": "subnet-dc043895",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "*ubuntu-xenial-16.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "c4.large",
+    "ssh_username": "ubuntu",
+    "ssh_timeout": "10m",
+    "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_ami_name}}",
+    "ami_description": "hyperbola-app AMI",
+    "run_tags": {
+      "ami-create": "aws-us-west-2-hyperbola-app"
+    },
+    "tags": {
+      "ami": "aws-us-west-2-hyperbola-app",
+      "Project": "hyperbola",
+      "Name": "app",
+      "Environment": "production"
+    },
+    "ssh_private_ip": false,
+    "associate_public_ip_address": true
+  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "./.secrets/vault-password.txt",
+      "destination": "/tmp/vault-password.txt"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get install software-properties-common",
+        "sudo apt-add-repository -y ppa:ansible/ansible",
+        "sudo apt-get update",
+        "sudo apt-get -y install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/provision.yml",
+      "command": "ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/app.yml",
+      "playbook_dir": "ansible",
+      "inventory_file": "ansible/production.ini",
+      "extra_arguments": ["--limit=localhost", "--vault-password-file=/tmp/vault-password.txt"],
+      "command": "ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook"
+    }
+  ]
+}
