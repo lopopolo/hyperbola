@@ -42,17 +42,3 @@ resource "aws_route53_record" "wiki-AAAA" {
     evaluate_target_health = true
   }
 }
-
-data "aws_route53_zone" "local-dc" {
-  name         = "local.hyperboladc.net."
-  private_zone = false
-}
-
-resource "aws_route53_record" "wiki-local" {
-  zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
-  name    = "wiki"
-  type    = "A"
-
-  ttl     = 300
-  records = ["${var.local_ip}"]
-}

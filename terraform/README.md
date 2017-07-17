@@ -8,27 +8,4 @@ This configuration borrows heavily from:
 
 ## Architecture
 
-### Global
-
-- Deploys a VPC in 3 AZs to us-east-1
-- Each AZ gets a public and a private subnet
-- Private subnets connect to the internet through a single NAT
-- A bastion host is deployed in the public subnets using an autoscaling group and an elastic IP
-- Bastion has a IAM role and motd script to display all ASGs and IPs associated with them
-
-### hyperbola
-
-#### app
-
-- DNS records in route53 and cloudflare
-
-#### cdn
-
-- DNS records in route53 and cloudflare
-
-#### wiki
-
-- DNS records in route53 and cloudflare
-- wiki image deployed in a min/max/desired 1/1/1 autoscaling group in 3 private subnets
-- Public ELB associated with ASG
-- ELB associated with DNS records
+Create one VPC per environment. An environment is composed of a (region, app, env) tuple.
