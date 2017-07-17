@@ -15,6 +15,15 @@ data "aws_route53_zone" "local-dc" {
   private_zone = false
 }
 
+resource "aws_route53_record" "wiki-local" {
+  zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
+  name    = "wiki"
+  type    = "A"
+
+  ttl     = 300
+  records = ["192.168.10.10"]
+}
+
 resource "aws_route53_record" "app-local-dc" {
   zone_id = "${data.aws_route53_zone.local-dc.zone_id}"
   name    = "app"
