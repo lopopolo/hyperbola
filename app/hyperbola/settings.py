@@ -119,8 +119,21 @@ class EnvironmentConfig(object):
             self.name = Env.source('REDIS_NAME', 0)
 
         @property
-        def is_cluster(self):
-            return self.environment in [Env.production]
+        def additional_options(self):
+            if self.environment in [Env.production]:
+                return {
+                    'REDIS_CLIENT_CLASS': 'rediscluster.client.StrictRedisCluster',
+                    'REDIS_CLIENT_KWARGS': {
+                        'skip_full_coverage_check': True,
+                        'host': ENVIRONMENT.redis.host,
+                        'port': ENVIRONMENT.redis.port
+                    },
+                    'CONNECTION_POOL_CLASS': 'rediscluster.connection.ClusterConnectionPool',
+                    'CONNECTION_POOL_KWARGS': {
+                        'skip_full_coverage_check': True
+                    },
+                }
+            return {}
 
         def connection_string(self, name=None):
             if name is None:
@@ -179,27 +192,13 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': ENVIRONMENT.redis.connection_string(0),
     },
-    'sessions': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ENVIRONMENT.redis.connection_string(1),
-        'OPTIONS': {
-            'IGNORE_EXCEPTIONS': True,
-        }
-    }
 }
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'sessions'
-DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
-if ENVIRONMENT.redis.is_cluster:
-    options = CACHES['default'].get('OPTIONS', {})
-    options['CONNECTION_POOL_CLASS'] = 'rediscluster.connection.ClusterConnectionPool'
-    options['CONNECTION_POOL_KWARGS'] = {'skip_full_coverage_check': True}
-    CACHES['default']['OPTIONS'] = options
 
-    options = CACHES['sessions'].get('OPTIONS', {})
-    options['CONNECTION_POOL_CLASS'] = 'rediscluster.connection.ClusterConnectionPool'
-    options['CONNECTION_POOL_KWARGS'] = {'skip_full_coverage_check': True}
-    CACHES['sessions']['OPTIONS'] = options
+default_options = CACHES['default'].get('OPTIONS', {})
+CACHES['default']['OPTIONS'] = {**default_options, **ENVIRONMENT.redis.additional_options}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

@@ -12,7 +12,7 @@ variable "instance_type" {
 }
 
 variable "size" {
-  default = "2"
+  default = "1"
 }
 
 data "aws_vpc" "selected" {
