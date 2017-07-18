@@ -48,10 +48,6 @@ resource "aws_elasticache_replication_group" "redis" {
   }
 }
 
-output "redis_sg_id" {
-  value = "${aws_security_group.redis.id}"
-}
-
 output "redis_endpoint" {
   value = "${aws_elasticache_replication_group.redis.configuration_endpoint_address}"
 }

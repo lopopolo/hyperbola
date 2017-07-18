@@ -2,8 +2,8 @@ variable "name" {}
 variable "env" {}
 
 variable "vpc_id" {}
-variable "public_subnet_name" {}
-variable "private_subnet_name" {}
+variable "public_subnet_tier" {}
+variable "private_subnet_tier" {}
 
 variable "key_name" {}
 
@@ -23,7 +23,7 @@ data "aws_subnet_ids" "public" {
   vpc_id = "${data.aws_vpc.selected.id}"
 
   tags {
-    Network = "${var.public_subnet_name}"
+    Network = "${var.public_subnet_tier}"
   }
 }
 
@@ -36,7 +36,7 @@ data "aws_subnet_ids" "private" {
   vpc_id = "${data.aws_vpc.selected.id}"
 
   tags {
-    Network = "${var.private_subnet_name}"
+    Network = "${var.private_subnet_tier}"
   }
 }
 
@@ -188,6 +188,13 @@ resource "aws_autoscaling_group" "backend" {
     value               = "${var.name}"
     propagate_at_launch = true
   }
+
+  depends_on = [
+    "aws_security_group_rule.backend-to-mysql",
+    "aws_security_group_rule.mysql-from-backend",
+    "aws_security_group_rule.backend-to-redis",
+    "aws_security_group_rule.redis-from-backend",
+  ]
 }
 
 output "alb_zone_id" {

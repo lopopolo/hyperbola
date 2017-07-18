@@ -63,9 +63,14 @@ module "hyperbola-app-backend" {
   key_name = "hyperbola-cas"
 
   vpc_id                    = "${module.network.vpc_id}"
-  public_subnet_name        = "${module.network.public_subnet_name}"
-  private_subnet_name       = "${module.network.private_subnet_name}"
+  public_subnet_tier        = "${module.network.public_subnet_tier}"
+  private_subnet_tier       = "${module.network.private_subnet_tier}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
+
+  mysql_port              = "${module.hyperbola-app-aws.mysql_port}"
+  mysql_security_group_id = "${module.hyperbola-app-aws.mysql_security_group_id}"
+  redis_port              = "${module.hyperbola-app-aws.redis_port}"
+  redis_security_group_id = "${module.hyperbola-app-aws.redis_security_group_id}"
 }
 
 output "redis_endpoint" {
@@ -82,4 +87,8 @@ output "backup_bucket" {
 
 output "media_bucket" {
   value = "${module.hyperbola-app-base.media_bucket}"
+}
+
+output "backend_alb_dns" {
+  value = "${module.hyperbola-app-backend.alb_dns}"
 }

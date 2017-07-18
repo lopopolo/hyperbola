@@ -50,7 +50,7 @@ module "bastion" {
 
   name               = "${var.name}-bastion"
   vpc_id             = "${module.vpc.vpc_id}"
-  public_subnet_name = "${module.public_subnet.tag_value}"
+  public_subnet_tier = "${module.public_subnet.tier}"
   key_name           = "${var.key_name}"
   instance_type      = "${var.bastion_instance_type}"
 }
@@ -60,14 +60,14 @@ module "nat" {
 
   name               = "${var.name}-nat"
   vpc_id             = "${module.vpc.vpc_id}"
-  public_subnet_name = "${module.public_subnet.tag_value}"
+  public_subnet_tier = "${module.public_subnet.tier}"
 }
 
 module "s3" {
   source = "./s3"
 
   vpc_id              = "${module.vpc.vpc_id}"
-  private_subnet_name = "${module.private_subnet.tag_value}"
+  private_subnet_tier = "${module.private_subnet.tier}"
 }
 
 resource "aws_network_acl" "acl" {
@@ -129,12 +129,12 @@ output "egress_gateway_id" {
 }
 
 # Subnets
-output "public_subnet_name" {
-  value = "${module.public_subnet.tag_value}"
+output "public_subnet_tier" {
+  value = "${module.public_subnet.tier}"
 }
 
-output "private_subnet_name" {
-  value = "${module.private_subnet.tag_value}"
+output "private_subnet_tier" {
+  value = "${module.private_subnet.tier}"
 }
 
 # Bastion

@@ -1,5 +1,5 @@
 variable "vpc_id" {}
-variable "private_subnet_name" {}
+variable "private_subnet_tier" {}
 
 data "aws_vpc" "current" {
   id = "${var.vpc_id}"
@@ -13,7 +13,7 @@ data "aws_subnet_ids" "private" {
   vpc_id = "${data.aws_vpc.current.id}"
 
   tags {
-    Network = "${var.private_subnet_name}"
+    Network = "${var.private_subnet_tier}"
   }
 }
 

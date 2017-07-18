@@ -34,7 +34,7 @@ resource "aws_subnet" "private" {
 
   tags {
     Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
-    Network = "${var.name}"
+    Network = "subnet-tier-${var.subnet_tier}"
   }
 
   lifecycle {
@@ -79,7 +79,7 @@ output "subnet_ids" {
   value = "${join(",", aws_subnet.private.*.id)}"
 }
 
-output "tag_value" {
-  value      = "${var.name}"
-  depends_on = ["aws_subnet.private"]
+output "tier" {
+  value      = "subnet-tier-${var.subnet_tier}"
+  depends_on = ["aws_subnet.private.*.id"]
 }
