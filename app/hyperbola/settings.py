@@ -119,10 +119,8 @@ class EnvironmentConfig(object):
             self.name = Env.source('REDIS_NAME', 0)
 
         @property
-        def connection_factory(self):
-            if self.environment in [Env.production]:
-                return 'hyperbola.core.redis.ConnectionFactory'
-            return None
+        def is_cluster(self):
+            return self.environment in [Env.production]
 
         def connection_string(self, name=None):
             if name is None:
@@ -192,8 +190,16 @@ CACHES = {
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'sessions'
 DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
-if ENVIRONMENT.redis.connection_factory:
-    DJANGO_REDIS_CONNECTION_FACTORY = ENVIRONMENT.redis.connection_factory
+if ENVIRONMENT.redis.is_cluster:
+    options = CACHES['default'].get('OPTIONS', {})
+    options['CONNECTION_POOL_CLASS'] = 'rediscluster.connection.ClusterConnectionPool'
+    options['CONNECTION_POOL_KWARGS'] = {'skip_full_coverage_check': True}
+    CACHES['default']['OPTIONS'] = options
+
+    options = CACHES['sessions'].get('OPTIONS', {})
+    options['CONNECTION_POOL_CLASS'] = 'rediscluster.connection.ClusterConnectionPool'
+    options['CONNECTION_POOL_KWARGS'] = {'skip_full_coverage_check': True}
+    CACHES['sessions']['OPTIONS'] = options
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
