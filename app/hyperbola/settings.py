@@ -119,10 +119,10 @@ class EnvironmentConfig(object):
             self.name = Env.source('REDIS_NAME', 0)
 
         @property
-        def backend(self):
+        def connection_factory(self):
             if self.environment in [Env.production]:
-                return 'django_redis_cluster.cache.RedisClusterCache'
-            return 'django_redis.cache.RedisCache'
+                return 'hyperbola.core.redis.ConnectionFactory'
+            return None
 
         def connection_string(self, name=None):
             if name is None:
@@ -178,16 +178,22 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': ENVIRONMENT.redis.backend,
+        'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': ENVIRONMENT.redis.connection_string(0),
     },
     'sessions': {
-        'BACKEND': ENVIRONMENT.redis.backend,
+        'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': ENVIRONMENT.redis.connection_string(1),
+        'OPTIONS': {
+            'IGNORE_EXCEPTIONS': True,
+        }
     }
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'sessions'
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
+if ENVIRONMENT.redis.connection_factory:
+    DJANGO_REDIS_CONNECTION_FACTORY = ENVIRONMENT.redis.connection_factory
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
