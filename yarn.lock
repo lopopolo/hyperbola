@@ -4489,6 +4489,12 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+opentype.js@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/opentype.js/-/opentype.js-0.7.1.tgz#8e0bb32d99f3d092563797237eb824b45eaf3c1f"
+  dependencies:
+    tiny-inflate "^1.0.2"
+
 optimist@~0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
@@ -6543,6 +6549,13 @@ text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
+text-to-svg@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/text-to-svg/-/text-to-svg-3.1.2.tgz#f06c640b08ace6f4a189c89105cf5bc666a1b35c"
+  dependencies:
+    commander "^2.9.0"
+    opentype.js "0.7.1"
+
 throttleit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/throttleit/-/throttleit-1.0.0.tgz#9e785836daf46743145a5984b6268d828528ac6c"
@@ -6601,6 +6614,10 @@ timers-browserify@^2.0.2:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.2.tgz#ab4883cf597dcd50af211349a00fbca56ac86b86"
   dependencies:
     setimmediate "^1.0.4"
+
+tiny-inflate@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/tiny-inflate/-/tiny-inflate-1.0.2.tgz#93d9decffc8805bd57eae4310f0b745e9b6fb3a7"
 
 tinycolor2@^1.1.2:
   version "1.4.1"
