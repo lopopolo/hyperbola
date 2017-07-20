@@ -64,7 +64,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
 resource "aws_s3_bucket" "media" {
   bucket = "${var.bucket}.hyperbolausercontent.net"
-  acl    = "public-read"
+  acl    = "private"
 
   versioning {
     enabled = true
