@@ -76,5 +76,5 @@ output "subnet_ids" {
 
 output "tier" {
   value      = "subnet-tier-${var.subnet_tier}"
-  depends_on = ["aws_subnet.public.*.id"]
+  depends_on = ["aws_subnet.public"]
 }
