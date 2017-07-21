@@ -23,6 +23,11 @@ resource "aws_db_instance" "main_rds_instance" {
   allow_major_version_upgrade = false
   auto_minor_version_upgrade  = true
 
+  maintenance_window      = "sun:10:18-sun:10:48" # UTC
+  backup_retention_period = 30
+  backup_window           = "09:22-09:52" # UTC
+
+
   tags {
     Environment = "${var.env}"
   }
