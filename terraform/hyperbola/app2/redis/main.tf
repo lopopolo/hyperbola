@@ -35,13 +35,14 @@ module "redis-subnets" {
 }
 
 # ElastiCache resources
+# at most one per VPC
 resource "aws_elasticache_subnet_group" "redis" {
-  name       = "app-redis-subnet-group" # at most one per VPC
+  name       = "app-redis-subnet-group"
   subnet_ids = ["${split(",", module.redis-subnets.subnet_ids)}"]
 }
 
 resource "aws_elasticache_replication_group" "redis" {
-  replication_group_id          = "app-redis-repl-group" # at most one per VPC
+  replication_group_id          = "app-redis-repl-group"
   replication_group_description = "app redis cluster"
   node_type                     = "cache.t2.micro"
   automatic_failover_enabled    = true
@@ -49,7 +50,7 @@ resource "aws_elasticache_replication_group" "redis" {
   parameter_group_name          = "default.redis3.2.cluster.on"
   subnet_group_name             = "${aws_elasticache_subnet_group.redis.name}"
   security_group_ids            = ["${aws_security_group.redis.id}"]
-  maintenance_window            = "sun:02:39-sun:03:09"
+  maintenance_window            = "sun:02:39-sun:03:39"
 
   # http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/Replication.Redis-RedisCluster.html
   cluster_mode {
