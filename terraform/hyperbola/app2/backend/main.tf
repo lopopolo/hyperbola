@@ -15,6 +15,8 @@ variable "size" {
   default = "1"
 }
 
+variable "iam_instance_profile" {}
+
 data "aws_vpc" "selected" {
   id = "${var.vpc_id}"
 }
@@ -166,6 +168,8 @@ resource "aws_launch_configuration" "backend" {
   instance_type   = "${var.instance_type}"
   key_name        = "${var.key_name}"
   security_groups = ["${aws_security_group.backend.id}"]
+
+  iam_instance_profile = "${var.iam_instance_profile}"
 
   lifecycle {
     create_before_destroy = true

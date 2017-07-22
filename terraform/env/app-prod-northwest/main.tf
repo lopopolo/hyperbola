@@ -57,6 +57,9 @@ module "hyperbola-app-backend" {
   private_subnet_tier       = "${module.network.private_subnet_tier}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
 
+  iam_instance_profile       = "${module.hyperbola-app-base.app_instance_profile}"
+  s3_endpoint_prefix_list_id = "${module.network.s3_endpoint_prefix_list_id}"
+
   mysql_port              = "${module.hyperbola-app-mysql.mysql_port}"
   mysql_security_group_id = "${module.hyperbola-app-mysql.mysql_security_group_id}"
   redis_port              = "${module.hyperbola-app-redis.redis_port}"

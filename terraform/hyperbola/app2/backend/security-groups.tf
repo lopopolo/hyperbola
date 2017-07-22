@@ -1,4 +1,5 @@
 variable "bastion_security_group_id" {}
+variable "s3_endpoint_prefix_list_id" {}
 
 variable "mysql_port" {}
 variable "mysql_security_group_id" {}
@@ -80,6 +81,15 @@ resource "aws_security_group_rule" "redis-from-backend" {
   to_port                  = "${var.redis_port}"
   security_group_id        = "${var.redis_security_group_id}"
   source_security_group_id = "${aws_security_group.backend.id}"
+}
+
+resource "aws_security_group_rule" "backend-to-s3-endpoint" {
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  security_group_id = "${aws_security_group.backend.id}"
+  prefix_list_ids   = ["${var.s3_endpoint_prefix_list_id}"]
 }
 
 output "backend_security_group_id" {

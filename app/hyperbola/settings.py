@@ -150,8 +150,10 @@ class EnvironmentConfig(object):
             self.static_url = '/static/'
             if environment in [Env.production, Env.staging]:
                 self.media_bucket_name = 'www.hyperbolausercontent.net'
+                self.aws_region = 'us-west-2'
             elif environment in [Env.local, Env.dev]:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
+                self.aws_region = 'us-east-1'
             self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
@@ -220,6 +222,7 @@ DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
 AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
 AWS_S3_BUCKET_AUTH = False
 AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
+AWS_REGION = ENVIRONMENT.content.aws_region
 
 MEDIA_ROOT = str(ENVIRONMENT.content.media_root)
 

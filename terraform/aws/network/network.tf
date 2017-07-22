@@ -162,3 +162,8 @@ output "bastion_ingress_cidr" {
 output "nat_gateway_ids" {
   value = "${module.nat.nat_gateway_ids}"
 }
+
+# S3
+output "s3_endpoint_prefix_list_id" {
+  value = "${module.s3.s3_endpoint_prefix_list_id}"
+}
