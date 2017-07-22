@@ -14,7 +14,7 @@ resource "aws_security_group" "mysql" {
   vpc_id      = "${data.aws_vpc.current.id}"
 
   tags {
-    Name        = "${var.name}-mysql-sg"
+    Name        = "${var.name}-sg"
     Environment = "${var.env}"
   }
 
@@ -64,8 +64,8 @@ resource "aws_rds_cluster" "mysql" {
   final_snapshot_identifier    = "app-mysql-cluster-final-snapshot"
   skip_final_snapshot          = false
   backup_retention_period      = 30
-  preferred_backup_window      = "09:22-09:52" # UTC
-  preferred_maintenance_window = "sun:10:18-sun:10:48" # UTC
+  preferred_backup_window      = "09:22-09:52"                      # UTC
+  preferred_maintenance_window = "sun:10:18-sun:10:48"              # UTC
 }
 
 resource "aws_rds_cluster_instance" "mysql" {
@@ -76,7 +76,7 @@ resource "aws_rds_cluster_instance" "mysql" {
   publicly_accessible = false
 
   db_subnet_group_name    = "${aws_db_subnet_group.mysql.name}"
-  db_parameter_group_name = "${aws_rds_cluster_parameter_group.mysql.name}"
+  db_parameter_group_name = "${aws_db_parameter_group.mysql.name}"
 
   tags {
     Name        = "${var.name}-cluster-instance-${count.index}"
@@ -84,13 +84,32 @@ resource "aws_rds_cluster_instance" "mysql" {
   }
 }
 
-resource "aws_rds_cluster_parameter_group" "mysql" {
-  name_prefix = "app-mysql-custom-params-"
+resource "aws_db_parameter_group" "mysql" {
+  name_prefix = "app-mysql-params-"
   family      = "aurora5.6"
 
   parameter {
     name  = "sql_mode"
     value = "traditional"
+  }
+
+  tags {
+    Environment = "${var.env}"
+  }
+}
+
+resource "aws_rds_cluster_parameter_group" "mysql" {
+  name_prefix = "app-mysql-cluster-params-"
+  family      = "aurora5.6"
+
+  parameter {
+    name  = "innodb_strict_mode"
+    value = "1"
+  }
+
+  parameter {
+    name  = "character_set_client"
+    value = "utf8mb4"
   }
 
   parameter {
@@ -99,8 +118,23 @@ resource "aws_rds_cluster_parameter_group" "mysql" {
   }
 
   parameter {
-    name  = "character_set_client"
+    name  = "character_set_results"
     value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "character_set_connection"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "character_set_server"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "collation_connection"
+    value = "utf8mb4_unicode_ci"
   }
 
   parameter {
