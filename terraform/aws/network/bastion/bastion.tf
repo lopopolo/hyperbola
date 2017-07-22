@@ -41,6 +41,7 @@ resource "aws_route53_record" "aws-dc" {
   records = ["${aws_cloudformation_stack.bastion.outputs["EIP"]}"]
 }
 
+# http://docs.aws.amazon.com/quickstart/latest/linux-bastion/welcome.html
 resource "aws_cloudformation_stack" "bastion" {
   name         = "${var.name}-stack"
   capabilities = ["CAPABILITY_IAM"]
