@@ -12,7 +12,7 @@ from ..core import MakeUploadTo
 class ContactType(models.Model):
     """A grouping of contacts (ie: Work, personal)."""
 
-    type = models.CharField(max_length=255, unique=True)
+    type = models.CharField(max_length=100, unique=True)
     display_order = models.PositiveIntegerField(unique=True)
 
     def __str__(self):
