@@ -14,7 +14,7 @@ terraform {
   backend "s3" {
     bucket         = "hyperbola-terraform-state"
     region         = "us-east-1"
-    key            = "terraform/hyperbola-aws.us-west-2/terraform.tfstate"
+    key            = "terraform/app-prod-northwest/terraform.tfstate"
     encrypt        = true
     dynamodb_table = "terraform_statelock"
   }
