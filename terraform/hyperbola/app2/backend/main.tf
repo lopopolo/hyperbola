@@ -90,7 +90,7 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_alb" "alb" {
-  name_prefix = "app-backend-alb-"
+  name_prefix = "applb-"
   internal    = false
 
   subnets         = ["${data.aws_subnet.public.*.id}"]
@@ -137,7 +137,7 @@ resource "aws_alb_listener" "alb-http" {
 }
 
 resource "aws_alb_target_group" "backend" {
-  name_prefix = "app-backend-alb-tg-"
+  name_prefix = "apptg-"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = "${data.aws_vpc.selected.id}"
