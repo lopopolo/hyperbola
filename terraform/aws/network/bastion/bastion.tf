@@ -25,12 +25,12 @@ data "aws_subnet_ids" "public" {
 }
 
 resource "aws_security_group" "bastion" {
-  name        = "${var.name}"
+  name_prefix = "bastion-sg-"
   vpc_id      = "${data.aws_vpc.selected.id}"
   description = "Bastion security group"
 
   tags {
-    Name = "${var.name}"
+    Name = "${var.name}-sg"
   }
 
   lifecycle {
@@ -80,8 +80,8 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_iam_instance_profile" "bastion" {
-  name = "${var.name}-profile"
-  role = "${aws_iam_role.bastion.name}"
+  name_prefix = "bastion-profile-"
+  role        = "${aws_iam_role.bastion.name}"
 
   lifecycle {
     create_before_destroy = true
@@ -89,7 +89,7 @@ resource "aws_iam_instance_profile" "bastion" {
 }
 
 resource "aws_iam_role" "bastion" {
-  name = "${var.name}-role"
+  name_prefix = "bastion-role-"
 
   assume_role_policy = <<EOF
 {
@@ -111,8 +111,8 @@ EOF
 # https://github.com/skymill/aws-ec2-assign-elastic-ip#required-iam-permissions
 # as well as describe autoscaling for motd script
 resource "aws_iam_role_policy" "bastion" {
-  name = "${var.name}-policy"
-  role = "${aws_iam_role.bastion.id}"
+  name_prefix = "bastion-policy-"
+  role        = "${aws_iam_role.bastion.id}"
 
   policy = <<EOF
 {
@@ -154,7 +154,7 @@ resource "aws_route53_record" "aws-dc" {
 }
 
 resource "aws_launch_configuration" "bastion" {
-  name_prefix          = "${var.name}-"
+  name_prefix          = "bastion-"
   image_id             = "${data.aws_ami.ubuntu.id}"
   instance_type        = "${var.instance_type}"
   user_data            = "${file("${path.module}/bastion_init.sh")}"

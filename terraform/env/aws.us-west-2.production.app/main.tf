@@ -1,8 +1,12 @@
 variable "name" {
-  default = "hyperbola-production-us-west-2"
+  default = "app-prod-northwest"
 }
 
-variable "hyperbola_app_rds_password" {}
+variable "env" {
+  default = "production"
+}
+
+variable "app_database_password" {}
 
 terraform {
   required_version = "> 0.9.7"
@@ -16,50 +20,36 @@ terraform {
   }
 }
 
-data "aws_route53_zone" "aws-dc" {
-  name         = "aws.hyperboladc.net."
-  private_zone = false
+module "hyperbola-app-base" {
+  source = "../../hyperbola/app2/base"
+  env    = "${var.env}"
+  bucket = "www"
 }
 
-resource "aws_route53_record" "redis-CNAME" {
-  zone_id = "${data.aws_route53_zone.aws-dc.id}"
-  name    = "redis"
-  type    = "CNAME"
-  ttl     = 300
+module "hyperbola-app-redis" {
+  source = "../../hyperbola/app2/redis"
+  env    = "${var.env}"
+  name   = "${var.name}-redis"
 
-  records = ["${module.hyperbola-app-aws.redis_endpoint}"]
+  vpc_id = "${module.network.vpc_id}"
+  azs    = "${var.azs}"
 }
 
-resource "aws_route53_record" "mysql-CNAME" {
-  zone_id = "${data.aws_route53_zone.aws-dc.id}"
-  name    = "mysql"
-  type    = "CNAME"
-  ttl     = 300
-
-  records = ["${module.hyperbola-app-aws.mysql_endpoint}"]
-}
-
-module "hyperbola-app-aws" {
-  source = "../../hyperbola/app2/aws"
-  name   = "${var.name}"
-  env    = "production"
+module "hyperbola-app-mysql" {
+  source = "../../hyperbola/app2/mysql-aurora"
+  env    = "${var.env}"
+  name   = "${var.name}-mysql-aurora"
 
   vpc_id = "${module.network.vpc_id}"
   azs    = "${var.azs}"
 
-  database_password = "${var.hyperbola_app_rds_password}"
-}
-
-module "hyperbola-app-base" {
-  source = "../../hyperbola/app2/base"
-  env    = "production"
-  bucket = "www"
+  database_password = "${var.app_database_password}"
 }
 
 module "hyperbola-app-backend" {
   source   = "../../hyperbola/app2/backend"
   name     = "${var.name}"
-  env      = "production"
+  env      = "${var.env}"
   key_name = "hyperbola-cas"
 
   vpc_id                    = "${module.network.vpc_id}"
@@ -67,18 +57,18 @@ module "hyperbola-app-backend" {
   private_subnet_tier       = "${module.network.private_subnet_tier}"
   bastion_security_group_id = "${module.network.bastion_security_group_id}"
 
-  mysql_port              = "${module.hyperbola-app-aws.mysql_port}"
-  mysql_security_group_id = "${module.hyperbola-app-aws.mysql_security_group_id}"
-  redis_port              = "${module.hyperbola-app-aws.redis_port}"
-  redis_security_group_id = "${module.hyperbola-app-aws.redis_security_group_id}"
+  mysql_port              = "${module.hyperbola-app-mysql.mysql_port}"
+  mysql_security_group_id = "${module.hyperbola-app-mysql.mysql_security_group_id}"
+  redis_port              = "${module.hyperbola-app-redis.redis_port}"
+  redis_security_group_id = "${module.hyperbola-app-redis.redis_security_group_id}"
 }
 
 output "redis_endpoint" {
-  value = "${module.hyperbola-app-aws.redis_endpoint}"
+  value = "${module.hyperbola-app-redis.redis_endpoint}"
 }
 
 output "mysql_endpoint" {
-  value = "${module.hyperbola-app-aws.mysql_endpoint}"
+  value = "${module.hyperbola-app-mysql.mysql_endpoint}"
 }
 
 output "backup_bucket" {

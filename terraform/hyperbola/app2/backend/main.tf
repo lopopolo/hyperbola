@@ -46,9 +46,8 @@ data "aws_subnet" "private" {
 }
 
 resource "aws_security_group" "alb" {
-  name_prefix = "${var.env}-alb-"
+  name_prefix = "app-alb-sg-"
   vpc_id      = "${data.aws_vpc.selected.id}"
-  description = "Security group for ${var.name} ALB"
 
   ingress {
     protocol         = "tcp"
@@ -81,7 +80,8 @@ resource "aws_security_group" "alb" {
   }
 
   tags {
-    Name = "${var.name}-alb-sg"
+    Name        = "${var.name}-alb-sg"
+    Environment = "${var.env}"
   }
 
   lifecycle {
@@ -90,8 +90,8 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_alb" "alb" {
-  name     = "${var.env}-alb"
-  internal = false
+  name_prefix = "app-backend-alb-"
+  internal    = false
 
   subnets         = ["${data.aws_subnet.public.*.id}"]
   security_groups = ["${aws_security_group.alb.id}"]
@@ -99,6 +99,11 @@ resource "aws_alb" "alb" {
 
   lifecycle {
     create_before_destroy = true
+  }
+
+  tags {
+    Name        = "${var.name}-alb"
+    Environment = "${var.env}"
   }
 }
 
@@ -132,10 +137,10 @@ resource "aws_alb_listener" "alb-http" {
 }
 
 resource "aws_alb_target_group" "backend" {
-  name     = "${var.env}-alb-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = "${data.aws_vpc.selected.id}"
+  name_prefix = "app-backend-alb-tg-"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = "${data.aws_vpc.selected.id}"
 
   deregistration_delay = 30
 
@@ -156,7 +161,7 @@ data "aws_ami" "backend" {
 }
 
 resource "aws_launch_configuration" "backend" {
-  name_prefix     = "${var.name}-"
+  name_prefix     = "app-backend-"
   image_id        = "${data.aws_ami.backend.id}"
   instance_type   = "${var.instance_type}"
   key_name        = "${var.key_name}"
@@ -185,7 +190,13 @@ resource "aws_autoscaling_group" "backend" {
 
   tag {
     key                 = "Name"
-    value               = "${var.name}"
+    value               = "${var.name}-backend"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Environment"
+    value               = "${var.env}"
     propagate_at_launch = true
   }
 

@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "app" {
-  name = "hyperbola-app-${var.env}"
-  role = "${aws_iam_role.app.name}"
+  name_prefix = "app-profile-"
+  role        = "${aws_iam_role.app.name}"
 
   lifecycle {
     create_before_destroy = true
@@ -8,7 +8,7 @@ resource "aws_iam_instance_profile" "app" {
 }
 
 resource "aws_iam_role" "app" {
-  name = "hyperbola-app-${var.env}"
+  name_prefix = "app-role-"
 
   assume_role_policy = <<EOF
 {
@@ -28,8 +28,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "app" {
-  name = "hyperbola-app-${var.env}"
-  role = "${aws_iam_role.app.id}"
+  name_prefix = "app-policy-"
+  role        = "${aws_iam_role.app.id}"
 
   policy = <<EOF
 {

@@ -1,14 +1,22 @@
+variable "vpc_id" {}
+variable "azs" {}
+variable "name" {}
+variable "env" {}
 variable "database_password" {}
 
+data "aws_vpc" "current" {
+  id = "${var.vpc_id}"
+}
+
 resource "aws_db_instance" "main_rds_instance" {
-  identifier        = "${var.env}-mysql"
+  identifier_prefix = "app-mysql-"
   allocated_storage = "5"
   engine            = "mysql"
   engine_version    = "5.7"
   instance_class    = "db.t2.micro"
 
-  name     = "hyperbola${var.env}"
-  username = "${var.env}user"
+  name     = "hyperbola"
+  username = "app"
   password = "${var.database_password}"
   port     = "3306"
 
@@ -26,20 +34,22 @@ resource "aws_db_instance" "main_rds_instance" {
   maintenance_window      = "sun:10:18-sun:10:48" # UTC
   backup_retention_period = 30
   backup_window           = "09:22-09:52" # UTC
+  skip_final_snapshot = true
 
 
   tags {
+    Name        = "${var.name}"
     Environment = "${var.env}"
   }
 }
 
 resource "aws_db_parameter_group" "main_rds_instance" {
-  name   = "${var.env}-mysql-custom-params"
-  family = "mysql5.7"
+  name_prefix = "app-mysql-custom-params-"
+  family      = "mysql5.7"
 
   parameter {
     name  = "sql_mode"
-    value = "TRADITIONAL"
+    value = "traditional"
   }
 
   parameter {
@@ -60,12 +70,20 @@ resource "aws_db_parameter_group" "main_rds_instance" {
   tags {
     Environment = "${var.env}"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+module "tier" {
+  source = "../../../aws/network/subnet_tier"
 }
 
 module "mysql-subnets" {
   source = "../../../aws/network/private_subnet"
 
-  name   = "${var.name}-private-mysql"
+  name   = "${var.name}"
   vpc_id = "${data.aws_vpc.current.id}"
   azs    = "${var.azs}"
 
@@ -76,23 +94,32 @@ module "mysql-subnets" {
 }
 
 resource "aws_db_subnet_group" "main_db_subnet_group" {
-  name        = "${var.env}-mysql-subnetgrp"
+  name_prefix = "app-mysql-subnet-group-"
   description = "RDS subnet group"
   subnet_ids  = ["${split(",", module.mysql-subnets.subnet_ids)}"]
 
   tags {
     Environment = "${var.env}"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Security groups
 resource "aws_security_group" "main_db_access" {
-  name_prefix = "${var.env}-mysql-sg"
+  name_prefix = "app-mysql-sg-"
   description = "Allow access to the database"
   vpc_id      = "${data.aws_vpc.current.id}"
 
   tags {
+    Name        = "${var.name}-sg"
     Environment = "${var.env}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 

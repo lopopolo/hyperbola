@@ -6,11 +6,12 @@ variable "redis_port" {}
 variable "redis_security_group_id" {}
 
 resource "aws_security_group" "backend" {
-  name_prefix = "${var.name}-backend-sg-"
+  name_prefix = "app-backend-sg-"
   vpc_id      = "${var.vpc_id}"
 
   tags {
-    Name = "${var.name}-backend"
+    Name        = "${var.name}-backend-sg"
+    Environment = "${var.env}"
   }
 
   lifecycle {
@@ -18,8 +19,7 @@ resource "aws_security_group" "backend" {
   }
 }
 
-# ssh from bastion
-resource "aws_security_group_rule" "ssh-to-backend" {
+resource "aws_security_group_rule" "backend-from-bastion-ssh" {
   type                     = "ingress"
   protocol                 = "tcp"
   from_port                = 22
@@ -28,7 +28,7 @@ resource "aws_security_group_rule" "ssh-to-backend" {
   source_security_group_id = "${var.bastion_security_group_id}"
 }
 
-resource "aws_security_group_rule" "alb-to-backend-80" {
+resource "aws_security_group_rule" "backend-from-alb-http" {
   type                     = "ingress"
   protocol                 = "tcp"
   from_port                = 80
@@ -37,7 +37,7 @@ resource "aws_security_group_rule" "alb-to-backend-80" {
   source_security_group_id = "${aws_security_group.alb.id}"
 }
 
-resource "aws_security_group_rule" "alb-to-backend-8888" {
+resource "aws_security_group_rule" "backend-from-alb-health-check" {
   type                     = "ingress"
   protocol                 = "tcp"
   from_port                = 8888
