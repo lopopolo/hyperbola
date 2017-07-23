@@ -11,6 +11,8 @@ variable "vpc_id" {}
 variable "azs" {}
 variable "egress_gateway_id" {}
 
+variable "subnet_tier" {}
+
 data "aws_vpc" "current" {
   id = "${var.vpc_id}"
 }
@@ -25,16 +27,16 @@ resource "aws_internet_gateway" "public" {
 
 resource "aws_subnet" "public" {
   vpc_id            = "${data.aws_vpc.current.id}"
-  cidr_block        = "${cidrsubnet(data.aws_vpc.current.cidr_block, 8 ,10 + 1 + count.index)}"
+  cidr_block        = "${cidrsubnet(cidrsubnet(data.aws_vpc.current.cidr_block, 3, var.subnet_tier), 5, count.index)}"
   availability_zone = "${element(split(",", var.azs), count.index)}"
   count             = "${length(split(",", var.azs))}"
 
-  ipv6_cidr_block                 = "${cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 8 ,10 + count.index)}"
+  ipv6_cidr_block                 = "${cidrsubnet(cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 3, var.subnet_tier), 5, count.index)}"
   assign_ipv6_address_on_creation = true
 
   tags {
     Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
-    Network = "${var.name}"
+    Network = "subnet-tier-${var.subnet_tier}"
   }
 
   lifecycle {
@@ -72,7 +74,7 @@ output "subnet_ids" {
   value = "${join(",", aws_subnet.public.*.id)}"
 }
 
-output "tag_value" {
-  value      = "${var.name}"
+output "tier" {
+  value      = "subnet-tier-${var.subnet_tier}"
   depends_on = ["aws_subnet.public"]
 }

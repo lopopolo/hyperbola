@@ -3,15 +3,12 @@
 # host
 #--------------------------------------------------------------
 
-variable "name" {
-  default = "bastion"
-}
+variable "name" {}
 
 variable "vpc_id" {}
-variable "public_subnet_name" {}
+variable "public_subnet_tier" {}
 
 variable "key_name" {}
-
 variable "instance_type" {}
 
 data "aws_vpc" "selected" {
@@ -22,128 +19,13 @@ data "aws_subnet_ids" "public" {
   vpc_id = "${data.aws_vpc.selected.id}"
 
   tags {
-    Network = "${var.public_subnet_name}"
+    Network = "${var.public_subnet_tier}"
   }
 }
 
-data "external" "bastion-ingress" {
-  program = ["bash", "external/my-ip.sh"]
-}
-
-resource "aws_security_group" "bastion" {
-  name        = "${var.name}"
-  vpc_id      = "${data.aws_vpc.selected.id}"
-  description = "Bastion security group"
-
-  tags {
-    Name = "${var.name}"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  ingress {
-    protocol    = -1
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["${data.aws_vpc.selected.cidr_block}"]
-  }
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
-    cidr_blocks = ["${data.external.bastion-ingress.result.cidr}"]
-  }
-
-  egress {
-    protocol    = -1
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["*ubuntu-xenial-16.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-resource "aws_iam_instance_profile" "bastion" {
-  name = "bastion_profile"
-  role = "${aws_iam_role.bastion.name}"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_iam_role" "bastion" {
-  name = "bastion"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-
-# https://github.com/skymill/aws-ec2-assign-elastic-ip#required-iam-permissions
-# as well as describe autoscaling for motd script
-resource "aws_iam_role_policy" "bastion" {
-  name = "bastion"
-  role = "${aws_iam_role.bastion.id}"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:AssociateAddress",
-        "ec2:Describe*",
-        "autoscaling:Describe*"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_eip" "bastion" {
-  vpc = true
-
-  lifecycle {
-    create_before_destroy = true
-  }
+data "aws_subnet" "public" {
+  count = "${length(data.aws_subnet_ids.public.ids)}"
+  id    = "${data.aws_subnet_ids.public.ids[count.index]}"
 }
 
 data "aws_route53_zone" "aws-dc" {
@@ -153,61 +35,38 @@ data "aws_route53_zone" "aws-dc" {
 
 resource "aws_route53_record" "aws-dc" {
   zone_id = "${data.aws_route53_zone.aws-dc.zone_id}"
-  name    = "bastion"
+  name    = "${var.name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_eip.bastion.public_ip}"]
+  records = ["${aws_cloudformation_stack.bastion.outputs["EIP"]}"]
 }
 
-resource "aws_launch_configuration" "bastion" {
-  name_prefix          = "${var.name}-"
-  image_id             = "${data.aws_ami.ubuntu.id}"
-  instance_type        = "${var.instance_type}"
-  user_data            = "${file("${path.module}/bastion_init.sh")}"
-  key_name             = "${var.key_name}"
-  security_groups      = ["${aws_security_group.bastion.id}"]
-  iam_instance_profile = "${aws_iam_instance_profile.bastion.name}"
+# http://docs.aws.amazon.com/quickstart/latest/linux-bastion/welcome.html
+resource "aws_cloudformation_stack" "bastion" {
+  name         = "${var.name}-stack"
+  capabilities = ["CAPABILITY_IAM"]
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_autoscaling_group" "bastion" {
-  name                      = "${aws_launch_configuration.bastion.name}"
-  vpc_zone_identifier       = ["${data.aws_subnet_ids.public.ids}"]
-  desired_capacity          = "1"
-  min_size                  = "1"
-  max_size                  = "1"
-  health_check_grace_period = "60"
-  health_check_type         = "EC2"
-  force_delete              = false
-  wait_for_capacity_timeout = 0
-  launch_configuration      = "${aws_launch_configuration.bastion.name}"
-
-  tag {
-    key                 = "Name"
-    value               = "${var.name}"
-    propagate_at_launch = true
+  parameters {
+    AvailabilityZones   = "${data.aws_subnet.public.0.availability_zone},${data.aws_subnet.public.1.availability_zone}"
+    BastionAMIOS        = "Amazon-Linux-HVM"
+    BastionInstanceType = "${var.instance_type}"
+    KeyPairName         = "${var.key_name}"
+    NumBastionHosts     = "1"
+    PublicSubnet1ID     = "${data.aws_subnet.public.0.id}"
+    PublicSubnet2ID     = "${data.aws_subnet.public.1.id}"
+    RemoteAccessCIDR    = "0.0.0.0/0"
+    VPCID               = "${data.aws_vpc.selected.id}"
   }
 
-  tag {
-    key                 = "EIP"
-    value               = "${aws_eip.bastion.public_ip}"
-    propagate_at_launch = true
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
+  template_body = "${file("${path.module}/linux-bastion-master.template")}"
 }
 
 output "user" {
-  value = "ubuntu"
+  value = "ec2-user"
 }
 
 output "public_ip" {
-  value = "${aws_eip.bastion.public_ip}"
+  value = "${aws_cloudformation_stack.bastion.outputs["EIP"]}"
 }
 
 output "fqdn" {
@@ -215,9 +74,9 @@ output "fqdn" {
 }
 
 output "security_group_id" {
-  value = "${aws_security_group.bastion.id}"
+  value = "${aws_cloudformation_stack.bastion.outputs["BastionSecurityGroupID"]}"
 }
 
 output "ingress_cidr" {
-  value = "${data.external.bastion-ingress.result.cidr}"
+  value = "0.0.0.0/0"
 }

@@ -18,6 +18,7 @@ ExecStart=/hyperbola/app/current/bin/artifact-exec gunicorn \
     --pythonpath /hyperbola/app/current/app \
     hyperbola.wsgi:application
 PrivateTmp=true
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

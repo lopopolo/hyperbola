@@ -22,11 +22,15 @@ class Command(BaseCommand):
     now = datetime.datetime.utcnow()
     S3_BACKUP_VERSION = getattr(settings, 'HYPERBOLA_S3_BACKUP_VERSION', 'v5')
     S3_BACKUP_TIMESTAMP = now.strftime('%Y-%m-%dT%H%MZ')
-    S3_BACKUP_BUCKET = getattr(settings, 'HYPERBOLA_S3_BACKUP_BUCKET', 'hyperbola-app-backup')
+    S3_BACKUP_BUCKET = getattr(
+        settings,
+        'HYPERBOLA_S3_BACKUP_BUCKET',
+        'hyperbola-app-backup-{}'.format(settings.ENVIRONMENT)
+    )
     S3_BACKUP_KEY_PREFIX = Path('{}/{}'.format(S3_BACKUP_VERSION, settings.ENVIRONMENT))
 
     def handle(self, *args, **options):
-        s3 = boto3.resource('s3')
+        s3 = boto3.resource('s3', settings.AWS_REGION)
 
         dumpdata_file_name = 'hyperbola-app-{}.json'.format(self.S3_BACKUP_TIMESTAMP)
         dumpdata_file_key = str(self.S3_BACKUP_KEY_PREFIX.joinpath('database', dumpdata_file_name))

@@ -1,8 +1,6 @@
-variable "backup_s3_arn" {}
-
 resource "aws_iam_instance_profile" "app" {
-  name = "hyperbola-app-${var.env}"
-  role = "${aws_iam_role.app.name}"
+  name_prefix = "app-profile-"
+  role        = "${aws_iam_role.app.name}"
 
   lifecycle {
     create_before_destroy = true
@@ -10,7 +8,7 @@ resource "aws_iam_instance_profile" "app" {
 }
 
 resource "aws_iam_role" "app" {
-  name = "hyperbola-app-${var.env}"
+  name_prefix = "app-role-"
 
   assume_role_policy = <<EOF
 {
@@ -30,8 +28,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "app" {
-  name = "hyperbola-app-${var.env}"
-  role = "${aws_iam_role.app.id}"
+  name_prefix = "app-policy-"
+  role        = "${aws_iam_role.app.id}"
 
   policy = <<EOF
 {
@@ -41,10 +39,14 @@ resource "aws_iam_role_policy" "app" {
     "Action": "s3:*",
     "Resource": ["${aws_s3_bucket.media.arn}",
                  "${aws_s3_bucket.media.arn}/*",
-                 "${var.backup_s3_arn}",
-                 "${var.backup_s3_arn}/*"]
+                 "${aws_s3_bucket.backup.arn}",
+                 "${aws_s3_bucket.backup.arn}/*"]
     }
   ]
 }
 EOF
+}
+
+output "app_instance_profile" {
+  value = "${aws_iam_instance_profile.app.name}"
 }

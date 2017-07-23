@@ -45,7 +45,7 @@ class EnvironmentConfig(object):
         self.environment = Env.make('ENVIRONMENT')
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
-        self.redis = self.RedisConfig()
+        self.redis = self.RedisConfig(self.environment)
         self.content = self.ContentConfig(self.environment, root_path)
 
     def __str__(self):
@@ -60,10 +60,6 @@ class EnvironmentConfig(object):
         elif self.environment is Env.local:
             return ['app.local.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
-
-    @property
-    def is_alb(self):
-        return False
 
     @property
     def is_secure(self):
@@ -111,11 +107,29 @@ class EnvironmentConfig(object):
             self.name = Env.source('DB_NAME')
 
     class RedisConfig(object):
-        def __init__(self):
+        def __init__(self, environment):
+            self.environment = environment
             self.host = Env.source('REDIS_HOST')
             self.port = Env.source('REDIS_PORT')
             self.password = Env.source('REDIS_PASSWORD')
             self.name = Env.source('REDIS_NAME', 0)
+
+        @property
+        def additional_options(self):
+            if self.environment in [Env.production]:
+                return {
+                    'REDIS_CLIENT_CLASS': 'rediscluster.client.StrictRedisCluster',
+                    'REDIS_CLIENT_KWARGS': {
+                        'skip_full_coverage_check': True,
+                        'host': ENVIRONMENT.redis.host,
+                        'port': ENVIRONMENT.redis.port
+                    },
+                    'CONNECTION_POOL_CLASS': 'rediscluster.connection.ClusterConnectionPool',
+                    'CONNECTION_POOL_KWARGS': {
+                        'skip_full_coverage_check': True
+                    },
+                }
+            return {}
 
         def connection_string(self, name=None):
             if name is None:
@@ -131,10 +145,12 @@ class EnvironmentConfig(object):
             self.static_dirs = [root_path.joinpath('dist')]
             self.static_url = '/static/'
             if environment in [Env.production, Env.staging]:
-                self.media_url = 'https://www.hyperbolacdn.com/hyperbolausercontent/'
-            else:
+                self.media_bucket_name = 'www.hyperbolausercontent.net'
+                self.aws_region = 'us-west-2'
+            elif environment in [Env.local, Env.dev]:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
-                self.media_url = 'https://{}/'.format(self.media_bucket_name)
+                self.aws_region = 'us-east-1'
+            self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
 PROJECT_PATH = Path(__file__).resolve().parent
@@ -173,21 +189,14 @@ CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': ENVIRONMENT.redis.connection_string(0),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
     },
-    'sessions': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ENVIRONMENT.redis.connection_string(1),
-        'OPTIONS': {
-            'IGNORE_EXCEPTIONS': True,
-        }
-    }
 }
+
+default_options = CACHES['default'].get('OPTIONS', {})
+CACHES['default']['OPTIONS'] = {**default_options, **ENVIRONMENT.redis.additional_options}
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'sessions'
-DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
+SESSION_CACHE_ALIAS = 'default'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -209,6 +218,7 @@ DEFAULT_FILE_STORAGE = 'django_s3_storage.storage.S3Storage'
 AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
 AWS_S3_BUCKET_AUTH = False
 AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
+AWS_REGION = ENVIRONMENT.content.aws_region
 
 MEDIA_ROOT = str(ENVIRONMENT.content.media_root)
 
@@ -330,6 +340,7 @@ if ENVIRONMENT.environment is Env.dev:
         ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
+    HYPERBOLA_S3_BACKUP_BUCKET = 'hyperbola-app-backup-local'
     if False:  # pylint: disable=using-constant-test
         # workaround for intellij dying on dynamically-created INSTALLED_APPS
         # https://stackoverflow.com/a/42672633

@@ -1,7 +1,13 @@
 variable "env" {}
 variable "bucket" {}
 
+provider "aws" {
+  region = "us-east-1"
+  alias  = "cloudfront-acm-region"
+}
+
 data "aws_acm_certificate" "cdn" {
+  provider = "aws.cloudfront-acm-region"
   domain   = "*.hyperbolausercontent.net"
   statuses = ["ISSUED"]
 }
@@ -58,7 +64,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
 resource "aws_s3_bucket" "media" {
   bucket = "${var.bucket}.hyperbolausercontent.net"
-  acl    = "public-read"
+  acl    = "private"
 
   versioning {
     enabled = true
@@ -68,4 +74,8 @@ resource "aws_s3_bucket" "media" {
     Name        = "hyperbola-app media files for ${var.env}"
     Environment = "${var.env}"
   }
+}
+
+output "media_bucket" {
+  value = "${aws_s3_bucket.media.bucket}"
 }

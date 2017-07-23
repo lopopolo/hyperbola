@@ -1,8 +1,7 @@
 import itertools
 
-from django.conf import settings
-from django.http import Http404
-from django.shortcuts import redirect, render
+from django.http import Http404, StreamingHttpResponse
+from django.shortcuts import render
 
 from .models import (
     AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
@@ -41,6 +40,6 @@ def resume(request):
         newest = Resume.objects.latest("date")
     except Resume.DoesNotExist:
         raise Http404
-    if settings.ENVIRONMENT.is_alb:
-        raise NotImplementedError("ALB should handle serving resume from S3")
-    return redirect(newest.resume.url)
+    response = StreamingHttpResponse(newest.resume, content_type="application/pdf")
+    response["Content-Length"] = newest.resume.size
+    return response

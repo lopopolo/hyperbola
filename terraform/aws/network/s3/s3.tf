@@ -1,19 +1,15 @@
 variable "vpc_id" {}
-variable "private_subnet_name" {}
+variable "private_subnet_tier" {}
 
 data "aws_vpc" "current" {
   id = "${var.vpc_id}"
-}
-
-data "aws_region" "current" {
-  current = true
 }
 
 data "aws_subnet_ids" "private" {
   vpc_id = "${data.aws_vpc.current.id}"
 
   tags {
-    Network = "${var.private_subnet_name}"
+    Network = "${var.private_subnet_tier}"
   }
 }
 
@@ -22,8 +18,16 @@ data "aws_route_table" "private" {
   subnet_id = "${data.aws_subnet_ids.private.ids[count.index]}"
 }
 
-resource "aws_vpc_endpoint" "private-backup-s3-endpoint" {
+data "aws_vpc_endpoint_service" "s3" {
+  service = "s3"
+}
+
+resource "aws_vpc_endpoint" "s3" {
   vpc_id          = "${data.aws_vpc.current.id}"
-  service_name    = "com.amazonaws.${data.aws_region.current.name}.s3"
+  service_name    = "${data.aws_vpc_endpoint_service.s3.service_name}"
   route_table_ids = ["${data.aws_route_table.private.*.id}"]
+}
+
+output "s3_endpoint_prefix_list_id" {
+  value = "${aws_vpc_endpoint.s3.prefix_list_id}"
 }

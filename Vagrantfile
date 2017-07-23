@@ -4,15 +4,21 @@
 # vi: set ft=ruby :
 # vi: set expandtab :
 
+# https://stackoverflow.com/a/38203497
+# Function to check whether VM was already provisioned
+def provisioned?(vm_name = 'default', provider = 'virtualbox')
+  File.exist?(".vagrant/machines/#{vm_name}/#{provider}/action_provision")
+end
+
+# rubocop:disable Metrics/BlockLength
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/xenial64'
 
-  provisioned = true
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
   config.vm.define 'app-test-1' do |app|
-    app.vm.synced_folder '~/.aws', '/home/hyperbola-app/.aws', disabled: !provisioned, owner: 'hyperbola-app'
+    app.vm.synced_folder '~/.aws', '/home/hyperbola-app/.aws', disabled: !provisioned?('app-test-1'), owner: 'hyperbola-app'
 
     app.vm.network 'private_network', ip: '192.168.10.20'
 
@@ -20,8 +26,11 @@ Vagrant.configure('2') do |config|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
-        'wiki' => ['wiki-test-1'],
-        'all_groups:children' => ['wiki']
+        'app' => ['app-test-1'],
+        'app:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3'
+        },
+        'all_groups:children' => ['app']
       }
     end
 
@@ -32,6 +41,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'app' => ['app-test-1'],
         'app:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
           'app_nginx_domain' => 'app.local.hyperboladc.net'
         },

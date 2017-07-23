@@ -18,6 +18,10 @@ module "vpc" {
   cidr = "${var.vpc_cidr}"
 }
 
+module "tier" {
+  source = "./subnet_tier"
+}
+
 module "public_subnet" {
   source = "./public_subnet"
 
@@ -25,6 +29,7 @@ module "public_subnet" {
   vpc_id = "${module.vpc.vpc_id}"
   azs    = "${var.azs}"
 
+  subnet_tier       = "${module.tier.public}"
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
 
@@ -35,6 +40,7 @@ module "private_subnet" {
   vpc_id = "${module.vpc.vpc_id}"
   azs    = "${var.azs}"
 
+  subnet_tier       = "${module.tier.private}"
   nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
@@ -44,7 +50,7 @@ module "bastion" {
 
   name               = "${var.name}-bastion"
   vpc_id             = "${module.vpc.vpc_id}"
-  public_subnet_name = "${module.public_subnet.tag_value}"
+  public_subnet_tier = "${module.public_subnet.tier}"
   key_name           = "${var.key_name}"
   instance_type      = "${var.bastion_instance_type}"
 }
@@ -54,14 +60,14 @@ module "nat" {
 
   name               = "${var.name}-nat"
   vpc_id             = "${module.vpc.vpc_id}"
-  public_subnet_name = "${module.public_subnet.tag_value}"
+  public_subnet_tier = "${module.public_subnet.tier}"
 }
 
 module "s3" {
   source = "./s3"
 
   vpc_id              = "${module.vpc.vpc_id}"
-  private_subnet_name = "${module.private_subnet.tag_value}"
+  private_subnet_tier = "${module.private_subnet.tier}"
 }
 
 resource "aws_network_acl" "acl" {
@@ -118,13 +124,17 @@ output "vpc_cidr" {
   value = "${module.vpc.vpc_cidr}"
 }
 
-# Subnets
-output "public_subnet_name" {
-  value = "${module.public_subnet.tag_value}"
+output "egress_gateway_id" {
+  value = "${module.vpc.egress_gateway_id}"
 }
 
-output "private_subnet_name" {
-  value = "${module.private_subnet.tag_value}"
+# Subnets
+output "public_subnet_tier" {
+  value = "${module.public_subnet.tier}"
+}
+
+output "private_subnet_tier" {
+  value = "${module.private_subnet.tier}"
 }
 
 # Bastion
@@ -151,4 +161,9 @@ output "bastion_ingress_cidr" {
 # NAT
 output "nat_gateway_ids" {
   value = "${module.nat.nat_gateway_ids}"
+}
+
+# S3
+output "s3_endpoint_prefix_list_id" {
+  value = "${module.s3.s3_endpoint_prefix_list_id}"
 }
