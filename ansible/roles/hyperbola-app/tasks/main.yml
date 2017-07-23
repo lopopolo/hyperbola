@@ -160,11 +160,17 @@
   notify: reload systemd units
 - name: Enable app instantiated units
   systemd:
-    name: "{{ item }}"
-    state: started
-    enabled: true
+    name: "{{ item.unit }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled }}"
     daemon_reload: true
   with_items:
-    - "hyperbola-app@{{ hyperbola_environment }}.service"
-    - "hyperbola-app-backup@{{ hyperbola_environment }}.service"
-    - "hyperbola-app-backup@{{ hyperbola_environment }}.timer"
+    - unit: "hyperbola-app@{{ hyperbola_environment }}.service"
+      enabled: true
+      state: started
+    - unit: "hyperbola-app-backup@{{ hyperbola_environment }}.service"
+      enabled: false
+      state: stopped
+    - unit: "hyperbola-app-backup@{{ hyperbola_environment }}.timer"
+      enabled: true
+      state: stopped
