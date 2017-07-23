@@ -10,6 +10,7 @@ def provisioned?(vm_name = 'default', provider = 'virtualbox')
   File.exist?(".vagrant/machines/#{vm_name}/#{provider}/action_provision")
 end
 
+# rubocop:disable Metrics/BlockLength
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/xenial64'
 
@@ -26,6 +27,9 @@ Vagrant.configure('2') do |config|
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
         'app' => ['app-test-1'],
+        'app:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3'
+        },
         'all_groups:children' => ['app']
       }
     end
@@ -37,6 +41,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'app' => ['app-test-1'],
         'app:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
           'app_nginx_domain' => 'app.local.hyperboladc.net'
         },

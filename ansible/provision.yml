@@ -3,36 +3,7 @@
   become: true
   become_method: sudo
   become_user: root
-  gather_facts: no
-  pre_tasks:
-  - name: apt-get update
-    raw: apt-get update
-    tags:
-    - skip_ansible_lint
-  - name: install python2 # http://stackoverflow.com/a/34402816
-    raw: apt-get -y install python
-    tags:
-    - skip_ansible_lint
   tasks:
-  - name: Gathering facts
-    setup:
-  - name: install aptitude
-    command: apt-get -y install aptitude
-    args:
-      creates: /usr/bin/aptitude
-      warn: false
-    tags:
-    - skip_ansible_lint
-  - name: Install ansible dependencies
-    apt: name={{ item }} state=present
-    with_items:
-    - python-apt
-    - python-passlib
-    - python-pip
-    - python3-pip
-    - python-simplejson
-    - python3-venv
-    - python-virtualenv
   - name: Get base packages from dpkg
     command: dpkg --get-selections
     args:
@@ -44,8 +15,25 @@
     set_fact:
       dpkg_base_packages: "{{ dpkg_get_selections.stdout }}"
     no_log: true
-  - name: Install filesystem acls # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
-    apt: name=acl state=present
+  - name: Update apt cache
+    apt:
+      update_cache: true
+      cache_valid_time: 600
+  - name: Install ansible dependencies
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - python3-apt
+    - python3-passlib
+    - python3-pip
+    - python3-simplejson
+    - python3-venv
+  # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
+  - name: Install filesystem acls
+    apt:
+      name: acl
+      state: present
   handlers:
   - name: save base package manifest
     copy: content="{{ dpkg_base_packages }}" dest=/root/base-system-packages.txt
