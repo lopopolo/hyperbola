@@ -62,10 +62,6 @@ class EnvironmentConfig(object):
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
-    def is_alb(self):
-        return False
-
-    @property
     def is_secure(self):
         return self.environment in [Env.production, Env.staging]
 
