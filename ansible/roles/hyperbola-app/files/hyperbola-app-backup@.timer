@@ -1,0 +1,11 @@
+[Unit]
+Description=Run hyperbola-app-backup daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+# 6 hour randomized delay
+RandomizedDelaySec=21600
+
+[Install]
+WantedBy=timers.target

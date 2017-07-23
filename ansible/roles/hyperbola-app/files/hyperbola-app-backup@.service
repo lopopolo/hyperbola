@@ -1,0 +1,9 @@
+[Unit]
+Description=Run hyperbola_database_backup on current app
+
+[Service]
+Type=oneshot
+User=hyperbola-app
+Group=hyperbola-app
+WorkingDirectory=/hyperbola/app/current
+ExecStart=/hyperbola/app/current/bin/artifact-exec python app/manage.py hyperbola_database_backup

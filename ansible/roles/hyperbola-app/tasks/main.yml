@@ -150,12 +150,21 @@
 # services
 - name: Install systemd units
   copy:
-    src: hyperbola-app@.service
+    src: "{{ item }}"
     dest: /etc/systemd/system
     mode: 0444
+  with_items:
+    - hyperbola-app@.service
+    - hyperbola-app-backup@.service
+    - hyperbola-app-backup@.timer
   notify: reload systemd units
-- name: Enable wiki instantiated units
+- name: Enable app instantiated units
   systemd:
-    name: "hyperbola-app@{{ hyperbola_environment }}.service"
+    name: "{{ item }}"
     state: started
     enabled: true
+    daemon_reload: true
+  with_items:
+    - "hyperbola-app@{{ hyperbola_environment }}.service"
+    - "hyperbola-app-backup@{{ hyperbola_environment }}.service"
+    - "hyperbola-app-backup@{{ hyperbola_environment }}.timer"
