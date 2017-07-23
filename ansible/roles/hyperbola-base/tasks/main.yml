@@ -5,6 +5,8 @@
   command: apt-get upgrade -y -qq
   args:
     warn: false
+  environment:
+    DEBIAN_FRONTEND: noninteractive
   tags:
   - skip_ansible_lint
 - name: base packages
