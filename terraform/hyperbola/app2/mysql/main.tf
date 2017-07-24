@@ -33,9 +33,8 @@ resource "aws_db_instance" "main_rds_instance" {
 
   maintenance_window      = "sun:10:18-sun:10:48" # UTC
   backup_retention_period = 30
-  backup_window           = "09:22-09:52" # UTC
-  skip_final_snapshot = true
-
+  backup_window           = "09:22-09:52"         # UTC
+  skip_final_snapshot     = true
 
   tags {
     Name        = "${var.name}"

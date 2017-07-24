@@ -12,6 +12,7 @@
     -   id: check-merge-conflict
     -   id: check-symlinks
     -   id: check-yaml
+        exclude: (ansible\/roles\/hyperbola-app\/vars\/production.yml)
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
@@ -66,6 +67,14 @@
     sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
     hooks:
     -   id: shell-lint
+        types: [executable, bash]
+        files: .
+    -   id: shell-lint
+        types: [executable, sh]
+        files: .
+    -   id: shell-lint
+        types: [executable, zsh]
+        files: .
 -   repo: local
     hooks:
     -   id: build-frontend
