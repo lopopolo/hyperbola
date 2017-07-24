@@ -20,7 +20,7 @@ variable "cloudflare_token" {
 
 provider "cloudflare" {
   email = "${var.cloudflare_email}"
-  token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../../../.secrets/cloudflare-api-key.txt")))}"
+  token = "${var.cloudflare_token}"
 }
 
 module "hyperbola-app" {
