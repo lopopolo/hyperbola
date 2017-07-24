@@ -67,13 +67,7 @@
     sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
     hooks:
     -   id: shell-lint
-        types: [executable, bash]
-        files: .
-    -   id: shell-lint
-        types: [executable, sh]
-        files: .
-    -   id: shell-lint
-        types: [executable, zsh]
+        types: [shell]
         files: .
 -   repo: local
     hooks:
