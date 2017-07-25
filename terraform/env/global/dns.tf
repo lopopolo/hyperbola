@@ -30,11 +30,6 @@ module "aws-dc" {
   dc     = "aws"
 }
 
-module "linode-dc" {
-  source = "../../hyperbola/dc"
-  dc     = "linode"
-}
-
 module "local-dc" {
   source = "../../hyperbola/dc"
   dc     = "local"
@@ -54,10 +49,6 @@ output "hyperboladc-zone-id" {
 
 output "aws-hyperboladc-zone-id" {
   value = "${module.aws-dc.zone-id}"
-}
-
-output "linode-hyperboladc-zone-id" {
-  value = "${module.linode-dc.zone-id}"
 }
 
 output "local-hyperboladc-zone-id" {
