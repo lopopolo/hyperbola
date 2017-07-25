@@ -22,7 +22,7 @@ indent_size = 2
 
 [*.json]
 indent_size = 2
-insert_final_newline = ignore
+insert_final_newline = false
 
 [**/dist/**]
 indent_style = ignore
@@ -30,7 +30,7 @@ indent_size = ignore
 
 [**.min.{css,js}]
 indent_style = ignore
-insert_final_newline = ignore
+insert_final_newline = false
 
 [Makefile]
 indent_style = tab
