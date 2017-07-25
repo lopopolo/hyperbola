@@ -2,13 +2,11 @@ variable "cloudflare_email" {
   default = "rjl@hyperbo.la"
 }
 
-variable "cloudflare_token" {
-  default = ""
-}
+variable "cloudflare_token" {}
 
 provider "cloudflare" {
   email = "${var.cloudflare_email}"
-  token = "${coalesce(var.cloudflare_token, trimspace(file("${path.root}/../../../.secrets/cloudflare-api-key.txt")))}"
+  token = "${var.cloudflare_token}"
 }
 
 # Route 53 DNS

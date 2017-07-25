@@ -1,5 +1,10 @@
-variable "name" {}
-variable "iam_admins" {}
+variable "name" {
+  default = "hyperbola-global"
+}
+
+variable "iam_admins" {
+  default = "hyperbola-admin-2"
+}
 
 terraform {
   required_version = "> 0.9.7"
