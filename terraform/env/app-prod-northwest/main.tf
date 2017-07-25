@@ -21,13 +21,13 @@ terraform {
 }
 
 module "hyperbola-app-base" {
-  source = "../../hyperbola/app2/base"
+  source = "../../hyperbola/app/base"
   env    = "${var.env}"
   bucket = "www"
 }
 
 module "hyperbola-app-redis" {
-  source = "../../hyperbola/app2/redis"
+  source = "../../hyperbola/app/redis"
   env    = "${var.env}"
   name   = "${var.name}-redis"
 
@@ -36,7 +36,7 @@ module "hyperbola-app-redis" {
 }
 
 module "hyperbola-app-mysql" {
-  source = "../../hyperbola/app2/mysql-aurora"
+  source = "../../hyperbola/app/mysql-aurora"
   env    = "${var.env}"
   name   = "${var.name}-mysql-aurora"
 
@@ -47,7 +47,7 @@ module "hyperbola-app-mysql" {
 }
 
 module "hyperbola-app-backend" {
-  source   = "../../hyperbola/app2/backend"
+  source   = "../../hyperbola/app/backend"
   name     = "${var.name}"
   env      = "${var.env}"
   key_name = "hyperbola-cas"

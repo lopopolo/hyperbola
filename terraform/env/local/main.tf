@@ -33,7 +33,7 @@ resource "aws_route53_record" "app-local-dc" {
 }
 
 module "hyperbola-app-aws" {
-  source = "../../hyperbola/app2/base"
+  source = "../../hyperbola/app/base"
   env    = "local"
   bucket = "local"
 }
