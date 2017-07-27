@@ -4,6 +4,8 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PurifyCSSPlugin = require("purifycss-webpack");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 module.exports = {
     entry: {
         main: ["main", "hyperbola.browser"],
@@ -16,29 +18,7 @@ module.exports = {
         modules: ["node_modules", "src"],
         extensions: [".js"]
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("production")
-        }),
-        new ExtractTextPlugin("[name].bundle.css"),
-        new PurifyCSSPlugin({
-            // Give paths to parse for rules. These should be absolute!
-            paths: glob.sync([
-                path.join(__dirname, "app/hyperbola/templates/*.html"),
-                path.join(__dirname, "app/hyperbola/*/templates/*.html"),
-            ]),
-            minimize: true,
-        }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-            },
-            output: {
-                comments: false,
-            },
-        }),
-    ],
+    plugins: plugins(isProduction),
     module: {
         rules: [
             {
@@ -88,3 +68,22 @@ module.exports = {
         ],
     },
 };
+
+function plugins(isProd) {
+    const p = [
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new ExtractTextPlugin("[name].bundle.css"),
+        new PurifyCSSPlugin({
+            // Give paths to parse for rules. These should be absolute!
+            paths: glob.sync([
+                path.join(__dirname, "app/hyperbola/templates/*.html"),
+                path.join(__dirname, "app/hyperbola/*/templates/*.html"),
+            ]),
+            minimize: isProd,
+        }),
+    ];
+    if (isProd) {
+        p.push(new webpack.optimize.UglifyJsPlugin());
+    }
+    return p;
+}

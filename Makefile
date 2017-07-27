@@ -26,7 +26,7 @@ install_roles:
 
 .PHONY: build
 build:
-	gulp
+	NODE_ENV="production" gulp
 
 .PHONY: release
 release:
