@@ -83,6 +83,8 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
+        'bleach',
+        'bleach-whitelist',
         'Django ~= 1.11.0',
         'django-localflavor',
         'django-missing',

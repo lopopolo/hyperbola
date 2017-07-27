@@ -11,7 +11,9 @@ variable "vpc_id" {}
 variable "azs" {}
 
 variable "nat_enabled" {
-  default = true
+  # https://www.terraform.io/docs/configuration/variables.html#booleans
+  type    = "string"
+  default = "true"
 }
 
 variable "nat_gateway_ids" {}
@@ -44,7 +46,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_route_table" "private" {
   vpc_id = "${data.aws_vpc.current.id}"
-  count  = "${var.nat_enabled ? length(split(",", var.azs)) : 0}"
+  count  = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
 
   route {
     cidr_block     = "0.0.0.0/0"
@@ -66,7 +68,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  count          = "${var.nat_enabled ? length(split(",", var.azs)) : 0}"
+  count          = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
   subnet_id      = "${element(aws_subnet.private.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
 

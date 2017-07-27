@@ -1,7 +1,11 @@
-import markdown as _markdown
+import bleach
+from bleach_whitelist.bleach_whitelist import (
+    all_styles, markdown_attrs, markdown_tags,
+)
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
+from markdown import markdown as markdown_render
 
 from .. import make_escape_function
 
@@ -33,9 +37,5 @@ def anti_spamize(email, autoescape=True):
 
 @register.filter
 def markdown(text):
-    class EscapeHTML(_markdown.Extension):
-        def extendMarkdown(self, md, md_globals):
-            del md.preprocessors['html_block']
-            del md.inlinePatterns['html']
-
-    return mark_safe(_markdown.markdown(text, extensions=[EscapeHTML()]))
+    # https://pythonhosted.org/Markdown/release-2.6.html#safe_mode-deprecated
+    return mark_safe(bleach.clean(markdown_render(text), markdown_tags, markdown_attrs, all_styles))

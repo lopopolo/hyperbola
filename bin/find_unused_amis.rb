@@ -3,7 +3,7 @@
 
 require 'aws-sdk-v1'
 
-regions = ["us-east-1", "us-west-2"]
+regions = %w[us-east-1 us-west-2]
 
 regions.each do |region|
   puts "# #{region}"

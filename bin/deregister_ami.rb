@@ -8,7 +8,7 @@ if ARGV.empty?
   exit(1)
 end
 
-clients = ["us-east-1", "us-west-2"].map { |region| AWS::EC2.new(region: region) }
+clients = %w[us-east-1 us-west-2].map { |region| AWS::EC2.new(region: region) }
 ARGV.each do |ami_id|
   clients.each do |client|
     begin

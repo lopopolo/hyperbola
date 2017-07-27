@@ -87,7 +87,7 @@ module "mysql-subnets" {
   azs    = "${var.azs}"
 
   subnet_tier       = "${module.tier.private-mysql}"
-  nat_enabled       = false
+  nat_enabled       = "false"
   nat_gateway_ids   = ""
   egress_gateway_id = ""
 }

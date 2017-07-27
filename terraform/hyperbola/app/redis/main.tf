@@ -29,7 +29,7 @@ module "redis-subnets" {
   azs    = "${var.azs}"
 
   subnet_tier       = "${module.tier.private-redis}"
-  nat_enabled       = false
+  nat_enabled       = "false"
   nat_gateway_ids   = ""
   egress_gateway_id = ""
 }
