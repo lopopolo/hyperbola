@@ -1,16 +1,16 @@
-var del = require("del");
-var favicons = require("gulp-favicons");
-var filter = require("gulp-filter");
-var gulp = require("gulp");
-var gutil = require("gulp-util");
-var imagemin = require("gulp-imagemin");
-var runSequence = require("run-sequence");
-var svg2png = require("gulp-svg2png");
-var webpack = require("webpack-stream");
+import del from "del";
+import favicons from "gulp-favicons";
+import filter from "gulp-filter";
+import gulp from "gulp";
+import gutil from "gulp-util";
+import imagemin from "gulp-imagemin";
+import runSequence from "run-sequence";
+import svg2png from "gulp-svg2png";
+import webpack from "webpack-stream";
 
 gulp.task("default", ["build"]);
 
-gulp.task("build", function(callback) {
+gulp.task("build", (callback) => {
     runSequence(
         "clean",
         ["build:webpack", "img"],
@@ -18,7 +18,7 @@ gulp.task("build", function(callback) {
     );
 });
 
-gulp.task("clean", function () {
+gulp.task("clean", () => {
     return del([
         "./dist/**",
         "!./dist/**/.gitignore",
@@ -27,7 +27,7 @@ gulp.task("clean", function () {
     ]);
 });
 
-gulp.task("build:webpack", function() {
+gulp.task("build:webpack", () => {
     return gulp.src("./src/main.js")
         .pipe(webpack(require("./webpack.config.js"), require("webpack")))
         .on("error", function(errorInfo) {
@@ -39,7 +39,7 @@ gulp.task("build:webpack", function() {
 
 gulp.task("img", ["img:favicon"]);
 
-gulp.task("img:favicon", function () {
+gulp.task("img:favicon", () => {
     return gulp.src("./src/img/logo.favicon.svg")
         .pipe(svg2png({width: 160* 3, height: 160 * 3}))
         .pipe(favicons({
