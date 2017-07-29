@@ -79,6 +79,15 @@ resource "cloudflare_record" "hyperbo_la_TXT_49a78f709a217accef2d8db24573bdc5" {
   proxied = false
 }
 
+resource "cloudflare_record" "hyperbo_la_TXT_google-site-verification" {
+  domain  = "hyperbo.la"
+  name    = "hyperbo.la"
+  value   = "google-site-verification=Kt2HDssbfMv5OIL422wGGexn00n1W4nTAZZTfUkyig8"
+  type    = "TXT"
+  ttl     = 1
+  proxied = false
+}
+
 resource "aws_route53_record" "hyperbolausercontent-net-MX" {
   zone_id = "${aws_route53_zone.hyperbolausercontent-net-public.zone_id}"
   name    = "${aws_route53_zone.hyperbolausercontent-net-public.name}"
