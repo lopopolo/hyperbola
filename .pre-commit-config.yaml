@@ -60,19 +60,6 @@
     hooks:
     -   id: csslint
         exclude: min\.css$|dist
--   repo: local
-    hooks:
-    -   id: rubocop
-        name: rubocop
-        entry: rubocop
-        language: system
-        types: [ruby]
-        exclude: terraforming
-    -   id: rubocop
-        name: rubocop
-        entry: rubocop
-        language: system
-        files: Vagrantfile
 -   repo: https://github.com/detailyang/pre-commit-shell
     sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
     hooks:

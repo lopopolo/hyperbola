@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+
+# Based on aws-amicleaner - https://github.com/bonclay7/aws-amicleaner/commit/99fb71872e24a25aa5176f53ac7cb5e26171b8ac
+#
+# MIT License
+#
+# Copyright (c) 2016, Guy Rodrigue Koffi
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+import argparse
+import boto3
+from botocore.exceptions import ClientError
+import sys
+
+
+class Ami(object):
+    def __init__(self, json):
+        self.ami_id = json.get('ImageId')
+        self.name = json.get('Name')
+        self.creation_date = json.get('CreationDate')
+        self.state = json.get('State')
+        self.block_device_mappings = [BlockDevice(block_device)
+                                      for block_device
+                                      in json.get('BlockDeviceMappings', [])
+                                      if block_device.get('Ebs') is not None]
+
+
+class BlockDevice(object):
+    def __init__(self, json):
+        ebs = json.get('Ebs')
+        if ebs is None:
+            raise Exception('Error constructing BlockDevice')
+        self.device_name = json.get('DeviceName')
+        self.snapshot_id = ebs.get('SnapshotId')
+        self.volume_size = ebs.get('VolumeSize')
+        self.volume_type = ebs.get('VolumeType')
+        self.encrypted = ebs.get('Encrypted')
+
+
+class AmiFetcher(object):
+    def __init__(self):
+        self.ec2 = boto3.client('ec2')
+        self.asg = boto3.client('autoscaling')
+
+    def unused_amis(self):
+        self_amis = self._self_amis()
+        for in_use_ami_id in self._in_use_amis():
+            if in_use_ami_id in self_amis:
+                del self_amis[in_use_ami_id]
+        return self_amis
+
+    def self_amis_from_ids(self, ami_ids=None):
+        if ami_ids is None:
+            ami_ids = []
+        return [ami for (ami_id, ami) in self._self_amis().items() if ami_id in ami_ids]
+
+    def _self_amis(self):
+        amis = {}
+        for ami_json in self.ec2.describe_images(Owners=['self']).get('Images'):
+            ami = Ami(ami_json)
+            amis[ami.ami_id] = ami
+        return amis
+
+    def _in_use_amis(self):
+        non_terminiated_instances = self.ec2.describe_instances(
+            Filters=[
+                {
+                    'Name': 'instance-state-name',
+                    'Values': [
+                        'pending',
+                        'running',
+                        'shutting-down',
+                        'stopping',
+                        'stopped'
+                    ]
+                }
+            ]
+        )
+        amis = [i.get('ImageId', None)
+                for r in non_terminiated_instances.get('Reservations', [])
+                for i in r.get('Instances', [])]
+
+        return set(amis)
+
+
+class AmiCleaner:
+    def __init__(self):
+        self.ec2 = boto3.client('ec2')
+        self.fetcher = AmiFetcher()
+
+    def remove_amis(self, amis):
+        """deregister AMIs (array) and removes related snapshots."""
+        failed_snapshots = []
+        amis = amis or []
+
+        for ami in amis:
+            self.ec2.deregister_image(ImageId=ami.ami_id)
+            print("{} ({}) deregistered".format(ami.ami_id, ami.name))
+            for block_device in ami.block_device_mappings:
+                try:
+                    self.ec2.delete_snapshot(SnapshotId=block_device.snapshot_id)
+                except ClientError:
+                    failed_snapshots.append(block_device.snapshot_id)
+                else:
+                    print("{} deleted".format(block_device.snapshot_id))
+
+        return failed_snapshots
+
+    def remove_amis_from_ids(self, ami_ids=None):
+        if ami_ids is None:
+            ami_ids = []
+
+        return self.remove_amis(self.fetcher.self_amis_from_ids(ami_ids))
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(description='Purge unused AMIs')
+
+    parser.add_argument("--from-ids",
+                        dest='from_ids',
+                        nargs='+',
+                        help="AMI id(s) you simply want to remove")
+
+    parser.add_argument("--dry-run",
+                        dest='dry_run',
+                        action="store_true",
+                        help="Show what would be removed")
+
+    parser.add_argument("--check-orphans",
+                        dest='check_orphans',
+                        action="store_true",
+                        help="Check and clean orphaned snapshots")
+
+    return parser.parse_args(args)
+
+
+if __name__ == '__main__':
+    parsed_args = parse_args(sys.argv[1:])
+    if not parsed_args:
+        sys.exit(1)
+    if parsed_args.check_orphans:
+        pass
+    fetcher = AmiFetcher()
+    to_remove_amis = []
+    if parsed_args.from_ids:
+        to_remove_amis = parsed_args.from_ids
+    else:
+        to_remove_amis = fetcher.unused_amis()
+    if parsed_args.dry_run:
+        for image in fetcher.self_amis_from_ids(to_remove_amis):
+            print("Would remove ami {} ({})".format(image.ami_id, image.name))
+    else:
+        AmiCleaner().remove_amis_from_ids(to_remove_amis)
