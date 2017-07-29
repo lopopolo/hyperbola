@@ -1,2 +1,2 @@
-require("bootstrap-css-only/css/bootstrap.css");
-require("./main.css");
+import "bootstrap-css-only/css/bootstrap.css";
+import "./main.css";

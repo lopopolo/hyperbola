@@ -48,9 +48,6 @@
     "gulp-svg2png": "^2.0.2",
     "gulp-util": "^3.0.8",
     "ignore-loader": "^0.1.2",
-    "postcss-cssnext": "^3.0.2",
-    "postcss-import": "^10.0.0",
-    "postcss-loader": "^2.0.6",
     "purify-css": "^1.2.6",
     "purifycss-webpack": "^0.7.0",
     "resolve-url-loader": "^2.1.0",
@@ -70,5 +67,37 @@
   "dependencies": {
     "retinajs": "^2.1.2",
     "time-elements": "^0.6.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "indent": [
+        "error",
+            4
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "double"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ]
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "impliedStrict": true,
+      "sourceType": "module"
+    }
   }
 }
