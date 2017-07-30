@@ -8,11 +8,12 @@ or deployed in production and staging configurations. It depends on [Ansible](/a
 
 ## Dependencies
 
-* python3 ~= 3.5.3
 * mysql
 * nginx
-* nodejs >= 6.9 LTS
+* nodejs
+* python3 ~= 3.5.3
 * redis ~= 3.2.4
+* yarn
 
 # hyperbola-tools
 
