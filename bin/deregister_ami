@@ -128,38 +128,45 @@ class AmiCleaner:
 def parse_args(args):
     parser = argparse.ArgumentParser(description='Purge unused AMIs')
 
-    parser.add_argument("--from-ids",
+    parser.add_argument('--from-ids',
                         dest='from_ids',
                         nargs='+',
-                        help="AMI id(s) you simply want to remove")
+                        help='AMI id(s) you simply want to remove')
 
-    parser.add_argument("--dry-run",
+    parser.add_argument('--dry-run',
                         dest='dry_run',
-                        action="store_true",
-                        help="Show what would be removed")
+                        action='store_true',
+                        help='Show what would be removed')
 
-    parser.add_argument("--check-orphans",
-                        dest='check_orphans',
+    parser.add_argument('--execute',
+                        dest='execute',
                         action="store_true",
-                        help="Check and clean orphaned snapshots")
+                        help="Execute the removal")
 
     return parser.parse_args(args)
 
 
-if __name__ == '__main__':
-    parsed_args = parse_args(sys.argv[1:])
+def main(args):
+    parsed_args = parse_args(args)
     if not parsed_args:
-        sys.exit(1)
-    if parsed_args.check_orphans:
-        pass
-    fetcher = AmiFetcher()
-    to_remove_amis = []
+        return 1
+    if not parsed_args.execute ^ parsed_args.dry_run:
+        print('Exactly one of --execute or --dry-run must be specified')
+        return 1
+
+    cleaner = AmiCleaner()
     if parsed_args.from_ids:
         to_remove_amis = parsed_args.from_ids
     else:
-        to_remove_amis = fetcher.unused_amis()
+        to_remove_amis = cleaner.fetcher.unused_amis()
     if parsed_args.dry_run:
-        for image in fetcher.self_amis_from_ids(to_remove_amis):
+        for image in cleaner.fetcher.self_amis_from_ids(to_remove_amis):
             print("Would remove ami {} ({})".format(image.ami_id, image.name))
-    else:
-        AmiCleaner().remove_amis_from_ids(to_remove_amis)
+    if parsed_args.execute:
+        cleaner.remove_amis_from_ids(to_remove_amis)
+
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))
