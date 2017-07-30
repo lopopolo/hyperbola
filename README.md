@@ -8,11 +8,17 @@ or deployed in production and staging configurations. It depends on [Ansible](/a
 
 ## Dependencies
 
+### Run
+
 * mysql
 * nginx
-* nodejs
 * python3 ~= 3.5.3
 * redis ~= 3.2.4
+
+### Build
+
+* make
+* nodejs
 * yarn
 
 # hyperbola-tools
@@ -21,13 +27,18 @@ Build and deployment tools for <https://hyperbo.la> and <https://wiki.hyperbo.la
 
 ## Dependencies
 
+### Build
+
 * ansible
 * make
 * packer
-* terraform
 * vagrant
+
+### Deploy
+
 * AWS
 * CloudFlare
+* terraform
 
 ## Local Development
 
