@@ -37,7 +37,7 @@ Vagrant.configure('2') do |config|
     app.vm.provision 'app', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/app.yml'
-      ansible.vault_password_file = '.secrets/vault-password.txt'
+      ansible.vault_password_file = 'bin/ansible_vault_password.sh'
       ansible.groups = {
         'app' => ['app-test-1'],
         'app:vars' => {
@@ -70,6 +70,9 @@ Vagrant.configure('2') do |config|
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
         'wiki' => ['wiki-test-1'],
+        'wiki:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3'
+        },
         'all_groups:children' => ['wiki']
       }
     end
@@ -77,10 +80,11 @@ Vagrant.configure('2') do |config|
     wiki.vm.provision 'wiki', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/wiki.yml'
-      ansible.vault_password_file = '.secrets/vault-password.txt'
+      ansible.vault_password_file = 'bin/ansible_vault_password.sh'
       ansible.groups = {
         'wiki' => ['wiki-test-1'],
         'wiki:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
           'wiki_nginx_domain' => 'wiki.local.hyperboladc.net'
         },

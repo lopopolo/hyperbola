@@ -7,6 +7,7 @@ As part of packaging a deployment, configuration parameters may be written to
 a set of shell scripts in this directory. Each script should be named like:
 
 ```
+00-path.env
 01-environment.env
 02-database.env
 # ...
@@ -24,7 +25,7 @@ present:
 ```sh
 # environment
 export ENVIRONMENT="production|staging|local|dev"
-# virtualenv/bin/python -c 'import django.core.management.utils as u; print(u.get_random_secret_key())'
+# venv/bin/python -c 'import django.core.management.utils as u; print(u.get_random_secret_key())'
 export SECRET_KEY=""
 
 # database
@@ -41,5 +42,8 @@ export REDIS_PASSWORD=''
 export REDIS_NAME='0'
 
 # debug
-export DEBUG="true if in debug mode" # optional, defaults to false
+export DEBUG='false' # optional, defaults to false
+
+# deploy and provisioning
+export ANSIBLE_VAULT_PASSWORD=''
 ```

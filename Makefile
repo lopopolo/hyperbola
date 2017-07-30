@@ -65,7 +65,7 @@ yapf:
 
 ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata
 lint-ansible:
-	ansible-playbook -i "localhost," --syntax-check --vault-password-file=.secrets/vault-password.txt ansible/*.yml
+	ansible-playbook -i "localhost," --syntax-check --vault-password-file=bin/ansible_vault_password.sh ansible/*.yml
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/roles/hyperbola*
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/*.yml
 ## Virtualenv

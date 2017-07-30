@@ -1,7 +1,8 @@
 {
   "variables": {
     "aws_access_key": "",
-    "aws_secret_key": ""
+    "aws_secret_key": "",
+    "ansible_vault_password": "{{env `ANSIBLE_VAULT_PASSWORD`}}"
   },
   "builders": [{
     "name": "aws-us-west-2-hyperbola-app",
@@ -38,17 +39,13 @@
   }],
   "provisioners": [
     {
-      "type": "file",
-      "source": "./.secrets/vault-password.txt",
-      "destination": "/tmp/vault-password.txt"
-    },
-    {
       "type": "shell",
       "inline": [
-        "sudo apt-get install software-properties-common",
+        "sudo apt-get -y install software-properties-common",
         "sudo apt-add-repository -y ppa:ansible/ansible",
         "sudo apt-get update",
-        "sudo apt-get -y install ansible"
+        "sudo apt-get -y install ansible",
+        "echo {{user `ansible_vault_password`}} > /tmp/vault-password.txt"
       ]
     },
     {
