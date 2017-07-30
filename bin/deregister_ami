@@ -20,9 +20,10 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import argparse
+import sys
+
 import boto3
 from botocore.exceptions import ClientError
-import sys
 
 
 class Ami(object):
