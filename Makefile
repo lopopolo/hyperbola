@@ -56,7 +56,6 @@ lint-pre-commit:
 	$(PRE_COMMIT) terraform_fmt
 	$(PRE_COMMIT) eslint
 	$(PRE_COMMIT) csslint
-	$(PRE_COMMIT) rubocop
 	$(PRE_COMMIT) shell-lint
 
 # must manually run and compare `git diff` output
