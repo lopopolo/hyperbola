@@ -2,7 +2,7 @@
 
 This is the magic of <https://hyperbo.la>.
 
-hyperbo.la is a django website. It can be [run locally](/LOCAL-DEVELOPMENT.md)
+hyperbo.la is a django website. It can be [run locally](/doc/local-development.md)
 or deployed in production and staging configurations. It depends on [Ansible](/ansible),
 [Packer](/packer), and [Terraform](/terraform) configuration in this repo.
 
