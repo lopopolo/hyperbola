@@ -68,6 +68,11 @@
     "retinajs": "^2.1.2",
     "time-elements": "^0.6.1"
   },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
   "eslintConfig": {
     "env": {
       "browser": true,
