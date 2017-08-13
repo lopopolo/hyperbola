@@ -6,17 +6,12 @@ all: lint build
 ## Development environment
 
 .PHONY: dev-bootstrap
-dev-bootstrap: hooks yarn-dist-update virtualenv
+dev-bootstrap: hooks virtualenv
 
 .PHONY: hooks
 hooks:
 	pre-commit install
-
-.PHONY: yarn-dist-update
-yarn-dist-update:
-	rm -rf ./bin/dist
-	wget -O- https://yarnpkg.com/latest.tar.gz | tar zvx -C ./bin
-	echo '*' > ./bin/dist/.gitignore
+	pre-commit install-hooks
 
 .PHONY: install_roles
 install_roles:
@@ -64,6 +59,8 @@ yapf:
 	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
 
 ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.ruby --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata
+
+.PHONY: lint-ansible
 lint-ansible:
 	ansible-playbook -i "localhost," --syntax-check --vault-password-file=bin/ansible_vault_password.sh ansible/*.yml
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/roles/hyperbola*
