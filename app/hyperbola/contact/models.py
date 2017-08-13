@@ -84,9 +84,6 @@ class Resume(models.Model):
     def get_absolute_url():
         return reverse("contact:resume_pdf")
 
-    def display_name(self):
-        return "As of {}".format(self.date.strftime("%b %d %Y"))
-
     def __str__(self):
         return "version {} as of {}".format(self.id, self.date)
 
