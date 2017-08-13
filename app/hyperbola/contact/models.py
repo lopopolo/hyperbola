@@ -112,4 +112,7 @@ class AboutMe(models.Model):
     blurb = models.TextField()
 
     def __str__(self):
-        return "{} ...".format(self.blurb[:50])
+        display = ""
+        if self == self.__class__.objects.latest('id'):
+            display = "[DISPLAY]"
+        return " ".join([display, "{:.80} ...".format(self.blurb)])
