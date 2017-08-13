@@ -1,8 +1,9 @@
 ---
-- name: Include vars of stuff.yml into the 'stuff' variable (2.2).
+- name: Include hyperbola app environment
   include_vars:
     file: "{{ hyperbola_environment }}.yml"
     name: app_hyperbola_env
+  no_log: True
 
 # deploy user
 - name: Create app group
