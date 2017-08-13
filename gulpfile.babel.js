@@ -30,7 +30,7 @@ gulp.task("clean", () => {
 gulp.task("build:webpack", () => {
     return gulp.src("./src/main.js")
         .pipe(webpack(require("./webpack.config.js")))
-        .on("error", function(errorInfo) {
+        .on("error", (errorInfo) => {
             gutil.log(errorInfo.toString());
             this.emit("end");
         })
