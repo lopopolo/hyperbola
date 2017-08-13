@@ -30,7 +30,12 @@ release:
 ## Linters
 
 .PHONY: lint
-lint: lint-pre-commit lint-ansible
+lint: lint-pre-commit lint-ansible lint-git
+
+.PHONY: lint-git
+lint-git:
+	git ls-files -i --exclude-standard
+	[[ "$$(git ls-files -i --exclude-standard | wc -l | tr -d ' ')" == "0" ]]
 
 PRE_COMMIT := pre-commit run --all-files
 

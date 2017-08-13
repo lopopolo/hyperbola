@@ -83,3 +83,9 @@
         types: [yaml]
         files: ansible
         pass_filenames: false
+    -   id: git-lint
+        name: Git linters
+        entry: make lint-git
+        language: system
+        always_run: true
+        pass_filenames: false
