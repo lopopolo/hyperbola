@@ -7,8 +7,8 @@ unset CDPATH
 
 ARTIFACT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-if [ ! -d "$ARTIFACT_ROOT/env" ]; then
-	echo >&2 "No env directory to source ... aborting artifact-exec"
+if [[ ! -d "$ARTIFACT_ROOT/env" ]]; then
+	echo >&2 "No env directory to source"
 	echo >&2 "ARTIFACT_ROOT=$ARTIFACT_ROOT"
 	exit 1
 fi
