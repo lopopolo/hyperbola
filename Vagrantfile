@@ -49,35 +49,4 @@ Vagrant.configure('2') do |config|
       }
     end
   end
-
-  config.vm.define 'wiki-test-1' do |wiki|
-    wiki.vm.network 'private_network', ip: '192.168.10.10'
-
-    wiki.vm.provision 'bootstrap', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
-      ansible.playbook = 'ansible/provision.yml'
-      ansible.groups = {
-        'wiki' => ['wiki-test-1'],
-        'wiki:vars' => {
-          'ansible_python_interpreter' => '/usr/bin/python3'
-        },
-        'all_groups:children' => ['wiki']
-      }
-    end
-
-    wiki.vm.provision 'wiki', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
-      ansible.playbook = 'ansible/wiki.yml'
-      ansible.vault_password_file = 'bin/ansible_vault_password.sh'
-      ansible.groups = {
-        'wiki' => ['wiki-test-1'],
-        'wiki:vars' => {
-          'ansible_python_interpreter' => '/usr/bin/python3',
-          'hyperbola_environment' => 'local',
-          'wiki_nginx_domain' => 'wiki.local.hyperboladc.net'
-        },
-        'all_groups:children' => ['wiki']
-      }
-    end
-  end
 end

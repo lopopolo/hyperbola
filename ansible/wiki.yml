@@ -1,8 +1,0 @@
----
-- hosts: wiki
-  become: true
-  become_method: sudo
-  become_user: root
-  roles:
-  - role: hyperbola-wiki
-    ssl_enabled: "{{ hyperbola_environment != 'local' }}"

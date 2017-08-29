@@ -23,7 +23,7 @@ or deployed in production and staging configurations. It depends on [Ansible](/a
 
 # hyperbola-tools
 
-Build and deployment tools for <https://hyperbo.la> and <https://wiki.hyperbo.la>
+Build and deployment tools for <https://hyperbo.la>.
 
 ## Dependencies
 
@@ -47,4 +47,4 @@ ansible.
 
 ## Building Images with Ansible
 
-Ansible + Vagrant + Packer can be used to build images for hyperbola-wiki.
+Ansible + Vagrant + Packer can be used to build images for hyperbola-app.
