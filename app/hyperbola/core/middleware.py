@@ -15,12 +15,9 @@ class FQDNMiddleware(object):
     def __call__(self, request):
         response = self.get_response(request)
 
-        if response and hasattr(response, 'content'):
-            content = response.content
+        if 'Content-Type' in response and 'text/html' in response['Content-Type']:
             try:
-                index = content.index(b'</body>')
-                content = content[:index] + _COMMENT + content[index:]
-                response.content = content
+                response.content = response.content + _COMMENT
             except ValueError:
                 pass
 
