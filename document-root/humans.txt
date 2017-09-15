@@ -3,7 +3,7 @@
 
 # TEAM
 
-    Ryan Lopopolo -- Developer, Designer, Sysadmin -- @p4lindromica
+    Ryan Lopopolo -- Author, Developer, Ops
 
 # THANKS
 
@@ -14,8 +14,9 @@
 
 # TECHNOLOGY COLOPHON
 
-    HTML5, CSS3
-    Bootstrap, jQuery
+    Bootstrap
     HTML5 Boilerplate
     Python, Django
-    Let's Encrypt
+    Node, Webpack
+    AWS
+    Ansible, Packer, Terraform, Vagrant
