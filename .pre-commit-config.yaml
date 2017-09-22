@@ -1,9 +1,10 @@
+repos:
 -   repo: https://github.com/pre-commit/pre-commit
-    sha: v0.15.4
+    sha: v1.1.2
     hooks:
-    -   id: validate_config
+    -   id: validate_manifest
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    sha: v0.9.1
+    sha: v0.9.4
     hooks:
     -   id: check-added-large-files
     -   id: check-ast
@@ -45,7 +46,7 @@
         language: script
         types: [python]
 -   repo: https://github.com/asottile/pyupgrade.git
-    sha: v1.1.3
+    sha: v1.2.0
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/antonbabenko/pre-commit-terraform.git
@@ -53,7 +54,7 @@
     hooks:
     -   id: terraform_fmt
 -   repo: https://github.com/pre-commit/mirrors-eslint.git
-    sha: v4.3.0
+    sha: v4.7.0
     hooks:
     -   id: eslint
         exclude: min\.js$|dist
@@ -63,7 +64,7 @@
     -   id: csslint
         exclude: min\.css$|dist
 -   repo: https://github.com/detailyang/pre-commit-shell
-    sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
+    sha: 1.0.2
     hooks:
     -   id: shell-lint
         types: [shell]
