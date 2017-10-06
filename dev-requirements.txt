@@ -5,19 +5,19 @@
 #    pip-compile --output-file dev-requirements.txt dev-requirements.in
 #
 
-ansible-lint==3.4.15
-ansible==2.3.2.0          # via ansible-lint
-asn1crypto==0.22.0        # via cryptography
+ansible-lint==3.4.16
+ansible==2.4.0.0          # via ansible-lint
+asn1crypto==0.23.0        # via cryptography
 astroid==1.5.3            # via pylint, pylint-plugin-utils
 bcrypt==3.1.3             # via paramiko
 bleach-whitelist==0.0.8
-bleach==2.0.0
+bleach==2.1.1
 boto3==1.4.7              # via django-s3-storage
-botocore==1.7.3           # via boto3, s3transfer
+botocore==1.7.24          # via boto3, s3transfer
 bumpversion==0.5.3
-cffi==1.10.0              # via bcrypt, cryptography, pynacl
+cffi==1.11.1              # via bcrypt, cryptography, pynacl
 click==6.7                # via pip-tools
-cryptography==2.0.3       # via paramiko
+cryptography==2.0.3       # via ansible, paramiko
 django-debug-toolbar-template-timings==0.7
 django-debug-toolbar==1.8  # via django-debug-toolbar-template-timings
 django-localflavor==1.5.2
@@ -26,12 +26,12 @@ django-mysql==2.1.0
 django-redis==4.8.0
 django-s3-storage==0.12.0
 django-stdimage==2.4.2
-django==1.11.4            # via django-debug-toolbar, django-debug-toolbar-template-timings, django-localflavor, django-missing, django-mysql, django-s3-storage
+django==1.11.6            # via django-debug-toolbar, django-debug-toolbar-template-timings, django-localflavor, django-missing, django-mysql, django-s3-storage
 docutils==0.14            # via botocore
 first==2.0.1              # via pip-tools
 flake8==3.4.1
 gunicorn==19.7.1
-html5lib==0.999999999     # via bleach
+html5lib==1.0b10          # via bleach
 idna==2.6                 # via cryptography
 isort==4.2.15             # via pylint
 jinja2==2.9.6             # via ansible
@@ -42,20 +42,19 @@ markupsafe==1.0           # via jinja2
 mccabe==0.6.1             # via flake8, pylint
 mysqlclient==1.3.12
 olefile==0.44             # via pillow
-paramiko==2.2.1           # via ansible
+paramiko==2.3.1           # via ansible
 pep257==0.7.0
 pep8==1.7.0
-pillow==4.2.1             # via django-stdimage
-pip-tools==1.9.0
-progressbar2==3.34.2      # via django-stdimage
-pyasn1==0.3.3             # via paramiko
+pillow==4.3.0             # via django-stdimage
+pip-tools==1.10.1
+progressbar2==3.34.3      # via django-stdimage
+pyasn1==0.3.7             # via paramiko
 pycodestyle==2.3.1        # via flake8
 pycparser==2.18           # via cffi
-pycrypto==2.6.1           # via ansible
 pyflakes==1.5.0           # via flake8
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.6  # via pylint-django
-pylint==1.7.2             # via pylint-django, pylint-plugin-utils
+pylint==1.7.4             # via pylint-django, pylint-plugin-utils
 pynacl==1.1.2             # via paramiko
 python-dateutil==2.6.1    # via botocore
 python-utils==2.2.0       # via progressbar2
@@ -64,8 +63,8 @@ pyyaml==3.12              # via ansible, ansible-lint
 redis-py-cluster==1.3.4
 redis==2.10.6             # via django-redis, redis-py-cluster
 s3transfer==0.1.11        # via boto3
-six==1.10.0               # via ansible-lint, astroid, bcrypt, bleach, cryptography, html5lib, pip-tools, pylint, pynacl, python-dateutil, python-utils
-sqlparse==0.2.3           # via django-debug-toolbar
+six==1.11.0               # via ansible-lint, astroid, bcrypt, bleach, cryptography, html5lib, pip-tools, pylint, pynacl, python-dateutil, python-utils
+sqlparse==0.2.4           # via django-debug-toolbar
 webencodings==0.5.1       # via html5lib
 wrapt==1.10.11            # via astroid
-yapf==0.17.0
+yapf==0.18.0
