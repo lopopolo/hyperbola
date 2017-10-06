@@ -67,7 +67,7 @@ ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.ruby --exclude=ansib
 
 .PHONY: lint-ansible
 lint-ansible:
-	ansible-playbook -i "localhost," --syntax-check --vault-password-file=bin/ansible_vault_password.sh ansible/*.yml
+	ansible-playbook -i ansible/local.ini --syntax-check --vault-password-file=bin/ansible_vault_password.sh ansible/*.yml
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/roles/hyperbola*
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/*.yml
 ## Virtualenv
