@@ -17,6 +17,9 @@ insert_final_newline = false
 [*.html]
 indent_size = 2
 
+[*.js]
+indent_size = 2
+
 [*.{tf,tfvars}]
 indent_size = 2
 

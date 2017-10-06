@@ -1,2 +1,2 @@
-require("retinajs/dist/retina.js");
-require("time-elements");
+require('retinajs/dist/retina.js');
+require('time-elements');

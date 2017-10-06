@@ -29,13 +29,17 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "base64-inline-loader": "^1.1.0",
-    "bootstrap-css-only": "^3.3.7",
     "css-loader": "^0.28.7",
     "del": "^3.0.0",
     "eslint": "^4.8.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0",
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^1.1.5",
     "glob": "^7.1.2",
@@ -62,6 +66,7 @@
     "webpack-stream": "^4.0.0"
   },
   "dependencies": {
+    "bootstrap-css-only": "^3.3.7",
     "retinajs": "^2.1.3",
     "time-elements": "^0.6.1"
   },
@@ -77,29 +82,9 @@
       "es6": true,
       "node": true
     },
-    "extends": "eslint:recommended",
-    "rules": {
-      "indent": [
-        "error",
-        4
-      ],
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "quotes": [
-        "error",
-        "double"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ]
-    },
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "impliedStrict": true,
-      "sourceType": "module"
-    }
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb"
+    ]
   }
 }
