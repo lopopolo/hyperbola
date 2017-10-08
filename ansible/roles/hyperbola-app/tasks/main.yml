@@ -61,11 +61,12 @@
     file_type: directory
   register: app_release
 - name: Un-nest release download
-  command: "rsync -av {{ item.path }}/ {{ deploy_helper.new_release_path }}"
+  synchronize:
+    src: "{{ item.path }}/"
+    dest: "{{ deploy_helper.new_release_path }}"
   with_items:
     "{{ app_release.files }}"
-  tags:
-    - skip_ansible_lint
+  delegate_to: "{{ inventory_hostname }}"
 - name: Remove nested release directory
   file:
     path: "{{ item.path }}"
@@ -113,12 +114,12 @@
   - 01-configuration.env
 - name: compileall app
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python -m compileall app"
-  tags:
-    - skip_ansible_lint
+  args:
+    creates: "{{ deploy_helper.new_release_path }}/app/**/*.pyc"
 - name: manage.py collectstatic
   command: "{{ deploy_helper.new_release_path }}/bin/artifact-exec python {{ deploy_helper.new_release_path }}/app/manage.py collectstatic --no-input"
-  tags:
-    - skip_ansible_lint
+  args:
+    creates: "{{ deploy_helper.new_release_path }}/document-root/static/staticfiles.json"
 - name: Install gunicorn config
   template:
     src: "gunicorn.py.j2"

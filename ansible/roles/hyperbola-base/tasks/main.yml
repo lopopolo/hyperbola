@@ -1,14 +1,9 @@
 ---
-# https://github.com/ansible/ansible/issues/22673#issuecomment-286914947
-# aptitude is not installed
-- name: System upgrade
-  command: apt-get upgrade -y -qq
-  args:
-    warn: false
-  environment:
-    DEBIAN_FRONTEND: noninteractive
-  tags:
-  - skip_ansible_lint
+- name: apt update && apt upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 3600
 - name: base packages
   apt: name={{ item }} state=present
   with_items:
