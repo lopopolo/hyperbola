@@ -125,16 +125,6 @@
     src: "gunicorn.py.j2"
     dest: "{{ deploy_helper.new_release_path }}/gunicorn.py"
     mode: a=r
-- name: get site-packages directory
-  command: "{{ deploy_helper.new_release_path }}/venv/bin/python -c 'import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())'"
-  register: app_python_site_packages_dir
-  tags:
-    - skip_ansible_lint
-- name: add hyperbola-app to pythonpath of virtualenv
-  copy:
-    content: "{{ deploy_helper.new_release_path }}/app"
-    dest: "{{ app_python_site_packages_dir.stdout }}/hyperbola.pth"
-    mode: a=r
 - name: Set owner of deployment to hyperbola-app:hyperbola-app
   file:
     dest: "{{ deploy_helper.new_release_path }}"

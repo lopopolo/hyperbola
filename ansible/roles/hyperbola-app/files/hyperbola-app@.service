@@ -15,7 +15,6 @@ ExecStartPre=-/bin/mkdir /var/run/hyperbola-%i
 ExecStartPre=/bin/chown -R hyperbola-app:hyperbola-app /var/run/hyperbola-%i/
 ExecStart=/hyperbola/app/current/bin/artifact-exec gunicorn \
     --config /hyperbola/app/current/gunicorn.py \
-    --pythonpath /hyperbola/app/current/app \
     hyperbola.wsgi:application
 PrivateTmp=true
 Restart=on-failure
