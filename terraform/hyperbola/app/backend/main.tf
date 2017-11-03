@@ -12,7 +12,7 @@ variable "instance_type" {
 }
 
 variable "size" {
-  default = "1"
+  default = "3"
 }
 
 variable "iam_instance_profile" {}
