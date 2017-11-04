@@ -209,7 +209,6 @@ INSTALLED_APPS = [
     'django_mysql',
     'django_s3_storage',
     'localflavor',
-    'missing',
     'stdimage',
     'hyperbola.contact',
     'hyperbola.core',

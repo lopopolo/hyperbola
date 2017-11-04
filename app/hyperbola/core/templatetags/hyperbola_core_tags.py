@@ -35,6 +35,12 @@ def anti_spamize(email, autoescape=True):
     return mark_safe(result)
 
 
+@register.simple_tag(takes_context=True)
+def fullurl(context, path):
+    request = context['request']
+    return request.build_absolute_uri(path)
+
+
 @register.filter
 def markdown(text):
     # https://pythonhosted.org/Markdown/release-2.6.html#safe_mode-deprecated

@@ -21,11 +21,10 @@ cryptography==2.1.2       # via ansible, paramiko
 django-debug-toolbar-template-timings==0.7
 django-debug-toolbar==1.8  # via django-debug-toolbar-template-timings
 django-localflavor==1.5.2
-django-missing==0.2.1
 django-mysql==2.1.1
 django-s3-storage==0.12.0
 django-stdimage==2.4.2
-django==1.11.7            # via django-debug-toolbar, django-debug-toolbar-template-timings, django-localflavor, django-missing, django-mysql, django-s3-storage
+django==1.11.7            # via django-debug-toolbar, django-debug-toolbar-template-timings, django-localflavor, django-mysql, django-s3-storage
 docutils==0.14            # via botocore
 first==2.0.1              # via pip-tools
 flake8==3.5.0

@@ -10,11 +10,10 @@ bleach==2.1.1
 boto3==1.4.7              # via django-s3-storage
 botocore==1.7.37          # via boto3, s3transfer
 django-localflavor==1.5.2
-django-missing==0.2.1
 django-mysql==2.1.1
 django-s3-storage==0.12.0
 django-stdimage==2.4.2
-django==1.11.7            # via django-localflavor, django-missing, django-mysql, django-s3-storage
+django==1.11.7            # via django-localflavor, django-mysql, django-s3-storage
 docutils==0.14            # via botocore
 gunicorn==19.7.1
 html5lib==1.0b10          # via bleach

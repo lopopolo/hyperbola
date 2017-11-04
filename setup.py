@@ -87,7 +87,6 @@ setup(
         'bleach-whitelist',
         'Django ~= 1.11.0',
         'django-localflavor',
-        'django-missing',
         'django-mysql',
         'django-s3-storage',
         'django-stdimage',
