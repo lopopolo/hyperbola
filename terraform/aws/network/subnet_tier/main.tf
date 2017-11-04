@@ -13,3 +13,7 @@ output "private-redis" {
 output "private-mysql" {
   value = "4"
 }
+
+output "private-mysql2" {
+  value = "5"
+}
