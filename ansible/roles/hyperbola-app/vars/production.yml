@@ -1,8 +1,8 @@
 ---
 # MySQL
-db_host: mysql.aws.hyperboladc.net
+db_host: mysql2.aws.hyperboladc.net
 db_port: 3306
-db_name: app
+db_name: hyperbola
 db_user: app
 db_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256

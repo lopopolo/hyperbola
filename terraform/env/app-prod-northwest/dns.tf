@@ -21,6 +21,15 @@ resource "aws_route53_record" "mysql-CNAME" {
   records = ["${module.hyperbola-app-mysql.mysql_endpoint}"]
 }
 
+resource "aws_route53_record" "mysql2-CNAME" {
+  zone_id = "${data.aws_route53_zone.aws-dc.id}"
+  name    = "mysql"
+  type    = "CNAME"
+  ttl     = 300
+
+  records = ["${module.hyperbola-app-mysql2.mysql_endpoint}"]
+}
+
 variable "cloudflare_email" {
   default = "rjl@hyperbo.la"
 }
