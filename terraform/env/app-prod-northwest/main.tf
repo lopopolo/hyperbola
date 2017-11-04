@@ -35,17 +35,6 @@ module "hyperbola-app-redis" {
   azs    = "${var.azs}"
 }
 
-module "hyperbola-app-mysql" {
-  source = "../../hyperbola/app/mysql-aurora"
-  env    = "${var.env}"
-  name   = "${var.name}-mysql-aurora"
-
-  vpc_id = "${module.network.vpc_id}"
-  azs    = "${var.azs}"
-
-  database_password = "${var.app_database_password}"
-}
-
 module "hyperbola-app-mysql2" {
   source = "../../hyperbola/app/mysql"
   env    = "${var.env}"
@@ -79,10 +68,6 @@ module "hyperbola-app-backend" {
 
 output "redis_endpoint" {
   value = "${module.hyperbola-app-redis.redis_endpoint}"
-}
-
-output "mysql_endpoint" {
-  value = "${module.hyperbola-app-mysql.mysql_endpoint}"
 }
 
 output "mysql2_endpoint" {
