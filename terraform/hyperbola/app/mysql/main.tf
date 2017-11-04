@@ -35,7 +35,7 @@ resource "aws_db_instance" "main_rds_instance" {
   skip_final_snapshot       = false
 
   maintenance_window      = "sun:10:18-sun:10:48" # UTC
-  backup_retention_period = 30
+  backup_retention_period = 10
   backup_window           = "09:22-09:52"         # UTC
 
   tags {
@@ -47,6 +47,11 @@ resource "aws_db_instance" "main_rds_instance" {
 resource "aws_db_parameter_group" "main_rds_instance" {
   name_prefix = "app-mysql-custom-params-"
   family      = "mysql5.7"
+
+  parameter {
+    name  = "sql_mode"
+    value = "traditional"
+  }
 
   parameter {
     name  = "innodb_strict_mode"
@@ -145,7 +150,7 @@ resource "aws_security_group" "main_db_access" {
 }
 
 output "mysql_endpoint" {
-  value = "${aws_db_instance.main_rds_instance.endpoint}"
+  value = "${aws_db_instance.main_rds_instance.address}"
 }
 
 output "mysql_port" {
