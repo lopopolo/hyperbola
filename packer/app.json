@@ -32,7 +32,7 @@
       "Project": "hyperbola",
       "Name": "app",
       "Environment": "production",
-      "Version": "0.109.0"
+      "Version": "0.110.0"
     },
     "ssh_private_ip": false,
     "associate_public_ip_address": true
