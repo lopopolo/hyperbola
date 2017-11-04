@@ -23,7 +23,7 @@ resource "aws_route53_record" "mysql-CNAME" {
 
 resource "aws_route53_record" "mysql2-CNAME" {
   zone_id = "${data.aws_route53_zone.aws-dc.id}"
-  name    = "mysql"
+  name    = "mysql2"
   type    = "CNAME"
   ttl     = 300
 
