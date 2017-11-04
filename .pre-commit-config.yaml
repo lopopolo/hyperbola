@@ -21,13 +21,13 @@ repos:
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
-        exclude: src|dist|geerlingguy|hswong3i|DavidWittman|.bumpversion.cfg
+        exclude: src|dist|geerlingguy|hswong3i|.bumpversion.cfg
     -   id: flake8
         exclude: migrations
         language_version: python3
     -   id: forbid-new-submodules
     -   id: trailing-whitespace
-        exclude: src|dist|geerlingguy|hswong3i|DavidWittman|.bumpversion.cfg
+        exclude: src|dist|geerlingguy|hswong3i|.bumpversion.cfg
 -   repo: https://github.com/FalconSocial/pre-commit-python-sorter.git
     sha: b57843b0b874df1d16eb0bef00b868792cb245c2
     hooks:
@@ -72,7 +72,7 @@ repos:
     -   id: shell-lint
         types: [shell]
         files: ''
-        exclude: geerlingguy|hswong3i|DavidWittman
+        exclude: geerlingguy|hswong3i
 -   repo: local
     hooks:
     -   id: build-frontend
