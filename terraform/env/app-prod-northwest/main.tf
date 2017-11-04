@@ -46,6 +46,17 @@ module "hyperbola-app-mysql" {
   database_password = "${var.app_database_password}"
 }
 
+module "hyperbola-app-mysql2" {
+  source = "../../hyperbola/app/mysql"
+  env    = "${var.env}"
+  name   = "${var.name}-mysql"
+
+  vpc_id = "${module.network.vpc_id}"
+  azs    = "${var.azs}"
+
+  database_password = "${var.app_database_password}"
+}
+
 module "hyperbola-app-backend" {
   source   = "../../hyperbola/app/backend"
   name     = "${var.name}"
@@ -72,6 +83,10 @@ output "redis_endpoint" {
 
 output "mysql_endpoint" {
   value = "${module.hyperbola-app-mysql.mysql_endpoint}"
+}
+
+output "mysql2_endpoint" {
+  value = "${module.hyperbola-app-mysql2.mysql_endpoint}"
 }
 
 output "backup_bucket" {
