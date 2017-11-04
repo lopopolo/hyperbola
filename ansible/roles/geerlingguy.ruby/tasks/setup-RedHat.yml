@@ -1,8 +1,0 @@
----
-- name: Install ruby, rubygems, and development tools.
-  yum: "name={{ item }} state=present"
-  with_items:
-    - ruby
-    - ruby-devel
-    - "{{ ruby_rubygems_package_name }}"
-    - '@development'
