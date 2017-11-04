@@ -89,7 +89,6 @@ setup(
         'django-localflavor',
         'django-missing',
         'django-mysql',
-        'django-redis',
         'django-s3-storage',
         'django-stdimage',
         'gunicorn',
@@ -97,7 +96,6 @@ setup(
         'mysqlclient >= 1.3.3',
         'Pillow',
         'pytz',
-        'redis-py-cluster',
     ],
 
     # List additional groups of dependencies here (e.g. development

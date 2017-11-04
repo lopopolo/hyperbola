@@ -45,7 +45,6 @@ class EnvironmentConfig(object):
         self.environment = Env.make('ENVIRONMENT')
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
-        self.redis = self.RedisConfig(self.environment)
         self.content = self.ContentConfig(self.environment, root_path)
 
     def __str__(self):
@@ -106,38 +105,6 @@ class EnvironmentConfig(object):
             self.password = Env.source('DB_PASSWORD')
             self.name = Env.source('DB_NAME')
 
-    class RedisConfig(object):
-        def __init__(self, environment):
-            self.environment = environment
-            self.host = Env.source('REDIS_HOST')
-            self.port = Env.source('REDIS_PORT')
-            self.password = Env.source('REDIS_PASSWORD')
-            self.name = Env.source('REDIS_NAME', 0)
-
-        @property
-        def additional_options(self):
-            if self.environment in [Env.production]:
-                return {
-                    'REDIS_CLIENT_CLASS': 'rediscluster.client.StrictRedisCluster',
-                    'REDIS_CLIENT_KWARGS': {
-                        'skip_full_coverage_check': True,
-                        'host': ENVIRONMENT.redis.host,
-                        'port': ENVIRONMENT.redis.port
-                    },
-                    'CONNECTION_POOL_CLASS': 'rediscluster.connection.ClusterConnectionPool',
-                    'CONNECTION_POOL_KWARGS': {
-                        'skip_full_coverage_check': True
-                    },
-                }
-            return {}
-
-        def connection_string(self, name=None):
-            if name is None:
-                name = self.name
-            if self.password:
-                return'redis://:{}@{}:{}/{}'.format(self.password, self.host, self.port, name),
-            return'redis://{}:{}/{}'.format(self.host, self.port, name),
-
     class ContentConfig(object):
         def __init__(self, environment, root_path):
             self.media_root = root_path.joinpath('media', environment.value)
@@ -187,13 +154,10 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ENVIRONMENT.redis.connection_string(0),
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'hyperbola_app_cache',
     },
 }
-
-default_options = CACHES['default'].get('OPTIONS', {})
-CACHES['default']['OPTIONS'] = {**default_options, **ENVIRONMENT.redis.additional_options}
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
