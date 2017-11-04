@@ -31,10 +31,12 @@ resource "aws_db_instance" "main_rds_instance" {
   allow_major_version_upgrade = false
   auto_minor_version_upgrade  = true
 
+  final_snapshot_identifier = "app-mysql-final-snapshot"
+  skip_final_snapshot       = false
+
   maintenance_window      = "sun:10:18-sun:10:48" # UTC
   backup_retention_period = 30
   backup_window           = "09:22-09:52"         # UTC
-  skip_final_snapshot     = true
 
   tags {
     Name        = "${var.name}"
@@ -47,8 +49,28 @@ resource "aws_db_parameter_group" "main_rds_instance" {
   family      = "mysql5.7"
 
   parameter {
-    name  = "sql_mode"
-    value = "traditional"
+    name  = "innodb_strict_mode"
+    value = "1"
+  }
+
+  parameter {
+    name  = "character_set_client"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "character_set_database"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "character_set_results"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "character_set_connection"
+    value = "utf8mb4"
   }
 
   parameter {
@@ -57,8 +79,8 @@ resource "aws_db_parameter_group" "main_rds_instance" {
   }
 
   parameter {
-    name  = "character_set_client"
-    value = "utf8mb4"
+    name  = "collation_connection"
+    value = "utf8mb4_unicode_ci"
   }
 
   parameter {
@@ -123,7 +145,7 @@ resource "aws_security_group" "main_db_access" {
 }
 
 output "mysql_endpoint" {
-  value = "${aws_db_instance.main_rds_instance.address}"
+  value = "${aws_db_instance.main_rds_instance.endpoint}"
 }
 
 output "mysql_port" {
