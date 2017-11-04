@@ -26,15 +26,6 @@ module "hyperbola-app-base" {
   bucket = "www"
 }
 
-module "hyperbola-app-redis" {
-  source = "../../hyperbola/app/redis"
-  env    = "${var.env}"
-  name   = "${var.name}-redis"
-
-  vpc_id = "${module.network.vpc_id}"
-  azs    = "${var.azs}"
-}
-
 module "hyperbola-app-mysql2" {
   source = "../../hyperbola/app/mysql"
   env    = "${var.env}"
@@ -62,12 +53,6 @@ module "hyperbola-app-backend" {
 
   mysql_port              = "${module.hyperbola-app-mysql2.mysql_port}"
   mysql_security_group_id = "${module.hyperbola-app-mysql2.mysql_security_group_id}"
-  redis_port              = "${module.hyperbola-app-redis.redis_port}"
-  redis_security_group_id = "${module.hyperbola-app-redis.redis_security_group_id}"
-}
-
-output "redis_endpoint" {
-  value = "${module.hyperbola-app-redis.redis_endpoint}"
 }
 
 output "mysql2_endpoint" {
