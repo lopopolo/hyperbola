@@ -28,12 +28,3 @@ module "hyperbola-app-aws" {
   env    = "local"
   bucket = "local"
 }
-
-resource "aws_route53_record" "redis-CNAME" {
-  zone_id = "${data.aws_route53_zone.local-dc.id}"
-  name    = "redis"
-  type    = "CNAME"
-  ttl     = 300
-
-  records = ["app.local.hyperboladc.net"]
-}
