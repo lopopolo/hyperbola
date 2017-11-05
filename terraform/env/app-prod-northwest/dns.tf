@@ -17,6 +17,15 @@ resource "aws_route53_record" "mysql2-CNAME" {
   records = ["${module.hyperbola-app-mysql2.mysql_endpoint}"]
 }
 
+resource "aws_route53_record" "bastion-A" {
+  zone_id = "${data.aws_route53_zone.aws-dc.id}"
+  name    = "app-bastion"
+  type    = "A"
+  ttl     = 300
+
+  records = ["${module.network.bastion_public_ip}"]
+}
+
 variable "cloudflare_email" {
   default = "rjl@hyperbo.la"
 }

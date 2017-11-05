@@ -28,19 +28,6 @@ data "aws_subnet" "public" {
   id    = "${data.aws_subnet_ids.public.ids[count.index]}"
 }
 
-data "aws_route53_zone" "aws-dc" {
-  name         = "aws.hyperboladc.net."
-  private_zone = false
-}
-
-resource "aws_route53_record" "aws-dc" {
-  zone_id = "${data.aws_route53_zone.aws-dc.zone_id}"
-  name    = "${var.name}"
-  type    = "A"
-  ttl     = "300"
-  records = ["${aws_cloudformation_stack.bastion.outputs["EIP"]}"]
-}
-
 # http://docs.aws.amazon.com/quickstart/latest/linux-bastion/welcome.html
 resource "aws_cloudformation_stack" "bastion" {
   name         = "${var.name}-stack"
@@ -67,10 +54,6 @@ output "user" {
 
 output "public_ip" {
   value = "${aws_cloudformation_stack.bastion.outputs["EIP"]}"
-}
-
-output "fqdn" {
-  value = "${aws_route53_record.aws-dc.fqdn}"
 }
 
 output "security_group_id" {
