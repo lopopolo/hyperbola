@@ -1,3 +1,8 @@
+data "aws_route53_zone" "dc" {
+  name         = "hyperboladc.net."
+  private_zone = false
+}
+
 data "aws_route53_zone" "aws-dc" {
   name         = "aws.hyperboladc.net."
   private_zone = false
@@ -6,6 +11,24 @@ data "aws_route53_zone" "aws-dc" {
 data "aws_route53_zone" "hyperbola-zone" {
   name         = "hyperbo.la."
   private_zone = false
+}
+
+resource "aws_route53_record" "mysql-prod" {
+  zone_id = "${data.aws_route53_zone.dc.id}"
+  name    = "mysql-prod"
+  type    = "CNAME"
+  ttl     = 300
+
+  records = ["${module.hyperbola-app-mysql2.mysql_endpoint}"]
+}
+
+resource "aws_route53_record" "bastion-prod" {
+  zone_id = "${data.aws_route53_zone.dc.id}"
+  name    = "bastion-prod"
+  type    = "A"
+  ttl     = 300
+
+  records = ["${module.network.bastion_public_ip}"]
 }
 
 resource "aws_route53_record" "mysql2-CNAME" {
