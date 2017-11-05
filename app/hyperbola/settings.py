@@ -8,7 +8,6 @@ from pathlib import Path
 @unique
 class Env(Enum):
     production = 'production'
-    staging = 'staging'
     local = 'local'
     dev = 'dev'
 
@@ -54,15 +53,13 @@ class EnvironmentConfig(object):
     def allowed_hosts(self):
         if self.environment is Env.production:
             return ['hyperbo.la']
-        elif self.environment is Env.staging:
-            return ['staging.hyperbo.la']
         elif self.environment is Env.local:
             return ['app.local.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
     def is_secure(self):
-        return self.environment in [Env.production, Env.staging]
+        return self.environment in [Env.production]
 
     @property
     def additional_installed_apps(self):
@@ -93,8 +90,6 @@ class EnvironmentConfig(object):
     def debug(self):
         if self.environment in [Env.local, Env.dev]:
             return True
-        if self.environment is Env.staging:
-            return Env.source('DEBUG', False)
         return False
 
     class DBConfig(object):
@@ -111,7 +106,7 @@ class EnvironmentConfig(object):
             self.static_root = root_path.joinpath('document-root', 'static')
             self.static_dirs = [root_path.joinpath('dist')]
             self.static_url = '/static/'
-            if environment in [Env.production, Env.staging]:
+            if environment in [Env.production]:
                 self.media_bucket_name = 'www.hyperbolausercontent.net'
                 self.aws_region = 'us-west-2'
             elif environment in [Env.local, Env.dev]:
