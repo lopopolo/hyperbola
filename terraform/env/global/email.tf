@@ -55,7 +55,7 @@ resource "cloudflare_record" "hyperbo_la_MX_2f1ca08d6b1c599f10e5c2fe5da4f28e" {
 resource "cloudflare_record" "google__domainkey_hyperbo_la_TXT_46408b4e05fccf582ba7cbc654e990b8" {
   domain  = "hyperbo.la"
   name    = "google._domainkey"
-  value   = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCe13Ua7YllZ2a02Wa33wYFLJRFHO/2JirIBZGpvxpQuc5b6Xw+wlHdTdxYsfwE6+qnUtUNsdPz0MP2y8EhoHxURPtKNKhhxKsm3L03AewBzMlDDBrWKTFBBVaIxnDi61im9DVIIasXw1k6mcfW40WL+He4YgiOYI1IhHZJy+Ex8QIDAQAB"
+  value   = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk+xt4FleDx6/2ZY0vsfQCFY7Zh9v6EeXRWdw8Vqw88Dg+h1gpdB85722M2gITZFMAdrpXkxRQ89YQgrVfEitaLbaI74UCbeIBn6f+y+UNnS0RSimmqJTFyvFJTsEBway2QGFeZiRpYvXZAYsEsTwEyNwKz/7uRQSTKrua6r0rsooqK7auNn+YRmcNJJ3uOcPZrUnx4punYaFDd/naa1Eo9nXKFemHHT6eLc620FWC+/MJWIlRFugsKPoiKu+0uAD0/EHE7x/5DwjrTutVLnuKlOA7tCHL0kir2f8wUOv0KRnC94G8hGl6nVML5iVk3So6SwFeovSkkM7tEUAL+4q6QIDAQAB"
   type    = "TXT"
   ttl     = 1
   proxied = false
@@ -123,7 +123,7 @@ resource "aws_route53_record" "hyperbola-dkim" {
   ttl     = "300"
 
   records = [
-    "v=DKIM1; k=rsa;\" \"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCe13Ua7YllZ2a02Wa33wYFLJRFHO/2JirIBZGpvxpQuc5b6Xw+wlHdTdxYsfwE6+qnUtUNsdPz0MP2y8EhoHxURPtKNKhhxKsm3L03AewBzMlDDBrWKTFBBVaIxnDi61im9DVIIasXw1k6mcfW40WL+He4YgiOYI1IhHZJy+Ex8QIDAQAB",
+    "v=DKIM1; k=rsa;\" \"p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk+xt4FleDx6/2ZY0vsfQCFY7Zh9v6EeXRWdw8Vqw88Dg+h1gpdB85722M2gITZFMAdrpXkxRQ89YQgrVfEitaLbaI74UCbeIBn6f+y+UNnS0RSimmqJTFyvFJTsEBway2QGFeZiRpYvXZAYsEsTwEyNwKz/7uRQSTKrua6r0rsooqK7auNn+YRmcNJJ3uOcPZrUnx4punYaFDd/n\" \"aa1Eo9nXKFemHHT6eLc620FWC+/MJWIlRFugsKPoiKu+0uAD0/EHE7x/5DwjrTutVLnuKlOA7tCHL0kir2f8wUOv0KRnC94G8hGl6nVML5iVk3So6SwFeovSkkM7tEUAL+4q6QIDAQAB",
   ]
 }
 
