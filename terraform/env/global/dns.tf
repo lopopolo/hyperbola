@@ -30,11 +30,6 @@ module "aws-dc" {
   dc     = "aws"
 }
 
-module "local-dc" {
-  source = "../../hyperbola/dc"
-  dc     = "local"
-}
-
 output "hyperbola-zone-id" {
   value = "${aws_route53_zone.hyperbola-zone.zone_id}"
 }
@@ -49,8 +44,4 @@ output "hyperboladc-zone-id" {
 
 output "aws-hyperboladc-zone-id" {
   value = "${module.aws-dc.zone-id}"
-}
-
-output "local-hyperboladc-zone-id" {
-  value = "${module.local-dc.zone-id}"
 }
