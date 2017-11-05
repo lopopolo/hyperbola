@@ -88,6 +88,45 @@ resource "cloudflare_record" "hyperbo_la_TXT_google-site-verification" {
   proxied = false
 }
 
+resource "aws_route53_record" "hyperbola-MX" {
+  zone_id = "${aws_route53_zone.hyperbola-zone.zone_id}"
+  name    = "${aws_route53_zone.hyperbola-zone.name}"
+  type    = "MX"
+  ttl     = "300"
+
+  records = [
+    "1 ASPMX.L.GOOGLE.COM.",
+    "5 ALT1.ASPMX.L.GOOGLE.COM.",
+    "5 ALT2.ASPMX.L.GOOGLE.COM.",
+    "10 ALT3.ASPMX.L.GOOGLE.COM.",
+    "10 ALT4.ASPMX.L.GOOGLE.COM.",
+  ]
+}
+
+resource "aws_route53_record" "hyperbola-google-site-verification-spf" {
+  zone_id = "${aws_route53_zone.hyperbola-zone.zone_id}"
+  name    = "${aws_route53_zone.hyperbola-zone.name}"
+  type    = "TXT"
+  ttl     = "300"
+
+  records = [
+    "v=spf1 include:_spf.google.com ~all",
+    "google-site-verification=Kt2HDssbfMv5OIL422wGGexn00n1W4nTAZZTfUkyig8",
+    "google-site-verification=vBbksaHJiPR9xr5eyVdQdvvIixg9di8BLwku3Sr1KCU",
+  ]
+}
+
+resource "aws_route53_record" "hyperbola-dkim" {
+  zone_id = "${aws_route53_zone.hyperbola-zone.zone_id}"
+  name    = "google._domainkey"
+  type    = "TXT"
+  ttl     = "300"
+
+  records = [
+    "v=DKIM1; k=rsa;\" \"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCe13Ua7YllZ2a02Wa33wYFLJRFHO/2JirIBZGpvxpQuc5b6Xw+wlHdTdxYsfwE6+qnUtUNsdPz0MP2y8EhoHxURPtKNKhhxKsm3L03AewBzMlDDBrWKTFBBVaIxnDi61im9DVIIasXw1k6mcfW40WL+He4YgiOYI1IhHZJy+Ex8QIDAQAB",
+  ]
+}
+
 resource "aws_route53_record" "hyperbolausercontent-net-MX" {
   zone_id = "${aws_route53_zone.hyperbolausercontent-net-public.zone_id}"
   name    = "${aws_route53_zone.hyperbolausercontent-net-public.name}"
@@ -98,8 +137,8 @@ resource "aws_route53_record" "hyperbolausercontent-net-MX" {
     "1 ASPMX.L.GOOGLE.COM.",
     "5 ALT1.ASPMX.L.GOOGLE.COM.",
     "5 ALT2.ASPMX.L.GOOGLE.COM.",
-    "10 ASPMX2.GOOGLEMAIL.COM.",
-    "10 ASPMX3.GOOGLEMAIL.COM.",
+    "10 ALT3.ASPMX.L.GOOGLE.COM.",
+    "10 ALT4.ASPMX.L.GOOGLE.COM.",
   ]
 }
 
@@ -136,8 +175,8 @@ resource "aws_route53_record" "hyperboladc-net-MX" {
     "1 ASPMX.L.GOOGLE.COM.",
     "5 ALT1.ASPMX.L.GOOGLE.COM.",
     "5 ALT2.ASPMX.L.GOOGLE.COM.",
-    "10 ASPMX2.GOOGLEMAIL.COM.",
-    "10 ASPMX3.GOOGLEMAIL.COM.",
+    "10 ALT3.ASPMX.L.GOOGLE.COM.",
+    "10 ALT4.ASPMX.L.GOOGLE.COM.",
   ]
 }
 
