@@ -43,7 +43,7 @@ Vagrant.configure('2') do |config|
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
-          'app_nginx_domain' => 'app.local.hyperboladc.net'
+          'app_nginx_domain' => 'app-local.hyperboladc.net'
         },
         'all_groups:children' => ['app']
       }

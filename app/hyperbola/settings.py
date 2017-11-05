@@ -54,7 +54,7 @@ class EnvironmentConfig(object):
         if self.environment is Env.production:
             return ['hyperbo.la']
         elif self.environment is Env.local:
-            return ['app.local.hyperboladc.net']
+            return ['app-local.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
