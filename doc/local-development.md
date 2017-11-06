@@ -33,6 +33,7 @@ cd hyperbola
 yarn install --ignore-engines
 make virtualenv
 bin/artifact-exec python -Wall app/manage.py migrate
+bin/artifact-exec python -Wall app/manage.py createcachetable
 ```
 
 ## .env
