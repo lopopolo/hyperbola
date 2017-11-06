@@ -9,6 +9,7 @@ variable "azs" {}
 variable "region" {}
 
 variable "key_name" {}
+variable "bastion_enabled" {}
 variable "bastion_instance_type" {}
 
 module "vpc" {
@@ -48,6 +49,7 @@ module "private_subnet" {
 module "bastion" {
   source = "./bastion"
 
+  enabled            = "${var.bastion_enabled}"
   name               = "${var.name}-bastion"
   vpc_id             = "${module.vpc.vpc_id}"
   public_subnet_tier = "${module.public_subnet.tier}"

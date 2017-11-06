@@ -3,6 +3,7 @@
 # host
 #--------------------------------------------------------------
 
+variable "enabled" {}
 variable "name" {}
 
 variable "vpc_id" {}
@@ -30,6 +31,7 @@ data "aws_subnet" "public" {
 
 # http://docs.aws.amazon.com/quickstart/latest/linux-bastion/welcome.html
 resource "aws_cloudformation_stack" "bastion" {
+  count        = "${var.enabled == "true" ? 1 : 0}"
   name         = "${var.name}-stack"
   capabilities = ["CAPABILITY_IAM"]
 
@@ -48,16 +50,40 @@ resource "aws_cloudformation_stack" "bastion" {
   template_body = "${file("${path.module}/linux-bastion-master.template")}"
 }
 
+resource "aws_security_group" "empty" {
+  name_prefix = "${var.name}-empty-sg-"
+  description = "Empty SG for use when bastion stack is disabled"
+  vpc_id      = "${data.aws_vpc.selected.id}"
+}
+
+data "template_file" "eip" {
+  count    = "${var.enabled == "true" ? 1 : 0}"
+  template = "$${eip}"
+
+  vars {
+    eip = "${aws_cloudformation_stack.bastion.outputs["EIP"]}"
+  }
+}
+
+data "template_file" "sg" {
+  count    = "${var.enabled == "true" ? 1 : 0}"
+  template = "$${sg}"
+
+  vars {
+    sg = "${aws_cloudformation_stack.bastion.outputs["BastionSecurityGroupID"]}"
+  }
+}
+
 output "user" {
   value = "ec2-user"
 }
 
 output "public_ip" {
-  value = "${aws_cloudformation_stack.bastion.outputs["EIP"]}"
+  value = "${var.enabled == "true" ? join("", data.template_file.eip.*.rendered) : "0.0.0.0"}"
 }
 
 output "security_group_id" {
-  value = "${aws_cloudformation_stack.bastion.outputs["BastionSecurityGroupID"]}"
+  value = "${var.enabled == "true" ? join("", data.template_file.sg.*.rendered) : aws_security_group.empty.id}"
 }
 
 output "ingress_cidr" {

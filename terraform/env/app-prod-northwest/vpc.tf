@@ -17,6 +17,7 @@ module "network" {
   azs                   = "${var.azs}"
   region                = "${var.region}"
   key_name              = "hyperbola-cas"
+  bastion_enabled       = "true"
   bastion_instance_type = "${var.bastion_instance_type}"
 }
 
