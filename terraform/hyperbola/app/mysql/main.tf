@@ -113,7 +113,7 @@ module "mysql-subnets" {
   vpc_id = "${data.aws_vpc.current.id}"
   azs    = "${var.azs}"
 
-  subnet_tier       = "${module.tier.private-mysql2}"
+  subnet_tier       = "${module.tier.private-mysql-rds}"
   nat_enabled       = "false"
   nat_gateway_ids   = ""
   egress_gateway_id = ""

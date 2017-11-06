@@ -34,7 +34,7 @@ module "mysql-subnets" {
   vpc_id = "${data.aws_vpc.current.id}"
   azs    = "${var.azs}"
 
-  subnet_tier       = "${module.tier.private-mysql}"
+  subnet_tier       = "${module.tier.private-mysql-aurora}"
   nat_enabled       = "false"
   nat_gateway_ids   = ""
   egress_gateway_id = ""

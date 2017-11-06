@@ -10,10 +10,10 @@ output "private-redis" {
   value = "3"
 }
 
-output "private-mysql" {
+output "private-mysql-aurora" {
   value = "4"
 }
 
-output "private-mysql2" {
+output "private-mysql-rds" {
   value = "5"
 }

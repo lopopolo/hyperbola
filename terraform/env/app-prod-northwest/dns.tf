@@ -14,7 +14,7 @@ resource "aws_route53_record" "mysql-prod" {
   type    = "CNAME"
   ttl     = 300
 
-  records = ["${module.hyperbola-app-mysql2.mysql_endpoint}"]
+  records = ["${module.hyperbola-app-mysql.mysql_endpoint}"]
 }
 
 resource "aws_route53_record" "bastion-prod" {

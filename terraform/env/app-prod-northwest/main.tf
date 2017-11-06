@@ -26,7 +26,7 @@ module "hyperbola-app-base" {
   bucket = "www"
 }
 
-module "hyperbola-app-mysql2" {
+module "hyperbola-app-mysql" {
   source = "../../hyperbola/app/mysql"
   env    = "${var.env}"
   name   = "${var.name}-mysql"
@@ -51,12 +51,12 @@ module "hyperbola-app-backend" {
   iam_instance_profile       = "${module.hyperbola-app-base.app_instance_profile}"
   s3_endpoint_prefix_list_id = "${module.network.s3_endpoint_prefix_list_id}"
 
-  mysql_port              = "${module.hyperbola-app-mysql2.mysql_port}"
-  mysql_security_group_id = "${module.hyperbola-app-mysql2.mysql_security_group_id}"
+  mysql_port              = "${module.hyperbola-app-mysql.mysql_port}"
+  mysql_security_group_id = "${module.hyperbola-app-mysql.mysql_security_group_id}"
 }
 
-output "mysql2_endpoint" {
-  value = "${module.hyperbola-app-mysql2.mysql_endpoint}"
+output "mysql_endpoint" {
+  value = "${module.hyperbola-app-mysql.mysql_endpoint}"
 }
 
 output "backup_bucket" {
