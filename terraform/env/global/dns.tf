@@ -25,11 +25,6 @@ resource "aws_route53_zone" "hyperboladc-net-public" {
   comment = "HostedZone created by Route53 Registrar"
 }
 
-module "aws-dc" {
-  source = "../../hyperbola/dc"
-  dc     = "aws"
-}
-
 output "hyperbola-zone-id" {
   value = "${aws_route53_zone.hyperbola-zone.zone_id}"
 }
@@ -40,8 +35,4 @@ output "hyperbolausercontent-zone-id" {
 
 output "hyperboladc-zone-id" {
   value = "${aws_route53_zone.hyperboladc-net-public.zone_id}"
-}
-
-output "aws-hyperboladc-zone-id" {
-  value = "${module.aws-dc.zone-id}"
 }
