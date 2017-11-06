@@ -13,7 +13,6 @@ or deployed in production and staging configurations. It depends on [Ansible](/a
 * mysql
 * nginx
 * python3 ~= 3.5.3
-* redis ~= 3.2.4
 
 ### Build
 
