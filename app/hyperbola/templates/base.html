@@ -14,31 +14,27 @@
     <script src="{% static "main.bundle.js" %}"></script>
     {% endblock head %}
   </head>
-  <body class="{% block active_app %}{% endblock active_app %}">
+  <body>
     <div class="container hyperbola-container">
-      <div class="row no-gutters hyperbola-header mb-3">
-        <div class="col">
-          <a class="hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Front Page</a>
-        </div>
-        <div class="col">
-          <ul class="nav justify-content-end hyperbola-nav">
-            <li class="nav-item text-center">
-              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "frontpage" %}active{% endif %}" href="{% url "frontpage:index" %}">
-                <strong class>home</strong>
-              </a>
-            </li>
-            <li class="nav-item text-center">
-              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "contact" %}active{% endif %}" href="{% url "contact:index" %}">
-                <strong>contact</strong>
-              </a>
-            </li>
-            <li class="nav-item text-center">
-              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "lifestream" %}active{% endif %}" href="{% url "lifestream:index" %}">
-                <strong>lifestream</strong>
-              </a>
-            </li>
-          </ul>
-        </div>
+      <div class="d-flex flex-row justify-content-between mb-3 hyperbola-header">
+        <a class="align-items-start hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Front Page</a>
+        <ul class="nav align-items-end justify-content-end hyperbola-nav">
+          <li class="nav-item text-center">
+            <a class="nav-link align-bottom {% if request.resolver_match.app_name == "frontpage" %}active{% endif %}" href="{% url "frontpage:index" %}">
+              <strong class>home</strong>
+            </a>
+          </li>
+          <li class="nav-item text-center">
+            <a class="nav-link align-bottom {% if request.resolver_match.app_name == "contact" %}active{% endif %}" href="{% url "contact:index" %}">
+              <strong>contact</strong>
+            </a>
+          </li>
+          <li class="nav-item text-center">
+            <a class="nav-link align-bottom {% if request.resolver_match.app_name == "lifestream" %}active{% endif %}" href="{% url "lifestream:index" %}">
+              <strong>lifestream</strong>
+            </a>
+          </li>
+        </ul>
       </div>
       <div class="row">
         <div class="col">
