@@ -35,7 +35,7 @@ a:focus {
     border-color: #444;
 }
 
-.img-thumbnail-hyperbola {
+.hyperbola-img-thumbnail {
     background-color: transparent;
     border: none;
 }
@@ -83,10 +83,9 @@ a:focus {
     background-image: linear-gradient(to bottom, #444 0%, darkgray 100%);
 }
 
-.panel-hyperbola {
+.hyperbola-card {
     background-color: transparent;
     border: 2px solid rgb(40, 220, 220);
-    border-radius: 10px;
 }
 
 /* frontpage */
