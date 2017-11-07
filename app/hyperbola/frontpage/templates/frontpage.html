@@ -8,25 +8,24 @@
 <div class="row">
   <div class="col-md-8">
     {% for blurb in blurbs %}
-    <div class="panel panel-hyperbola">
-      <div class="panel-heading">
-        <h2 class="panel-title-hyperbola-frontpage">{{ blurb.title|escape }}</h2>
+    <div class="card hyperbola-card mb-3">
+      <div class="card-body">
+        <div class="card-title">
+          <h2>{{ blurb.title|escape }}</h2>
+        </div>
+        <div class="card-text">{{ blurb.body|markdown }}</div>
       </div>
-      <div class="panel-body">{{ blurb.body|markdown }}</div>
     </div>
     {% endfor %}
   </div>
-
   <div class="col-md-4">
-    <div class="panel panel-hyperbola">
-      <div class="panel-heading">
-        <h2 class="panel-title">What I'm into right now</h2>
-      </div>
+    <div class="d-flex flex-column">
+      <h2 class="panel-title">Current Pursuits</h2>
+      {% for sched in schedule %}
+      <p>{{ sched.body|markdown }}</p>
+      {% endfor %}
       <table class="table table-hyperbola-frontpage">
         <tbody>
-          {% for sched in schedule %}
-          <tr><td>{{ sched.body|markdown }}</td></tr>
-          {% endfor %}
         </tbody>
       </table>
     </div>

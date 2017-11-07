@@ -7,7 +7,7 @@
 
 {% block lifestream_content %}
 {% for post in posts %}
-<div class="card my-3 rounded hyperbola-card">
+<div class="card mb-3 rounded hyperbola-card">
   {% if post.lifestreampicture %}
   <a href="{{ post.lifestreampicture.picture.url|escape }}">
     <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Photo for post {{ post.id|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" data-rjs="{{ post.lifestreampicture.picture.x2.url|escape }}">
