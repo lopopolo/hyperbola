@@ -41,26 +41,10 @@ a:focus {
 }
 
 /* header */
-#navbar-toggle-checkbox {
-    display: none;
-}
-
-#navbar-toggle-checkbox:checked ~ .collapse {
-    display: block;
-}
-
 .hyperbola-header {
     background-color: #444;
     border: none;
     height: 80px;
-}
-
-.navbar-header-hyperbola .navbar-toggle {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 10px;
-    padding-top: 12px;
-    padding-bottom: 12px;
 }
 
 .hyperbola-logo {
@@ -76,25 +60,24 @@ a:focus {
 .nav-link {
     color: darkgray;
     line-height: 20px;
+    padding-top: 50px;
     height: 80px;
 }
 
-.navbar-hyperbola .navbar-nav > li > a:hover {
+.nav-link:hover {
     background: darkgray;
     color: rgb(40, 220, 220);
 }
 
-.navbar-hyperbola .navbar-nav > li > a:focus {
+.nav-link:focus {
     color: darkgray;
 }
 
-.navbar-hyperbola .navbar-nav > li > a:focus:hover {
+.nav-link:focus:hover {
     color: rgb(40, 220, 220);
 }
 
-.frontpage  .navbar-hyperbola .navbar-nav > .hyperbola-home > a,
-.contact    .navbar-hyperbola .navbar-nav > .hyperbola-contact > a,
-.lifestream .navbar-hyperbola .navbar-nav > .hyperbola-lifestream > a {
+.nav-link.active {
     color: rgb(40, 220, 220);
     background-image: -webkit-linear-gradient(top, #444 0%, darkgray 100%);
     background-image: linear-gradient(to bottom, #444 0%, darkgray 100%);
