@@ -88,23 +88,6 @@ a:focus {
     border: 2px solid rgb(40, 220, 220);
 }
 
-/* frontpage */
-.panel-title-hyperbola-frontpage {
-    margin-top: 0;
-    margin-bottom: 0;
-    color: inherit;
-}
-
-.table-hyperbola-frontpage > thead > tr > th,
-.table-hyperbola-frontpage > tbody > tr > th,
-.table-hyperbola-frontpage > tfoot > tr > th,
-.table-hyperbola-frontpage > thead > tr > td,
-.table-hyperbola-frontpage > tbody > tr > td,
-.table-hyperbola-frontpage > tfoot > tr > td {
-    border-top: 2px solid rgb(40, 220, 220);
-}
-
-/* contact */
 .hyperbola-ellipsis {
     text-overflow: ellipsis;
     overflow: hidden;

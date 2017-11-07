@@ -20,14 +20,10 @@
   </div>
   <div class="col-md-4">
     <div class="d-flex flex-column">
-      <h2 class="panel-title">Current Pursuits</h2>
+      <h2>Current Pursuits</h2>
       {% for sched in schedule %}
-      <p>{{ sched.body|markdown }}</p>
+      <div>{{ sched.body|markdown }}</div>
       {% endfor %}
-      <table class="table table-hyperbola-frontpage">
-        <tbody>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
