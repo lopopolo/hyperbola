@@ -19,7 +19,7 @@ a:focus {
 }
 
 /* site layout */
-.section-title {
+.hyperbola-section-title {
     background-color: #444;
     color: rgb(40, 220, 220);
     border-style: none;
@@ -49,9 +49,10 @@ a:focus {
     display: block;
 }
 
-.navbar-hyperbola {
+.hyperbola-header {
     background-color: #444;
     border: none;
+    height: 80px;
 }
 
 .navbar-header-hyperbola .navbar-toggle {
@@ -72,11 +73,10 @@ a:focus {
     width: 230px;
 }
 
-.navbar-hyperbola .navbar-nav > li > a {
+.nav-link {
     color: darkgray;
-    display: block;
     line-height: 20px;
-    padding: 50px 16px 10px;
+    height: 80px;
 }
 
 .navbar-hyperbola .navbar-nav > li > a:hover {
