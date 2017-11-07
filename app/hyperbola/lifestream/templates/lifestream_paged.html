@@ -26,12 +26,12 @@
   </div>
 </div>
 {% endfor %}
-<div>
+<div class="d-flex flex-row justify-content-between">
   {% if links.newer %}
-  <div class="pull-left"><a href="{{ links.newer|escape }}">&laquo; newer</a></div>
+  <a class="align-items-start" href="{{ links.newer|escape }}">&laquo; newer</a>
   {% endif %}
   {% if links.older %}
-  <div class="pull-right"><a href="{{ links.older|escape }}">older &raquo;</a></div>
+  <a class="align-items-end" href="{{ links.older|escape }}">older &raquo;</a>
   {% endif %}
 </div>
 {% endblock lifestream_content %}
