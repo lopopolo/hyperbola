@@ -23,17 +23,17 @@
         <div class="col">
           <ul class="nav justify-content-end hyperbola-nav">
             <li class="nav-item text-center">
-              <a class="nav-link align-bottom active" href="{% url "frontpage:index" %}">
+              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "frontpage" %}active{% endif %}" href="{% url "frontpage:index" %}">
                 <strong class>home</strong>
               </a>
             </li>
             <li class="nav-item text-center">
-              <a class="nav-link align-bottom" href="{% url "contact:index" %}">
+              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "contact" %}active{% endif %}" href="{% url "contact:index" %}">
                 <strong>contact</strong>
               </a>
             </li>
             <li class="nav-item text-center">
-              <a class="nav-link align-bottom" href="{% url "lifestream:index" %}">
+              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "lifestream" %}active{% endif %}" href="{% url "lifestream:index" %}">
                 <strong>lifestream</strong>
               </a>
             </li>
