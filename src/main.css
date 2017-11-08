@@ -113,9 +113,3 @@ a:focus {
     max-width: 500px;
     max-height: 500px;
 }
-
-.feed-icon {
-    background: url(img/Feed-icon.svg) no-repeat left center;
-    background-size: 14px 14px;
-    padding-left: 20px;
-}

@@ -5,13 +5,6 @@
 {% block title %} {{ block.super }} :: lifestream {% endblock title %}
 {% block section_title %} Lifestream {% endblock section_title %}
 
-{% block head %}
-{{ block.super }}
-<!-- feed discovery -->
-<link rel="alternate" type="application/rss+xml" title="hyperbo.la lifestream (RSS)" href="{% url "lifestream:rss" %}">
-<link rel="alternate" type="application/atom+xml" title="hyperbo.la lifestream (Atom)" href="{% url "lifestream:atom" %}">
-{% endblock head %}
-
 {% block content %}
 <div class="row">
   <div class="col-md-8">
@@ -22,11 +15,7 @@
   </div>
   {% cache 600 lifestream:sidebar %}
   <div class="col-md-4">
-    <h3>Syndication</h3>
-    <ul class="list-unstyled">
-      <li class="feed-icon"><a href="{% url "lifestream:rss" %}">RSS</a></li>
-      <li class="feed-icon"><a href="{% url "lifestream:atom" %}">Atom</a></li>
-    </ul>
+    <h2>Archive</h2>
     {% regroup dates by month.year as archive %}
     {% for year in archive %}
     <h3>{{ year.grouper|escape }}</h3>
