@@ -17,7 +17,7 @@
   <body>
     <div class="container mb-5 hyperbola-container">
       <div class="d-flex flex-row justify-content-between mb-3 hyperbola-header">
-        <a class="align-items-start hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Front Page</a>
+        <a class="align-items-start hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Logo</a>
         <ul class="nav align-items-end justify-content-end hyperbola-nav">
           <li class="nav-item text-center">
             <a class="nav-link align-bottom {% if request.resolver_match.app_name == "frontpage" %}active{% endif %}" href="{% url "frontpage:index" %}">
@@ -51,7 +51,7 @@
     <script>retinajs();</script>
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-ga('create','UA-30651847-1','auto');ga('send','pageview')
+      ga('create','UA-30651847-1','auto');ga('send','pageview')
     </script>
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
     {% endblock footer %}

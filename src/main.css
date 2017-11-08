@@ -29,12 +29,6 @@ a:focus {
     background-color: #444;
 }
 
-.hyperbola-btn-info {
-    color: #444;
-    background-color: rgb(40, 220, 220);
-    border-color: #444;
-}
-
 .hyperbola-img-thumbnail {
     background-color: transparent;
     border: none;
@@ -66,7 +60,7 @@ a:focus {
 
 .nav-link:hover {
     background: darkgray;
-    color: rgb(40, 220, 220);
+    color: #222;
 }
 
 .nav-link:focus {
@@ -74,12 +68,11 @@ a:focus {
 }
 
 .nav-link:focus:hover {
-    color: rgb(40, 220, 220);
+    color: #222;
 }
 
 .nav-link.active {
     color: rgb(40, 220, 220);
-    background-image: -webkit-linear-gradient(top, #444 0%, darkgray 100%);
     background-image: linear-gradient(to bottom, #444 0%, darkgray 100%);
 }
 
@@ -91,15 +84,6 @@ a:focus {
 .hyperbola-ellipsis {
     text-overflow: ellipsis;
     overflow: hidden;
-}
-
-.img-thumbnail-hyperbola-contact {
-    background-color: transparent;
-    border: none;
-    width: auto;
-    height: auto;
-    max-width: 240px;
-    max-height: 240px;
 }
 
 /* lifestream */

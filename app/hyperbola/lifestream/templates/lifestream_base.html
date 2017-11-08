@@ -33,7 +33,7 @@
       {% for d in year.list %}
       <div class="d-flex flex-row justify-content-between mb-1">
         <a href="{% url "lifestream:archive" d.month|date:"Y" d.month|date:"m" %}">{{ d.month|date:"F" }}</a>
-        <span>{{ d.post_count|escape }}</span></li>
+        <span>{{ d.post_count|escape }}</span>
       </div>
       {% endfor %}
     {% endfor %}
