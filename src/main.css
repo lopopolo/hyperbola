@@ -94,22 +94,3 @@ a:focus {
     overflow: hidden;
     max-width: 100%;
 }
-
-.lifestream-entry-header {
-    font-size: 8pt;
-    margin-top: 1em;
-    padding: 0 15px;
-}
-
-.lifestream-entry-header  local-time:after {
-    content: " ";
-}
-
-.img-thumbnail-hyperbola-lifestream {
-    background-color: transparent;
-    border: none;
-    width: auto;
-    height: auto;
-    max-width: 500px;
-    max-height: 500px;
-}
