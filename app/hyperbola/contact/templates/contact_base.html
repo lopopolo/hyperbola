@@ -43,12 +43,14 @@
   {% if about %}
   <div class="col-md-4">
     <h2>About</h2>
-    <div>
+    <div class="card mb-3 rounded hyperbola-card">
       <a href="{{ about.photo.url|escape }}">
-        <img alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" data-rjs="{{ about.photo.x2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola-contact">
+        <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" data-rjs="{{ about.photo.x2.url|escape }}">
       </a>
+      <div class="card-body">
+        <p class="card-text lifestream-content">{{ about.blurb|escape }}</p>
+      </div>
     </div>
-    <p>{{ about.blurb|escape }}</p>
   </div>
   {% endif %}
 </div>
