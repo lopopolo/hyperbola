@@ -16,27 +16,36 @@
   </head>
   <body>
     <div class="container mb-5 hyperbola-container">
-      <div class="d-flex flex-row justify-content-between mb-3 hyperbola-header">
-        <a class="align-items-start hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Logo</a>
-        <ul class="nav justify-content-end hyperbola-nav">
-          <li class="nav-item text-center">
-            <a class="nav-link align-bottom {% if request.resolver_match.app_name == "frontpage" %}active{% endif %}" href="{% url "frontpage:index" %}">
-              <strong class>home</strong>
-            </a>
-          </li>
-          <li class="nav-item text-center">
-            <a class="nav-link align-bottom {% if request.resolver_match.app_name == "contact" %}active{% endif %}" href="{% url "contact:index" %}">
-              <strong>contact</strong>
-            </a>
-          </li>
-          <li class="nav-item text-center">
-            <a class="nav-link align-bottom {% if request.resolver_match.app_name == "lifestream" %}active{% endif %}" href="{% url "lifestream:index" %}">
-              <strong>lifestream</strong>
-            </a>
-          </li>
-        </ul>
+      <div>
+        <input type="checkbox" id="navbar-toggle-checkbox">
+        <div class="d-flex flex-row justify-content-between hyperbola-header">
+          <a class="align-items-start hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Logo</a>
+          <label for="navbar-toggle-checkbox" class="navbar-toggle collapsed mt-auto mb-auto mr-1" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span>&#9776;</span>
+          </label>
+        </div>
+        <div class="navbar-collapse collapse hyperbola-header">
+          <ul class="nav justify-content-end hyperbola-nav">
+            <li class="nav-item text-center">
+              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "frontpage" %}active{% endif %}" href="{% url "frontpage:index" %}">
+                <strong class>home</strong>
+              </a>
+            </li>
+            <li class="nav-item text-center">
+              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "contact" %}active{% endif %}" href="{% url "contact:index" %}">
+                <strong>contact</strong>
+              </a>
+            </li>
+            <li class="nav-item text-center">
+              <a class="nav-link align-bottom {% if request.resolver_match.app_name == "lifestream" %}active{% endif %}" href="{% url "lifestream:index" %}">
+                <strong>lifestream</strong>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="card hyperbola-section-title mb-3 w-100">
+      <div class="card hyperbola-section-title my-3 w-100">
         <div class="card-body">
           <span class="card-title"><strong>{% block section_title %}{% endblock section_title %}</strong></span>
         </div>

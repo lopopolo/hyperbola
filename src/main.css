@@ -35,6 +35,18 @@ a:focus {
 }
 
 /* header */
+#navbar-toggle-checkbox {
+    display: none;
+}
+
+#navbar-toggle-checkbox:checked ~ .collapse {
+    display: block;
+}
+
+.navbar-toggle {
+    font-size: 20pt;
+}
+
 .hyperbola-header {
     background-color: #444;
     border: none;
