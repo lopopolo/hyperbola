@@ -39,6 +39,22 @@ a:focus {
     display: none;
 }
 
+@media (max-width: 768px) {
+    #navbar-toggle-checkbox:checked ~ .hyperbola-logo {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-toggle {
+        display: none;
+    }
+
+    #navbar-toggle-checkbox ~ .collapse {
+        display: block;
+    }
+}
+
 #navbar-toggle-checkbox:checked ~ .collapse {
     display: block;
 }
