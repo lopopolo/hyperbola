@@ -110,15 +110,19 @@ a:focus {
 }
 
 .hyperbola-ellipsis {
-    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
 }
 
 /* lifestream */
 .lifestream-content a {
     display: inline-block;
     vertical-align: bottom;
-    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     max-width: 100%;
+    min-width: 0;
 }
