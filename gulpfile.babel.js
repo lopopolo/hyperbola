@@ -14,8 +14,9 @@ gulp.task('default', ['build']);
 
 gulp.task('build', (callback) => {
   runSequence(
-    'clean',
-    ['build:webpack', 'img'],
+    // 'clean',
+    // ['build:webpack', 'img'],
+    ['build:webpack'],
     callback,
   );
 });
