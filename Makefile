@@ -21,7 +21,7 @@ install_roles:
 
 .PHONY: build
 build:
-	NODE_ENV="production" gulp
+	NODE_ENV="production" webpack -p
 
 .PHONY: release
 release:
@@ -70,6 +70,7 @@ lint-ansible:
 	ansible-playbook -i ansible/local.ini --syntax-check --vault-password-file=bin/ansible_vault_password.sh ansible/*.yml
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/roles/hyperbola*
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/*.yml
+
 ## Virtualenv
 
 .PHONY: upgrade-py-deps

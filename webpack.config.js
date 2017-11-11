@@ -1,13 +1,28 @@
 const path = require('path');
 const glob = require('glob-all');
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+// process.traceDeprecation = true;
+
 function plugins(isProd) {
   const p = [
+    new CleanWebpackPlugin(
+      [
+        './dist/*',
+        './document-root/**/*.ico',
+        './document-root/**/*.png',
+      ],
+      {
+        exclude: ['.gitignore'],
+      },
+    ),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin('[name].bundle.css'),
     new PurifyCSSPlugin({
@@ -17,6 +32,39 @@ function plugins(isProd) {
         path.join(__dirname, 'app/hyperbola/*/templates/*.html'),
       ]),
       minimize: isProd,
+    }),
+    new FaviconsWebpackPlugin({
+      logo: './src/img/logo.favicon.svg',
+      prefix: 'icons/',
+      persistentCache: false,
+      // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+      icons: {
+        android: false,
+        appleIcon: true,
+        appleStartup: false,
+        coast: false,
+        favicons: true,
+        firefox: false,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false,
+      },
+    }),
+    new FileManagerPlugin({
+      onEnd: [
+        {
+          move: [
+            { source: './dist/icons/favicon.ico', destination: './document-root/favicon.ico' },
+            { source: './dist/icons/apple-touch-icon.png', destination: './document-root/apple-touch-icon.png' },
+          ],
+        },
+        {
+          delete: [
+            './dist/icons',
+          ],
+        },
+      ],
     }),
   ];
   if (isProd) {

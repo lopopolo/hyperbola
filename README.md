@@ -36,7 +36,6 @@ Build and deployment tools for <https://hyperbo.la>.
 ### Deploy
 
 * AWS
-* CloudFlare
 * terraform
 
 ## Local Development

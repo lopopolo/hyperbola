@@ -1,14 +1,3 @@
-variable "cloudflare_email" {
-  default = "rjl@hyperbo.la"
-}
-
-variable "cloudflare_token" {}
-
-provider "cloudflare" {
-  email = "${var.cloudflare_email}"
-  token = "${var.cloudflare_token}"
-}
-
 # Route 53 DNS
 
 resource "aws_route53_zone" "hyperbola-zone" {
