@@ -7,31 +7,30 @@
 
 {% block lifestream_content %}
 {% for post in posts %}
-<div class="panel panel-hyperbola">
-  <div class="panel-heading lifestream-entry-header">
-    <local-time datetime="{{ post.pub_date|date:"Y-m-d" }}T{{ post.pub_date|time:"H:i:s" }}Z" month="short" day="numeric" year="numeric" hour="numeric" minute="numeric">
-      {{ post.pub_date|date:"H:i T b d Y"|lower }}
-    </local-time>
-    <a href="{{ post.get_absolute_url|escape }}">permalink</a>
-  </div>
-  <div class="panel-body">
-    {% if post.lifestreampicture %}
-    <div>
-      <a href="{{ post.lifestreampicture.picture.url|escape }}">
-        <img alt="Photo for post {{ post.id|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" data-rjs="{{ post.lifestreampicture.picture.x2.url|escape }}" class="center-block img-thumbnail img-thumbnail-hyperbola-lifestream">
-      </a>
-    </div>
-    {% endif %}
-    <p class="lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
+<div class="card mb-3 rounded hyperbola-card">
+  {% if post.lifestreampicture %}
+  <a href="{{ post.lifestreampicture.picture.url|escape }}">
+    <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Photo for post {{ post.id|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" data-rjs="{{ post.lifestreampicture.picture.x2.url|escape }}">
+  </a>
+  {% endif %}
+  <div class="card-body">
+    <small class="card-subtitle">
+      <local-time datetime="{{ post.pub_date|date:"Y-m-d" }}T{{ post.pub_date|time:"H:i:s" }}Z" month="short" day="numeric" year="numeric" hour="numeric" minute="numeric">
+        {{ post.pub_date|date:"H:i T b d Y"|lower }}
+      </local-time>
+      <a href="{{ post.get_absolute_url|escape }}">permalink</a>
+    </small>
+    <p class="card-text lifestream-content">{{ post.blurb|urlize|hashtagize }}</p>
   </div>
 </div>
 {% endfor %}
-<div>
+<div class="d-flex flex-row justify-content-between">
   {% if links.newer %}
-  <div class="pull-left"><a href="{{ links.newer|escape }}">&laquo; newer</a></div>
+  <a href="{{ links.newer|escape }}">&laquo; newer</a>
   {% endif %}
+  <span></span>
   {% if links.older %}
-  <div class="pull-right"><a href="{{ links.older|escape }}">older &raquo;</a></div>
+  <a href="{{ links.older|escape }}">older &raquo;</a>
   {% endif %}
 </div>
 {% endblock lifestream_content %}

@@ -1,7 +1,6 @@
 from django.conf.urls import url
 
 from . import views
-from .syndication import AtomLatestEntriesFeed, LatestEntriesFeed
 
 app_name = "lifestream"
 urlpatterns = [
@@ -12,9 +11,4 @@ urlpatterns = [
     url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag, name="hashtag"),
     url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$', views.hashtag, name="hashtag_paged"),
     url(r'^(?P<entry_id>\d+)/$', views.permalink, name="entry_permalink"),
-]
-
-urlpatterns += [
-    url(r'^rss/$', LatestEntriesFeed(), name="rss"),
-    url(r'^atom/$', AtomLatestEntriesFeed(), name="atom"),
 ]
