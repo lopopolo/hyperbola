@@ -5,22 +5,20 @@ import uuid
 from django.http import HttpResponse, HttpResponseServerError
 from django.utils.encoding import force_bytes
 
-_FQDN = socket.getfqdn()
-_COMMENT = force_bytes('<!-- canonical hostname: {} -->'.format(_FQDN))
-
 
 class FQDNMiddleware(object):
     """Inject the canonical hostname for the host that rendered the request."""
 
     def __init__(self, get_response):
         self.get_response = get_response
+        self.comment = force_bytes('<!-- canonical hostname: {} -->'.format(socket.getfqdn()))
 
     def __call__(self, request):
         response = self.get_response(request)
 
         if 'Content-Type' in response and 'text/html' in response['Content-Type']:
             try:
-                response.content = response.content + _COMMENT
+                response.content = response.content + self.comment
             except ValueError:
                 pass
 
