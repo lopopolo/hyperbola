@@ -2,7 +2,7 @@ import logging
 import socket
 import uuid
 
-from django.http import HttpResponse, HttpResponseServerError
+from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 
 
@@ -23,6 +23,16 @@ class FQDNMiddleware(object):
                 pass
 
         return response
+
+
+class HttpResponseServiceUnavailable(HttpResponse):
+    status_code = 503
+    content_type = 'text/plain'
+
+    def __init__(self, *args, **kwargs):
+        kwargs2 = kwargs.copy()
+        kwargs2['content_type'] = 'text/plain'
+        super().__init__(*args, **kwargs2)
 
 
 # https://www.ianlewis.org/en/kubernetes-health-checks-django
@@ -49,10 +59,10 @@ class HealthCheckMiddleware(object):
                 cursor.execute('SELECT 1;')
                 row = cursor.fetchone()
                 if row is None:
-                    return HttpResponseServerError('KO: db: invalid response')
+                    return HttpResponseServiceUnavailable('KO: db: invalid response')
         except Exception as e:
             self.logger.exception(e)
-            return HttpResponseServerError('KO: db: cannot connect to database.')
+            return HttpResponseServiceUnavailable('KO: db: cannot connect to database.')
 
         # Do a roundtrip SET and GET on a random key/value.
         # This can effectively check if each is online.
@@ -63,9 +73,9 @@ class HealthCheckMiddleware(object):
                 cache.set(self.cache_key, cache_value)
                 result = cache.get(self.cache_key)
                 if result != cache_value:
-                    return HttpResponseServerError('KO: cache: round trip error.')
+                    return HttpResponseServiceUnavailable('KO: cache: round trip error.')
         except Exception as e:
             self.logger.exception(e)
-            return HttpResponseServerError('KO: cache: cannot connect to cache.')
+            return HttpResponseServiceUnavailable('KO: cache: cannot connect to cache.')
 
-        return HttpResponse('OK')
+        return HttpResponse('OK', content_type='text/plain')
