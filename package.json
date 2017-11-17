@@ -47,6 +47,7 @@
     "glob": "^7.1.2",
     "glob-all": "^3.1.0",
     "ignore-loader": "^0.1.2",
+    "purgecss-webpack-plugin": "^0.10.1",
     "purify-css": "^1.2.6",
     "purifycss-webpack": "^0.7.0",
     "resolve-url-loader": "^2.2.0",

@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
-const PurifyCSSPlugin = require('purifycss-webpack');
+const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -25,7 +25,7 @@ function plugins(isProd) {
     ),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin('[name].bundle.css'),
-    new PurifyCSSPlugin({
+    new PurgeCSSPlugin({
       // Give paths to parse for rules. These should be absolute!
       paths: glob.sync([
         path.join(__dirname, 'app/hyperbola/templates/*.html'),

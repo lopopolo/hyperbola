@@ -21,7 +21,7 @@ install_roles:
 
 .PHONY: build
 build:
-	NODE_ENV="production" webpack
+	NODE_ENV="production" webpack -p
 
 .PHONY: release
 release:
