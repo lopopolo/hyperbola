@@ -13,7 +13,7 @@ create database hyperbola;
 ### pyenv
 
 ```bash
-brew install pyenv pyenv-virtualenv
+brew install pyenv
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 pyenv install "$(cat .python-version)"
 ```
@@ -30,7 +30,7 @@ brew install node yarn
 ```bash
 git clone git@github.com:lopopolo/hyperbola.git
 cd hyperbola
-yarn install --ignore-engines
+yarn install
 make virtualenv
 bin/artifact-exec python -Wall app/manage.py migrate
 bin/artifact-exec python -Wall app/manage.py createcachetable
