@@ -19,7 +19,8 @@
       "owners": ["099720109477"],
       "most_recent": true
     },
-    "instance_type": "c5.large",
+    "instance_type": "c4.xlarge",
+    "spot_price": "0.199",
     "ssh_username": "ubuntu",
     "ssh_timeout": "10m",
     "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_ami_name}}",
