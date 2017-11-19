@@ -64,9 +64,10 @@ resource "aws_cloudfront_distribution" "website" {
     origin_id   = "s3-website"
   }
 
-  enabled         = true
-  is_ipv6_enabled = true
-  comment         = "CloudFront for www.burnfastburnbright.com"
+  enabled             = true
+  is_ipv6_enabled     = true
+  comment             = "CloudFront for www.burnfastburnbright.com"
+  default_root_object = "index.html"
 
   aliases = ["www.burnfastburnbright.com"]
 
