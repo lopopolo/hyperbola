@@ -9,8 +9,20 @@ resource "aws_route53_record" "website" {
   type    = "A"
 
   alias {
-    name                   = "${aws_s3_bucket.website.website_domain}"
-    zone_id                = "${aws_s3_bucket.website.hosted_zone_id}"
-    evaluate_target_health = true
+    name                   = "${aws_cloudfront_distribution.website.domain_name}"
+    zone_id                = "${aws_cloudfront_distribution.website.hosted_zone_id}"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "website-AAAA" {
+  name    = "www"
+  zone_id = "${aws_route53_zone.burnfastburnbright-com.zone_id}"
+  type    = "AAAA"
+
+  alias {
+    name                   = "${aws_cloudfront_distribution.website.domain_name}"
+    zone_id                = "${aws_cloudfront_distribution.website.hosted_zone_id}"
+    evaluate_target_health = false
   }
 }
