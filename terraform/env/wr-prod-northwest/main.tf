@@ -126,14 +126,20 @@ data "aws_acm_certificate" "website-no-www" {
 
 resource "aws_cloudfront_distribution" "website-no-www" {
   origin {
-    domain_name = "${aws_s3_bucket.website-no-www.bucket_domain_name}"
+    domain_name = "${aws_s3_bucket.website-no-www.website_endpoint}"
     origin_id   = "s3-website"
+
+    custom_origin_config {
+      origin_protocol_policy = "http-only"
+      http_port              = "80"
+      https_port             = "443"
+      origin_ssl_protocols   = ["TLSv1"]
+    }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "CloudFront for burnfastburnbright.com"
-  default_root_object = "index.html"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "CloudFront for burnfastburnbright.com"
 
   aliases = ["burnfastburnbright.com"]
 
@@ -150,7 +156,7 @@ resource "aws_cloudfront_distribution" "website-no-www" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = "allow-all"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
