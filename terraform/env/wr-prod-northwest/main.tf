@@ -47,6 +47,51 @@ resource "aws_s3_bucket_object" "image" {
   content_type = "image/jpeg"
 }
 
+resource "aws_s3_bucket_object" "robots" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "robots.txt"
+  source       = "${path.root}/site/robots.txt"
+  etag         = "${md5(file("${path.root}/site/robots.txt"))}"
+  content_type = "text/plain"
+}
+
+resource "aws_s3_bucket_object" "favicon" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "favicon.ico"
+  source       = "${path.root}/site/favicon.ico"
+  etag         = "${md5(file("${path.root}/site/favicon.ico"))}"
+  content_type = "image/x-icon"
+}
+
+resource "aws_s3_bucket_object" "apple-touch-icon" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "apple-touch-icon.png"
+  source       = "${path.root}/site/apple-touch-icon.png"
+  etag         = "${md5(file("${path.root}/site/apple-touch-icon.png"))}"
+  content_type = "image/png"
+}
+
+resource "aws_s3_bucket_object" "android-chrome-192" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "android-chrome-192x192.png"
+  source       = "${path.root}/site/android-chrome-192x192.png"
+  etag         = "${md5(file("${path.root}/site/android-chrome-192x192.png"))}"
+  content_type = "image/png"
+}
+
+resource "aws_s3_bucket_object" "android-chrome-512" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "android-chrome-512x512.png"
+  source       = "${path.root}/site/android-chrome-512x512.png"
+  etag         = "${md5(file("${path.root}/site/android-chrome-512x512.png"))}"
+  content_type = "image/png"
+}
+
 provider "aws" {
   region = "us-east-1"
   alias  = "cloudfront-acm-region"
