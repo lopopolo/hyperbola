@@ -43,6 +43,7 @@ repos:
     sha: v1.1.0
     hooks:
     -   id: python-safety-dependencies-check
+        always_run: true
 -   repo: https://github.com/chewse/pre-commit-mirrors-pydocstyle.git
     sha: v2.1.1
     hooks:
