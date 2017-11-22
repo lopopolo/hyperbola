@@ -1,10 +1,10 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit
-    sha: v1.1.2
+    sha: v1.4.1
     hooks:
     -   id: validate_manifest
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    sha: v0.9.4
+    sha: v1.1.1
     hooks:
     -   id: check-added-large-files
     -   id: check-ast
@@ -16,8 +16,11 @@ repos:
     -   id: check-json
     -   id: check-merge-conflict
     -   id: check-symlinks
+    -   id: check-vcs-permalinks
+    -   id: check-xml
     -   id: check-yaml
         exclude: vars
+    -   id: debug-statements
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
@@ -26,10 +29,12 @@ repos:
         exclude: migrations
         language_version: python3
     -   id: forbid-new-submodules
+    -   id: mixed-line-ending
+    -   id: name-tests-test
     -   id: trailing-whitespace
         exclude: src|dist|geerlingguy|hswong3i|.bumpversion.cfg
--   repo: https://github.com/FalconSocial/pre-commit-python-sorter.git
-    sha: b57843b0b874df1d16eb0bef00b868792cb245c2
+-   repo: https://github.com/adambrenecki/pre-commit-python-sorter.git
+    sha: 1.0.5
     hooks:
     -   id: python-import-sorter
         types: [python]
@@ -39,7 +44,7 @@ repos:
     hooks:
     -   id: python-safety-dependencies-check
 -   repo: https://github.com/chewse/pre-commit-mirrors-pydocstyle.git
-    sha: v0.0.2
+    sha: v2.1.1
     hooks:
     -   id: pydocstyle
 -   repo: local

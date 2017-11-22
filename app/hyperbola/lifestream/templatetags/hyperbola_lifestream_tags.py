@@ -13,7 +13,8 @@ register = template.Library()
 @register.filter(needs_autoescape=True)
 @stringfilter
 def hashtagize(blurb, autoescape=True):
-    """The hashtagize filter turns #hashtags in blurb into links.
+    """
+    Filter that turns #hashtags in blurb into links.
 
     Args:
         blurb (str): The lifestream entry to scan for #hashtags
