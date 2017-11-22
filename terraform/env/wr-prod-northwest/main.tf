@@ -33,8 +33,8 @@ resource "aws_s3_bucket_object" "error" {
   bucket       = "${aws_s3_bucket.website.id}"
   acl          = "public-read"
   key          = "error.html"
-  source       = "${path.root}/site/index.html"
-  etag         = "${md5(file("${path.root}/site/index.html"))}"
+  source       = "${path.root}/site/error.html"
+  etag         = "${md5(file("${path.root}/site/error.html"))}"
   content_type = "text/html"
 }
 
@@ -105,14 +105,20 @@ data "aws_acm_certificate" "website" {
 
 resource "aws_cloudfront_distribution" "website" {
   origin {
-    domain_name = "${aws_s3_bucket.website.bucket_domain_name}"
+    domain_name = "${aws_s3_bucket.website.website_endpoint}"
     origin_id   = "s3-website"
+
+    custom_origin_config {
+      origin_protocol_policy = "http-only"
+      http_port              = "80"
+      https_port             = "443"
+      origin_ssl_protocols   = ["TLSv1"]
+    }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = "CloudFront for www.burnfastburnbright.com"
-  default_root_object = "index.html"
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "CloudFront for www.burnfastburnbright.com"
 
   aliases = ["www.burnfastburnbright.com"]
 
