@@ -18,8 +18,6 @@ Vagrant.configure('2') do |config|
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
   config.vm.define 'app-test-1' do |app|
-    app.vm.synced_folder '~/.aws', '/home/hyperbola-app/.aws', disabled: !provisioned?('app-test-1'), owner: 'hyperbola-app'
-
     app.vm.network 'private_network', ip: '192.168.10.20'
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
@@ -48,5 +46,12 @@ Vagrant.configure('2') do |config|
         'all_groups:children' => ['app']
       }
     end
+
+    app.vm.provision 'file', source: '~/.aws', destination: '/tmp/aws-creds'
+    app.vm.provision 'shell', inline: <<~SHELL
+      chown -R hyperbola-app:hyperbola-app /tmp/aws-creds
+      chmod -R u=rX,go=X /tmp/aws-creds
+      mv /tmp/aws-creds /home/hyperbola-app/.aws
+    SHELL
   end
 end
