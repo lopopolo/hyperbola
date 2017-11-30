@@ -6,6 +6,7 @@ variable "name" {}
 
 variable "vpc_cidr" {}
 variable "azs" {}
+variable "nat_enabled" {}
 variable "region" {}
 
 variable "key_name" {}
@@ -42,6 +43,7 @@ module "private_subnet" {
   azs    = "${var.azs}"
 
   subnet_tier       = "${module.tier.private}"
+  nat_enabled       = "${var.nat_enabled}"
   nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
 }
@@ -60,6 +62,7 @@ module "bastion" {
 module "nat" {
   source = "./nat"
 
+  enabled            = "${var.nat_enabled}"
   name               = "${var.name}-nat"
   vpc_id             = "${module.vpc.vpc_id}"
   public_subnet_tier = "${module.public_subnet.tier}"

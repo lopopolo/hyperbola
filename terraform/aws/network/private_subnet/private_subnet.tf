@@ -46,17 +46,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_route_table" "private" {
   vpc_id = "${data.aws_vpc.current.id}"
-  count  = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
-
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = "${element(split(",", var.nat_gateway_ids), count.index)}"
-  }
-
-  route {
-    ipv6_cidr_block        = "::/0"
-    egress_only_gateway_id = "${var.egress_gateway_id}"
-  }
+  count  = "${length(split(",", var.azs))}"
 
   tags {
     Name = "${var.name}.${element(split(",", var.azs), count.index)}"
@@ -67,8 +57,32 @@ resource "aws_route_table" "private" {
   }
 }
 
+resource "aws_route" "nat_gateway" {
+  count = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
+
+  route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = "${element(split(",", var.nat_gateway_ids), count.index)}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route" "ipv6_egress_gateway" {
+  count = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
+
+  route_table_id         = "${element(aws_route_table.private.*..id, count.index)}"
+  destination_cidr_block = "::/0"
+  egress_only_gateway_id = "${var.egress_gateway_id}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_route_table_association" "private" {
-  count          = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
+  count          = "${length(split(",", var.azs))}"
   subnet_id      = "${element(aws_subnet.private.*.id, count.index)}"
   route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
 

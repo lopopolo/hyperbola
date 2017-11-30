@@ -6,6 +6,10 @@ variable "name" {
   default = "nat"
 }
 
+variable "enabled" {
+  default = "true"
+}
+
 variable "vpc_id" {}
 variable "public_subnet_tier" {}
 
@@ -22,7 +26,8 @@ data "aws_subnet_ids" "public" {
 }
 
 resource "aws_eip" "nat" {
-  vpc = true
+  count = "${var.enabled == "true" ? 1 : 0}"
+  vpc   = true
 
   lifecycle {
     create_before_destroy = true
@@ -30,10 +35,9 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "nat" {
+  count         = "${var.enabled == "true" ? 1 : 0}"
   allocation_id = "${element(aws_eip.nat.*.id, count.index)}"
   subnet_id     = "${data.aws_subnet_ids.public.ids[count.index]}"
-
-  # count = "${length(split(",", var.azs))}" # Comment out count to only have 1 NAT
 
   lifecycle {
     create_before_destroy = true
