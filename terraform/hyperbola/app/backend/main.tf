@@ -147,7 +147,7 @@ resource "aws_alb_target_group" "backend" {
   deregistration_delay = 30
 
   health_check {
-    path = "/healthz" # runs a request through nginx to rack
+    path = "/healthz" # runs a request through nginx to the application server
     port = 8888
   }
 }
