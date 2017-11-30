@@ -15,7 +15,7 @@ module "network" {
   name                  = "${var.name}"
   vpc_cidr              = "${var.vpc_cidr}"
   azs                   = "${var.azs}"
-  nat_enabled           = "true"
+  nat_enabled           = "false"
   region                = "${var.region}"
   key_name              = "hyperbola-cas"
   bastion_enabled       = "false"
