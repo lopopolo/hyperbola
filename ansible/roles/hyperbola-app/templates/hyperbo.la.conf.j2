@@ -8,11 +8,6 @@ server {
     listen       80;
     server_name  www.{{ item.domain }};
 
-    location /.well-known/ {
-        root /hyperbola/app/current/document-root/;
-        auth_basic off;
-    }
-
     location / {
         return 301 https://{{ item.domain }}$request_uri;
     }
@@ -47,11 +42,6 @@ server {
         proxy_set_header      X-Forwarded-Host  {{ item.domain }};
         proxy_set_header      X-Forwarded-Proto $http_x_forwarded_proto;
         client_max_body_size  10m;
-    }
-
-    location /.well-known/ {
-        root /hyperbola/app/current/document-root/;
-        auth_basic off;
     }
 
     location = /healthz {
