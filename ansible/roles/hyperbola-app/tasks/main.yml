@@ -95,6 +95,16 @@
     state: present
     executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
     requirements: "{{ deploy_helper.new_release_path }}/requirements.txt"
+- name: Install app
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python setup.py install"
+  args:
+    creates: "{{ deploy_helper.new_release_path }}/venv/**/*hyperbola*"
+    chdir: "{{ deploy_helper.new_release_path }}"
+  environment:
+    PBR_VERSION: "{{ app_version }}"
+    SKIP_GIT_SDIST: 1
+    SKIP_GENERATE_AUTHORS: 1
+    SKIP_WRITE_GIT_CHANGELOG: 1
 - name: Set artifact root
   set_fact:
     app_artifact_root: "{{ deploy_helper.new_release_path }}"
@@ -112,12 +122,8 @@
   with_items:
   - 00-path.env
   - 01-configuration.env
-- name: compileall app
-  command: "{{ deploy_helper.new_release_path }}/venv/bin/python -m compileall app"
-  args:
-    creates: "{{ deploy_helper.new_release_path }}/app/**/*.pyc"
 - name: manage.py collectstatic
-  command: "{{ deploy_helper.new_release_path }}/bin/artifact-exec python {{ deploy_helper.new_release_path }}/app/manage.py collectstatic --no-input"
+  command: "{{ deploy_helper.new_release_path }}/bin/artifact-exec python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
   args:
     creates: "{{ deploy_helper.new_release_path }}/document-root/static/staticfiles.json"
 - name: Install gunicorn config

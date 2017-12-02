@@ -116,7 +116,7 @@ class EnvironmentConfig(object):
 
 
 PROJECT_PATH = Path(__file__).resolve().parent
-ROOT_PATH = PROJECT_PATH.parent.parent
+ROOT_PATH = PROJECT_PATH.parent
 
 ENVIRONMENT = EnvironmentConfig(ROOT_PATH)
 
