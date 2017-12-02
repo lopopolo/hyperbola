@@ -85,7 +85,7 @@ setup(
     install_requires=[
         'bleach',
         'bleach-whitelist',
-        'Django ~= 1.11.0',
+        'Django ~= 2.0.0',
         'django-localflavor',
         'django-mysql',
         'django-s3-storage',

@@ -1,3 +1,4 @@
+import re
 from collections import namedtuple
 from datetime import date
 from functools import wraps
@@ -11,6 +12,7 @@ from django.urls import reverse
 
 from .models import LifeStreamItem
 
+_hashtag_validation_regexp = re.compile('\W')
 NUM_PER_PAGE = 20
 PageLinks = namedtuple("PageLinks", "newer older")
 
@@ -71,12 +73,12 @@ def index(request, page=1):
 @handle_lifestream_404
 def archive(request, year, month, page=1):
     try:
-        mdate = date(int(year), int(month), 1)
+        archive_date = date(year, month, 1)
     except ValueError:
         raise Http404
 
     posts = LifeStreamItem.objects.select_related('lifestreampicture').filter(
-        pub_date__year=mdate.year, pub_date__month=mdate.month
+        pub_date__year=archive_date.year, pub_date__month=archive_date.month
     )
     if not posts.exists():
         raise Http404
@@ -92,7 +94,7 @@ def archive(request, year, month, page=1):
         older = reverse("lifestream:archive_paged", args=[year, month, pager.next_page_number()])
 
     return render(request, "lifestream_paged.html", {
-        "content_header": "Posts from {}".format(mdate.strftime("%B %Y")),
+        "content_header": "Posts from {}".format(archive_date.strftime("%B %Y")),
         "posts": pager,
         "dates": get_archive_range(),
         "links": PageLinks(newer=newer, older=older),
@@ -101,6 +103,9 @@ def archive(request, year, month, page=1):
 
 @handle_lifestream_404
 def hashtag(request, tag, page=1):
+    if _hashtag_validation_regexp.match(tag) is not None:
+        raise Http404
+
     # WARNING: MySQL does not recognize standard regexp character class
     # shorthand: http://dev.mysql.com/doc/refman/5.6/en/regexp.html
     search = r"#{}([^[:alnum:]]|$)".format(tag)

@@ -1,14 +1,14 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
-app_name = "lifestream"
+app_name = 'lifestream'
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
-    url(r'^page/(?P<page>[1-9]\d*)/$', views.index, name="index_paged"),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$', views.archive, name="archive"),
-    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/page/(?P<page>[1-9]\d*)/$', views.archive, name="archive_paged"),
-    url(r'^hashtag/(?P<tag>\w+)/$', views.hashtag, name="hashtag"),
-    url(r'^hashtag/(?P<tag>\w+)/page/(?P<page>[1-9]\d*)/$', views.hashtag, name="hashtag_paged"),
-    url(r'^(?P<entry_id>\d+)/$', views.permalink, name="entry_permalink"),
+    path('', views.index, name='index'),
+    path('page/<int:page>/', views.index, name='index_paged'),
+    path('archive/<int:year>/<int:month>/', views.archive, name='archive'),
+    path('archive/<int:year>/<int:month>/page/<int:page>/', views.archive, name='archive_paged'),
+    path('hashtag/<str:tag>/', views.hashtag, name='hashtag'),
+    path('hashtag/<str:tag>/page/<int:page>/', views.hashtag, name="hashtag_paged"),
+    path('<int:entry_id>/', views.permalink, name="entry_permalink"),
 ]
