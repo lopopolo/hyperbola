@@ -49,9 +49,10 @@ Vagrant.configure('2') do |config|
 
     app.vm.provision 'file', source: '~/.aws', destination: '/tmp/aws-creds'
     app.vm.provision 'shell', inline: <<~SHELL
-      chown -R hyperbola-app:hyperbola-app /tmp/aws-creds
-      chmod -R u=rX,go=X /tmp/aws-creds
-      mv /tmp/aws-creds /home/hyperbola-app/.aws
+      rm -rf /home/hyperbola-app/.aws
+      mv /tmp/aws-creds/ /home/hyperbola-app/.aws
+      chown -R hyperbola-app:hyperbola-app /home/hyperbola-app/.aws
+      chmod -R u=rX,go=X /home/hyperbola-app
     SHELL
   end
 end
