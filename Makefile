@@ -63,7 +63,7 @@ lint-pre-commit:
 yapf:
 	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
 
-ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata
+ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata --exclude=ansible/roles/geerlingguy.ntp
 
 .PHONY: lint-ansible
 lint-ansible:

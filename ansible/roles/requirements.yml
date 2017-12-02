@@ -5,3 +5,6 @@
 - name: geerlingguy.security
   src: https://github.com/geerlingguy/ansible-role-security.git
   version: 1.5.0
+- name: geerlingguy.ntp
+  src: https://github.com/geerlingguy/ansible-role-ntp.git
+  version: 1.5.2
