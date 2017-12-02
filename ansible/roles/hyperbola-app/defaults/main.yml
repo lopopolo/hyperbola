@@ -1,5 +1,5 @@
 ---
 app_nginx_domain: ~
-app_release_ref: v0.118.0
+app_release_ref: v0.119.0
 # https://developer.github.com/v3/repos/contents/#get-archive-link
 app_release_download_url: "https://api.github.com/repos/lopopolo/hyperbola/tarball/{{ app_release_ref }}"
