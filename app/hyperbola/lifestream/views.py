@@ -87,7 +87,7 @@ def archive(request, year, month, page=1):
         if pager.previous_page_number() == 1:
             newer = reverse("lifestream:archive", args=[year, month])
         else:
-            newer = reverse("lifestream:archvive_paged", args=[year, month, pager.previous_page_number()])
+            newer = reverse("lifestream:archive_paged", args=[year, month, pager.previous_page_number()])
     if pager.has_next():
         older = reverse("lifestream:archive_paged", args=[year, month, pager.next_page_number()])
 
