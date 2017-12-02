@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.1",
+    "babel-eslint": "^8.0.3",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "base64-inline-loader": "^1.1.0",
@@ -54,7 +54,7 @@
     "svgo": "^1.0.1",
     "svgo-loader": "^2.1.0",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1"
+    "webpack": "^3.9.1"
   },
   "dependencies": {
     "bootstrap-css-only": "^4.0.0-beta.2",
