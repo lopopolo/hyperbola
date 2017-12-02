@@ -3,3 +3,4 @@
   systemd: daemon_reload=yes
 - name: restart app
   service: name='hyperbola-app@*' state=restarted
+  when: hyperbola_environment != 'production'

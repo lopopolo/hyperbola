@@ -159,7 +159,7 @@
   with_items:
     - unit: "hyperbola-app@{{ hyperbola_environment }}.service"
       enabled: true
-      state: started
+      state: "{% if hyperbola_environment == 'production' %}stopped{% else %}started{% endif %}"
     - unit: "hyperbola-app-backup@{{ hyperbola_environment }}.service"
       enabled: false
       state: stopped
