@@ -32,8 +32,8 @@ git clone git@github.com:lopopolo/hyperbola.git
 cd hyperbola
 yarn install
 make virtualenv
-bin/artifact-exec python -Wall app/manage.py migrate
-bin/artifact-exec python -Wall app/manage.py createcachetable
+bin/artifact-exec python -Wall manage.py migrate
+bin/artifact-exec python -Wall manage.py createcachetable
 ```
 
 ## .env
@@ -62,5 +62,5 @@ export ANSIBLE_VAULT_PASSWORD=""
 ## runserver
 
 ```bash
-bin/artifact-exec python -Wall app/manage.py runserver
+bin/artifact-exec python -Wall manage.py runserver
 ```
