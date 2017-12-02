@@ -4,7 +4,6 @@
 #
 #    make upgrade-py-deps
 #
-
 bleach-whitelist==0.0.8
 bleach==2.1.1
 boto3==1.4.8              # via django-s3-storage
@@ -13,7 +12,7 @@ django-localflavor==1.6.1
 django-mysql==2.1.1
 django-s3-storage==0.12.1
 django-stdimage==3.0.0
-django==2.0               # via django-localflavor, django-mysql, django-s3-storage
+django==2.0
 docutils==0.14            # via botocore
 gunicorn==19.7.1
 html5lib==1.0b10          # via bleach
@@ -21,11 +20,11 @@ jmespath==0.9.3           # via boto3, botocore
 markdown==2.6.9
 mysqlclient==1.3.12
 olefile==0.44             # via pillow
-pillow==4.3.0             # via django-stdimage
+pillow==4.3.0
 progressbar2==3.34.3      # via django-stdimage
 python-dateutil==2.6.1    # via botocore
 python-utils==2.2.0       # via progressbar2
-pytz==2017.3              # via django
+pytz==2017.3
 s3transfer==0.1.12        # via boto3
 six==1.11.0               # via bleach, html5lib, python-dateutil, python-utils
 webencodings==0.5.1       # via html5lib

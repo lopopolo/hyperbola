@@ -75,20 +75,18 @@ lint-ansible:
 
 .PHONY: upgrade-py-deps
 upgrade-py-deps: setup.py requirements.in dev-requirements.in
-	for req in $^; do if [[ "$$req" != "setup.py" ]]; then CUSTOM_COMPILE_COMMAND="make $@" pip-compile --upgrade "$$req"; sed -i '' "s|-e file://$$(pwd)||" "$$(basename "$$req" ".in").txt"; fi; done
+	for req in $^; do if [[ "$$req" != "setup.py" ]]; then CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile --upgrade "$$req"; sed -i '' "s|-e file://$$(pwd)||" "$$(basename "$$req" ".in").txt"; fi; done
 	$(MAKE) virtualenv
 
-requirements.txt: requirements.in setup.py
-	pip-compile --output-file "$@" "$<"
-	sed -i '' "s|-e file://$$(pwd)||" "$@"
+requirements.txt: requirements.in
+	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile "$<"
 
-dev-requirements.txt: dev-requirements.in setup.py
-	pip-compile --output-file "$@" "$<"
-	sed -i '' "s|-e file://$$(pwd)||" "$@"
+dev-requirements.txt: dev-requirements.in
+	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile "$<"
 
 .PHONY: virtualenv
-virtualenv: venv/bin/activate dev-requirements.txt requirements.txt
-	pip-sync *requirements.txt
+virtualenv: venv/bin/activate requirements.txt dev-requirements.txt
+	pip-sync dev-requirements.txt
 
 venv/bin/activate:
 	python -m venv venv
