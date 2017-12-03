@@ -6,4 +6,4 @@ Type=oneshot
 User=hyperbola-app
 Group=hyperbola-app
 WorkingDirectory=/hyperbola/app/current
-ExecStart=/hyperbola/app/current/bin/artifact-exec python app/manage.py hyperbola_database_backup
+ExecStart=/hyperbola/app/current/bin/artifact-exec python manage.py hyperbola_database_backup
