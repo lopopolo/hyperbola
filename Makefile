@@ -104,31 +104,3 @@ clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -rf {} +
-
-## Tunnel
-
-SSH_APP := vagrant ssh app-test-1
-
-.PHONY: tunnel
-tunnel:
-ifneq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
-	@echo "Tunnel already established"
-else
-	$(SSH_APP) -- -M -S .vagrant/control-socket -fnNT -R 3306:localhost:3306
-endif
-
-.PHONY: tunnel-status
-tunnel-status:
-ifeq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
-	@echo "No control socket"
-else
-	$(SSH_APP) -- -S .vagrant/control-socket -O check
-endif
-
-.PHONY: tunnel-kill
-tunnel-kill:
-ifeq ("$(shell [[ -S ".vagrant/control-socket" ]] && echo "present" || echo)", "")
-	@echo "No control socket"
-else
-	$(SSH_APP) -- -S .vagrant/control-socket -O exit
-endif
