@@ -14,8 +14,6 @@
       copy:
         content: "[mysqld]\nbind-address = 0.0.0.0"
         dest: /etc/mysql/mysql.conf.d/mysqld.overrides.cnf
-    - name: Restart MySQL
-      systemd: state=restarted name=mysql
     - name: Drop database
       mysql_db:
         name: hyperbola
@@ -33,3 +31,15 @@
         host: '192.168.10.20'
         priv: 'hyperbola.*:ALL'
         state: present
+    - name: Test for MySQL timezone support
+      command: mysql -NBe "SELECT COUNT(*) FROM mysql.time_zone"
+      register: mysql_timezones_count
+      changed_when: false
+      check_mode: no
+    - name: Enable MySQL timezone support
+      shell: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+      when: mysql_timezones_count.stdout|int < 1
+      tags:
+        - skip_ansible_lint
+    - name: Restart MySQL
+      systemd: state=restarted name=mysql
