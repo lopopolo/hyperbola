@@ -17,14 +17,14 @@ Vagrant.configure('2') do |config|
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
-  config.vm.define 'app-mysql-1' do |app|
+  config.vm.define 'app-mysql' do |app|
     app.vm.network 'private_network', ip: '192.168.10.30'
 
     app.vm.provision 'app-local-mysql', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/app-local-mysql.yml'
       ansible.groups = {
-        'app' => ['app-mysql-1'],
+        'app' => ['app-mysql'],
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3',
         },
@@ -33,14 +33,14 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  config.vm.define 'app-test-1' do |app|
+  config.vm.define 'app' do |app|
     app.vm.network 'private_network', ip: '192.168.10.20'
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
-        'app' => ['app-test-1'],
+        'app' => ['app'],
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3'
         },
@@ -53,7 +53,7 @@ Vagrant.configure('2') do |config|
       ansible.playbook = 'ansible/app.yml'
       ansible.vault_password_file = 'bin/ansible_vault_password.sh'
       ansible.groups = {
-        'app' => ['app-test-1'],
+        'app' => ['app'],
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
