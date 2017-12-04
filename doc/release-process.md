@@ -1,10 +1,12 @@
 # Release Process
 
-## Smoke Test
+## Local Dev
 
 ```bash
 bin/artifact-exec python manage.py runserver
 ```
+
+### Smoke Test
 
 Verify that [frontpage](http://127.0.0.1:8000/), [contact](http://127.0.0.1:8000/contact/), and
 [lifestream](http://127.0.0.1:8000/lifestream/) pages function correctly.
