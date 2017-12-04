@@ -7,9 +7,13 @@
 - name: base packages
   apt: name={{ item }} state=present
   with_items:
-  - git
-  - ntp
-  - vim
+    - git
+    - ntp
+    - vim
+- name: Global python packages
+  pip: name={{ item }} state=present
+  with_items:
+    - awscli
 - name: Lock root account # http://stackoverflow.com/a/39018859
   user:
     name: root
@@ -28,7 +32,7 @@
     path: "{{ item }}"
     state: directory
   with_items:
-  - /hyperbola
+    - /hyperbola
 # http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-migrate-ipv6.html#ipv6-dhcpv6-ubuntu-16
 - name: IPv6 support on Ubuntu
   copy:

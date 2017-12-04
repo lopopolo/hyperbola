@@ -1,0 +1,35 @@
+---
+- hosts: app
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: base packages
+      apt: name={{ item }} state=present
+      with_items:
+      - mysql-server
+      - mysql-client
+      - python3-mysqldb
+    - name: Enable MySQL remote connections
+      copy:
+        content: "[mysqld]\nbind-address = 0.0.0.0"
+        dest: /etc/mysql/mysql.conf.d/mysqld.overrides.cnf
+    - name: Restart MySQL
+      systemd: state=restarted name=mysql
+    - name: Drop database
+      mysql_db:
+        name: hyperbola
+        state: absent
+    - name: Create database
+      mysql_db:
+        name: hyperbola
+        encoding: utf8mb4
+        collation: utf8mb4_unicode_ci
+        state: present
+    - name: Create app MySQL user
+      mysql_user:
+        name: app
+        password: mysql-local
+        host: '192.168.10.20'
+        priv: 'hyperbola.*:ALL'
+        state: present

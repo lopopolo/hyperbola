@@ -17,6 +17,22 @@ Vagrant.configure('2') do |config|
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
+  config.vm.define 'app-mysql-1' do |app|
+    app.vm.network 'private_network', ip: '192.168.10.30'
+
+    app.vm.provision 'app-local-mysql', type: 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'ansible/app-local-mysql.yml'
+      ansible.groups = {
+        'app' => ['app-mysql-1'],
+        'app:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3',
+        },
+        'all_groups:children' => ['app']
+      }
+    end
+  end
+
   config.vm.define 'app-test-1' do |app|
     app.vm.network 'private_network', ip: '192.168.10.20'
 
@@ -54,18 +70,12 @@ Vagrant.configure('2') do |config|
       chown -R hyperbola-app:hyperbola-app /home/hyperbola-app/.aws
       chmod -R u=rX,go=X /home/hyperbola-app
     SHELL
-
-    app.vm.provision 'app-local', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
-      ansible.playbook = 'ansible/app-local.yml'
-      ansible.groups = {
-        'app' => ['app-test-1'],
-        'app:vars' => {
-          'ansible_python_interpreter' => '/usr/bin/python3',
-        },
-        'all_groups:children' => ['app']
-      }
-    end
-
+    app.vm.provision 'shell', inline: <<~SHELL
+      sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v5/local/database/hyperbola-app-2017-12-03T0126Z.json /tmp/hyperbola-seed.json
+      cd /hyperbola/app/current
+      bin/artifact-exec ./manage.py migrate
+      bin/artifact-exec ./manage.py loaddata /tmp/hyperbola-seed.json
+      bin/artifact-exec ./manage.py createcachetable
+    SHELL
   end
 end
