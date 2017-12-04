@@ -33,14 +33,14 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  config.vm.define 'app' do |app|
+  config.vm.define 'app-local' do |app|
     app.vm.network 'private_network', ip: '192.168.10.20'
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
-        'app' => ['app'],
+        'app' => ['app-local'],
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3'
         },
@@ -48,12 +48,12 @@ Vagrant.configure('2') do |config|
       }
     end
 
-    app.vm.provision 'app', type: 'ansible' do |ansible|
+    app.vm.provision 'app-local', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/app.yml'
       ansible.vault_password_file = 'bin/ansible_vault_password.sh'
       ansible.groups = {
-        'app' => ['app'],
+        'app' => ['app-local'],
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
