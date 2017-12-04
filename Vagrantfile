@@ -54,5 +54,18 @@ Vagrant.configure('2') do |config|
       chown -R hyperbola-app:hyperbola-app /home/hyperbola-app/.aws
       chmod -R u=rX,go=X /home/hyperbola-app
     SHELL
+
+    app.vm.provision 'app-local', type: 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'ansible/app-local.yml'
+      ansible.groups = {
+        'app' => ['app-test-1'],
+        'app:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3',
+        },
+        'all_groups:children' => ['app']
+      }
+    end
+
   end
 end

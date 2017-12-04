@@ -3,5 +3,5 @@
 db_host: 127.0.0.1
 db_port: 3306
 db_name: hyperbola
-db_user: root
-db_password: ""
+db_user: app
+db_password: "mysql-local"

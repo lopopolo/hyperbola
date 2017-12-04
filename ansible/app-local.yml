@@ -1,0 +1,49 @@
+---
+- hosts: app
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: base packages
+      apt: name={{ item }} state=present
+      with_items:
+      - mysql-server
+      - mysql-client
+      - python3-mysqldb
+    - name: Install aws cli
+      pip: name={{ item }} state=present
+      with_items:
+        - awscli
+    - name: Drop database
+      mysql_db:
+        name: hyperbola
+        state: absent
+    - name: Create database
+      mysql_db:
+        name: hyperbola
+        encoding: utf8mb4
+        collation: utf8mb4_unicode_ci
+        state: present
+    - name: Create app MySQL user
+      mysql_user:
+        name: app
+        password: mysql-local
+        priv: 'hyperbola.*:ALL'
+        state: present
+    - name: Download seed
+      become_user: hyperbola-app
+      command: aws s3 cp s3://hyperbola-app-backup-local/v5/local/database/hyperbola-app-2017-12-03T0126Z.json /tmp/hyperbola-seed.json
+      tags:
+        - skip_ansible_lint
+    - name: Migrate
+      command: /hyperbola/app/current/bin/artifact-exec /hyperbola/app/current/manage.py migrate
+      tags:
+        - skip_ansible_lint
+    - name: Load fixtures
+      command: /hyperbola/app/current/bin/artifact-exec /hyperbola/app/current/manage.py loaddata /tmp/hyperbola-seed.json
+      tags:
+        - skip_ansible_lint
+    - name: DB Caching
+      command: /hyperbola/app/current/bin/artifact-exec /hyperbola/app/current/manage.py createcachetable
+      tags:
+        - skip_ansible_lint
