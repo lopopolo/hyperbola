@@ -58,11 +58,6 @@ lint-pre-commit:
 	$(PRE_COMMIT) csslint
 	$(PRE_COMMIT) shell-lint
 
-# must manually run and compare `git diff` output
-.PHONY: yapf
-yapf:
-	-yapf --exclude '*/migrations/*' -i --recursive app/hyperbola/
-
 ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.security --exclude=ansible/roles/hswong3i.tzdata --exclude=ansible/roles/geerlingguy.ntp
 
 .PHONY: lint-ansible

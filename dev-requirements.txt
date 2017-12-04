@@ -62,4 +62,3 @@ six==1.11.0
 sqlparse==0.2.4           # via django-debug-toolbar
 webencodings==0.5.1
 wrapt==1.10.11            # via astroid
-yapf==0.20.0

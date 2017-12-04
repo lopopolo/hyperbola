@@ -10,4 +10,3 @@ pep8
 pip-tools
 pylint
 pylint-django
-yapf
