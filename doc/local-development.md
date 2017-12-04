@@ -49,7 +49,7 @@ Set the following parameters in `env/01-dev.env`:
 ```bash
 export ENVIRONMENT="dev"
 # Generate with:
-# $ bin/artifact-exec /python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'
+# $ bin/artifact-exec python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'
 export SECRET_KEY=""
 
 export DB_NAME="hyperbola"
