@@ -21,7 +21,6 @@ git push --tags
 
 ```bash
 vagrant up
-make tunnel
 bin/artifact-exec vagrant provision
 ```
 
@@ -32,7 +31,7 @@ Verify that [frontpage](http://app-local.hyperboladc.net/), [contact](http://app
 
 ## AWS Deploy
 
-```
+```bash
 # build image
 bin/artifact-exec packer build packer/app.json
 # roll ASG
