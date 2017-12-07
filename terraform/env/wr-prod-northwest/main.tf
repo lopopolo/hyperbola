@@ -92,6 +92,14 @@ resource "aws_s3_bucket_object" "android-chrome-512" {
   content_type = "image/png"
 }
 
+resource "aws_s3_bucket_object" "playlist" {
+  bucket           = "${aws_s3_bucket.website.id}"
+  acl              = "public-read"
+  key              = "playlist"
+  content          = "216E4031-6E05-4FE6-B319-7266BBC1F59F"
+  website_redirect = "https://open.spotify.com/user/p4lindromica/playlist/4nbVLoE9ql2Ss73Geoz0uK"
+}
+
 provider "aws" {
   region = "us-east-1"
   alias  = "cloudfront-acm-region"
