@@ -28,7 +28,7 @@
       mysql_user:
         name: app
         password: "{{ db_password }}"
-        host: '192.168.10.20'
+        host: "{{ item }}"
         priv: 'hyperbola.*:ALL'
         state: present
       vars:
@@ -40,6 +40,9 @@
           3164306234653361360a303037353236383466613562353231623730653835393534636235393962
           35333333396566336163323164353930636563666434373861613337383538313138333237336336
           3833306162333062653239653436313331386164633131303935
+      with_items:
+        - '10.0.2.0/255.255.255.0' # dev via forwarded port
+        - '192.168.10.20' # app-local
     - name: Test for MySQL timezone support
       command: mysql -NBe "SELECT COUNT(*) FROM mysql.time_zone"
       register: mysql_timezones_count
