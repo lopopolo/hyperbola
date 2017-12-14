@@ -69,15 +69,15 @@ lint-ansible:
 ## Virtualenv
 
 .PHONY: upgrade-py-deps
-upgrade-py-deps: setup.py requirements.in dev-requirements.in
-	for req in $^; do if [[ "$$req" != "setup.py" ]]; then CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile --upgrade "$$req"; sed -i '' "s|-e file://$$(pwd)||" "$$(basename "$$req" ".in").txt"; fi; done
-	$(MAKE) virtualenv
+upgrade-py-deps:
+	-rm requirements.txt dev-requirements.txt
+	$(MAKE) virtualenv PYUPGRADE=--upgrade
 
 requirements.txt: requirements.in
-	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile "$<"
+	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile $(PYUPGRADE) "$<"
 
 dev-requirements.txt: dev-requirements.in
-	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile "$<"
+	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile $(PYUPGRADE) "$<"
 
 .PHONY: virtualenv
 virtualenv: venv/bin/activate requirements.txt dev-requirements.txt
