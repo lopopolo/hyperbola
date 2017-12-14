@@ -28,8 +28,8 @@ function plugins(isProd) {
     new PurgeCSSPlugin({
       // Give paths to parse for rules. These should be absolute!
       paths: glob.sync([
-        path.join(__dirname, 'app/hyperbola/templates/*.html'),
-        path.join(__dirname, 'app/hyperbola/*/templates/*.html'),
+        path.join(__dirname, 'hyperbola/templates/*.html'),
+        path.join(__dirname, 'hyperbola/*/templates/*.html'),
       ]),
       minimize: isProd,
     }),
