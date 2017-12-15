@@ -8,7 +8,6 @@ The pretty-printed JSON file is uploaded to the S3 backup bucket.
 
 import datetime
 import io
-import os
 import tarfile
 from pathlib import Path
 
@@ -41,7 +40,7 @@ class Command(BaseCommand):
 
         self.stdout.write('Preparing backup at {}'.format(self.now.isoformat()))
         self.stdout.write('Uploading backup to s3://{}/{}'.format(self.S3_BACKUP_BUCKET, dumpdata_file_key))
-        with io.StringIO() as out, io.BytesIO() as outbin, io.BytesIO() as outgz:
+        with io.StringIO() as out, io.BytesIO() as outgz:
             call_command(
                 'dumpdata',
                 natural_foreign=True,
@@ -49,13 +48,12 @@ class Command(BaseCommand):
                 exclude=['sessions', 'contenttypes', 'auth.Permission'],
                 stdout=out
             )
-            outbin.write(out.getvalue().encode('UTF-8'))
+            out_bytes = out.getvalue().encode('UTF-8')
+            self.stdout.write('backup is {} bytes'.format(len(out_bytes)))
 
-            tarinfo = tarfile.TarInfo(name=dumpdata_file_name)
-            outbin.seek(0, os.SEEK_END)
-            tarinfo.size = outbin.tell()
-            outbin.seek(0, os.SEEK_SET)
-            with tarfile.open(fileobj=outgz, mode='w:gz') as tar:
+            with tarfile.open(fileobj=outgz, mode='w:gz') as tar, io.BytesIO(out_bytes) as outbin:
+                tarinfo = tarfile.TarInfo(name=dumpdata_file_name)
+                tarinfo.size = len(out_bytes)
                 tar.addfile(tarinfo=tarinfo, fileobj=outbin)
 
             s3.Bucket(self.S3_BACKUP_BUCKET).put_object(Key=dumpdata_file_key,
