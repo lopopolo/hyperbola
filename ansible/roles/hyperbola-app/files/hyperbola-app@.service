@@ -13,8 +13,8 @@ WorkingDirectory=/hyperbola/app/current
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-%i
 ExecStartPre=/bin/chown -R hyperbola-app:hyperbola-app /var/run/hyperbola-%i/
-ExecStartPre=-/hyperbola/app/current/bin/artifact-exec python manage.py migrate
-ExecStart=/hyperbola/app/current/bin/artifact-exec gunicorn \
+ExecStartPre=-/hyperbola/app/current/venv/bin/python manage.py migrate
+ExecStart=/hyperbola/app/current/venv/bin/gunicorn \
     --config /hyperbola/app/current/gunicorn.py \
     hyperbola.wsgi:application
 PrivateTmp=true
