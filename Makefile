@@ -1,4 +1,5 @@
-SHELL := ./bin/artifact-exec bash
+SHELL := /bin/bash
+export PATH := ./bin:./venv/bin:$(shell yarn bin):$(PATH)
 
 .PHONY: all
 all: lint build
