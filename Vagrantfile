@@ -75,9 +75,9 @@ Vagrant.configure('2') do |config|
     app.vm.provision 'shell', inline: <<~SHELL
       sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v5/local/database/hyperbola-app-2017-12-03T0126Z.json /tmp/hyperbola-seed.json
       cd /hyperbola/app/current
-      bin/artifact-exec ./manage.py migrate
-      bin/artifact-exec ./manage.py loaddata /tmp/hyperbola-seed.json
-      bin/artifact-exec ./manage.py createcachetable
+      venv/bin/python manage.py migrate
+      venv/bin/python manage.py loaddata /tmp/hyperbola-seed.json
+      venv/bin/python manage.py createcachetable
     SHELL
   end
 end
