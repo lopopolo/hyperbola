@@ -33,6 +33,8 @@ class Env(Enum):
 
         :rtype: Env
         """
+        from dotenv import load_dotenv
+        load_dotenv(str(ROOT_PATH.joinpath('.env')))
         environment = cls.source(env)
         return cls(environment)
 
