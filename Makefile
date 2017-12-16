@@ -28,6 +28,10 @@ build:
 release:
 	bumpversion minor
 
+.PHONY: build-ami
+build-ami:
+	env $$(dotenv get ANSIBLE_VAULT_PASSWORD) packer build packer/app.json
+
 ## Linters
 
 .PHONY: lint
