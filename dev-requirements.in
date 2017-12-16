@@ -9,4 +9,3 @@ pep257
 pep8
 pip-tools
 pylint
-pylint-django
