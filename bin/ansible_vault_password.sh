@@ -16,7 +16,7 @@ for env in "$ARTIFACT_ROOT/env/"*.env; do
 done
 
 if [[ -z "$ANSIBLE_VAULT_PASSWORD" ]]; then
-	echo &>2 "ANSIBLE_VAULT_PASSWORD not set"
+	echo 2>&1 "ANSIBLE_VAULT_PASSWORD not set"
 	exit 1
 fi
 
