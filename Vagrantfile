@@ -24,7 +24,7 @@ Vagrant.configure('2') do |config|
     mysql.vm.provision 'app-local-mysql', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/app-local-mysql.yml'
-      ansible.vault_password_file = 'bin/ansible_vault_password.sh'
+      ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
         'app' => ['app-mysql'],
         'app:vars' => {
@@ -53,7 +53,7 @@ Vagrant.configure('2') do |config|
     app.vm.provision 'app-local', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
       ansible.playbook = 'ansible/app.yml'
-      ansible.vault_password_file = 'bin/ansible_vault_password.sh'
+      ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
         'app' => ['app-local'],
         'app:vars' => {

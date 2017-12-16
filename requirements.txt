@@ -8,6 +8,7 @@ bleach-whitelist==0.0.8
 bleach==2.1.2
 boto3==1.5.1              # via django-s3-storage
 botocore==1.8.15          # via boto3, s3transfer
+click==6.7                # via python-dotenv
 django-localflavor==1.6.2
 django-mysql==2.2.0
 django-s3-storage==0.12.1
@@ -23,6 +24,7 @@ olefile==0.44             # via pillow
 pillow==4.3.0
 progressbar2==3.34.3      # via django-stdimage
 python-dateutil==2.6.1    # via botocore
+python-dotenv==0.7.1
 python-utils==2.2.0       # via progressbar2
 pytz==2017.3
 s3transfer==0.1.12        # via boto3

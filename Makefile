@@ -62,7 +62,7 @@ ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.security --exclude=a
 
 .PHONY: lint-ansible
 lint-ansible:
-	ansible-playbook -i ansible/local.ini --syntax-check --vault-password-file=bin/ansible_vault_password.sh ansible/*.yml
+	ansible-playbook -i ansible/local.ini --syntax-check --vault-password-file=bin/ansible_vault_password.py ansible/*.yml
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/roles/hyperbola*
 	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/*.yml
 
@@ -76,7 +76,7 @@ upgrade-py-deps:
 requirements.txt: requirements.in
 	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile $(PYUPGRADE) "$<"
 
-dev-requirements.txt: dev-requirements.in
+dev-requirements.txt: dev-requirements.in requirements.txt
 	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile $(PYUPGRADE) "$<"
 
 .PHONY: virtualenv
