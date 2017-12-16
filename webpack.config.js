@@ -31,7 +31,9 @@ function plugins(isProd) {
         path.join(__dirname, 'hyperbola/templates/*.html'),
         path.join(__dirname, 'hyperbola/*/templates/*.html'),
       ]),
+      styleExtensions: ['.css'],
       minimize: isProd,
+      keyframes: false,
     }),
     new FaviconsWebpackPlugin({
       logo: './src/img/logo.favicon.svg',
