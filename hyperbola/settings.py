@@ -27,14 +27,14 @@ class Env(Enum):
         return prop
 
     @classmethod
-    def make(cls, env):
+    def make(cls, env, root_path):
         """
         Construct an Env by loading the environment constant from an env variable.
 
         :rtype: Env
         """
         from dotenv import load_dotenv
-        load_dotenv(str(ROOT_PATH.joinpath('.env')))
+        load_dotenv(str(root_path.joinpath('.env')))
         environment = cls.source(env)
         return cls(environment)
 
@@ -43,7 +43,7 @@ class EnvironmentConfig(object):
     """Compute environment-specific settings."""
 
     def __init__(self, root_path):
-        self.environment = Env.make('ENVIRONMENT')
+        self.environment = Env.make('HYPERBOLA_ENVIRONMENT', root_path)
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
         self.content = self.ContentConfig(self.environment, root_path)
@@ -117,8 +117,8 @@ class EnvironmentConfig(object):
             self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
-PROJECT_PATH = Path(__file__).resolve().parent
-ROOT_PATH = PROJECT_PATH.parent
+PACKAGE_PATH = Path(__file__).resolve().parent
+ROOT_PATH = Path(Env.source('HYPERBOLA_ROOT_PATH', '/hyperbola/app/current')).resolve()
 
 ENVIRONMENT = EnvironmentConfig(ROOT_PATH)
 
@@ -229,7 +229,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            str(PROJECT_PATH.joinpath('templates')),
+            str(PACKAGE_PATH.joinpath('templates')),
         ],
         'OPTIONS': {
             'context_processors': [
