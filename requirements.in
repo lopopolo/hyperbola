@@ -9,4 +9,5 @@ gunicorn
 markdown
 mysqlclient >= 1.3.3
 Pillow
+python-dotenv
 pytz

@@ -116,14 +116,11 @@
     - skip_ansible_lint
 - name: Install 12factor environment
   template:
-    src: "{{ item }}.j2"
-    dest: "{{ deploy_helper.new_release_path }}/env/{{ item }}"
+    src: "dotenv.j2"
+    dest: "{{ deploy_helper.new_release_path }}/.env"
     mode: 0444
-  with_items:
-  - 00-path.env
-  - 01-configuration.env
 - name: manage.py collectstatic
-  command: "{{ deploy_helper.new_release_path }}/bin/artifact-exec python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
   args:
     creates: "{{ deploy_helper.new_release_path }}/document-root/static/staticfiles.json"
 - name: Install gunicorn config

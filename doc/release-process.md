@@ -3,7 +3,7 @@
 ## Local Dev
 
 ```bash
-bin/artifact-exec python manage.py runserver
+python -Wall manage.py runserver
 ```
 
 ### Smoke Test
@@ -23,7 +23,7 @@ git push --tags
 
 ```bash
 vagrant up
-bin/artifact-exec vagrant provision
+vagrant provision
 ```
 
 ### Smoke Test
@@ -35,13 +35,13 @@ Verify that [frontpage](http://app-local.hyperboladc.net/), [contact](http://app
 
 ```bash
 # build image
-bin/artifact-exec packer build packer/app.json
+make build-ami
 # roll ASG
 pushd terraform/env/app-prod-northwest
 terraform plan
 terraform apply
 popd
 # cleanup old AMIs
-bin/artifact-exec deregister_ami --dry-run
-bin/artifact-exec deregister_ami --execute
+bin/deregister_ami --dry-run
+bin/deregister_ami --execute
 ```

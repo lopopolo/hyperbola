@@ -32,38 +32,33 @@ git clone git@github.com:lopopolo/hyperbola.git
 cd hyperbola
 yarn install
 make virtualenv
-bin/artifact-exec vagrant up
+source venv/bin/activate
+vagrant up
 ```
 
 ## .env
 
-To enable `artifact-exec` in dev, set `$PATH` in `env/00-path.env`:
+To configure hyperbola for dev, set the following parameters in `.env`:
 
-```bash
-export PATH="./venv/bin:$(yarn bin):$PATH"
 ```
-
-Set the following parameters in `env/01-dev.env`:
-
-```bash
-export ENVIRONMENT='dev'
+ENVIRONMENT='dev'
 # Generate with:
-# $ bin/artifact-exec python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'
-export SECRET_KEY=''
+# $ python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'
+SECRET_KEY=''
 
-export DB_HOST='127.0.0.1'
-export DB_PORT='13306'
-export DB_USER='app'
-export DB_NAME='hyperbola'
+DB_HOST='127.0.0.1'
+DB_PORT='13306'
+DB_USER='app'
+DB_NAME='hyperbola'
 # Fill in from password vault
-export DB_PASSWORD=''
+DB_PASSWORD=''
 
 # Fill in from password vault
-export ANSIBLE_VAULT_PASSWORD=''
+ANSIBLE_VAULT_PASSWORD=''
 ```
 
 ## runserver
 
 ```bash
-bin/artifact-exec python -Wall manage.py runserver
+python -Wall manage.py runserver
 ```
