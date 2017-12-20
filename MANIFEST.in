@@ -1,0 +1,2 @@
+recursive-include hyperbola *.html *.py
+recursive-include doc *.md
