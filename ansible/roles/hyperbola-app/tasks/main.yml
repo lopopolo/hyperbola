@@ -60,19 +60,6 @@
     patterns: "*hyperbola*"
     file_type: directory
   register: app_release
-- name: Un-nest release download
-  synchronize:
-    src: "{{ item.path }}/"
-    dest: "{{ deploy_helper.new_release_path }}"
-  with_items:
-    "{{ app_release.files }}"
-  delegate_to: "{{ inventory_hostname }}"
-- name: Remove nested release directory
-  file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items:
-    "{{ app_release.files }}"
 - name: Create app virtualenv
   command: "python3 -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
@@ -94,21 +81,42 @@
   pip:
     state: present
     executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
-    requirements: "{{ deploy_helper.new_release_path }}/requirements.txt"
+    requirements: "{{ item.path }}/requirements.txt"
+  with_items:
+    "{{ app_release.files }}"
 - name: Install app
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python setup.py install"
   args:
+    chdir: "{{ item.path }}"
     creates: "{{ deploy_helper.new_release_path }}/venv/**/*hyperbola*"
-    chdir: "{{ deploy_helper.new_release_path }}"
   environment:
     PBR_VERSION: "{{ app_version }}"
     SKIP_GIT_SDIST: 1
     SKIP_GENERATE_AUTHORS: 1
     SKIP_WRITE_GIT_CHANGELOG: 1
-- name: Remove artifact root hyperbola
-  file:
-    path: "{{ deploy_helper.new_release_path }}/hyperbola"
-    state: absent
+  with_items:
+    "{{ app_release.files }}"
+- name: copy artifacts to deploy root - dist
+  synchronize:
+    src: "{{ item.path }}/dist"
+    dest: "{{ deploy_helper.new_release_path }}"
+  with_items:
+    "{{ app_release.files }}"
+  delegate_to: "{{ inventory_hostname }}"
+- name: copy artifacts to deploy root - document-root
+  synchronize:
+    src: "{{ item.path }}/document-root"
+    dest: "{{ deploy_helper.new_release_path }}"
+  with_items:
+    "{{ app_release.files }}"
+  delegate_to: "{{ inventory_hostname }}"
+- name: copy artifacts to deploy root - manage.py
+  synchronize:
+    src: "{{ item.path }}/manage.py"
+    dest: "{{ deploy_helper.new_release_path }}"
+  with_items:
+    "{{ app_release.files }}"
+  delegate_to: "{{ inventory_hostname }}"
 - name: Set artifact root
   set_fact:
     app_artifact_root: "{{ deploy_helper.new_release_path }}"
