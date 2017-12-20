@@ -8,8 +8,7 @@ Type=simple
 PIDFile=/var/run/hyperbola-%i/gunicorn.pid
 User=hyperbola-app
 Group=hyperbola-app
-Environment=HYPERBOLA_ENVIRONMENT=%i
-Environment=HYPERBOLA_ROOT_PATH=/hyperbola/app/current
+Environment=ENVIRONMENT=%i
 # Run ExecStartPre with root-permissions
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-%i

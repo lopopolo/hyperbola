@@ -27,14 +27,14 @@ class Env(Enum):
         return prop
 
     @classmethod
-    def make(cls, env, root_path):
+    def make(cls, env):
         """
         Construct an Env by loading the environment constant from an env variable.
 
         :rtype: Env
         """
-        from dotenv import load_dotenv
-        load_dotenv(str(root_path.joinpath('.env')))
+        from dotenv import find_dotenv, load_dotenv
+        load_dotenv(find_dotenv())
         environment = cls.source(env)
         return cls(environment)
 
@@ -42,11 +42,12 @@ class Env(Enum):
 class EnvironmentConfig(object):
     """Compute environment-specific settings."""
 
-    def __init__(self, root_path):
-        self.environment = Env.make('HYPERBOLA_ENVIRONMENT', root_path)
+    def __init__(self):
+        self.environment = Env.make('ENVIRONMENT')
+        self.path = self.PathsConfig(self.environment)
         self.secret_key = Env.source('SECRET_KEY')
         self.db = self.DBConfig()
-        self.content = self.ContentConfig(self.environment, root_path)
+        self.content = self.ContentConfig(self.environment, self.path.root)
 
     def __str__(self):
         return self.environment.value
@@ -94,6 +95,14 @@ class EnvironmentConfig(object):
             return True
         return False
 
+    class PathsConfig(object):
+        def __init__(self, environment):
+            self.package = Path(__file__).resolve().parent
+            if environment in [Env.production, Env.local]:
+                self.root = self.package.parent.parent.parent.parent.parent
+            else:
+                self.root = self.package
+
     class DBConfig(object):
         def __init__(self):
             self.host = Env.source('DB_HOST')
@@ -117,10 +126,7 @@ class EnvironmentConfig(object):
             self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
-PACKAGE_PATH = Path(__file__).resolve().parent
-ROOT_PATH = Path(Env.source('HYPERBOLA_ROOT_PATH', '/hyperbola/app/current')).resolve()
-
-ENVIRONMENT = EnvironmentConfig(ROOT_PATH)
+ENVIRONMENT = EnvironmentConfig()
 
 DEBUG = ENVIRONMENT.debug
 
@@ -229,7 +235,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            str(PACKAGE_PATH.joinpath('templates')),
+            str(ENVIRONMENT.path.package.joinpath('templates')),
         ],
         'OPTIONS': {
             'context_processors': [
