@@ -60,6 +60,9 @@
     patterns: "*hyperbola*"
     file_type: directory
   register: app_release
+- name: Set artifact source root
+  set_fact:
+    app_source_root: "{{['path'] | map('extract',  app_release.files | first) | list | first }}"
 - name: Create app virtualenv
   command: "python3 -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
@@ -81,41 +84,25 @@
   pip:
     state: present
     executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
-    requirements: "{{ item.path }}/requirements.txt"
-  with_items:
-    "{{ app_release.files }}"
+    requirements: "{{ app_source_root }}/requirements.txt"
 - name: Install app
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python setup.py install"
   args:
-    chdir: "{{ item.path }}"
+    chdir: "{{ app_source_root }}"
     creates: "{{ deploy_helper.new_release_path }}/venv/**/*hyperbola*"
   environment:
     PBR_VERSION: "{{ app_version }}"
     SKIP_GIT_SDIST: 1
     SKIP_GENERATE_AUTHORS: 1
     SKIP_WRITE_GIT_CHANGELOG: 1
-  with_items:
-    "{{ app_release.files }}"
-- name: copy artifacts to deploy root - dist
+- name: copy source artifacts to deploy root
   synchronize:
-    src: "{{ item.path }}/dist"
+    src: "{{ item }}"
     dest: "{{ deploy_helper.new_release_path }}"
   with_items:
-    "{{ app_release.files }}"
-  delegate_to: "{{ inventory_hostname }}"
-- name: copy artifacts to deploy root - document-root
-  synchronize:
-    src: "{{ item.path }}/document-root"
-    dest: "{{ deploy_helper.new_release_path }}"
-  with_items:
-    "{{ app_release.files }}"
-  delegate_to: "{{ inventory_hostname }}"
-- name: copy artifacts to deploy root - manage.py
-  synchronize:
-    src: "{{ item.path }}/manage.py"
-    dest: "{{ deploy_helper.new_release_path }}"
-  with_items:
-    "{{ app_release.files }}"
+    - "{{ app_source_root }}/dist"
+    - "{{ app_source_root }}/document-root"
+    - "{{ app_source_root }}/manage.py"
   delegate_to: "{{ inventory_hostname }}"
 - name: Set artifact root
   set_fact:
