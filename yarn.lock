@@ -4957,10 +4957,6 @@ restore-cursor@^2.0.0:
     onetime "^2.0.0"
     signal-exit "^3.0.2"
 
-retinajs@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/retinajs/-/retinajs-2.1.3.tgz#1594594d799f9f59476cdfdbdef47ec0ae7ec509"
-
 rework-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/rework-visit/-/rework-visit-1.0.0.tgz#9945b2803f219e2f7aca00adb8bc9f640f842c9a"

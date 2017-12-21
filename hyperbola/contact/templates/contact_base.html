@@ -45,7 +45,7 @@
     <h2>About</h2>
     <div class="card mb-3 rounded hyperbola-card">
       <a href="{{ about.photo.url|escape }}">
-        <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" data-rjs="{{ about.photo.x2.url|escape }}">
+        <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" srcset="{{ about.photo.x1.url|escape }} 1x, {{ about.photo.x2.url|escape }} 2x, {{ about.photo.x3.url|escape }} 3x">
       </a>
       <div class="card-body">
         <p class="card-text">{{ about.blurb|markdown }}</p>

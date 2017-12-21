@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link href="{% static "main.bundle.css" %}" rel="stylesheet" type="text/css">
-    <script src="{% static "main.bundle.js" %}"></script>
+    {# <script src="{% static "main.bundle.js" %}"></script> #}
     {% endblock head %}
   </head>
   <body>
@@ -53,7 +53,6 @@
       {% block content %}{% endblock content %}
     </div>
     {% block footer %}
-    <script>retinajs();</script>
     <script>
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
       ga('create','UA-30651847-1','auto');ga('send','pageview')
