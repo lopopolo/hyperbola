@@ -5,4 +5,5 @@ Description=Run hyperbola_database_backup on current app
 Type=oneshot
 User=hyperbola-app
 Group=hyperbola-app
+Environment=ENVIRONMENT=%i
 ExecStart=/hyperbola/app/current/venv/bin/python /hyperbola/app/current/manage.py hyperbola_database_backup
