@@ -5,15 +5,15 @@ After=network.target
 
 [Service]
 Type=simple
-PIDFile=/var/run/hyperbola/gunicorn.pid
+PIDFile=/var/run/hyperbola-%i/gunicorn.pid
 User=hyperbola-app
 Group=hyperbola-app
-WorkingDirectory=/hyperbola/app/current
+Environment=ENVIRONMENT=%i
 # Run ExecStartPre with root-permissions
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-%i
 ExecStartPre=/bin/chown -R hyperbola-app:hyperbola-app /var/run/hyperbola-%i/
-ExecStartPre=-/hyperbola/app/current/venv/bin/python manage.py migrate
+ExecStartPre=-/hyperbola/app/current/venv/bin/python /hyperbola/app/current/manage.py migrate
 ExecStart=/hyperbola/app/current/venv/bin/gunicorn \
     --config /hyperbola/app/current/gunicorn.py \
     hyperbola.wsgi:application
