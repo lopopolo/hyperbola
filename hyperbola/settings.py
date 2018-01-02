@@ -101,7 +101,7 @@ class EnvironmentConfig(object):
             if environment in [Env.production, Env.local]:
                 self.root = self.package.parent.parent.parent.parent.parent
             else:
-                self.root = self.package
+                self.root = self.package.parent
 
     class DBConfig(object):
         def __init__(self):
