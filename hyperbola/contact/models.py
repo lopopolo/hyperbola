@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from localflavor.us.models import PhoneNumberField
 from stdimage.models import StdImageField
 
 from ..core import MakeUploadTo
@@ -55,7 +54,7 @@ class EmailContact(Contact):
 
 
 class PhoneContact(Contact):
-    value = PhoneNumberField()
+    value = models.CharField(max_length=20)
 
 
 class WebContact(Contact):

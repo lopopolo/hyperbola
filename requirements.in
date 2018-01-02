@@ -1,7 +1,6 @@
 bleach
 bleach-whitelist
 Django ~= 2.0.0
-django-localflavor
 django-mysql
 django-s3-storage
 django-stdimage

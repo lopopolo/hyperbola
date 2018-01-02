@@ -211,7 +211,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_mysql',
     'django_s3_storage',
-    'localflavor',
     'stdimage',
     'hyperbola.contact',
     'hyperbola.core',
