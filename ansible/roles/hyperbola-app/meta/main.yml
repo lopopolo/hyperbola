@@ -5,5 +5,5 @@ dependencies:
   nginx_vhosts:
   - domain: "{{ app_nginx_domain }}"
     index: "01"
-    ssl_enabled: hyperbola_environment != 'local'
+    ssl_enabled: "{{ hyperbola_environment != 'local' }}"
     template: roles/hyperbola-app/templates/hyperbo.la.conf.j2
