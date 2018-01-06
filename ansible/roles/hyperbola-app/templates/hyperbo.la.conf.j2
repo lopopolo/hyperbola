@@ -9,6 +9,9 @@ server {
     server_name  www.{{ item.domain }};
 
     location / {
+        {% if item.ssl_enabled %}
+        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        {% endif %}
         return 301 https://{{ item.domain }}$request_uri;
     }
 }
@@ -42,6 +45,10 @@ server {
         proxy_set_header      X-Forwarded-Host  {{ item.domain }};
         proxy_set_header      X-Forwarded-Proto $http_x_forwarded_proto;
         client_max_body_size  10m;
+
+        {% if item.ssl_enabled %}
+        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        {% endif %}
     }
 
     location = /healthz {
