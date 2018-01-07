@@ -5,4 +5,3 @@
   become_user: root
   roles:
   - role: hyperbola-app
-    ssl_enabled: hyperbola_environment != 'local'
