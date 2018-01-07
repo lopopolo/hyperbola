@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit
-    sha: v1.4.1
+    sha: v1.4.3
     hooks:
     -   id: validate_manifest
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
