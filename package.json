@@ -1,6 +1,6 @@
 {
   "name": "hyperbola",
-  "version": "0.126.1",
+  "version": "0.126.2",
   "description": "Build pipeline for Ryan Lopopolo's website - hyperbo.la",
   "keywords": [
     "javascript minification",
