@@ -33,7 +33,7 @@ function plugins(isProd) {
       ]),
       styleExtensions: ['.css'],
       minimize: isProd,
-      keyframes: false,
+      keyframes: true,
     }),
     new FaviconsWebpackPlugin({
       logo: './src/img/logo.favicon.svg',
