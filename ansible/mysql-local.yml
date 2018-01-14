@@ -1,5 +1,5 @@
 ---
-- hosts: app
+- hosts: mysql
   become: true
   become_method: sudo
   become_user: root

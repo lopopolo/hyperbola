@@ -17,20 +17,20 @@ Vagrant.configure('2') do |config|
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
-  config.vm.define 'app-mysql' do |mysql|
+  config.vm.define 'mysql-local' do |mysql|
     mysql.vm.network 'private_network', ip: '192.168.10.30'
     mysql.vm.network 'forwarded_port', guest: 3306, host: 13306
 
-    mysql.vm.provision 'app-local-mysql', type: 'ansible' do |ansible|
+    mysql.vm.provision 'mysql-local', type: 'ansible' do |ansible|
       ansible.verbose = 'v'
-      ansible.playbook = 'ansible/app-local-mysql.yml'
+      ansible.playbook = 'ansible/mysql-local.yml'
       ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
-        'app' => ['app-mysql'],
-        'app:vars' => {
+        'mysql' => ['mysql-local'],
+        'mysql:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3',
         },
-        'all_groups:children' => ['app']
+        'all_groups:children' => ['mysql']
       }
     end
   end
