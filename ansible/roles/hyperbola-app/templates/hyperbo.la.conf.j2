@@ -35,6 +35,13 @@ server {
         include conf.d/nginx-base-config/location/*.conf;
     }
 
+    location /static {
+        root /hyperbola/app/current/document-root/;
+        error_page 404 /404.html;
+
+        include conf.d/nginx-base-config/location/static/*.conf;
+    }
+
     location @hyperbola_app {
         internal;
         proxy_pass            http://app_gunicorn$request_uri;
