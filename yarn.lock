@@ -900,9 +900,9 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-bootstrap-css-only@^4.0.0-beta.3:
-  version "4.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/bootstrap-css-only/-/bootstrap-css-only-4.0.0-beta.3.tgz#92bdcc86b159a7c84a777d764c33dda318826610"
+bootstrap-css-only@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-css-only/-/bootstrap-css-only-4.0.0.tgz#67a92f241fe4f267bd0b4f8cae71b4bd17b5df9a"
 
 brace-expansion@^1.1.7:
   version "1.1.8"
@@ -1743,9 +1743,15 @@ doctrine@1.5.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-doctrine@^2.0.0, doctrine@^2.0.2:
+doctrine@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.0.2.tgz#68f96ce8efc56cc42651f1faadb4f175273b0075"
+  dependencies:
+    esutils "^2.0.2"
+
+doctrine@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
   dependencies:
     esutils "^2.0.2"
 
@@ -2075,9 +2081,9 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^4.15.0:
-  version "4.15.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.15.0.tgz#89ab38c12713eec3d13afac14e4a89e75ef08145"
+eslint@^4.16.0:
+  version "4.16.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.16.0.tgz#934ada9e98715e1d7bbfd6f6f0519ed2fab35cc1"
   dependencies:
     ajv "^5.3.0"
     babel-code-frame "^6.22.0"
@@ -2085,7 +2091,7 @@ eslint@^4.15.0:
     concat-stream "^1.6.0"
     cross-spawn "^5.1.0"
     debug "^3.1.0"
-    doctrine "^2.0.2"
+    doctrine "^2.1.0"
     eslint-scope "^3.7.1"
     eslint-visitor-keys "^1.0.0"
     espree "^3.5.2"
@@ -2345,9 +2351,9 @@ file-type@^3.1.0, file-type@^3.8.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-3.9.0.tgz#257a078384d1db8087bc449d107d52a52672b9e9"
 
-filemanager-webpack-plugin@^1.0.20:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/filemanager-webpack-plugin/-/filemanager-webpack-plugin-1.0.20.tgz#11f971a6a32df6931298518c2945811729daba8b"
+filemanager-webpack-plugin@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/filemanager-webpack-plugin/-/filemanager-webpack-plugin-1.0.21.tgz#7dcc07066fbf3c451e55caa84c522e3bd65a20ac"
   dependencies:
     cpx "^1.5.0"
     fs-extra "^5.0.0"
