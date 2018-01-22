@@ -8,3 +8,6 @@
 - name: geerlingguy.ntp
   src: https://github.com/geerlingguy/ansible-role-ntp.git
   version: 1.5.2
+- name: mprahl.lets-encrypt-route-53
+  src: https://github.com/mprahl/ansible-role-lets-encrypt-route-53.git
+  version: v4.0.0

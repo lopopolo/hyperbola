@@ -17,6 +17,35 @@ Vagrant.configure('2') do |config|
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
+  config.vm.define 'lb-local' do |lb|
+    lb.vm.network 'private_network', ip: '192.168.10.40'
+
+    lb.vm.provision 'bootstrap', type: 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'ansible/provision.yml'
+      ansible.groups = {
+        'lb' => ['lb-local'],
+        'lb:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python3'
+        },
+        'all_groups:children' => ['lb']
+      }
+    end
+
+    lb.vm.provision 'lb-local', type: 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'ansible/lb-local.yml'
+      ansible.vault_password_file = 'bin/ansible_vault_password.py'
+      ansible.groups = {
+        'lb' => ['lb-local'],
+        'lb:vars' => {
+          'ansible_python_interpreter' => '/usr/bin/python2',
+        },
+        'all_groups:children' => ['lb']
+      }
+    end
+  end
+
   config.vm.define 'mysql-local' do |mysql|
     mysql.vm.network 'private_network', ip: '192.168.10.30'
     mysql.vm.network 'forwarded_port', guest: 3306, host: 13306
@@ -59,7 +88,7 @@ Vagrant.configure('2') do |config|
         'app:vars' => {
           'ansible_python_interpreter' => '/usr/bin/python3',
           'hyperbola_environment' => 'local',
-          'app_nginx_domain' => 'app-local.hyperboladc.net'
+          'app_nginx_domain' => 'local.hyperboladc.net'
         },
         'all_groups:children' => ['app']
       }

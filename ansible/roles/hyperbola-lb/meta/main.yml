@@ -3,7 +3,7 @@ dependencies:
 - role: hyperbola-base
 - role: hyperbola-nginx
   nginx_vhosts:
-  - domain: "{{ app_nginx_domain }}"
+  - domain: "local.hyperboladc.net"
     index: "01"
     ssl_enabled: true
-    template: roles/hyperbola-app/templates/hyperbo.la.conf.j2
+    template: roles/hyperbola-lb/templates/lb.conf.j2

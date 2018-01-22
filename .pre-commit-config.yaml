@@ -19,12 +19,12 @@ repos:
     -   id: check-vcs-permalinks
     -   id: check-xml
     -   id: check-yaml
-        exclude: vars|mysql-local.yml
+        exclude: vars|(lb|mysql)-local.yml
     -   id: debug-statements
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
-        exclude: src|dist|geerlingguy|hswong3i|.bumpversion.cfg
+        exclude: src|dist|geerlingguy|hswong3i|mprahl|.bumpversion.cfg
     -   id: flake8
         exclude: migrations
         language_version: python3
@@ -32,7 +32,7 @@ repos:
     -   id: mixed-line-ending
     -   id: name-tests-test
     -   id: trailing-whitespace
-        exclude: src|dist|geerlingguy|hswong3i|.bumpversion.cfg
+        exclude: src|dist|geerlingguy|hswong3i|mprahl|.bumpversion.cfg
 -   repo: https://github.com/adambrenecki/pre-commit-python-sorter.git
     sha: 1.0.5
     hooks:
