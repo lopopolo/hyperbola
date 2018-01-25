@@ -61,32 +61,32 @@ class EnvironmentConfig(object):
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
+    def is_admin(self):
+        return self.environment in [Env.production, Env.local, Env.dev]
+
+    @property
     def is_secure(self):
-        return self.environment in [Env.local, Env.production]
+        return self.environment in [Env.production, Env.local]
 
     @property
     def additional_installed_apps(self):
         apps = []
-        if self.environment in [Env.production, Env.local, Env.dev]:
-            apps.extend(['django.contrib.admin'])
+        if self.is_admin:
+            apps.append('django.contrib.admin')
         if self.environment is Env.dev:
             apps.extend(['debug_toolbar', 'template_timings_panel'])
         return apps
 
     @property
     def additional_urls(self):
-        from django.conf.urls import include, url
+        from django.urls import include, path
         urls = []
-        if self.environment in [Env.production, Env.local, Env.dev]:
+        if self.is_admin:
             from django.contrib import admin
-            # only enable admin urls in production and dev
-            urls.extend([url(r'^ssb/', admin.site.urls)])
+            urls.append(path('ssb/', admin.site.urls))
         if self.environment is Env.dev:
             import debug_toolbar
-            urls.extend([url(r'^__debug__/', include(debug_toolbar.urls))])
-        if self.environment in [Env.local, Env.dev]:
-            from django.conf.urls.static import static
-            urls.extend(static(MEDIA_URL, document_root=MEDIA_ROOT))
+            urls.append(path('__debug__/', include(debug_toolbar.urls)))
         return urls
 
     @property
@@ -113,7 +113,6 @@ class EnvironmentConfig(object):
 
     class ContentConfig(object):
         def __init__(self, environment, root_path):
-            self.media_root = root_path.joinpath('media', environment.value)
             self.static_root = root_path.joinpath('document-root', 'static')
             self.static_dirs = [root_path.joinpath('dist')]
             self.static_url = '/static/'
@@ -186,8 +185,6 @@ AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
 AWS_S3_BUCKET_AUTH = False
 AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
 AWS_REGION = ENVIRONMENT.content.aws_region
-
-MEDIA_ROOT = str(ENVIRONMENT.content.media_root)
 
 MEDIA_URL = ENVIRONMENT.content.media_url
 
