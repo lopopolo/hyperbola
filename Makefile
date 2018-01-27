@@ -84,10 +84,10 @@ upgrade-py-deps:
 	$(MAKE) virtualenv PYUPGRADE=--upgrade
 
 requirements.txt: requirements.in
-	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile $(PYUPGRADE) "$<"
+	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile --generate-hashes $(PYUPGRADE) "$<"
 
 dev-requirements.txt: dev-requirements.in requirements.txt
-	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile $(PYUPGRADE) "$<"
+	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile --generate-hashes $(PYUPGRADE) "$<"
 
 .PHONY: virtualenv
 virtualenv: venv/bin/activate requirements.txt dev-requirements.txt
