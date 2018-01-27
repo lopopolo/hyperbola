@@ -67,21 +67,24 @@
   command: "python3 -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
     creates: "{{ deploy_helper.new_release_path }}/venv/bin/python"
+- name: Install pipenv
+  pip:
+    state: latest
+    executable: pip3
+    name: pipenv
+  tags:
+    - skip_ansible_lint
 - name: Update pip infra
   pip:
     state: latest
     executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
     name: "{{ item }}"
   with_items:
-    - virtualenv
-    - pip
-    - pipenv
-    - wheel
     - setuptools
   tags:
     - skip_ansible_lint
 - name: Install app dependencies
-  command: "{{ deploy_helper.new_release_path }}/venv/bin/pipenv install"
+  command: pipenv install
   args:
     chdir: "{{ app_source_root }}"
     creates: "{{ deploy_helper.new_release_path }}/venv/**/*django*"

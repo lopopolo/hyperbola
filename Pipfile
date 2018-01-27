@@ -8,7 +8,6 @@ flake8 = "*"
 isort = "*"
 pep257 = "*"
 pep8 = "*"
-pipenv = "*"
 pylint = "*"
 
 [packages]

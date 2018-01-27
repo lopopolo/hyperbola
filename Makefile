@@ -80,11 +80,10 @@ lint-ansible:
 
 .PHONY: virtualenv
 virtualenv: venv/bin/activate Pipfile
-	pipenv install --dev
+	VIRTUAL_ENV=venv pipenv install --dev
 
 venv/bin/activate:
 	python -m venv venv
-	pip install -U virtualenv pip pipenv wheel setuptools
 
 ## clean
 
