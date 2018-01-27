@@ -78,24 +78,13 @@ lint-ansible:
 
 ## Virtualenv
 
-.PHONY: upgrade-py-deps
-upgrade-py-deps:
-	-rm requirements.txt dev-requirements.txt
-	$(MAKE) virtualenv PYUPGRADE=--upgrade
-
-requirements.txt: requirements.in
-	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile --generate-hashes $(PYUPGRADE) "$<"
-
-dev-requirements.txt: dev-requirements.in requirements.txt
-	CUSTOM_COMPILE_COMMAND="make upgrade-py-deps" pip-compile --generate-hashes $(PYUPGRADE) "$<"
-
 .PHONY: virtualenv
-virtualenv: venv/bin/activate requirements.txt dev-requirements.txt
-	pip-sync dev-requirements.txt
+virtualenv: venv/bin/activate Pipfile
+	pipenv install --dev
 
 venv/bin/activate:
 	python -m venv venv
-	pip install -U virtualenv pip pip-tools wheel setuptools
+	pip install -U virtualenv pip pipenv wheel setuptools
 
 ## clean
 

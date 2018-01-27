@@ -75,16 +75,18 @@
   with_items:
     - virtualenv
     - pip
-    - pip-tools
+    - pipenv
     - wheel
     - setuptools
   tags:
     - skip_ansible_lint
 - name: Install app dependencies
-  pip:
-    state: present
-    executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
-    requirements: "{{ app_source_root }}/requirements.txt"
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/pipenv install"
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ deploy_helper.new_release_path }}/venv/**/*django*"
+  environment:
+    VIRTUAL_ENV: "{{ deploy_helper.new_release_path }}/venv"
 - name: Install app
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python setup.py install"
   args:
