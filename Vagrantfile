@@ -10,6 +10,10 @@ def provisioned?(vm_name = 'default', provider = 'virtualbox')
   File.exist?(".vagrant/machines/#{vm_name}/#{provider}/action_provision")
 end
 
+def verbose(ansible)
+  # ansible.verbose = 'v'
+end
+
 # rubocop:disable Metrics/BlockLength
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/xenial64'
@@ -21,7 +25,7 @@ Vagrant.configure('2') do |config|
     lb.vm.network 'private_network', ip: '192.168.10.40'
 
     lb.vm.provision 'bootstrap', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
+      verbose(ansible)
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
         'lb' => ['lb-local'],
@@ -33,7 +37,7 @@ Vagrant.configure('2') do |config|
     end
 
     lb.vm.provision 'lb-local', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
+      verbose(ansible)
       ansible.playbook = 'ansible/lb-local.yml'
       ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
@@ -51,7 +55,7 @@ Vagrant.configure('2') do |config|
     mysql.vm.network 'forwarded_port', guest: 3306, host: 13306
 
     mysql.vm.provision 'mysql-local', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
+      verbose(ansible)
       ansible.playbook = 'ansible/mysql-local.yml'
       ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
@@ -68,7 +72,7 @@ Vagrant.configure('2') do |config|
     app.vm.network 'private_network', ip: '192.168.10.20'
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
+      verbose(ansible)
       ansible.playbook = 'ansible/provision.yml'
       ansible.groups = {
         'app' => ['app-local'],
@@ -80,7 +84,7 @@ Vagrant.configure('2') do |config|
     end
 
     app.vm.provision 'app-local', type: 'ansible' do |ansible|
-      ansible.verbose = 'v'
+      verbose(ansible)
       ansible.playbook = 'ansible/app.yml'
       ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
