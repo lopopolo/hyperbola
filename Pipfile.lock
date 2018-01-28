@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4906e47a811e3c7c157b00aef448bf7bd0af9704a3e2d6c0a60fa40368c4f8b1"
+            "sha256": "76b3f18e347de903643fe0280dfc0a35364157474fead55b9c4cad160a9f87d0"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -236,6 +236,10 @@
             ],
             "version": "==1.11.0"
         },
+        "tmin": {
+            "git": "https://github.com/lopopolo/django-template-minimizer.git",
+            "ref": "python3-support"
+        },
         "webencodings": {
             "hashes": [
                 "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78",
@@ -342,6 +346,7 @@
                 "sha256:87f837459c3c78d75cb4f5aadf08a7104db15e8c7618a5c732e60f252279c7a6",
                 "sha256:df9083a992b17a28cd4251a3f5c879e0198bb26c9e808c4647e0a18739f1d11d"
             ],
+            "markers": "platform_python_implementation != 'PyPy'",
             "version": "==1.11.4"
         },
         "cryptography": {
