@@ -1,19 +1,19 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "76b3f18e347de903643fe0280dfc0a35364157474fead55b9c4cad160a9f87d0"
+            "sha256": "f52024610b9ae5fc39be3cb0f9b93210f23a1348db02e6496cb5ae9d511091e1"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
-            "implementation_version": "3.5.4",
+            "implementation_version": "3.6.4",
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
             "platform_release": "17.4.0",
             "platform_system": "Darwin",
             "platform_version": "Darwin Kernel Version 17.4.0: Sun Dec 17 09:19:54 PST 2017; root:xnu-4570.41.2~1/RELEASE_X86_64",
-            "python_full_version": "3.5.4",
-            "python_version": "3.5",
+            "python_full_version": "3.6.4",
+            "python_version": "3.6",
             "sys_platform": "darwin"
         },
         "pipfile-spec": 6,
@@ -87,6 +87,11 @@
                 "sha256:d5eecf0121b9b6e93c75c797260370b46cfc27a426b6850a3906c2232217375f"
             ],
             "version": "==3.0.0"
+        },
+        "django-template-minimizer": {
+            "editable": true,
+            "git": "https://github.com/lopopolo/django-template-minimizer.git",
+            "ref": "6a53cc4d775f53c731ab3ea9a1ed94d798ee0724"
         },
         "docutils": {
             "hashes": [
@@ -237,6 +242,7 @@
             "version": "==1.11.0"
         },
         "tmin": {
+            "editable": true,
             "git": "https://github.com/lopopolo/django-template-minimizer.git",
             "ref": "python3-support"
         },
