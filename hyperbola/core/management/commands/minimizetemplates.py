@@ -30,7 +30,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loaders.app_directories import get_app_template_dirs
 
-from ._TemplateTextMinimizer import minimize_template_text
+from ..._TemplateTextMinimizer import minimize_template_text
 
 ARCHIVE = '_minimizer_archive'
 REVERTED = '_reverted_'
