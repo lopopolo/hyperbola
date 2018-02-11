@@ -26,4 +26,3 @@ mysqlclient = ">= 1.3.3"
 pillow = "*"
 python-dotenv = "*"
 pytz = "*"
-tmin = {git = "https://github.com/lopopolo/django-template-minimizer.git", editable = true, ref = "python3-support"}
