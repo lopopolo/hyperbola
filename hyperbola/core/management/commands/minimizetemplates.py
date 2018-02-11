@@ -93,6 +93,9 @@ The minimizer collapses all white space not in a django tag or django variable.
 Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome these
     limiations.
 """
+
+    requires_system_checks = False
+
     _option_list = (
         make_option('-m', '--minimize',
                     action='store_true', dest='minimize', default=False,
