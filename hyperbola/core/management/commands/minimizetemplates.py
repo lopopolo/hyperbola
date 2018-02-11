@@ -27,19 +27,12 @@ from optparse import make_option
 from pathlib import Path
 
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.template.loaders.app_directories import get_app_template_dirs
 
 from ..._TemplateTextMinimizer import minimize_template_text
 
 ARCHIVE = '_minimizer_archive'
-REVERTED = '_reverted_'
-ARCHIVE_EXISTS = ('A minimizer archive folder already exists.\n'
-                  'Check that the following templates are not already '
-                  'minimized: \n%s')
-ARCHIVE_DOESNT_EXIST = ("The below archive folder doesn't exist.\n"
-                        "Check that you shouldn't be reverting the "
-                        "coresponding folder: \n%s")
 
 
 class Command(BaseCommand):
@@ -157,16 +150,14 @@ Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
 
     def minimize_templates(self, dirs):
         template_dir_paths = [Path(d) for d in dirs]
-        # Check that the archive folders don't already exist
-        for template_dir in template_dir_paths:
-            archive_dir = template_dir / ARCHIVE
-            if archive_dir.exists():
-                raise CommandError(ARCHIVE_EXISTS % template_dir)
 
         paths = []
         # Walk the directories to build a list of files to minimize
         # Currently not following symbolic links
         for template_dir in template_dir_paths:
+            archive_dir = template_dir / ARCHIVE
+            if archive_dir.exists():
+                continue
             for template in template_dir.rglob('*.html'):
                 paths.append((template_dir, template))
 
