@@ -23,6 +23,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
+from argparse import RawTextHelpFormatter
 from optparse import make_option
 from pathlib import Path
 
@@ -36,78 +37,62 @@ ARCHIVE = '_minimizer_archive'
 
 
 class Command(BaseCommand):
-    help = '''Use this tool to minimize Django templates after
-development.  This way, your templates are small when they are
-evaluated and the HTML served is already minimized; eliminiating
-any post-processing minimization step.
+    help = """
+Use this tool to minimize Django templates after development. This way, your
+templates are small when they are evaluated and the HTML served is already
+minimized; eliminiating any post-processing minimization step.
 
-Use the comment tags {# NOMINIFY #} {# ENDNOMINIFY #} to wrap
-content you do not want minified.
+Use the comment tags {# NOMINIFY #} {# ENDNOMINIFY #} to wrap content you do
+not want minified.
 
 Uses the setting TEMPLATES in your Django settings file and
-    `get_app_template_dirs` to tell the command where to find
-    templates to minimize.
+    `get_app_template_dirs` to tell the command where to find templates to
+    minimize.
 
 Customization:
-The minimizer command uses its own minimizers for html, style tag embeded
-    css, and script tag embeded javascript. You can override these and chain
-    any number of your own minimizers using settings below.  These
-    settings go in the Django settings file. Custom minimizers must
-    be functions that accept text as a string parameter and return
-    text as a string.
-    JAVASCRIPT_MINIMIZERS = [custom_function1, custom_function2,]
-    CSS_MINIMIZERS        = [custom_function3, custom_function4,]
+The minimizer command uses its own minimizers for html. You can override these
+    and chain any number of your own minimizers using settings below. These
+    settings go in the Django settings file. Custom minimizers must be
+    functions that accept text as a string parameter and return text as a
+    string.
+
     HTML_MINIMIZERS       = [custom_function5, custom_function6,]
 
     To turn off a minimizer, use the following pattern:
-    f = lambda x: x
-    JAVASCRIPT_MINIMIZER = [f,]
 
-You can tell the minimizer command to disable an aggressive minimizer
-    in the default HTML minimizer chain.  This minimizer normally removes
-    (instead of just collapsing) the remaining space between '>' & '<'
-    character.  Set the following setting to False in your Django
-    settings file to disable this final step:
+    f = lambda x: x
+    HTML_MINIMIZER = [f,]
+
+You can tell the minimizer command to disable an aggressive minimizer in the
+    default HTML minimizer chain. This minimizer normally removes (instead of
+    just collapsing) the remaining space between '>' & '<' character. Set the
+    following setting to False in your Django settings file to disable this
+    final step:
+
     AGGRESSIVE_HTML_MINIMIZER = False
 
 Method - For each template, the minimizer command:
-1. Replaces any {# NOMINIFY #} {# ENDNOMINIFY #} content with
-    a unique identifier and saves the content in memory so that
-    it is excluded from the rest of the process.
+
+1. Replaces any {# NOMINIFY #} {# ENDNOMINIFY #} content with a unique
+    identifier and saves the content in memory so that it is excluded from the
+    rest of the process.
 2. Remaining Django comments are removed.
-3. Django tags and django variables are replaced with with unique
-    identifiers.  The tags and variables are saved in memory.
-    This approach "protects" the tags and variables from the
-    minimizers.  It also allows you to use Django tags and variables
-    inside your javascript and CSS without ill effect by the
-    CSS or javascript minimizer.
-4. HTML script tags and content are replaced with unique
-    identifiers. The tags and content are saved in memory for
-    additional processing.  The type attribute for the script tag
-    is checked to see if the script content is javascript.  If no
-    type is provided, then javascript is assumed.  Any javascript
-    is then run through the javascript minimizers.
-5. An almost identical process to step 4 is implemented on the HTML
-    style tags for css.
-6. The remaining text (with the identifiers) is run through the
-    html minimizers.
-7. All of the content saved in memory and associated with unique
-    identifiers are put back.
-8. The original template is moved to an archive folder and replaced
-    with the minimized template.
+3. Django tags and django variables are replaced with with unique identifiers.
+    The tags and variables are saved in memory. This approach "protects" the
+    tags and variables from the minimizers.
+4. The remaining text (with the identifiers) is run through the html minimizers.
+5. All of the content saved in memory and associated with unique identifiers are
+    put back.
+6. The original template is moved to an archive folder and replaced with the
+    minimized template.
 
 Limitations:
-The minimizer does not handle script tags inside script tags or
-    style tags inside style tags; an unusual occurance.
-    eg: <script>bla bla <script> bla</script></script>
-The minimizer collapses all white space not in a django tag,
-    django variable, javascript, or inline css.  This includes
-    whitespace inside <pre>, <textarea>, & similar tags, and
+The minimizer collapses all white space not in a django tag or django variable.
+    This includes whitespace inside <pre>, <textarea>, & similar tags, and
     whitespace inside html attributes.
-Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
-    these limiations.
-
-'''
+Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome these
+    limiations.
+"""
     _option_list = (
         make_option('-m', '--minimize',
                     action='store_true', dest='minimize', default=False,
@@ -131,6 +116,11 @@ Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
                 opttype = option['type']
                 option['type'] = option_typemap.get(opttype, opttype)
             parser.add_argument(*flags, **option)
+
+    def create_parser(self, *args, **kwargs):
+        parser = super(Command, self).create_parser(*args, **kwargs)
+        parser.formatter_class = RawTextHelpFormatter
+        return parser
 
     def handle(self, *args, **options):
         # Reading template location from settings
