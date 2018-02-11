@@ -1,4 +1,5 @@
-"""Copyright (c) 2012 Charles Kaminski (CharlesKaminski@gmail.com)
+"""
+Copyright (c) 2012 Charles Kaminski (CharlesKaminski@gmail.com).
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -19,13 +20,14 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE."""
+OTHER DEALINGS IN THE SOFTWARE.
+"""
 
 from optparse import make_option
 from pathlib import Path
 
-from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 from django.template.loaders.app_directories import get_app_template_dirs
 
 from ._TemplateTextMinimizer import minimize_template_text
@@ -38,6 +40,7 @@ ARCHIVE_EXISTS = ('A minimizer archive folder already exists.\n'
 ARCHIVE_DOESNT_EXIST = ("The below archive folder doesn't exist.\n"
                         "Check that you shouldn't be reverting the "
                         "coresponding folder: \n%s")
+
 
 class Command(BaseCommand):
     help = '''Use this tool to minimize Django templates after
