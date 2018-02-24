@@ -35,7 +35,6 @@
       "Environment": "production",
       "Version": "0.129.5"
     },
-    "ssh_private_ip": false,
     "associate_public_ip_address": true
   }],
   "provisioners": [
