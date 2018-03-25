@@ -213,6 +213,7 @@ INSTALLED_APPS = [
     'hyperbola.core',
     'hyperbola.frontpage',
     'hyperbola.lifestream',
+    'hyperbola.shortlinks',
 ] + ENVIRONMENT.additional_installed_apps
 
 MIDDLEWARE = [

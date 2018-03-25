@@ -22,10 +22,12 @@ from .contact import urls as contact
 from .core.views import not_found
 from .frontpage import urls as frontpage
 from .lifestream import urls as lifestream
+from .shortlinks import urls as shortlinks
 
 urlpatterns = [
     path('', include(frontpage)),
     path('contact/', include(contact)),
     path('lifestream/', include(lifestream)),
+    path('s/', include(shortlinks)),
     path('404.html', not_found),
 ] + settings.ENVIRONMENT.additional_urls
