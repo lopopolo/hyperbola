@@ -18,16 +18,24 @@
     shell: /bin/bash
 
 # install system package dependencies
+# https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
+- name: Add deadsnakes ppa
+  apt_repository: repo='ppa:deadsnakes/ppa'
+- name: Install python
+  apt: name={{ item }}={{ app_python_version }} state=present
+  with_items:
+    - python3.6
+    - python3.6-dev
+    - python3.6-venv
+# TODO(bionic): use ppa:pypa/ppa to install pipenv
 - name: Install hyperbola build deps
   apt: name={{ item }} state=present
   with_items:
-  - make
-  - build-essential
-  - libssl-dev
-  - libffi-dev
-  - rsync
-  - python3-pip
-  - libmysqlclient-dev
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - rsync
+    - libmysqlclient-dev
 
 # install python app
 - name: Create directories
@@ -62,7 +70,7 @@
   set_fact:
     app_source_root: "{{['path'] | map('extract',  app_release.files | first) | list | first }}"
 - name: Create app virtualenv
-  command: "/usr/local/bin/python3.6 -m venv {{ deploy_helper.new_release_path }}/venv"
+  command: "python3.6 -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
     creates: "{{ deploy_helper.new_release_path }}/venv/bin/python"
 - name: Install pipenv

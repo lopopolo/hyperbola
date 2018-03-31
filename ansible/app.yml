@@ -5,3 +5,4 @@
   become_user: root
   roles:
   - role: hyperbola-app
+    app_python_version: 3.6.5-1+xenial1 # https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
