@@ -1,0 +1,41 @@
+---
+
+- name: Setuptools source dir
+  file:
+    state: directory
+    dest: "{{python_setuptools_pkg_dir}}"
+
+- name: Stat Setuptools source
+  stat:
+    path: "{{python_setuptools_src_dir}}/{{python_setuptools_pkg}}"
+    get_md5: True
+    get_checksum: True
+  register: setuptools_src_stat
+
+- name: Get Setuptools source
+  get_url:
+    url: "{{python_setuptools_url}}"
+    dest: "{{python_setuptools_src_dir}}"
+    validate_certs: "{{python_download_validate_certs}}"
+  when: not setuptools_src_stat.stat.exists
+
+- name: Check Custom Setuptools binary
+  command: >
+   {{python_setuptools_bin}} --version
+  ignore_errors: true
+  register: setuptools_installed
+  tags: skip_ansible_lint
+
+- name: Build Custom Setuptools
+  command: >
+    {{python_bin}} {{python_setuptools_pkg}} --to-dir {{python_setuptools_pkg_dir}}
+  args:
+    chdir: "{{python_setuptools_src_dir}}"
+  when: (setuptools_installed | failed) or (setuptools_force_build)
+
+- name: Install pip
+  easy_install:
+    name: pip
+    executable: "{{python_setuptools_bin}}"
+
+# vi:ts=2:sw=2:et:ft=yaml

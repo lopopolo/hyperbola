@@ -1,0 +1,15 @@
+---
+
+- name: Install packages (Debian)
+  apt:
+    state: present
+    name: "{{item}}"
+  with_items: "{{python_default_packages}}"
+
+- name: Install additional dev packages
+  apt:
+    state: present
+    name: "{{item}}"
+  with_items: "{{python_dev_packages}}"
+
+# vi:ts=2:sw=2:et:ft=yaml

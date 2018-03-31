@@ -1,0 +1,47 @@
+---
+
+- name: Stat Python source
+  stat:
+    path: "{{python_src_prefix}}/{{python_src_pkg}}"
+    get_md5: True
+    get_checksum: True
+  register: python_src_stat
+
+- name: Get Python source
+  get_url:
+    url: "{{python_src_url}}"
+    dest: "{{python_src_prefix}}"
+    validate_certs: "{{python_download_validate_certs}}"
+#  when: python_src_stat.stat.md5|default('')
+
+- name: Extract code
+  unarchive:
+    copy: no
+    src: "{{python_src_prefix}}/{{python_src_pkg}}"
+    dest: "{{python_src_prefix}}"
+
+- name: Check Custom Python binary
+  command: >
+   {{python_bin}} --version
+  ignore_errors: true
+  register: python_installed
+  tags: skip_ansible_lint
+
+
+- name: Build Custom Python
+  shell: >
+    ./configure {{python_config_opts_default}} {{python_config_opts}} &&
+    make {{python_build_opts_default}} {{python_build_opts}}
+  args:
+    chdir: "{{python_src_pkg_dir}}"
+  when: (python_installed | failed) or (python_force_build)
+
+- name: Install Custom Python
+  command: >
+    make altinstall
+  args:
+    chdir: "{{python_src_pkg_dir}}"
+  become: true
+  when: (python_installed | failed) or (python_force_build)
+
+# vi:ts=2:sw=2:et:ft=yaml

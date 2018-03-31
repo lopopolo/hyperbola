@@ -1,0 +1,77 @@
+---
+
+# Python version to compile
+#  The version that you need to compile
+#python_version: 2.7.11
+
+# Python binary to check
+#  This should also be specified by yourself, pointing to the
+#  binary that the build generates
+#python_bin: /usr/local/bin/python2.7
+
+# Python src prefix
+#  Directory where python source code will be downloaded
+python_src_prefix: /usr/local/src
+
+# Python src pkg
+#  The archive name to be downloaded
+python_src_pkg: "Python-{{python_version}}.tgz"
+
+# get_url SSL fix
+# for SNI you need python >= 2.7.9. If the python version that
+# comes with the OS is <= 2.7.9, then you need to set this to no
+#
+python_download_validate_certs: yes
+
+# Python src url
+#  url for the python source archive
+python_src_url: "https://www.python.org/ftp/python/{{python_version}}/{{python_src_pkg}}"
+
+# Python src package directory
+#  The full path to the contents of the exploded source package
+python_src_pkg_dir: "{{python_src_prefix}}/Python-{{python_version}}"
+
+# Python setuptools
+python_setuptools_src_dir: /usr/local/src
+
+python_setuptools_pkg: ez_setup.py
+
+python_setuptools_url: "https://bootstrap.pypa.io/{{python_setuptools_pkg}}"
+
+python_setuptools_pkg_dir: "{{python_setuptools_src_dir}}/setuptools-python-{{python_version}}"
+
+# Setuptools binary
+#  This should also be set by yourself
+# python_setuptools_bin: /usr/local/bin/easy_install-2.7
+
+# List of dev dependencies to be installed
+#  There is a default package list defined in the vars/<ditro>.yml file
+#  but if you need to specify additional packages due to specific needs
+#  you can use this one
+python_dev_packages: []
+
+# Python configuration options
+#  There are two vars that control the configuration options, a default one
+#  and one you can
+python_config_opts_default: '--enable-unicode=ucs4'
+python_config_opts: ''
+
+python_build_opts_default: '-j2 profile-opt'
+python_build_opts: ''
+
+# Force python / setuptools build
+python_force_build: False
+setuptools_force_build: False
+
+# Alternatives
+
+python_alternative_enabled: false
+python_alternative_link: /etc/alternatives/python
+python_alternative_path: "{{python_bin|default('/usr/local/bin/python')}}"
+
+
+python_pip_alternative_enabled: false
+python_pip_alternative_link: /etc/alternatives/pip
+python_pip_alternative_path: "{{python_pip_bin|default('/usr/local/bin/pip')}}"
+
+# vi:ts=2:sw=2:et:ft=yaml

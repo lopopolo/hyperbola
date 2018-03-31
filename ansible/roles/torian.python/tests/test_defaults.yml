@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    - python_version: 2.7.11
+    - python_bin: /usr/local/bin/python2.7
+    - python_setuptools_bin: /usr/local/bin/easy_install-2.7
+
+  roles:
+    - ansible-role-python
+
+# vi:ts=2:sw=2:et:ft=yaml

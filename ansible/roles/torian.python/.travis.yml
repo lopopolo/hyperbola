@@ -1,0 +1,19 @@
+---
+language: python
+python:   "2.7"
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - pip install ansible==2.3.0.0
+
+script:
+  # Test functionality with default values
+  - ansible-playbook tests/test_defaults.yml -i localhost, --syntax-check 
+  - travis_wait ansible-playbook tests/test_defaults.yml -i localhost, --connection=local --sudo
+
+# vi:ts=2:sw=2:et:ft=yaml

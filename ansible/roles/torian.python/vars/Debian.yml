@@ -1,0 +1,9 @@
+---
+
+python_default_packages:
+  - autoconf
+  - libtool
+  - libssl-dev 
+  - libssl1.0.0
+
+# vi:ts=2:sw=2:et:ft=yaml
