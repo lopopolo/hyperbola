@@ -1,10 +1,10 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit
-    sha: v1.5.1
+    rev: v1.8.2
     hooks:
     -   id: validate_manifest
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    sha: v1.2.0
+    rev: v1.2.3
     hooks:
     -   id: check-added-large-files
     -   id: check-ast
@@ -34,18 +34,18 @@ repos:
     -   id: trailing-whitespace
         exclude: src|dist|geerlingguy|hswong3i|mprahl|.bumpversion.cfg
 -   repo: https://github.com/adambrenecki/pre-commit-python-sorter.git
-    sha: 1.0.5
+    rev: 1.0.5
     hooks:
     -   id: python-import-sorter
         types: [python]
         files: ''
 -   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    sha: v1.1.0
+    rev: v1.1.0
     hooks:
     -   id: python-safety-dependencies-check
         always_run: true
 -   repo: https://github.com/chewse/pre-commit-mirrors-pydocstyle.git
-    sha: v2.1.1
+    rev: v2.1.1
     hooks:
     -   id: pydocstyle
 -   repo: local
@@ -56,11 +56,11 @@ repos:
         language: script
         types: [python]
 -   repo: https://github.com/asottile/pyupgrade.git
-    sha: v1.2.0
+    rev: v1.2.0
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/antonbabenko/pre-commit-terraform.git
-    sha: v1.4.0
+    rev: v1.5.0
     hooks:
     -   id: terraform_fmt
 -   repo: local
@@ -72,12 +72,12 @@ repos:
         entry: node_modules/.bin/eslint --ext js
         language: system
 -   repo: https://github.com/pre-commit/mirrors-csslint.git
-    sha: v1.0.5
+    rev: v1.0.5
     hooks:
     -   id: csslint
         exclude: min\.css$|dist
 -   repo: https://github.com/detailyang/pre-commit-shell
-    sha: 1.0.2
+    rev: 1.0.2
     hooks:
     -   id: shell-lint
         types: [shell]
