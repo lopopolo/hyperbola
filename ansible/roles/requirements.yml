@@ -11,6 +11,3 @@
 - name: mprahl.lets-encrypt-route-53
   src: https://github.com/mprahl/ansible-role-lets-encrypt-route-53.git
   version: v4.0.0
-- name: torian.python
-  src: https://github.com/torian/ansible-role-python
-  version: 1.2.0

@@ -58,7 +58,7 @@
       "playbook_file": "ansible/app.yml",
       "playbook_dir": "ansible",
       "inventory_file": "ansible/production.ini",
-      "extra_arguments": ["--limit=localhost", "--vault-password-file=/tmp/vault-password.txt", "--skip-tags=python_setuptools_build"],
+      "extra_arguments": ["--limit=localhost", "--vault-password-file=/tmp/vault-password.txt"],
       "command": "ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook"
     }
   ]

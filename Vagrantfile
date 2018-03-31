@@ -86,7 +86,6 @@ Vagrant.configure('2') do |config|
     app.vm.provision 'app-local', type: 'ansible' do |ansible|
       verbose(ansible)
       ansible.playbook = 'ansible/app.yml'
-      ansible.skip_tags = ['python_setuptools_build']
       ansible.vault_password_file = 'bin/ansible_vault_password.py'
       ansible.groups = {
         'app' => ['app-local'],
