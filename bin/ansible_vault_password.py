@@ -10,14 +10,13 @@ import sys
 
 from dotenv import find_dotenv, load_dotenv
 
-load_dotenv(find_dotenv())
-
 
 class AnsiblePasswordNotSetException(Exception):
     pass
 
 
 def main():
+    load_dotenv(find_dotenv())
     ansible_password = os.environ.get('ANSIBLE_VAULT_PASSWORD', None)
     if ansible_password is None:
         raise AnsiblePasswordNotSetException()
