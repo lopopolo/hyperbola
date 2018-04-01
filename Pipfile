@@ -1,7 +1,6 @@
 [dev-packages]
-
 ansible = "*"
-ansible-lint = "*"
+ansible-lint = "==3.5.0rc1"
 bumpversion = "*"
 django-debug-toolbar = "*"
 django-debug-toolbar-template-timings = ">= 0.7"
@@ -11,9 +10,7 @@ isort = "*"
 "pep8" = "*"
 pylint = "*"
 
-
 [packages]
-
 bleach = "*"
 bleach-whitelist = "*"
 django = "~= 2.0.0"
