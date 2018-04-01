@@ -12,12 +12,14 @@ or deployed in production and [Vagrant](/Vagrantfile) configurations. It depends
 
 * mysql
 * nginx
-* python3 ~= 3.5.3
+* python3
 
 ### Build
 
 * make
 * nodejs
+* pipenv
+* webpack
 * yarn
 
 # hyperbola-tools
