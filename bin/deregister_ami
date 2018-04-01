@@ -1,23 +1,13 @@
 #!/usr/bin/env python3
 
-# Based on aws-amicleaner - https://github.com/bonclay7/aws-amicleaner/commit/99fb71872e24a25aa5176f53ac7cb5e26171b8ac
-#
-# MIT License
-#
-# Copyright (c) 2016, Guy Rodrigue Koffi
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-# documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-# permit persons to whom the Software is furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
-# Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+This script is based on aws-amicleaner@99fb718
+<https://github.com/bonclay7/aws-amicleaner/commit/99fb718>
+
+MIT License
+
+Copyright (c) 2016, Guy Rodrigue Koffi
+"""
 
 import argparse
 import sys
@@ -51,9 +41,9 @@ class BlockDevice(object):
 
 
 class AmiFetcher(object):
-    def __init__(self):
-        self.ec2 = boto3.client('ec2')
-        self.asg = boto3.client('autoscaling')
+    def __init__(self, ec2, asg):
+        self.ec2 = ec2
+        self.asg = asg
 
     def unused_amis(self):
         self_amis = self._self_amis()
@@ -97,9 +87,9 @@ class AmiFetcher(object):
 
 
 class AmiCleaner:
-    def __init__(self):
-        self.ec2 = boto3.client('ec2')
-        self.fetcher = AmiFetcher()
+    def __init__(self, ec2, asg):
+        self.ec2 = ec2
+        self.fetcher = AmiFetcher(ec2=ec2, asg=asg)
 
     def remove_amis(self, amis):
         """deregister AMIs (array) and removes related snapshots."""
@@ -152,19 +142,30 @@ def main(args):
     if not parsed_args:
         return 1
     if not parsed_args.execute ^ parsed_args.dry_run:
-        print('Exactly one of --execute or --dry-run must be specified')
+        print('Exactly one of --execute or --dry-run must be specified',
+              file=sys.stderr)
         return 1
 
-    cleaner = AmiCleaner()
+    autoscaling = boto3.client('autoscaling')
+    ec2 = boto3.client('ec2')
+    cleaner = AmiCleaner(ec2=ec2, asg=autoscaling)
+
     if parsed_args.from_ids:
         to_remove_amis = parsed_args.from_ids
     else:
         to_remove_amis = cleaner.fetcher.unused_amis()
+
     if parsed_args.dry_run:
         for image in cleaner.fetcher.self_amis_from_ids(to_remove_amis):
-            print("Would remove ami {} ({})".format(image.ami_id, image.name))
+            print('Would remove ami {} ({})'.format(image.ami_id, image.name))
+
     if parsed_args.execute:
-        cleaner.remove_amis_from_ids(to_remove_amis)
+        failed_snaps = cleaner.remove_amis_from_ids(to_remove_amis)
+        if failed_snaps:
+            print('Some snapshots failed to delete', file=sys.stderr)
+            for snap in failed_snaps:
+                print(snap, file=sys.stderr)
+            return 1
 
     return 0
 
