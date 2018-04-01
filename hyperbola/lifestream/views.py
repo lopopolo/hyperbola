@@ -12,7 +12,7 @@ from django.urls import reverse
 
 from .models import LifeStreamItem
 
-_hashtag_validation_regexp = re.compile('\W')
+_hashtag_validation_regexp = re.compile(r'\W')
 NUM_PER_PAGE = 20
 PageLinks = namedtuple("PageLinks", "newer older")
 
