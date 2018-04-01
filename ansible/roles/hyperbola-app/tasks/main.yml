@@ -24,9 +24,9 @@
 - name: Install python
   apt: name={{ item }}={{ app_python_version }} state=present
   with_items:
-    - python3.6
-    - python3.6-dev
-    - python3.6-venv
+    - "{{ app_python }}"
+    - "{{ app_python }}-dev"
+    - "{{ app_python }}-venv"
 # TODO(bionic): use ppa:pypa/ppa to install pipenv
 - name: Install hyperbola build deps
   apt: name={{ item }} state=present
@@ -70,7 +70,7 @@
   set_fact:
     app_source_root: "{{['path'] | map('extract',  app_release.files | first) | list | first }}"
 - name: Create app virtualenv
-  command: "python3.6 -m venv {{ deploy_helper.new_release_path }}/venv"
+  command: "{{ app_python }} -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
     creates: "{{ deploy_helper.new_release_path }}/venv/bin/python"
 - name: Install pipenv
