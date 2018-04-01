@@ -22,11 +22,13 @@
 - name: Add deadsnakes ppa
   apt_repository: repo='ppa:deadsnakes/ppa'
 - name: Install python
-  apt: name={{ item }}={{ app_python_version }} state=present
+  apt: name={{ item }} state=latest
   with_items:
     - "{{ app_python }}"
     - "{{ app_python }}-dev"
     - "{{ app_python }}-venv"
+  tags:
+    - skip_ansible_lint
 # TODO(bionic): use ppa:pypa/ppa to install pipenv
 - name: Install hyperbola build deps
   apt: name={{ item }} state=present
