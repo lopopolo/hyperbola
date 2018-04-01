@@ -69,6 +69,10 @@ class EnvironmentConfig(object):
         return self.environment in [Env.production, Env.local]
 
     @property
+    def enable_perf_optimizations(self):
+        return self.environment in [Env.production, Env.local]
+
+    @property
     def additional_installed_apps(self):
         apps = []
         if self.is_admin:
@@ -164,6 +168,9 @@ CACHES = {
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
+if ENVIRONMENT.enable_perf_optimizations:
+    CONN_MAX_AGE = 5 * 60
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -228,6 +235,16 @@ MIDDLEWARE = [
     'hyperbola.core.middleware.FQDNMiddleware',
 ]
 
+_template_loader = [
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+]
+if ENVIRONMENT.enable_perf_optimizations:
+    _template_loader = [(
+        'django.template.loaders.cached.Loader',
+        _template_loader
+    )]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -241,12 +258,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'loaders': [
-                ('django.template.loaders.cached.Loader', [
-                    'django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader',
-                ]),
-            ],
+            'loaders': _template_loader,
         },
     },
 ]
