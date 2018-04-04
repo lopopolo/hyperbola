@@ -45,7 +45,7 @@ resource "aws_s3_bucket_object" "index" {
 resource "aws_s3_bucket_object" "team" {
   bucket       = "${aws_s3_bucket.website.id}"
   acl          = "public-read"
-  key          = "team.html"
+  key          = "team"
   source       = "${path.root}/site/team.html"
   etag         = "${md5(file("${path.root}/site/team.html"))}"
   content_type = "text/html"
@@ -102,6 +102,15 @@ resource "aws_s3_bucket_object" "team-forklift" {
   key          = "team-forklift.jpg"
   source       = "${path.root}/site/team-forklift.jpg"
   etag         = "${md5(file("${path.root}/site/team-forklift.jpg"))}"
+  content_type = "image/jpeg"
+}
+
+resource "aws_s3_bucket_object" "team-front-loader" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "team-front-loader.jpg"
+  source       = "${path.root}/site/team-front-loader.jpg"
+  etag         = "${md5(file("${path.root}/site/team-front-loader.jpg"))}"
   content_type = "image/jpeg"
 }
 

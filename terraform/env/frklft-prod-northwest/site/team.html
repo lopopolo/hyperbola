@@ -10,27 +10,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
       .carousel-container {
-        width:300px;
-        height:300px;
-        position:relative;
-        overflow:hidden;
+        width: 300px;
+        height: 300px;
+        position: relative;
+        overflow: hidden;
       }
       .css-carousel {
-        width:500%;
+        width: 400%;
         animation: css-carousel 15s linear infinite;
       }
       .css-carousel .css-img{
-        display:inline-block;
+        display: inline-block;
         max-width: 300px;
         max-height: 300px;
       }
       .css-carousel img:not(:first-child){
-        float:left;
+        float: right;
       }
       @keyframes css-carousel {
-        0%, 33% {margin-left:0}
-        34%, 66% { margin-left:-100%; }
-        67%, 99% { margin-left:-200%; }
+        0%, 24% {margin-left:0}
+        25%, 49% { margin-left:-100%; }
+        50%, 74% { margin-left:-200%; }
+        75%, 99% { margin-left:-300%; }
         100% { margin-left:0;}
       }
     </style>
@@ -42,7 +43,7 @@
           <span class="navbar-brand mb-0 h1">FRKLFT</span>
           <ul class="nav nav-pills pull-right">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link active" href="/team.html">Team</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/team">Team</a></li>
             <li class="nav-item"><a class="nav-link" href="https://hyperbo.la/contact/">Contact</a></li>
           </ul>
         </nav>
@@ -52,6 +53,7 @@
           <img class="css-img" src="team-forklift.jpg">
           <img class="css-img" src="team-crane.jpg">
           <img class="css-img" src="team-speed-swing.jpg">
+          <img class="css-img" src="team-front-loader.jpg">
         </div>
       </div>
       <div class="jumbotron my-3">
