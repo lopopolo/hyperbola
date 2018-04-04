@@ -51,15 +51,6 @@ resource "aws_s3_bucket_object" "team" {
   content_type = "text/html"
 }
 
-resource "aws_s3_bucket_object" "error" {
-  bucket       = "${aws_s3_bucket.website.id}"
-  acl          = "public-read"
-  key          = "error.html"
-  source       = "${path.root}/site/error.html"
-  etag         = "${md5(file("${path.root}/site/error.html"))}"
-  content_type = "text/html"
-}
-
 resource "aws_s3_bucket_object" "logo" {
   bucket       = "${aws_s3_bucket.website.id}"
   acl          = "public-read"
