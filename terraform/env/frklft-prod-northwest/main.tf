@@ -60,6 +60,15 @@ resource "aws_s3_bucket_object" "error" {
   content_type = "text/html"
 }
 
+resource "aws_s3_bucket_object" "logo" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "logo.png"
+  source       = "${path.root}/site/logo.png"
+  etag         = "${md5(file("${path.root}/site/logo.png"))}"
+  content_type = "image/png"
+}
+
 resource "aws_s3_bucket_object" "image" {
   bucket       = "${aws_s3_bucket.website.id}"
   acl          = "public-read"
@@ -85,6 +94,15 @@ resource "aws_s3_bucket_object" "team-hero" {
   source       = "${path.root}/site/forklift-servers.jpg"
   etag         = "${md5(file("${path.root}/site/forklift-servers.jpg"))}"
   content_type = "image/jpeg"
+}
+
+resource "aws_s3_bucket_object" "team-hero-png" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "forklift-servers.png"
+  source       = "${path.root}/site/forklift-servers.png"
+  etag         = "${md5(file("${path.root}/site/forklift-servers.png"))}"
+  content_type = "image/png"
 }
 
 resource "aws_s3_bucket_object" "team-crane" {
