@@ -1,11 +1,11 @@
-resource "aws_route53_zone" "burnfastburnbright-com" {
+resource "aws_route53_zone" "zone" {
   name    = "burnfastburnbright.com."
   comment = "HostedZone created by Route53 Registrar"
 }
 
 resource "aws_route53_record" "website" {
   name    = "www"
-  zone_id = "${aws_route53_zone.burnfastburnbright-com.zone_id}"
+  zone_id = "${aws_route53_zone.zone.zone_id}"
   type    = "A"
 
   alias {
@@ -17,7 +17,7 @@ resource "aws_route53_record" "website" {
 
 resource "aws_route53_record" "website-AAAA" {
   name    = "www"
-  zone_id = "${aws_route53_zone.burnfastburnbright-com.zone_id}"
+  zone_id = "${aws_route53_zone.zone.zone_id}"
   type    = "AAAA"
 
   alias {
@@ -29,7 +29,7 @@ resource "aws_route53_record" "website-AAAA" {
 
 resource "aws_route53_record" "website-no-www" {
   name    = "burnfastburnbright.com"
-  zone_id = "${aws_route53_zone.burnfastburnbright-com.zone_id}"
+  zone_id = "${aws_route53_zone.zone.zone_id}"
   type    = "A"
 
   alias {
@@ -41,7 +41,7 @@ resource "aws_route53_record" "website-no-www" {
 
 resource "aws_route53_record" "website-no-www-AAAA" {
   name    = "burnfastburnbright.com"
-  zone_id = "${aws_route53_zone.burnfastburnbright-com.zone_id}"
+  zone_id = "${aws_route53_zone.zone.zone_id}"
   type    = "AAAA"
 
   alias {
