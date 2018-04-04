@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>FRKLFT</title>
+    <meta name="description" content="FRKLFT Tires as a Service Subscription">
+    <meta property="og:title" content="FRKLFT" />
+    <meta property="og:image" content="http://www.frklft.tires/forklift-tires.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      .carousel-container {
+        width:300px;
+        height:300px;
+        position:relative;
+        overflow:hidden;
+      }
+      .css-carousel {
+        width:500%;
+        animation: css-carousel 15s linear infinite;
+      }
+      .css-carousel .css-img{
+        display:inline-block;
+        max-width: 300px;
+        max-height: 300px;
+      }
+      .css-carousel img:not(:first-child){
+        float:left;
+      }
+      @keyframes css-carousel {
+        0%, 33% {margin-left:0}
+        34%, 66% { margin-left:-100%; }
+        67%, 99% { margin-left:-200%; }
+        100% { margin-left:0;}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <nav class="navbar navbar-light bg-light">
+          <span class="navbar-brand mb-0 h1">FRKLFT</span>
+          <ul class="nav nav-pills pull-right">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/team.html">Team</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://hyperbo.la/contact/">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="mx-auto carousel-container">
+        <div class="mx-auto css-carousel">
+          <img class="css-img" src="team-forklift.jpg">
+          <img class="css-img" src="team-crane.jpg">
+          <img class="css-img" src="team-speed-swing.jpg">
+        </div>
+      </div>
+      <div class="jumbotron my-3">
+        <h1>Automatic Maintenance for Your Warehouse</h1>
+        <p class="lead">
+        FRKLFT is an enterprise, subscription-based forklift tire delivery platform.
+        </p>
+        <p>
+        We are five MIT graduates with backgrounds in aerospace, computer
+        science, economics, and supply chain management.
+        </p>
+        <p>
+        We are passionate about heavy machinery and expert in automation. This
+        inspires us to deliver tires with ruthless efficency and
+        predictability.
+        </p>
+      </div>
+      <div class="jumbotron my-3">
+        <div class="d-flex">
+          <div class="w-50 mx-2">
+            <h3>We're Hiring!</h3>
+            <p class="lead">
+              We build logistics systems to enable,<br>
+              our customers to run theirs.
+            </p>
+            <div class="d-flex justify-content-start">
+              <a class="btn btn-primary btn-lg"
+                href="mailto:careers@frklft.io"
+                role="button">Apply Now</a>
+            </div>
+          </div>
+          <div class="w-50 mx-2">
+            <img class="w-100" alt="A forklift handling servers" src="forklift-servers.jpg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
