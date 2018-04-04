@@ -16,7 +16,20 @@ resource "aws_s3_bucket" "website" {
 
   website {
     index_document = "index.html"
-    error_document = "error.html"
+
+    routing_rules = <<EOF
+[{
+    "Condition": {
+        "HttpErrorCodeReturnedEquals": "404"
+    },
+    "Redirect": {
+        "HttpRedirectCode": "302",
+        "Protocol": "https",
+        "HostName": "www.frklft.tires",
+        "ReplaceKeyWith": ""
+    }
+}]
+EOF
   }
 }
 
