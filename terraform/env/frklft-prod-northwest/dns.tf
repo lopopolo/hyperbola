@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "zone" {
-  name    = "burnfastburnbright.com."
+  name    = "frklft.tires."
   comment = "HostedZone created by Route53 Registrar"
 }
 
@@ -28,7 +28,7 @@ resource "aws_route53_record" "website-AAAA" {
 }
 
 resource "aws_route53_record" "website-no-www" {
-  name    = "burnfastburnbright.com"
+  name    = "frklft.tires"
   zone_id = "${aws_route53_zone.zone.zone_id}"
   type    = "A"
 
@@ -40,7 +40,7 @@ resource "aws_route53_record" "website-no-www" {
 }
 
 resource "aws_route53_record" "website-no-www-AAAA" {
-  name    = "burnfastburnbright.com"
+  name    = "frklft.tires"
   zone_id = "${aws_route53_zone.zone.zone_id}"
   type    = "AAAA"
 
