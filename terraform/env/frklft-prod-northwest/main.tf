@@ -132,6 +132,15 @@ resource "aws_s3_bucket_object" "team-speed-swing" {
   content_type = "image/jpeg"
 }
 
+resource "aws_s3_bucket_object" "team-uneven-pavement" {
+  bucket       = "${aws_s3_bucket.website.id}"
+  acl          = "public-read"
+  key          = "team-uneven-pavement.jpg"
+  source       = "${path.root}/site/team-uneven-pavement.jpg"
+  etag         = "${md5(file("${path.root}/site/team-uneven-pavement.jpg"))}"
+  content_type = "image/jpeg"
+}
+
 resource "aws_s3_bucket_object" "robots" {
   bucket       = "${aws_s3_bucket.website.id}"
   acl          = "public-read"
