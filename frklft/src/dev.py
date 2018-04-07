@@ -31,15 +31,16 @@ class FRKLFTRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.ROUTES.get(self.path, self.path[1:])
         if (self.PUBLIC_DIR / path).exists():
-            self.respond(path=path)
+            self.respond(path)
         else:
-            self.respond(status=404)
+            self.handle_404()
 
-    def handle_http(self, status_code, path=None):
+    def respond(self, path, status=200):
+        response = self.handle_http(status, path)
+        self.wfile.write(response)
+
+    def handle_http(self, status_code, path):
         self.send_response(status_code)
-        content = b''
-        if path is None:
-            return content
         mime = self.extract_mime(path)
         if mime is not None:
             self.send_header('Content-type', mime)
@@ -47,13 +48,14 @@ class FRKLFTRequestHandler(BaseHTTPRequestHandler):
         content = (self.PUBLIC_DIR / path).read_bytes()
         return content
 
+    def handle_404(self):
+        self.send_response(302)
+        self.send_header('Location', '/')
+        self.end_headers()
+
     def extract_mime(self, path):
         ext = Path(self.ROUTES.get(self.path, self.path)).suffix
         return self.MIME.get(ext)
-
-    def respond(self, path=None, status=200):
-        response = self.handle_http(status, path)
-        self.wfile.write(response)
 
 
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
