@@ -19,7 +19,7 @@ repos:
     -   id: check-vcs-permalinks
     -   id: check-xml
     -   id: check-yaml
-        exclude: vars|(lb|mysql)-local.yml
+        exclude: vars|(lb|mysql)-local.yml|cloudformation
     -   id: debug-statements
     -   id: detect-aws-credentials
     -   id: detect-private-key
