@@ -14,6 +14,11 @@ resource "aws_route53_zone" "hyperboladc-net-public" {
   comment = "HostedZone created by Route53 Registrar"
 }
 
+resource "aws_route53_zone" "frklftio-public" {
+  name    = "frklft.io."
+  comment = "HostedZone created by Route53 Registrar"
+}
+
 output "hyperbola-zone-id" {
   value = "${aws_route53_zone.hyperbola-zone.zone_id}"
 }
@@ -24,4 +29,8 @@ output "hyperbolausercontent-zone-id" {
 
 output "hyperboladc-zone-id" {
   value = "${aws_route53_zone.hyperboladc-net-public.zone_id}"
+}
+
+output "frklftio-zone-id" {
+  value = "${aws_route53_zone.frklftio-public.zone_id}"
 }
