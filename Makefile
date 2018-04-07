@@ -34,8 +34,11 @@ build-ami:
 
 .PHONY: publish-frklft
 publish-frklft:
+	aws s3 cp --acl public-read frklft/robots.txt s3://www.frklft.tires/robots.txt
 	aws s3 cp --acl public-read frklft/index.html s3://www.frklft.tires/index.html
 	aws s3 cp --acl public-read frklft/team.html s3://www.frklft.tires/team
+	aws s3 cp --acl public-read frklft/contact/sales.html s3://www.frklft.tires/contact/sales
+	aws s3 cp --acl public-read frklft/contact/careers.html s3://www.frklft.tires/contact/careers
 	aws s3 cp --acl public-read --recursive frklft/img/ s3://www.frklft.tires/img/
 
 ## Linters
