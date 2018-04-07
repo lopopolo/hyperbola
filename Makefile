@@ -32,6 +32,12 @@ release:
 build-ami:
 	env $$(dotenv get ANSIBLE_VAULT_PASSWORD) packer build packer/app.json
 
+.PHONY: publish-frklft
+publish-frklft:
+	aws s3 cp --acl public-read frklft/index.html s3://www.frklft.tires/index.html
+	aws s3 cp --acl public-read frklft/team.html s3://www.frklft.tires/team
+	aws s3 cp --acl public-read --recursive frklft/img/ s3://www.frklft.tires/img/
+
 ## Linters
 
 .PHONY: lint
