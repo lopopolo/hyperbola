@@ -97,87 +97,12 @@ Resources:
           - IamRoleLambdaExecution
           - Arn
       Code:
-        ZipFile: !Sub |
-          var https = require('https');
-          var querystring = require('querystring');
-          var AWS = require("aws-sdk");
-
-          exports.handler = function (event, context, callback) {
-              // Validate the recaptcha
-              var input_data = JSON.parse(event.body);
-              var postData = querystring.stringify({
-                  'secret': '${ReCaptchaSecret}',
-                  'response': input_data['g-recaptcha-response'],
-                  'remoteip': event.requestContext.identity.sourceIp,
-              });
-
-              var options = {
-                  hostname: 'www.google.com',
-                  port: 443,
-                  path: '/recaptcha/api/siteverify',
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                      'Content-Length': Buffer.byteLength(postData)
-                  }
-              };
-
-              var req = https.request(options, function(res) {
-                  res.setEncoding('utf8');
-                  res.on('data', function(chunk) {
-                      var captchaResponse = JSON.parse(chunk);
-                      if (captchaResponse.success) {
-                          var sns = new AWS.SNS();
-                          delete input_data['g-recaptcha-response'];
-                          var message = "";
-                          var source = input_data['source'];
-                          Object.keys(input_data).forEach(function(key) {
-                             message += key+':\n';
-                             message += '\t'+input_data[key]+'\n\n';
-                          });
-                          var params = {
-                              Message: message,
-                              Subject: (source ? '[' + source + '] ' : '') + "FRKLFT Contact Us",
-                              TopicArn: "${ContactUsSNSTopic}"
-                          };
-                          sns.publish(params, function (err, response) {
-                              callback(null, {
-                                  statusCode: '200',
-                                  headers: {
-                                      "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-                                      "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
-                                  },
-                                  body: JSON.stringify(response)
-                              });
-                          });
-                      } else {
-                          callback(null, {
-                              statusCode: '500',
-                              headers: {
-                                  "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-                                  "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
-                              },
-                              body: JSON.stringify({message:'Invalid recaptcha'})
-                          });
-                      }
-                  });
-              });
-
-              req.on('error', function(e) {
-                  callback(null, {
-                      statusCode: '500',
-                      headers: {
-                          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-                          "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
-                      },
-                      body: JSON.stringify({message:e.message})
-                  });
-              });
-
-              // write data to request body
-              req.write(postData);
-              req.end();
-          };
+        ZipFile: >
+          lambda-code-42B3B8CA-0C02-477E-93A2-5C33D2E88383
+      Environment:
+        Variables:
+          RECAPTCHA_SECRET_KEY: !Sub ${ReCaptchaSecret}
+          SNS_TOPIC: !Sub ${ContactUsSNSTopic}
       Runtime: nodejs6.10
 
   #
