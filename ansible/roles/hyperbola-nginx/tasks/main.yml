@@ -8,10 +8,22 @@
   when: nginx_user is not defined
 
 # Packages
-- name: Add nginx ppa
-  apt_repository: repo='ppa:nginx/stable'
+- name: Add nginx signing key
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    id: 7BD9BF62
+    state: present
+- name: Add nginx repository
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+    - deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
+    - deb-src http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
 - name: Install nginx
-  apt: name=nginx-full state=present
+  apt:
+    name: nginx
+    state: present
 - name: Install snakeoil ssl certs for default ssl server
   apt: name=ssl-cert state=present
 

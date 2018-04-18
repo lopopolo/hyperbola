@@ -43,7 +43,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'lb' => ['lb-local'],
         'lb:vars' => {
-          'ansible_python_interpreter' => '/usr/bin/python2',
+          'ansible_python_interpreter' => '/usr/bin/python3',
         },
         'all_groups:children' => ['lb']
       }
