@@ -72,8 +72,7 @@ lint-pre-commit:
 	$(PRE_COMMIT) csslint
 	$(PRE_COMMIT) shell-lint
 
-ANSIBLE_LINT_EXCLUDE := --exclude=ansible/roles/geerlingguy.ntp \
-	--exclude=ansible/roles/geerlingguy.security \
+ANSIBLE_LINT_EXCLUDE := \
 	--exclude=ansible/roles/hswong3i.tzdata \
 	--exclude=ansible/roles/mprahl.lets-encrypt-route-53
 

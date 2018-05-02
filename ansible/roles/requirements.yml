@@ -4,10 +4,10 @@
   version: 6.1.0
 - name: geerlingguy.security
   src: https://github.com/geerlingguy/ansible-role-security.git
-  version: 1.5.0
+  version: 1.7.0
 - name: geerlingguy.ntp
   src: https://github.com/geerlingguy/ansible-role-ntp.git
-  version: 1.5.2
+  version: 1.6.0
 - name: mprahl.lets-encrypt-route-53
   src: https://github.com/mprahl/ansible-role-lets-encrypt-route-53.git
-  version: v4.0.0
+  version: v4.2.0
