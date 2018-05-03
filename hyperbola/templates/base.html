@@ -19,7 +19,9 @@
       <div>
         <div class="d-flex flex-row justify-content-between hyperbola-header">
           <input type="checkbox" id="navbar-toggle-checkbox">
-          <a class="align-items-start navbar-brand hyperbola-logo text-hide" href="{% url "frontpage:index" %}">Hyperbola Logo</a>
+          <a class="align-items-start navbar-brand hyperbola-logo" href="{% url "frontpage:index" %}">
+            <span class="sr-only">Hyperbola Logo</span>
+          </a>
           <div class="collapse">
             <ul class="nav justify-content-end hyperbola-nav">
               <li class="nav-item text-center">
