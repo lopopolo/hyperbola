@@ -44,33 +44,12 @@ publish-frklft:
 ## Linters
 
 .PHONY: lint
-lint: lint-pre-commit lint-ansible lint-git
+lint: lint-ansible lint-git
 
 .PHONY: lint-git
 lint-git:
 	git ls-files -i --exclude-standard
 	[[ "$$(git ls-files -i --exclude-standard | wc -l | tr -d ' ')" == "0" ]]
-
-PRE_COMMIT := pre-commit run --all-files
-
-.PHONY: lint-pre-commit
-lint-pre-commit:
-	$(PRE_COMMIT) check-ast
-	$(PRE_COMMIT) check-docstring-first
-	$(PRE_COMMIT) check-executables-have-shebangs
-	$(PRE_COMMIT) check-json
-	$(PRE_COMMIT) check-yaml
-	$(PRE_COMMIT) end-of-file-fixer
-	$(PRE_COMMIT) flake8
-	$(PRE_COMMIT) trailing-whitespace
-	$(PRE_COMMIT) python-import-sorter
-	$(PRE_COMMIT) pydocstyle
-	$(PRE_COMMIT) pylint
-	$(PRE_COMMIT) pyupgrade
-	$(PRE_COMMIT) terraform_fmt
-	$(PRE_COMMIT) eslint
-	$(PRE_COMMIT) csslint
-	$(PRE_COMMIT) shell-lint
 
 ANSIBLE_LINT_EXCLUDE := \
 	--exclude=ansible/roles/hswong3i.tzdata \
