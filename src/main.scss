@@ -1,0 +1,24 @@
+@import "./variables";
+@import "./bootstrap";
+@import "./header";
+
+.hyperbola-section-title {
+    background-color: $hyperbola-bg-light;
+    color: $primary;
+    border-style: none;
+}
+
+.hyperbola-jumbotron {
+    background-color: $hyperbola-bg-light;
+}
+
+/* lifestream */
+.lifestream-content a {
+    display: inline-block;
+    vertical-align: bottom;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    min-width: 0;
+}

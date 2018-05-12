@@ -7,10 +7,10 @@
 
 {% block lifestream_content %}
 {% for post in posts %}
-<div class="card mb-3 rounded hyperbola-card">
+<div class="card mb-3 rounded">
   {% if post.lifestreampicture %}
   <a href="{{ post.lifestreampicture.picture.url|escape }}">
-    <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Photo for post {{ post.id|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" srcset="{{ post.lifestreampicture.picture.x1.url|escape }} 1x, {{ post.lifestreampicture.picture.x2.url|escape }} 2x, {{ post.lifestreampicture.picture.x3.url|escape }} 3x">
+    <img class="card-img-top img-thumbnail" alt="Photo for post {{ post.id|escape }}" src="{{ post.lifestreampicture.picture.x1.url|escape }}" srcset="{{ post.lifestreampicture.picture.x1.url|escape }} 1x, {{ post.lifestreampicture.picture.x2.url|escape }} 2x, {{ post.lifestreampicture.picture.x3.url|escape }} 3x">
   </a>
   {% endif %}
   <div class="card-body">

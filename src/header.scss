@@ -1,0 +1,68 @@
+#navbar-toggle-checkbox {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .navbar-toggle {
+        display: none;
+    }
+
+    #navbar-toggle-checkbox ~ .collapse {
+        display: block;
+    }
+}
+
+#navbar-toggle-checkbox:checked ~ .hyperbola-logo {
+    display: none;
+}
+
+#navbar-toggle-checkbox:checked ~ .collapse {
+    display: block;
+}
+
+.navbar-toggle {
+    font-size: 20pt;
+}
+
+.hyperbola-header {
+    background-color: $hyperbola-bg-light;
+    border: none;
+    height: 80px;
+}
+
+.hyperbola-logo {
+    display: block;
+    margin: 0;
+    border-style: none;
+    background: url("img/logo.header.svg") no-repeat;
+    background-size: cover;
+    height: 80px;
+    width: 230px;
+}
+
+.nav-link {
+    color: $hyperbola-body-color;
+    line-height: 20px;
+    padding-top: 50px;
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 80px;
+}
+
+.nav-link:hover {
+    background: $hyperbola-body-color;
+    color: $hyperbola-bg-dark;
+}
+
+.nav-link:focus {
+    color: $hyperbola-body-color;
+}
+
+.nav-link:focus:hover {
+    color: $hyperbola-bg-dark;
+}
+
+.nav-link.active {
+    color: $link-color;
+    background-image: linear-gradient(to bottom, #444 0%, darkgray 100%);
+}

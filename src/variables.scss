@@ -1,0 +1,18 @@
+$primary: rgb(40, 220, 220);
+$theme-colors: (
+  "primary": $primary
+);
+
+$hyperbola-bg-dark: #222;
+$hyperbola-bg-light: #444;
+$hyperbola-body-color: darkgray;
+
+$body-bg: $hyperbola-bg-dark;
+$body-color: $hyperbola-body-color;
+
+$card-bg: transparent;
+$card-border-color: $primary;
+$card-border-width: 2px;
+
+$thumbnail-bg: transparent;
+$thumbnail-border-width: 0;

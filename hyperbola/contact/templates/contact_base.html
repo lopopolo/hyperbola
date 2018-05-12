@@ -14,27 +14,27 @@
     <h2>{{ contact.type.type|escape }}</h2>
     {% endifchanged %}
     <div class="row">
-      <div class="col-md-4 hyperbola-ellipsis">{{ contact.display_name|escape }}</div>
+      <div class="col-md-4 d-inline-block text-truncate">{{ contact.display_name|escape }}</div>
       {% if contact.is_url %}
-      <div class="col-md-8 hyperbola-ellipsis">
+      <div class="col-md-8 d-inline-block text-truncate">
         <a href="{{ contact.value|escape }}">{{ contact.display_value|escape }}</a>
       </div>
       {% elif contact.is_email %}
-      <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|anti_spamize }}</div>
+      <div class="col-md-8 d-inline-block text-truncate">{{ contact.display_value|anti_spamize }}</div>
       {% else %}
-      <div class="col-md-8 hyperbola-ellipsis">{{ contact.display_value|escape }}</div>
+      <div class="col-md-8 d-inline-block text-truncate">{{ contact.display_value|escape }}</div>
       {% endif %}
     </div>
     {% endfor %}
     {% if resume %}
     <h2>Résumé</h2>
     <div class="row">
-      <div class="col-md-4 hyperbola-ellipsis">
+      <div class="col-md-4 d-inline-block text-truncate">
         <relative-time datetime="{{ resume.date|date:"Y-m-d" }}" month="short" day="numeric" year="numeric" hour="numeric" minute="numeric">
           {{ resume.date|date:"b d Y" }}
         </relative-time>
       </div>
-      <div class="col-md-8 hyperbola-ellipsis">
+      <div class="col-md-8 d-inline-block text-truncate">
         <a href="{%  fullurl resume.get_absolute_url %}">{%  fullurl resume.get_absolute_url %}</a>
       </div>
     </div>
@@ -43,9 +43,9 @@
   {% if about %}
   <div class="col-md-4">
     <h2>About</h2>
-    <div class="card mb-3 rounded hyperbola-card">
+    <div class="card mb-3 rounded">
       <a href="{{ about.photo.url|escape }}">
-        <img class="card-img-top img-thumbnail hyperbola-img-thumbnail" alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" srcset="{{ about.photo.x1.url|escape }} 1x, {{ about.photo.x2.url|escape }} 2x, {{ about.photo.x3.url|escape }} 3x">
+        <img class="card-img-top img-thumbnail" alt="Ryan Lopopolo" src="{{ about.photo.x1.url|escape }}" srcset="{{ about.photo.x1.url|escape }} 1x, {{ about.photo.x2.url|escape }} 2x, {{ about.photo.x3.url|escape }} 3x">
       </a>
       <div class="card-body">
         <p class="card-text">{{ about.blurb|markdown }}</p>
