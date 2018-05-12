@@ -33,9 +33,3 @@
     state: directory
   with_items:
     - /hyperbola
-# http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-migrate-ipv6.html#ipv6-dhcpv6-ubuntu-16
-- name: IPv6 support on Ubuntu
-  copy:
-    dest: /etc/network/interfaces.d/60-default-with-ipv6.cfg
-    content: "iface eth0 inet6 dhcp"
-    mode: 0644
