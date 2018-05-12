@@ -1,2 +1,2 @@
-import 'bootstrap-css-only/css/bootstrap.min.css';
+import './bootstrap.scss';
 import './main.css';

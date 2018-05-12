@@ -1,45 +1,30 @@
 const path = require('path');
-const glob = require('glob-all');
-const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
-const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-// process.traceDeprecation = true;
-
-function plugins(isProd) {
-  const p = [
-    new CleanWebpackPlugin(
-      [
-        './dist/*',
-        './document-root/**/*.ico',
-        './document-root/**/*.png',
-      ],
-      {
-        exclude: ['.gitignore'],
-      },
-    ),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new ExtractTextPlugin('[name].bundle.css'),
-    new PurgeCSSPlugin({
-      // Give paths to parse for rules. These should be absolute!
-      paths: glob.sync([
-        path.join(__dirname, 'hyperbola/templates/*.html'),
-        path.join(__dirname, 'hyperbola/*/templates/*.html'),
-      ]),
-      styleExtensions: ['.css'],
-      minimize: isProd,
-      keyframes: true,
-    }),
-    new FaviconsWebpackPlugin({
-      logo: './src/img/logo.favicon.svg',
-      prefix: 'icons/',
-      persistentCache: false,
-      // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+const plugins = () => [
+  new CleanWebpackPlugin(
+    [
+      './dist/*',
+      './document-root/**/*.ico',
+      './document-root/**/*.png',
+    ],
+    {
+      exclude: ['.gitignore'],
+    },
+  ),
+  new MiniCssExtractPlugin({
+    filename: '[name].bundle.css',
+  }),
+  new WebappWebpackPlugin({
+    logo: './src/img/logo.favicon.svg',
+    prefix: 'icons/',
+    cache: false,
+    // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+    favicons: {
+      appName: 'hyperbola',
       icons: {
         android: false,
         appleIcon: true,
@@ -52,28 +37,24 @@ function plugins(isProd) {
         yandex: false,
         windows: false,
       },
-    }),
-    new FileManagerPlugin({
-      onEnd: [
-        {
-          move: [
-            { source: './dist/icons/favicon.ico', destination: './document-root/favicon.ico' },
-            { source: './dist/icons/apple-touch-icon.png', destination: './document-root/apple-touch-icon.png' },
-          ],
-        },
-        {
-          delete: [
-            './dist/icons',
-          ],
-        },
-      ],
-    }),
-  ];
-  if (isProd) {
-    p.push(new webpack.optimize.UglifyJsPlugin());
-  }
-  return p;
-}
+    },
+  }),
+  new FileManagerPlugin({
+    onEnd: [
+      {
+        move: [
+          { source: './dist/icons/favicon.ico', destination: './document-root/favicon.ico' },
+          { source: './dist/icons/apple-touch-icon.png', destination: './document-root/apple-touch-icon.png' },
+        ],
+      },
+      {
+        delete: [
+          './dist/icons',
+        ],
+      },
+    ],
+  }),
+];
 
 module.exports = {
   entry: {
@@ -87,7 +68,10 @@ module.exports = {
     modules: ['node_modules', 'src'],
     extensions: ['.js'],
   },
-  plugins: plugins(isProduction),
+  plugins: plugins(),
+  optimization: {
+    concatenateModules: true,
+  },
   module: {
     rules: [
       {
@@ -96,11 +80,29 @@ module.exports = {
         loader: 'babel-loader',
       },
       {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+            },
+          },
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(jpe?g|png|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
