@@ -16,7 +16,7 @@ end
 
 # rubocop:disable Metrics/BlockLength
 Vagrant.configure('2') do |config|
-  config.vm.box = 'ubuntu/xenial64'
+  config.vm.box = 'ubuntu/bionic64'
 
   # enable detailed task timing information during ansible runs
   ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
