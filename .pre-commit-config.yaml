@@ -89,7 +89,7 @@ repos:
         name: Frontend codegen
         entry: make build
         language: system
-        files: (src|dist|\.css$|\.js$|\.svg$|\.png$|package\.json|yarn\.lock)
+        files: (src|dist|\.css$|\.js$|\.scss|\.svg$|\.png$|package\.json|yarn\.lock)
         pass_filenames: false
     -   id: ansible-lint
         name: Ansible playbook and role linters
