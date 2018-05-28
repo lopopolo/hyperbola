@@ -4,11 +4,13 @@
 @import "~bootstrap/scss/mixins";
 
 // Optional
-@import "~bootstrap/scss/card";
-@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";
-@import "~bootstrap/scss/media";
+@import "~bootstrap/scss/grid";
 @import "~bootstrap/scss/nav";
 @import "~bootstrap/scss/navbar";
-@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/media";
 @import "~bootstrap/scss/utilities";
