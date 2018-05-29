@@ -185,3 +185,4 @@
     - unit: "hyperbola-app-backup@{{ hyperbola_environment }}.timer"
       enabled: true
       state: stopped
+  when: hyperbola_driver == 'vm'

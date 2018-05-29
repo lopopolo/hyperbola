@@ -33,8 +33,8 @@ class Env(Enum):
 
         :rtype: Env
         """
-        from dotenv import find_dotenv, load_dotenv
-        load_dotenv(find_dotenv())
+        from dotenv import load_dotenv
+        load_dotenv('/opt/.env')
         environment = cls.source(env)
         return cls(environment)
 
@@ -57,7 +57,7 @@ class EnvironmentConfig(object):
         if self.environment is Env.production:
             return ['hyperbo.la']
         elif self.environment is Env.local:
-            return ['local.hyperboladc.net']
+            return ['local.hyperboladc.net', '0.0.0.0']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
@@ -66,6 +66,7 @@ class EnvironmentConfig(object):
 
     @property
     def is_secure(self):
+        return False
         return self.environment in [Env.production, Env.local]
 
     @property
