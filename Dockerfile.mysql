@@ -1,5 +1,11 @@
 FROM mysql:5.7
 
-# vim:set ft=dockerfile:
+ARG mysql_user
+ARG mysql_pass
 
-RUN echo 'create database `hyperbola` character set utf8mb4 collate utf8mb4_unicode_ci' | mysql -u root
+ENV MYSQL_RANDOM_ROOT_PASSWORD=1
+ENV MYSQL_DATABASE hyperbola
+ENV MYSQL_USER $mysql_user
+ENV MYSQL_PASSWORD $mysql_pass
+
+# vim:set ft=dockerfile:
