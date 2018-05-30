@@ -1,0 +1,5 @@
+FROM mysql:5.7
+
+# vim:set ft=dockerfile:
+
+RUN echo 'create database `hyperbola` character set utf8mb4 collate utf8mb4_unicode_ci' | mysql -u root
