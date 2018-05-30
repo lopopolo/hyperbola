@@ -1,11 +1,5 @@
 FROM mysql:5.7
 
-ARG mysql_user
-ARG mysql_pass
-
-ENV MYSQL_RANDOM_ROOT_PASSWORD=1
-ENV MYSQL_DATABASE hyperbola
-ENV MYSQL_USER $mysql_user
-ENV MYSQL_PASSWORD $mysql_pass
+COPY docker/mysqld_charset.cnf /etc/mysql/conf.d/mysqld_charset.cnf
 
 # vim:set ft=dockerfile:
