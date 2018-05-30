@@ -1,0 +1,24 @@
+---
+- hosts: app
+  tasks:
+  - name: Include hyperbola app environment
+    include_vars:
+      file: "{{ hyperbola_environment }}.yml"
+      name: app_hyperbola_env
+    no_log: True
+  - name: Generate settings.SECRET_KEY
+    command: python -c 'import random; print("".join([random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)") for i in range(50)]))'
+    register: app_django_secret_key
+    no_log: True
+    tags:
+      - skip_ansible_lint
+  - name: Install 12factor environment
+    template:
+      src: "dotenv.j2"
+      dest: "/opt/.env"
+      mode: 0444
+  - name: Install gunicorn config
+    template:
+      src: "gunicorn.py.j2"
+      dest: "/opt/gunicorn.py"
+      mode: a=r

@@ -1,40 +1,33 @@
-FROM ubuntu:18.04 as app-vm
+FROM python:3.6-alpine as config-build
 MAINTAINER Ryan Lopopolo <rjl@hyperbo.la>
 
 ENV LC_ALL=C.UTF-8
 
-RUN apt-get update && \
-    apt-get -y install software-properties-common && \
-    apt-add-repository -y ppa:ansible/ansible && \
-    apt-get update && \
-    apt-get -y install ansible python-pip
+RUN apk --no-cache add --virtual .hyperbola-build-deps \
+        build-base python-dev libffi-dev openssl-dev && \
+    pip install --no-cache-dir ansible
 
-COPY bin /opt/bin
-COPY ansible /opt/ansible
+COPY ansible-docker /opt/ansible
 
 ARG ansible_vault_password
-RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /tmp/vault-password.txt
+RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-password.txt
 
-RUN ansible-playbook --connection=local -i localhost, /opt/ansible/provision.yml
-RUN ansible-playbook --connection=local --limit=localhost -i /opt/ansible/local.ini --extra-vars "hyperbola_driver=docker" --vault-password-file=/tmp/vault-password.txt /opt/ansible/app.yml
+ARG hyperbola_environment
+RUN ansible-playbook --connection=local --limit=localhost \
+    -i /opt/ansible/$hyperbola_environment.ini \
+    --extra-vars "hyperbola_driver=docker" \
+    --vault-id /opt/vault-password.txt \
+    /opt/ansible/app.yml
 
 FROM python:3.6-alpine as python-build
 MAINTAINER Ryan Lopopolo <rjl@hyperbo.la>
 
-COPY hyperbola /opt/hyperbola
-COPY MANIFEST.in /opt
-COPY Pipfile /opt
-COPY Pipfile.lock /opt
-COPY README.md /opt
-COPY setup.py /opt
-COPY setup.cfg /opt
-COPY --from=app-vm /hyperbola/app/current/.env /opt/.env
-
 RUN apk --no-cache add --virtual .hyperbola-build-deps \
         build-base python-dev mariadb-dev jpeg-dev zlib-dev && \
-    pip install --no-cache-dir pipenv pex
+    pip install --no-cache-dir pipenv
 
-#RUN pex --help && exit 1
+COPY hyperbola /opt/hyperbola
+COPY MANIFEST.in Pipfile Pipfile.lock README.md setup.py setup.cfg /opt/
 
 RUN cd /opt && \
     python -m venv venv && \
@@ -48,14 +41,20 @@ RUN cd /opt && \
 
 FROM python:3.6-alpine as python-app
 
-COPY --from=python-build /opt/venv /opt/venv
-COPY --from=python-build /opt/.env /opt/.env
-
 RUN apk --no-cache add --virtual .hyperbola-run-deps \
         mariadb-client-libs jpeg zlib
 
+COPY --from=config-build /opt/.env /opt/.env
+COPY --from=config-build /opt/gunicorn.py /opt/gunicorn.py
+COPY --from=python-build /opt/venv /opt/venv
+COPY manage.py /opt
+
+ENV LC_ALL=C.UTF-8
+
+RUN /opt/venv/bin/python /opt/manage.py minimizetemplates -m
+
 EXPOSE 8000
 
-ENTRYPOINT ["/opt/venv/bin/gunicorn", "--bind", "0.0.0.0:8000", "hyperbola.wsgi:application"]
+ENTRYPOINT ["/opt/venv/bin/gunicorn", "--config", "/opt/gunicorn.py", "hyperbola.wsgi:application"]
 
 # vim:set ft=dockerfile:
