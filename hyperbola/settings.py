@@ -60,7 +60,7 @@ class EnvironmentConfig(object):
         elif self.environment is Env.local:
             return ['local.hyperboladc.net']
         elif self.environment is Env.localdocker:
-            return ['0.0.0.0']
+            return ['localdocker.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
@@ -105,6 +105,8 @@ class EnvironmentConfig(object):
             self.package = Path(__file__).resolve().parent
             if environment in [Env.production, Env.local]:
                 self.root = self.package.parent.parent.parent.parent.parent
+            elif environment in [Env.localdocker]:
+                self.root = Path('/opt')
             else:
                 self.root = self.package.parent
 

@@ -2,7 +2,7 @@
 all:
 
 .PHONY: build
-build: build-mysql build-app build-fixtures
+build: build-mysql build-app build-fixtures build-static
 
 .PHONY: build-mysql
 build-mysql:
@@ -20,8 +20,12 @@ build-app:
 build-fixtures:
 	docker build -f fixtures/Dockerfile -t hyperbola-fixtures fixtures
 
+.PHONY: build-static
+build-static:
+	docker build --pull -f static/Dockerfile -t hyperbola-static ..
+
 .PHONY: dev
-dev: fixtures app
+dev: fixtures app static
 
 .PHONY: mysql
 mysql: DOCKER_OPTS := \
@@ -54,6 +58,13 @@ app: DOCKER_OPTS := \
 app:
 	@env HYP_DOCKER_OPTS="$(DOCKER_OPTS)" bin/launch-named-container app-docker hyperbola-app:latest
 
+.PHONY: static
+static: DOCKER_OPTS := \
+	-p 8080:80 \
+	-p 8888:8888
+static:
+	@env HYP_DOCKER_OPTS="$(DOCKER_OPTS)" bin/launch-named-container static-docker hyperbola-static:latest
+
 .PHONY: stop
 stop:
-	docker stop mysql-docker app-docker
+	docker stop mysql-docker app-docker static-docker
