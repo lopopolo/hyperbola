@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+NAME="$1"
+IMAGE="$2"
+
+IFS=" " read -r -a options <<< "$HYP_DOCKER_OPTS"
+
+echo "Launching $NAME ..."
+
+if [ ! "$(docker ps -q -f "name=$NAME")" ]; then
+    echo "$NAME is not running"
+    if [ "$(docker ps -aq -f "name=$NAME")" ]; then
+        echo "Removing existing container"
+        # cleanup
+        docker rm "$NAME"
+    fi
+    # run your container
+    docker run "${options[@]}" --network hyperbola -d --name "$NAME" "$IMAGE"
+    if [[ -n "$HYP_SLEEP" ]]; then
+        sleep "$HYP_SLEEP"
+    fi
+else
+    echo "$NAME is already running"
+fi

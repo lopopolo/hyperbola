@@ -7,7 +7,7 @@ RUN apk --no-cache add --virtual .hyperbola-build-deps \
         build-base python-dev libffi-dev openssl-dev && \
     pip install --no-cache-dir ansible
 
-COPY ansible-docker /opt/ansible
+COPY docker/app/ansible /opt/ansible
 
 ARG ansible_vault_password
 RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-password.txt
@@ -15,7 +15,6 @@ RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-pas
 ARG hyperbola_environment
 RUN ansible-playbook --connection=local --limit=localhost \
     -i /opt/ansible/$hyperbola_environment.ini \
-    --extra-vars "hyperbola_driver=docker" \
     --vault-id /opt/vault-password.txt \
     /opt/ansible/app.yml
 
@@ -41,6 +40,8 @@ RUN cd /opt && \
 
 FROM python:3.6-alpine as python-app
 
+ENV LC_ALL=C.UTF-8
+
 RUN apk --no-cache add --virtual .hyperbola-run-deps \
         mariadb-client-libs jpeg zlib
 
@@ -48,8 +49,6 @@ COPY --from=config-build /opt/.env /opt/.env
 COPY --from=config-build /opt/gunicorn.py /opt/gunicorn.py
 COPY --from=python-build /opt/venv /opt/venv
 COPY manage.py /opt
-
-ENV LC_ALL=C.UTF-8
 
 RUN /opt/venv/bin/python /opt/manage.py minimizetemplates -m
 
