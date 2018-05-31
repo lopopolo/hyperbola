@@ -1,7 +1,6 @@
 ---
 - name: reload systemd units
   systemd: daemon_reload=yes
-  when: hyperbola_driver == 'vm'
 - name: restart app
   service: name='hyperbola-app@*' state=restarted
-  when: hyperbola_driver == 'vm' and hyperbola_environment != 'production'
+  when: hyperbola_environment != 'production'

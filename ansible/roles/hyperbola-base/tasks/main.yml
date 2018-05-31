@@ -27,7 +27,6 @@
   with_items:
     - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo -l"
     - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo --list"
-  when: hyperbola_driver == 'vm'
 - name: /hyperbola directories
   file:
     path: "{{ item }}"
