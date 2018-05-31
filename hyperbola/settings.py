@@ -34,7 +34,10 @@ class Env(Enum):
         :rtype: Env
         """
         from dotenv import load_dotenv
-        load_dotenv('/opt/.env')
+        try:
+            load_dotenv()
+        except IOError:
+            load_dotenv('/opt/.env')
         environment = cls.source(env)
         return cls(environment)
 
