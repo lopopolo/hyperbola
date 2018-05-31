@@ -1,22 +1,7 @@
-FROM node as dist-build
-
-COPY package.json yarn.lock webpack.config.js /opt/
-COPY src /opt/src
-
-RUN mkdir /opt/dist && \
-    mkdir /opt/document-root && \
-    cd /opt && \
-    yarn install
-RUN cd /opt && ls && $(yarn bin)/webpack --mode production
-
-FROM hyperbola-app as static-build
-
-COPY --from=dist-build /opt/document-root /opt/document-root
-COPY --from=dist-build /opt/dist /opt/dist
-
-RUN /opt/venv/bin/python /opt/manage.py collectstatic --no-input
+FROM hyperbola/app as static-build
 
 FROM nginx:stable-alpine
+LABEL maintainer="Ryan Lopopolo <rjl@hyperbo.la>"
 
 RUN rm /etc/nginx/conf.d/default.conf
 

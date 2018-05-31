@@ -1,4 +1,5 @@
-FROM hyperbola-app
+FROM hyperbola/app
+LABEL maintainer="Ryan Lopopolo <rjl@hyperbo.la>"
 
 RUN apk --no-cache add mariadb-client
 

@@ -1,5 +1,4 @@
 FROM python:3.6-alpine as config-build
-MAINTAINER Ryan Lopopolo <rjl@hyperbo.la>
 
 ENV LC_ALL=C.UTF-8
 
@@ -18,8 +17,18 @@ RUN ansible-playbook --connection=local --limit=localhost \
     --vault-id /opt/vault-password.txt \
     /opt/ansible/app.yml
 
+FROM node as dist-build
+
+COPY package.json yarn.lock webpack.config.js /opt/
+COPY src /opt/src
+
+RUN mkdir /opt/dist && \
+    mkdir /opt/document-root && \
+    cd /opt && \
+    yarn install && \
+    $(yarn bin)/webpack --mode production
+
 FROM python:3.6-alpine as python-build
-MAINTAINER Ryan Lopopolo <rjl@hyperbo.la>
 
 RUN apk --no-cache add --virtual .hyperbola-build-deps \
         build-base python-dev mariadb-dev jpeg-dev zlib-dev && \
@@ -39,6 +48,7 @@ RUN cd /opt && \
         venv/bin/python setup.py install
 
 FROM python:3.6-alpine as python-app
+LABEL maintainer="Ryan Lopopolo <rjl@hyperbo.la>"
 
 ENV LC_ALL=C.UTF-8
 
@@ -52,8 +62,16 @@ COPY manage.py /opt
 
 RUN /opt/venv/bin/python /opt/manage.py minimizetemplates -m
 
+COPY --from=dist-build /opt/document-root /opt/document-root
+COPY --from=dist-build /opt/dist /opt/dist
+
+RUN /opt/venv/bin/python /opt/manage.py collectstatic --no-input && \
+    rm -rf /opt/dist
+
 EXPOSE 8000
 
-ENTRYPOINT ["/opt/venv/bin/gunicorn", "--config", "/opt/gunicorn.py", "hyperbola.wsgi:application"]
+ENTRYPOINT ["/opt/venv/bin/python"]
+
+CMD ["/opt/venv/bin/gunicorn", "--config", "/opt/gunicorn.py", "hyperbola.wsgi:application"]
 
 # vim:set ft=dockerfile:
