@@ -9,6 +9,7 @@ from pathlib import Path
 class Env(Enum):
     production = 'production'
     local = 'local'
+    localdocker = 'localdocker'
     dev = 'dev'
 
     @classmethod
@@ -33,11 +34,8 @@ class Env(Enum):
 
         :rtype: Env
         """
-        from dotenv import load_dotenv
-        try:
-            load_dotenv()
-        except IOError:
-            load_dotenv('/opt/.env')
+        from dotenv import find_dotenv, load_dotenv
+        load_dotenv(find_dotenv())
         environment = cls.source(env)
         return cls(environment)
 
@@ -60,21 +58,22 @@ class EnvironmentConfig(object):
         if self.environment is Env.production:
             return ['hyperbo.la']
         elif self.environment is Env.local:
-            return ['local.hyperboladc.net', '0.0.0.0']
+            return ['local.hyperboladc.net']
+        elif self.environment is Env.localdocker:
+            return ['0.0.0.0']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
     def is_admin(self):
-        return self.environment in [Env.production, Env.local, Env.dev]
+        return self.environment in [Env.production, Env.local, Env.localdocker, Env.dev]
 
     @property
     def is_secure(self):
-        return False
         return self.environment in [Env.production, Env.local]
 
     @property
     def enable_perf_optimizations(self):
-        return self.environment in [Env.production, Env.local]
+        return self.environment in [Env.production, Env.local, Env.localdocker]
 
     @property
     def additional_installed_apps(self):
@@ -99,9 +98,7 @@ class EnvironmentConfig(object):
 
     @property
     def debug(self):
-        if self.environment in [Env.local, Env.dev]:
-            return True
-        return False
+        return self.environment in [Env.local, Env.localdocker, Env.dev]
 
     class PathsConfig(object):
         def __init__(self, environment):
@@ -127,7 +124,7 @@ class EnvironmentConfig(object):
             if environment in [Env.production]:
                 self.media_bucket_name = 'www.hyperbolausercontent.net'
                 self.aws_region = 'us-west-2'
-            elif environment in [Env.local, Env.dev]:
+            elif environment in [Env.local, Env.localdocker, Env.dev]:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
                 self.aws_region = 'us-east-1'
             self.media_url = 'https://{}/'.format(self.media_bucket_name)
