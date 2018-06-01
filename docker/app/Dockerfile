@@ -13,7 +13,9 @@ RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-pas
 
 ARG hyperbola_environment
 RUN ansible-playbook --connection=local --limit=localhost \
-    -i /opt/ansible/$hyperbola_environment.ini \
+    -i localhost, \
+    -e "ansible_python_interpreter=python3" \
+    -e "hyperbola_environment=$hyperbola_environment" \
     --vault-id /opt/vault-password.txt \
     /opt/ansible/app.yml
 

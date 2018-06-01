@@ -1,5 +1,5 @@
 ---
-- hosts: app
+- hosts: all
   tasks:
   - name: Include hyperbola app environment
     include_vars:

@@ -1,6 +1,6 @@
 ---
 # MySQL
-db_host: mysql-docker
+db_host: mysql
 db_port: 3306
 db_name: hyperbola
 db_user: app
