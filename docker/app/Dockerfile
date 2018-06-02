@@ -37,6 +37,7 @@ RUN apk --no-cache add --virtual .hyperbola-build-deps \
     pip install --no-cache-dir pipenv
 
 COPY hyperbola /opt/hyperbola
+COPY docker/app/settings.py /opt/hyperbola/
 COPY MANIFEST.in Pipfile Pipfile.lock README.md setup.py setup.cfg /opt/
 
 RUN cd /opt && \
