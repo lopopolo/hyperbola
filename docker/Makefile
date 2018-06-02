@@ -39,7 +39,7 @@ mysql: DOCKER_OPTS := \
 	-e "MYSQL_RANDOM_ROOT_PASSWORD=1" \
 	-e "MYSQL_DATABASE=hyperbola" \
 	-e "MYSQL_USER=app" \
-	-e "MYSQL_PASSWORD=$$(env "$$(dotenv -f ../.env get DB_PASSWORD)" printenv DB_PASSWORD)"
+	-e "MYSQL_PASSWORD=$$(eval "$$(cat ../.env)" && echo "$$DB_PASSWORD")"
 
 .PHONY: migrate
 migrate:

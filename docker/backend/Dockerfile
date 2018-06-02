@@ -10,7 +10,7 @@ COPY docker/backend/ansible /opt/ansible
 
 ARG ansible_vault_password
 ARG hyperbola_environment
-RUN env $ansible_vault_password \
+RUN env "ANSIBLE_VAULT_PASSWORD=$ansible_vault_password" \
     ansible-playbook --connection=local --limit=localhost \
     -i localhost, \
     -e "ansible_python_interpreter=python3" \

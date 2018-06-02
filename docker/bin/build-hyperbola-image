@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # secrets
-ANSIBLE_VAULT_PASSWORD="$(dotenv -f ../.env get ANSIBLE_VAULT_PASSWORD)"
+ANSIBLE_VAULT_PASSWORD="$(eval "$(cat ../.env)" && echo "$ANSIBLE_VAULT_PASSWORD")"
 # constants
 VERSION="0.134.0"
 TAG="v$VERSION"
