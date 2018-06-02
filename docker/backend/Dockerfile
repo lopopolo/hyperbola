@@ -9,14 +9,13 @@ RUN apk --no-cache add --virtual .hyperbola-build-deps \
 COPY docker/backend/ansible /opt/ansible
 
 ARG ansible_vault_password
-RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-password.txt
-
 ARG hyperbola_environment
-RUN ansible-playbook --connection=local --limit=localhost \
+RUN env $ansible_vault_password \
+    ansible-playbook --connection=local --limit=localhost \
     -i localhost, \
     -e "ansible_python_interpreter=python3" \
     -e "hyperbola_environment=$hyperbola_environment" \
-    --vault-id /opt/vault-password.txt \
+    --vault-id /opt/ansible/ansible_vault_password.py \
     /opt/ansible/backend.yml
 
 FROM node as dist-build

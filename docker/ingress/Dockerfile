@@ -15,12 +15,13 @@ RUN mkdir -p /etc/ssl && \
 COPY ansible /opt/ansible
 
 ARG ansible_vault_password
-RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-password.txt
-
-RUN ansible-playbook --connection=local --limit=localhost \
-    -e 'ansible_python_interpreter=python3' \
+ARG hyperbola_environment
+RUN env $ansible_vault_password \
+    ansible-playbook --connection=local --limit=localhost \
     -i localhost, \
-    --vault-id /opt/vault-password.txt \
+    -e "ansible_python_interpreter=python3" \
+    -e "hyperbola_environment=$hyperbola_environment" \
+    --vault-id /opt/ansible/ansible_vault_password.py \
     /opt/ansible/ingress.yml
 
 FROM nginx:stable-alpine
