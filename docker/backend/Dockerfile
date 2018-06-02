@@ -6,7 +6,7 @@ RUN apk --no-cache add --virtual .hyperbola-build-deps \
         build-base python-dev libffi-dev openssl-dev && \
     pip install --no-cache-dir ansible
 
-COPY docker/app/ansible /opt/ansible
+COPY docker/backend/ansible /opt/ansible
 
 ARG ansible_vault_password
 RUN env $ansible_vault_password printenv ANSIBLE_VAULT_PASSWORD > /opt/vault-password.txt
@@ -17,7 +17,7 @@ RUN ansible-playbook --connection=local --limit=localhost \
     -e "ansible_python_interpreter=python3" \
     -e "hyperbola_environment=$hyperbola_environment" \
     --vault-id /opt/vault-password.txt \
-    /opt/ansible/app.yml
+    /opt/ansible/backend.yml
 
 FROM node as dist-build
 
@@ -37,7 +37,7 @@ RUN apk --no-cache add --virtual .hyperbola-build-deps \
     pip install --no-cache-dir pipenv
 
 COPY hyperbola /opt/hyperbola
-COPY docker/app/settings.py /opt/hyperbola/
+COPY docker/backend/settings.py /opt/hyperbola/
 COPY MANIFEST.in Pipfile Pipfile.lock README.md setup.py setup.cfg /opt/
 
 RUN cd /opt && \
@@ -50,7 +50,7 @@ RUN cd /opt && \
         SKIP_WRITE_GIT_CHANGELOG=1 \
         venv/bin/python setup.py install
 
-FROM python:3.6-alpine as python-app
+FROM python:3.6-alpine as python-backend
 LABEL maintainer="Ryan Lopopolo <rjl@hyperbo.la>"
 
 ENV LC_ALL=C.UTF-8

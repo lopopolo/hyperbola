@@ -17,7 +17,7 @@ if [ ! "$(docker ps -q -f "name=$NAME")" ]; then
 
     docker run "${options[@]}" --network hyperbola -d --name "$NAME" "$IMAGE"
 
-    if [[ "$NAME" == "mysql" ]]; then
+    if [[ "$NAME" == "mysql.app.hyperboladc.net" ]]; then
         sleep 10
     fi
     echo "Launched $NAME"

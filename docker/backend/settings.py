@@ -95,7 +95,7 @@ class EnvironmentConfig(object):
 
     class DBConfig(object):
         def __init__(self, loader):
-            self.host = 'mysql'
+            self.host = 'mysql.app.hyperboladc.net'
             self.port = '3306'
             self.user = 'app'
             self.password = loader.source('DB_PASSWORD')

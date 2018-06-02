@@ -4,7 +4,7 @@ set -e
 
 cd /opt || exit 1
 
-DB_HOST="mysql"
+DB_HOST="mysql.app.hyperboladc.net"
 DB_PORT="3306"
 DB_USER="app"
 DB_PASSWORD="$(env "$(venv/bin/dotenv get DB_PASSWORD)" printenv DB_PASSWORD)"
