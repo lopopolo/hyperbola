@@ -1,19 +1,25 @@
 # Django settings for hyperbola
 
-from enum import Enum, unique
+from enum import Enum, auto
 from os import environ
 from pathlib import Path
 
 
-@unique
-class Env(Enum):
-    production = 'production'
-    local = 'local'
-    stage = 'stage'
-    dev = 'dev'
+class ConfigLoader:
+    def source(self, env, default=None):
+        pass
 
-    @classmethod
-    def source(cls, env, default=None):
+    @property
+    def environment(self):
+        return Env[self.source('ENVIRONMENT')]
+
+
+class DotenvLoader(ConfigLoader):
+    def __init__(self):
+        from dotenv import find_dotenv, load_dotenv
+        load_dotenv(find_dotenv())
+
+    def source(self, env, default=None):
         from django.core.exceptions import ImproperlyConfigured
         prop = environ.get(env, default)
         if prop is None:
@@ -21,33 +27,22 @@ class Env(Enum):
         if prop == "" and default is not None:
             return default
 
-        if isinstance(prop, str) and prop.strip().lower() in ['1', 'true', 'yes', 'on']:
-            return True
-        if isinstance(prop, str) and prop.strip().lower() in ['0', 'false', 'no', 'off']:
-            return False
         return prop
 
-    @classmethod
-    def make(cls, env):
-        """
-        Construct an Env by loading the environment constant from an env variable.
 
-        :rtype: Env
-        """
-        from dotenv import find_dotenv, load_dotenv
-        load_dotenv(find_dotenv())
-        environment = cls.source(env)
-        return cls(environment)
+class Env(Enum):
+    prod = auto()
+    stage = auto()
 
 
 class EnvironmentConfig(object):
     """Compute environment-specific settings."""
 
-    def __init__(self):
-        self.environment = Env.make('ENVIRONMENT')
+    def __init__(self, loader):
+        self.environment = loader.environment
         self.path = self.PathsConfig(self.environment)
-        self.secret_key = Env.source('SECRET_KEY')
-        self.db = self.DBConfig()
+        self.secret_key = loader.source('SECRET_KEY')
+        self.db = self.DBConfig(loader)
         self.content = self.ContentConfig(self.environment, self.path.root)
 
     def __str__(self):
@@ -55,84 +50,72 @@ class EnvironmentConfig(object):
 
     @property
     def allowed_hosts(self):
-        if self.environment is Env.production:
+        if self.environment is Env.prod:
             return ['hyperbo.la']
-        elif self.environment is Env.local:
-            return ['local.hyperboladc.net']
         elif self.environment is Env.stage:
             return ['stage.hyperboladc.net']
-        return ['localhost', '127.0.0.1', '[::1]']
+        return []
 
     @property
     def is_admin(self):
-        return self.environment in [Env.production, Env.local, Env.stage, Env.dev]
+        return True
 
     @property
     def is_secure(self):
-        return self.environment in [Env.production, Env.local, Env.stage]
+        return True
 
     @property
     def enable_perf_optimizations(self):
-        return self.environment in [Env.production, Env.local, Env.stage]
+        return True
 
     @property
     def additional_installed_apps(self):
         apps = []
         if self.is_admin:
             apps.append('django.contrib.admin')
-        if self.environment is Env.dev:
-            apps.extend(['debug_toolbar', 'template_timings_panel'])
         return apps
 
     @property
     def additional_urls(self):
-        from django.urls import include, path
+        from django.urls import path
         urls = []
         if self.is_admin:
             from django.contrib import admin
             urls.append(path('ssb/', admin.site.urls))
-        if self.environment is Env.dev:
-            import debug_toolbar
-            urls.append(path('__debug__/', include(debug_toolbar.urls)))
         return urls
 
     @property
     def debug(self):
-        return self.environment in [Env.local, Env.stage, Env.dev]
+        return False
 
     class PathsConfig(object):
         def __init__(self, environment):
             self.package = Path(__file__).resolve().parent
-            if environment in [Env.production, Env.local]:
-                self.root = self.package.parent.parent.parent.parent.parent
-            elif environment in [Env.stage]:
-                self.root = Path('/opt')
-            else:
-                self.root = self.package.parent
+            self.root = Path('/opt')
 
     class DBConfig(object):
-        def __init__(self):
-            self.host = Env.source('DB_HOST')
-            self.port = Env.source('DB_PORT')
-            self.user = Env.source('DB_USER')
-            self.password = Env.source('DB_PASSWORD')
-            self.name = Env.source('DB_NAME')
+        def __init__(self, loader):
+            self.host = 'mysql'
+            self.port = '3306'
+            self.user = 'app'
+            self.password = loader.source('DB_PASSWORD')
+            self.name = 'hyperbola'
 
     class ContentConfig(object):
         def __init__(self, environment, root_path):
             self.static_root = root_path.joinpath('document-root', 'static')
             self.static_dirs = [root_path.joinpath('dist')]
             self.static_url = '/static/'
-            if environment in [Env.production]:
+            if environment is Env.prod:
                 self.media_bucket_name = 'www.hyperbolausercontent.net'
                 self.aws_region = 'us-west-2'
-            elif environment in [Env.local, Env.stage, Env.dev]:
+            elif environment is Env.stage:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
                 self.aws_region = 'us-east-1'
             self.media_url = 'https://{}/'.format(self.media_bucket_name)
 
 
-ENVIRONMENT = EnvironmentConfig()
+ENVIRONMENT = EnvironmentConfig(loader=DotenvLoader())
 
 DEBUG = ENVIRONMENT.debug
 
@@ -332,34 +315,3 @@ LOGGING = {
         },
     }
 }
-
-# Environment-specific configuration
-if ENVIRONMENT.environment is Env.dev:
-    # debug toolbar
-    from debug_toolbar.settings import PANELS_DEFAULTS as _PANEL_DEFAULTS
-    DEBUG_TOOLBAR_PANELS = _PANEL_DEFAULTS + \
-        ['template_timings_panel.panels.TemplateTimings.TemplateTimings']
-    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-    INTERNAL_IPS = ['127.0.0.1']
-    HYPERBOLA_S3_BACKUP_BUCKET = 'hyperbola-app-backup-local'
-    if False:  # pylint: disable=using-constant-test
-        # workaround for intellij dying on dynamically-created INSTALLED_APPS
-        # https://stackoverflow.com/a/42672633
-        INSTALLED_APPS = [
-            'django.contrib.auth',
-            'django.contrib.contenttypes',
-            'django.contrib.sessions',
-            'django.contrib.messages',
-            'django.contrib.staticfiles',
-            'django_mysql',
-            'django_s3_storage',
-            'localflavor',
-            'missing',
-            'stdimage',
-            'hyperbola.contact',
-            'hyperbola.core',
-            'hyperbola.frontpage',
-            'hyperbola.lifestream',
-        ]
-        # workaround for intellij dying on dynamically-created STATIC_ROOT
-        STATIC_ROOT = 'dist'
