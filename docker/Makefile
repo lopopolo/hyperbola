@@ -49,10 +49,10 @@ stage: mysql migrate fixtures app static ingress
 
 .PHONY: mysql
 mysql: DOCKER_OPTS := \
-	-e MYSQL_RANDOM_ROOT_PASSWORD=1 \
-	-e MYSQL_DATABASE=hyperbola \
-	-e MYSQL_USER=$(shell cd .. && dotenv get DB_USER | cut -d= -f 2) \
-	-e MYSQL_PASSWORD=$(shell cd .. && dotenv get DB_PASSWORD | cut -d= -f 2)
+	-e "MYSQL_RANDOM_ROOT_PASSWORD=1" \
+	-e "MYSQL_DATABASE=hyperbola" \
+	-e "MYSQL_USER=app" \
+	-e "MYSQL_PASSWORD=$$(env "$$(dotenv -f ../.env get DB_PASSWORD)" printenv DB_PASSWORD)"
 
 .PHONY: migrate
 migrate:
@@ -60,13 +60,13 @@ migrate:
 
 .PHONY: fixtures
 fixtures: DOCKER_OPTS := \
-	-e AWS_ACCESS_KEY_ID=$(shell aws --profile default configure get aws_access_key_id) \
-	-e AWS_SECRET_ACCESS_KEY=$(shell aws --profile default configure get aws_secret_access_key)
+	-e "AWS_ACCESS_KEY_ID=$$(aws --profile default configure get aws_access_key_id)" \
+	-e "AWS_SECRET_ACCESS_KEY=$$(aws --profile default configure get aws_secret_access_key)"
 
 .PHONY: app
 app: DOCKER_OPTS := \
-	-e AWS_ACCESS_KEY_ID=$(shell aws --profile default configure get aws_access_key_id) \
-	-e AWS_SECRET_ACCESS_KEY=$(shell aws --profile default configure get aws_secret_access_key) \
+	-e "AWS_ACCESS_KEY_ID=$$(aws --profile default configure get aws_access_key_id)" \
+	-e "AWS_SECRET_ACCESS_KEY=$$(aws --profile default configure get aws_secret_access_key)" \
 
 .PHONY: static
 .PHONY: ingress
@@ -75,7 +75,7 @@ ingress: DOCKER_OPTS := \
 	-p 443:443
 
 mysql fixtures app static ingress:
-	@HYP_DOCKER_OPTS="$(DOCKER_OPTS)" bin/launch-named-container $@ hyperbola/$@:stage
+	HYP_DOCKER_OPTS="$(DOCKER_OPTS)" bin/launch-named-container $@ hyperbola/$@:stage
 
 .PHONY: stop
 stop:
