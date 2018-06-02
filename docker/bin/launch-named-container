@@ -5,7 +5,7 @@ IMAGE="$2"
 
 IFS=" " read -r -a options <<< "$HYP_DOCKER_OPTS"
 
-echo "Launching $NAME ..."
+echo "Launching $NAME"
 
 if [ ! "$(docker ps -q -f "name=$NAME")" ]; then
     echo "$NAME is not running"
@@ -14,11 +14,13 @@ if [ ! "$(docker ps -q -f "name=$NAME")" ]; then
         # cleanup
         docker rm "$NAME"
     fi
-    # run your container
+
     docker run "${options[@]}" --network hyperbola -d --name "$NAME" "$IMAGE"
-    if [[ -n "$HYP_SLEEP" ]]; then
-        sleep "$HYP_SLEEP"
+
+    if [[ "$NAME" == "mysql" ]]; then
+        sleep 10
     fi
+    echo "Launched $NAME"
 else
     echo "$NAME is already running"
 fi

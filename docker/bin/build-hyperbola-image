@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# secrets
+ANSIBLE_VAULT_PASSWORD="$(dotenv -f ../.env get ANSIBLE_VAULT_PASSWORD)"
+# constants
+VERSION="0.134.0"
+TAG="v$VERSION"
+REVISION="$(git rev-parse --short=12 HEAD)"
+# args
+IMAGE="$1"
+ENVIRONMENT="$2"
+BUILD_CONTEXT="${3:-$IMAGE}"
+
+REPO_IS_DIRTY=""
+if ! git diff --no-ext-diff --quiet || \
+    ! git diff --no-ext-diff --cached --quiet || \
+    [[ -n "$(git ls-files --others --exclude-standard --directory --no-empty-directory -- ':/*')" ]]; then
+    REPO_IS_DIRTY=1
+fi
+
+if [[ -z "$IMAGE" ]] || [[ -z "$ENVIRONMENT" ]]; then
+    echo 1>&2 "Usage: $0 IMAGE ENVIRONMENT [BUILD_CONTEXT]"
+    exit 1
+fi
+
+TAGS=("hyperbola/$IMAGE:$ENVIRONMENT" "hyperbola/$IMAGE:latest")
+
+if [[ -z "$REPO_IS_DIRTY" ]]; then
+    TAGS+=("hyperbola/$IMAGE:$ENVIRONMENT-$REVISION")
+    if [[ "$(git rev-parse "$TAG")" == "$(git rev-parse HEAD)" ]]; then
+        TAGS+=("hyperbola/$IMAGE:$ENVIRONMENT-$VERSION")
+    fi
+fi
+
+TAG_OPTS=()
+for tag in "${TAGS[@]}"; do
+  TAG_OPTS+=(-t)
+  TAG_OPTS+=("$tag")
+done
+
+docker build \
+  --build-arg "hyperbola_environment=$ENVIRONMENT" \
+  --build-arg "ansible_vault_password=$ANSIBLE_VAULT_PASSWORD" \
+  -f "$IMAGE/Dockerfile" "${TAG_OPTS[@]}" "$BUILD_CONTEXT"

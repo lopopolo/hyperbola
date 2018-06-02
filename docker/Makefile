@@ -15,39 +15,37 @@ endif
 all:
 
 .PHONY: build
-build: build-mysql build-app build-fixtures build-static build-ingress
+build: build-prereq build-mysql build-app build-fixtures build-static build-ingress
+
+.PHONY: build-prereq
+build-prereq:
+	docker pull mysql:5.7
+	docker pull python:3.6-alpine
+	docker pull node
+	docker pull nginx:stable-alpine
 
 .PHONY: build-mysql
 build-mysql:
-	docker build --pull -f mysql/Dockerfile -t hyperbola/mysql:$(HASH_LABEL) mysql
+	bin/build-hyperbola-image mysql stage
 
 .PHONY: build-app
 build-app:
-	docker build \
-		--build-arg hyperbola_environment=stage \
-		--build-arg ansible_vault_password=$$(cd .. && dotenv get ANSIBLE_VAULT_PASSWORD) \
-		--pull -f app/Dockerfile -t hyperbola/app:$(HASH_LABEL) ..
-	docker tag hyperbola/app:$(HASH_LABEL) hyperbola/app:$(VERSION_LABEL)
-	docker tag hyperbola/app:$(HASH_LABEL) hyperbola/app:latest
+	bin/build-hyperbola-image app stage ..
 
 .PHONY: build-fixtures
 build-fixtures:
-	docker build -f fixtures/Dockerfile -t hyperbola/fixtures:$(HASH_LABEL) fixtures
+	bin/build-hyperbola-image fixtures stage
 
 .PHONY: build-static
 build-static:
-	docker pull nginx:stable-alpine
-	docker build -f static/Dockerfile -t hyperbola/static:$(HASH_LABEL) ..
-	docker tag hyperbola/static:$(HASH_LABEL) hyperbola/static:$(VERSION_LABEL)
+	bin/build-hyperbola-image static stage
 
 .PHONY: build-ingress
 build-ingress:
-	docker build \
-		--build-arg ansible_vault_password=$$(cd .. && dotenv get ANSIBLE_VAULT_PASSWORD) \
-		--pull -f ingress/Dockerfile -t hyperbola/ingress:$(HASH_LABEL) ingress
+	bin/build-hyperbola-image ingress stage
 
-.PHONY: dev
-dev: mysql migrate fixtures app static ingress
+.PHONY: stage
+stage: mysql migrate fixtures app static ingress
 
 .PHONY: mysql
 mysql: DOCKER_OPTS := \
@@ -77,9 +75,7 @@ ingress: DOCKER_OPTS := \
 	-p 443:443
 
 mysql fixtures app static ingress:
-	@env $$(if [[ "$@" == "mysql" ]]; then echo "HYP_SLEEP=10"; fi) \
-		HYP_DOCKER_OPTS="$(DOCKER_OPTS)" \
-		bin/launch-named-container $@ hyperbola/$@:$(HASH_LABEL)
+	@HYP_DOCKER_OPTS="$(DOCKER_OPTS)" bin/launch-named-container $@ hyperbola/$@:stage
 
 .PHONY: stop
 stop:

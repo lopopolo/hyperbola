@@ -75,5 +75,3 @@ EXPOSE 8000
 ENTRYPOINT ["/opt/venv/bin/python"]
 
 CMD ["/opt/venv/bin/gunicorn", "--config", "/opt/gunicorn.py", "hyperbola.wsgi:application"]
-
-# vim:set ft=dockerfile:
