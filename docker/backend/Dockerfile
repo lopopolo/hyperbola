@@ -42,7 +42,7 @@ COPY MANIFEST.in Pipfile Pipfile.lock README.md setup.py setup.cfg /opt/
 RUN cd /opt && \
     python -m venv venv && \
     venv/bin/pip install --no-cache-dir -U pip && \
-    VIRTUAL_ENV=venv pipenv install && \
+    VIRTUAL_ENV=venv pipenv install --deploy && \
     env PBR_VERSION=0.134.0 \
         SKIP_GIT_SDIST=1 \
         SKIP_GENERATE_AUTHORS=1 \
