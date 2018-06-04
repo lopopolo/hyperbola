@@ -16,11 +16,11 @@
     "default": {
         "awscli": {
             "hashes": [
-                "sha256:5fdb7339eb7d062bc251868d39fd6442d7b7b5d65e5bb610ad6b63dde1d7022b",
-                "sha256:a0ec3257e873146dad902e6c93e93db36199ebb6df2f1fe97630edb05ec6af86"
+                "sha256:8589104880af9e97e4c989725ea1b82114ef8660fa542c0edef0784722856f82",
+                "sha256:8789f75dbd930e76901171de55778d05240926d62ac0cd0f1f7fa0262dc8b635"
             ],
             "index": "pypi",
-            "version": "==1.15.29"
+            "version": "==1.15.31"
         },
         "bleach": {
             "hashes": [
@@ -39,17 +39,17 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:35bc5737cd90034439e81e833dac1cf03ba5d1b2cbb78321a974d05d51934f60",
-                "sha256:dd54fd4b6d48fd47b6267efd829775e4c585d087cc5915df0908c212ba07dd8e"
+                "sha256:28ea099b76d6b18210109cb8f7d5452a4ba48992e85696fa0ede33793af5ba69",
+                "sha256:d5f4a060c8b82c61f47b84afd08fb15d0d28591e4577c0f60fd5dbcc8ab4418d"
             ],
-            "version": "==1.7.29"
+            "version": "==1.7.31"
         },
         "botocore": {
             "hashes": [
-                "sha256:03434f393c18c08ffe063076dc3b48d79c4ef0172ee15b069f73514ebe107291",
-                "sha256:076877fb12bedcb6f64b57c5ed4a07dd727e51c55f5e8046ab9b73a0b48cbb0a"
+                "sha256:43ed488d083e4f47d14a73ded5483c466e8823e27d8712d527039a6157f76672",
+                "sha256:5e35278d27c5640c0ef3aec19cc846e4580c467057997d5428a10109105b9f10"
             ],
-            "version": "==1.10.29"
+            "version": "==1.10.31"
         },
         "click": {
             "hashes": [
@@ -67,11 +67,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:26b34f4417aa38d895b6b5307177b51bc3f4d53179d8696a5c19dcb50582523c",
-                "sha256:71d1a584bb4ad2b4f933d07d02c716755c1394feaac1ce61ce37843ac5401092"
+                "sha256:3eb25c99df1523446ec2dc1b00e25eb2ecbdf42c9d8b0b8b32a204a8db9011f8",
+                "sha256:69ff89fa3c3a8337015478a1a0744f52a9fef5d12c1efa01a01f99bcce9bf10c"
             ],
             "index": "pypi",
-            "version": "==2.0.5"
+            "version": "==2.0.6"
         },
         "django-mysql": {
             "hashes": [
@@ -300,10 +300,10 @@
     "develop": {
         "ansible": {
             "hashes": [
-                "sha256:0b34126dad0a77fce220d264ba5179221bbff82af5fda5de197dffb96171749c"
+                "sha256:33a76684c47d1857d6e917af4f2eafac87521161f8181037edaa159a60deaeb3"
             ],
             "index": "pypi",
-            "version": "==2.5.3"
+            "version": "==2.5.4"
         },
         "ansible-lint": {
             "hashes": [
@@ -398,6 +398,7 @@
                 "sha256:edabd457cd23a02965166026fd9bfd196f4324fe6032e866d0f3bd0301cd486f",
                 "sha256:fdf1c1dc5bafc32bc5d08b054f94d659422b05aba244d6be4ddc1c72d9aa70fb"
             ],
+            "markers": "platform_python_implementation != 'PyPy'",
             "version": "==1.11.5"
         },
         "cryptography": {
@@ -424,11 +425,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:26b34f4417aa38d895b6b5307177b51bc3f4d53179d8696a5c19dcb50582523c",
-                "sha256:71d1a584bb4ad2b4f933d07d02c716755c1394feaac1ce61ce37843ac5401092"
+                "sha256:3eb25c99df1523446ec2dc1b00e25eb2ecbdf42c9d8b0b8b32a204a8db9011f8",
+                "sha256:69ff89fa3c3a8337015478a1a0744f52a9fef5d12c1efa01a01f99bcce9bf10c"
             ],
             "index": "pypi",
-            "version": "==2.0.5"
+            "version": "==2.0.6"
         },
         "django-debug-toolbar": {
             "hashes": [
