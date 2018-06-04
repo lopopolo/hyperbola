@@ -9,7 +9,6 @@ from pathlib import Path
 class Env(Enum):
     production = 'production'
     local = 'local'
-    stage = 'stage'
     dev = 'dev'
 
     @classmethod
@@ -59,21 +58,19 @@ class EnvironmentConfig(object):
             return ['hyperbo.la']
         elif self.environment is Env.local:
             return ['local.hyperboladc.net']
-        elif self.environment is Env.stage:
-            return ['stage.hyperboladc.net']
         return ['localhost', '127.0.0.1', '[::1]']
 
     @property
     def is_admin(self):
-        return self.environment in [Env.production, Env.local, Env.stage, Env.dev]
+        return self.environment in [Env.production, Env.local, Env.dev]
 
     @property
     def is_secure(self):
-        return self.environment in [Env.production, Env.local, Env.stage]
+        return self.environment in [Env.production, Env.local]
 
     @property
     def enable_perf_optimizations(self):
-        return self.environment in [Env.production, Env.local, Env.stage]
+        return self.environment in [Env.production, Env.local]
 
     @property
     def additional_installed_apps(self):
@@ -98,15 +95,15 @@ class EnvironmentConfig(object):
 
     @property
     def debug(self):
-        return self.environment in [Env.local, Env.stage, Env.dev]
+        if self.environment in [Env.local, Env.dev]:
+            return True
+        return False
 
     class PathsConfig(object):
         def __init__(self, environment):
             self.package = Path(__file__).resolve().parent
             if environment in [Env.production, Env.local]:
                 self.root = self.package.parent.parent.parent.parent.parent
-            elif environment in [Env.stage]:
-                self.root = Path('/opt')
             else:
                 self.root = self.package.parent
 
@@ -126,7 +123,7 @@ class EnvironmentConfig(object):
             if environment in [Env.production]:
                 self.media_bucket_name = 'www.hyperbolausercontent.net'
                 self.aws_region = 'us-west-2'
-            elif environment in [Env.local, Env.stage, Env.dev]:
+            elif environment in [Env.local, Env.dev]:
                 self.media_bucket_name = 'local.hyperbolausercontent.net'
                 self.aws_region = 'us-east-1'
             self.media_url = 'https://{}/'.format(self.media_bucket_name)
@@ -273,7 +270,6 @@ WSGI_APPLICATION = 'hyperbola.wsgi.application'
 # Security
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = ENVIRONMENT.is_secure
 SECURE_REDIRECT_EXEMPT = ['healthz']
 SESSION_COOKIE_SECURE = ENVIRONMENT.is_secure
