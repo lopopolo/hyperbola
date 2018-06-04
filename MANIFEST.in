@@ -1,4 +1,1 @@
 recursive-include hyperbola *.html *.py
-recursive-include dist *
-recursive-include doc *.md
-recursive-include document-root *

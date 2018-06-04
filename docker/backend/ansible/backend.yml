@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+  - name: Include hyperbola app environment
+    include_vars:
+      file: "{{ hyperbola_environment }}.yml"
+      name: app_hyperbola_env
+    no_log: True
+  - name: Install 12factor environment
+    template:
+      src: "dotenv.j2"
+      dest: "/opt/.env"
+      mode: 0444
+  - name: Install gunicorn config
+    copy:
+      src: "gunicorn.py"
+      dest: "/opt/gunicorn.py"
+      mode: a=r

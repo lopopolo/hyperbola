@@ -1,0 +1,13 @@
+.eggs
+.env
+.git
+.gitignore
+.vagrant
+Vagrantfile
+build
+dist
+document-root
+hyperbola.egg-info
+node_modules
+terraform
+venv

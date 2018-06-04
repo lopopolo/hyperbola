@@ -23,3 +23,4 @@ mysqlclient = ">= 1.3.7"
 pillow = "*"
 python-dotenv = {extras = ["cli"]}
 pytz = "*"
+awscli = "*"
