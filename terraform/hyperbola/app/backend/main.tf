@@ -12,7 +12,7 @@ variable "instance_type" {
 }
 
 variable "size" {
-  default = "2"
+  default = "1"
 }
 
 variable "iam_instance_profile" {}
@@ -181,7 +181,7 @@ resource "aws_autoscaling_group" "backend" {
   launch_configuration  = "${aws_launch_configuration.backend.name}"
   desired_capacity      = "${var.size}"
   min_size              = "${var.size}"
-  max_size              = "${var.size}"
+  max_size              = "${2 * var.size + 1}"
   wait_for_elb_capacity = "${var.size}"
 
   availability_zones  = ["${data.aws_subnet.private.*.availability_zone}"]
@@ -208,6 +208,60 @@ resource "aws_autoscaling_group" "backend" {
     "aws_security_group_rule.backend-to-mysql",
     "aws_security_group_rule.mysql-from-backend",
   ]
+}
+
+resource "aws_autoscaling_policy" "backend-scaleup" {
+  name                   = "${var.name}-backend-scaleup-policy"
+  policy_type            = "SimpleScaling"
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = 1
+  cooldown               = 300
+  autoscaling_group_name = "${aws_autoscaling_group.backend.name}"
+}
+
+resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaleup" {
+  alarm_name          = "${var.name}-backend-scaleup-cpu-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 120
+  statistic           = "Average"
+  threshold           = 60
+
+  dimensions = {
+    "AutoScalingGroupName" = "${aws_autoscaling_group.backend.name}"
+  }
+
+  actions_enabled = true
+  alarm_actions   = ["${aws_autoscaling_policy.backend-scaleup.arn}"]
+}
+
+resource "aws_autoscaling_policy" "backend-scaledown" {
+  name                   = "${var.name}-backend-scaledown-policy"
+  policy_type            = "SimpleScaling"
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = -1
+  cooldown               = 300
+  autoscaling_group_name = "${aws_autoscaling_group.backend.name}"
+}
+
+resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaledown" {
+  alarm_name          = "${var.name}-backend-scaledown-cpu-alarm"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/EC2"
+  period              = 120
+  statistic           = "Average"
+  threshold           = 20
+
+  dimensions = {
+    "AutoScalingGroupName" = "${aws_autoscaling_group.backend.name}"
+  }
+
+  actions_enabled = true
+  alarm_actions   = ["${aws_autoscaling_policy.backend-scaledown.arn}"]
 }
 
 output "alb_zone_id" {
