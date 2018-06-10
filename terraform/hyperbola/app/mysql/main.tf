@@ -24,7 +24,7 @@ resource "aws_db_instance" "main_rds_instance" {
   db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
   parameter_group_name   = "${aws_db_parameter_group.main_rds_instance.id}"
 
-  multi_az            = true
+  multi_az            = false
   storage_type        = "gp2"
   publicly_accessible = false
 
