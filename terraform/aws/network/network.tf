@@ -9,10 +9,6 @@ variable "azs" {}
 variable "nat_enabled" {}
 variable "region" {}
 
-variable "key_name" {}
-variable "bastion_enabled" {}
-variable "bastion_instance_type" {}
-
 module "vpc" {
   source = "./vpc"
 
@@ -46,17 +42,6 @@ module "private_subnet" {
   nat_enabled       = "${var.nat_enabled}"
   nat_gateway_ids   = "${module.nat.nat_gateway_ids}"
   egress_gateway_id = "${module.vpc.egress_gateway_id}"
-}
-
-module "bastion" {
-  source = "./bastion"
-
-  enabled            = "${var.bastion_enabled}"
-  name               = "${var.name}-bastion"
-  vpc_id             = "${module.vpc.vpc_id}"
-  public_subnet_tier = "${module.public_subnet.tier}"
-  key_name           = "${var.key_name}"
-  instance_type      = "${var.bastion_instance_type}"
 }
 
 module "nat" {
@@ -140,23 +125,6 @@ output "public_subnet_tier" {
 
 output "private_subnet_tier" {
   value = "${module.private_subnet.tier}"
-}
-
-# Bastion
-output "bastion_user" {
-  value = "${module.bastion.user}"
-}
-
-output "bastion_public_ip" {
-  value = "${module.bastion.public_ip}"
-}
-
-output "bastion_security_group_id" {
-  value = "${module.bastion.security_group_id}"
-}
-
-output "bastion_ingress_cidr" {
-  value = "${module.bastion.ingress_cidr}"
 }
 
 # NAT

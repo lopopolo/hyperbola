@@ -43,10 +43,9 @@ module "hyperbola-app-backend" {
   env      = "${var.env}"
   key_name = "hyperbola-cas"
 
-  vpc_id                    = "${module.network.vpc_id}"
-  public_subnet_tier        = "${module.network.public_subnet_tier}"
-  private_subnet_tier       = "${module.network.private_subnet_tier}"
-  bastion_security_group_id = "${module.network.bastion_security_group_id}"
+  vpc_id              = "${module.network.vpc_id}"
+  public_subnet_tier  = "${module.network.public_subnet_tier}"
+  private_subnet_tier = "${module.network.private_subnet_tier}"
 
   iam_instance_profile       = "${module.hyperbola-app-base.app_instance_profile}"
   s3_endpoint_prefix_list_id = "${module.network.s3_endpoint_prefix_list_id}"

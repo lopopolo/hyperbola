@@ -1,4 +1,3 @@
-variable "bastion_security_group_id" {}
 variable "s3_endpoint_prefix_list_id" {}
 
 variable "mysql_port" {}
@@ -16,15 +15,6 @@ resource "aws_security_group" "backend" {
   lifecycle {
     create_before_destroy = true
   }
-}
-
-resource "aws_security_group_rule" "backend-from-bastion-ssh" {
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 22
-  to_port                  = 22
-  security_group_id        = "${aws_security_group.backend.id}"
-  source_security_group_id = "${var.bastion_security_group_id}"
 }
 
 resource "aws_security_group_rule" "backend-from-alb-http" {

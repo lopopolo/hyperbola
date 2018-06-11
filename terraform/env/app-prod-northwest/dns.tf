@@ -17,15 +17,6 @@ resource "aws_route53_record" "mysql-prod" {
   records = ["${module.hyperbola-app-mysql.mysql_endpoint}"]
 }
 
-resource "aws_route53_record" "bastion-prod" {
-  zone_id = "${data.aws_route53_zone.dc.id}"
-  name    = "bastion-prod"
-  type    = "A"
-  ttl     = 300
-
-  records = ["${module.network.bastion_public_ip}"]
-}
-
 resource "aws_route53_record" "hyperbo_la_A" {
   zone_id = "${data.aws_route53_zone.hyperbola-zone.zone_id}"
   name    = "hyperbo.la"
