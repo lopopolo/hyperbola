@@ -57,9 +57,7 @@ const plugins = () => [
 ];
 
 module.exports = {
-  entry: {
-    main: ['main', 'hyperbola.browser'],
-  },
+  entry: 'main',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js',
