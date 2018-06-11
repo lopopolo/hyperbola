@@ -6,10 +6,6 @@ output "private" {
   value = "2"
 }
 
-output "private-redis" {
-  value = "3"
-}
-
 output "private-mysql-rds" {
   value = "5"
 }
