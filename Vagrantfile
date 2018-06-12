@@ -24,6 +24,10 @@ Vagrant.configure('2') do |config|
   config.vm.define 'lb-local' do |lb|
     lb.vm.network 'private_network', ip: '192.168.10.40'
 
+    lb.vm.provider 'virtualbox' do |v|
+      v.memory = 512
+    end
+
     lb.vm.provision 'bootstrap', type: 'ansible' do |ansible|
       verbose(ansible)
       ansible.playbook = 'ansible/provision.yml'
@@ -54,6 +58,10 @@ Vagrant.configure('2') do |config|
     mysql.vm.network 'private_network', ip: '192.168.10.30'
     mysql.vm.network 'forwarded_port', guest: 3306, host: 13306
 
+    mysql.vm.provider 'virtualbox' do |v|
+      v.memory = 512
+    end
+
     mysql.vm.provision 'mysql-local', type: 'ansible' do |ansible|
       verbose(ansible)
       ansible.playbook = 'ansible/mysql-local.yml'
@@ -70,6 +78,10 @@ Vagrant.configure('2') do |config|
 
   config.vm.define 'app-local' do |app|
     app.vm.network 'private_network', ip: '192.168.10.20'
+
+    app.vm.provider 'virtualbox' do |v|
+      v.memory = 512
+    end
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
       verbose(ansible)
