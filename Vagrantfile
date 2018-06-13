@@ -52,6 +52,13 @@ Vagrant.configure('2') do |config|
         'all_groups:children' => ['lb']
       }
     end
+
+    # Service discovery
+    lb.vm.provision 'shell', inline: <<~SHELL
+      if ! grep -q 'backend.app.hyperboladc.net' /etc/hosts; then
+        echo '192.168.10.20 backend.app.hyperboladc.net' | sudo tee -a /etc/hosts
+      fi
+    SHELL
   end
 
   config.vm.define 'mysql-local' do |mysql|
@@ -80,8 +87,19 @@ Vagrant.configure('2') do |config|
     app.vm.network 'private_network', ip: '192.168.10.20'
 
     app.vm.provider 'virtualbox' do |v|
-      v.memory = 512
+      v.memory = 2048
     end
+
+    %w[dist document-root hyperbola MANIFEST.in Pipfile Pipfile.lock README.md manage.py setup.py setup.cfg].each do |f|
+      app.vm.provision 'file', source: f, destination: "/tmp/opt/#{f}"
+    end
+    app.vm.provision 'file', source: './hyperbola', destination: '/tmp/opt/hyperbola'
+    app.vm.provision 'file', source: './dist', destination: '/tmp/opt/dist'
+    app.vm.provision 'shell', inline: <<~SHELL
+      sudo rm -rf /opt
+      sudo mv /tmp/opt /opt
+    SHELL
+
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
       verbose(ansible)
@@ -110,6 +128,7 @@ Vagrant.configure('2') do |config|
       }
     end
 
+    # AWS creds
     app.vm.provision 'file', source: '~/.aws', destination: '/tmp/aws-creds'
     app.vm.provision 'shell', inline: <<~SHELL
       rm -rf /home/hyperbola-app/.aws
@@ -117,6 +136,15 @@ Vagrant.configure('2') do |config|
       chown -R hyperbola-app:hyperbola-app /home/hyperbola-app/.aws
       chmod -R u=rX,go=X /home/hyperbola-app
     SHELL
+
+    # Service discovery
+    app.vm.provision 'shell', inline: <<~SHELL
+      if ! grep -q 'mysql.app.hyperboladc.net' /etc/hosts; then
+        echo '192.168.10.30 mysql.app.hyperboladc.net' | sudo tee -a /etc/hosts
+      fi
+    SHELL
+
+    # Fixtures
     app.vm.provision 'shell', inline: <<~SHELL
       sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v5/local/database/hyperbola-app-2017-12-03T0126Z.json /tmp/hyperbola-seed.json
       cd /hyperbola/app/current

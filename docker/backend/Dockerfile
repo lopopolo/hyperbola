@@ -32,7 +32,7 @@ RUN mkdir /opt/dist && \
 FROM python:3.6-alpine as python-build
 
 RUN apk --no-cache add --virtual .hyperbola-build-deps \
-        build-base python-dev mariadb-dev jpeg-dev zlib-dev && \
+        build-base libressl-dev python-dev mariadb-dev jpeg-dev zlib-dev && \
     pip install --no-cache-dir pipenv
 
 COPY hyperbola /opt/hyperbola
