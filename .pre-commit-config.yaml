@@ -1,10 +1,10 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit
-    rev: v1.8.2
+    rev: v1.10.2
     hooks:
     -   id: validate_manifest
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v1.2.3
+    rev: v1.3.0
     hooks:
     -   id: check-added-large-files
     -   id: check-ast
@@ -19,7 +19,7 @@ repos:
     -   id: check-vcs-permalinks
     -   id: check-xml
     -   id: check-yaml
-        exclude: vars|(lb|mysql)-local.yml|cloudformation
+        exclude: vars|(lb|mysql)-local.yml|ingress.yml|cloudformation
     -   id: debug-statements
     -   id: detect-aws-credentials
     -   id: detect-private-key
@@ -56,11 +56,11 @@ repos:
         language: script
         types: [python]
 -   repo: https://github.com/asottile/pyupgrade.git
-    rev: v1.2.0
+    rev: v1.3.1
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/antonbabenko/pre-commit-terraform.git
-    rev: v1.6.0
+    rev: v1.7.3
     hooks:
     -   id: terraform_fmt
 -   repo: local
