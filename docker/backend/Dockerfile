@@ -35,43 +35,43 @@ RUN apk --no-cache add --virtual .hyperbola-build-deps \
         build-base libressl-dev python-dev mariadb-dev jpeg-dev zlib-dev && \
     pip install --no-cache-dir pipenv
 
-COPY hyperbola /opt/hyperbola
-COPY docker/backend/settings.py /opt/hyperbola/
-COPY MANIFEST.in Pipfile Pipfile.lock README.md setup.py setup.cfg /opt/
+COPY hyperbola /hyperbola/sdist/hyperbola
+COPY MANIFEST.in Pipfile Pipfile.lock README.md setup.py setup.cfg /hyperbola/sdist/
 
-RUN cd /opt && \
-    python -m venv venv && \
-    venv/bin/pip install --no-cache-dir -U pip && \
-    VIRTUAL_ENV=venv pipenv install --deploy && \
+RUN python -m venv /hyperbola/venv && \
+    /hyperbola/venv/bin/pip install --no-cache-dir -U pip
+
+RUN cd /hyperbola/sdist && \
+    VIRTUAL_ENV=/hyperbola/venv pipenv install --deploy && \
     env PBR_VERSION=0.134.0 \
         SKIP_GIT_SDIST=1 \
         SKIP_GENERATE_AUTHORS=1 \
         SKIP_WRITE_GIT_CHANGELOG=1 \
-        venv/bin/python setup.py install
+        /hyperbola/venv/bin/python setup.py install
 
 FROM python:3.6-alpine as python-backend
 LABEL maintainer="Ryan Lopopolo <rjl@hyperbo.la>"
 
 ENV LC_ALL=C.UTF-8
+ENV ENVIRONMENT=stage
 
 RUN apk --no-cache add --virtual .hyperbola-run-deps \
         mariadb-client-libs jpeg zlib
 
-COPY --from=config-build /opt/.env /opt/.env
-COPY --from=config-build /opt/gunicorn.py /opt/gunicorn.py
-COPY --from=python-build /opt/venv /opt/venv
-COPY manage.py /opt
+COPY --from=config-build /opt/.env /hyperbola/.env
+COPY --from=config-build /opt/gunicorn.py /hyperbola/gunicorn.py
+COPY --from=python-build /hyperbola/venv /hyperbola/venv
+COPY manage.py /hyperbola/
 
-RUN /opt/venv/bin/python /opt/manage.py minimizetemplates -m
+RUN /hyperbola/venv/bin/python /hyperbola/manage.py minimizetemplates -m
 
-COPY --from=dist-build /opt/document-root /opt/document-root
-COPY --from=dist-build /opt/dist /opt/dist
+COPY --from=dist-build /opt/document-root /hyperbola/sdist/document-root
+COPY --from=dist-build /opt/dist /hyperbola/sdist/dist
 
-RUN /opt/venv/bin/python /opt/manage.py collectstatic --no-input && \
-    rm -rf /opt/dist
+RUN /hyperbola/venv/bin/python /hyperbola/manage.py collectstatic --no-input
 
 EXPOSE 8000
 
-ENTRYPOINT ["/opt/venv/bin/python"]
+ENTRYPOINT ["/hyperbola/venv/bin/python"]
 
-CMD ["/opt/venv/bin/gunicorn", "--config", "/opt/gunicorn.py", "hyperbola.wsgi:application"]
+CMD ["/hyperbola/venv/bin/gunicorn", "--config", "/hyperbola/gunicorn.py", "hyperbola.wsgi:application"]

@@ -43,7 +43,7 @@ mysql: DOCKER_OPTS := \
 
 .PHONY: migrate
 migrate:
-	docker run --network hyperbola -d -t hyperbola/backend:latest /opt/manage.py migrate
+	docker run --network hyperbola -d -t hyperbola/backend:latest /hyperbola/manage.py migrate
 
 .PHONY: fixtures
 fixtures: DOCKER_OPTS := \
