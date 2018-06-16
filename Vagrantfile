@@ -91,15 +91,12 @@ Vagrant.configure('2') do |config|
     end
 
     %w[dist document-root hyperbola MANIFEST.in Pipfile Pipfile.lock README.md manage.py setup.py setup.cfg].each do |f|
-      app.vm.provision 'file', source: f, destination: "/tmp/opt/#{f}"
+      app.vm.provision 'file', source: f, destination: "/tmp/hyperbola/sdist/#{f}"
     end
-    app.vm.provision 'file', source: './hyperbola', destination: '/tmp/opt/hyperbola'
-    app.vm.provision 'file', source: './dist', destination: '/tmp/opt/dist'
     app.vm.provision 'shell', inline: <<~SHELL
-      sudo rm -rf /opt
-      sudo mv /tmp/opt /opt
+      sudo rm -rf /hyperbola/sdist
+      sudo mv /tmp/hyperbola/sdist /hyperbola/sdist
     SHELL
-
 
     app.vm.provision 'bootstrap', type: 'ansible' do |ansible|
       verbose(ansible)

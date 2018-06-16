@@ -21,7 +21,7 @@ server {
     listen       80;
     server_name  {{ item.domain }};
 
-    root /opt/document-root/;
+    root /hyperbola/sdist/document-root/;
 
     location / {
         {% if item.ssl_enabled %}

@@ -58,7 +58,7 @@
     state: touch
 - name: Set artifact source root
   set_fact:
-    app_source_root: "/opt"
+    app_source_root: "/hyperbola/sdist"
 - name: Create app virtualenv
   command: "{{ app_python }} -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
