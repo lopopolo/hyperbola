@@ -31,7 +31,7 @@ class DotenvLoader(ConfigLoader):
 
 
 class Env(Enum):
-    prod = auto()
+    production = auto()
     stage = auto()
     local = auto()
 
@@ -47,11 +47,11 @@ class EnvironmentConfig(object):
         self.content = self.ContentConfig(self.environment, self.path.root)
 
     def __str__(self):
-        return self.environment.value
+        return self.environment.name
 
     @property
     def allowed_hosts(self):
-        if self.environment is Env.prod:
+        if self.environment is Env.production:
             return ['hyperbo.la']
         elif self.environment is Env.stage:
             return ['stage.hyperboladc.net']
@@ -109,7 +109,7 @@ class EnvironmentConfig(object):
             self.static_root = root_path.joinpath('document-root', 'static')
             self.static_dirs = [root_path.joinpath('dist')]
             self.static_url = '/static/'
-            if environment is Env.prod:
+            if environment is Env.production:
                 self.media_bucket_name = 'www.hyperbolausercontent.net'
                 self.aws_region = 'us-west-2'
             elif environment in [Env.stage, Env.local]:
