@@ -24,6 +24,10 @@ install_roles:
 build:
 	webpack --mode production
 
+.PHONY: fixtures
+fixtures:
+	vagrant provision --provision-with fixtures app-local
+
 .PHONY: release
 release:
 	bumpversion minor
