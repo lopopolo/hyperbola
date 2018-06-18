@@ -32,13 +32,6 @@ release:
 build-ami:
 	env $$(dotenv get ANSIBLE_VAULT_PASSWORD) packer build packer/app.json
 
-.PHONY: publish-frklft
-publish-frklft:
-	aws s3 cp --acl public-read --recursive --exclude '.*' frklft/public/ s3://www.frklft.tires/
-	aws s3 cp --acl public-read frklft/public/team.html s3://www.frklft.tires/team
-	aws s3 cp --acl public-read frklft/public/contact/sales.html s3://www.frklft.tires/contact/sales
-	aws s3 cp --acl public-read frklft/public/contact/careers.html s3://www.frklft.tires/contact/careers
-
 ## Linters
 
 .PHONY: lint
