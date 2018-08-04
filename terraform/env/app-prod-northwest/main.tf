@@ -41,7 +41,7 @@ module "hyperbola-app-backend" {
   source   = "../../hyperbola/app/backend"
   name     = "${var.name}"
   env      = "${var.env}"
-  key_name = "hyperbola-cas"
+  key_name = ""
 
   vpc_id              = "${module.network.vpc_id}"
   public_subnet_tier  = "${module.network.public_subnet_tier}"
