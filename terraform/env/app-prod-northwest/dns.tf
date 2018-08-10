@@ -1,3 +1,8 @@
+resource "aws_route53_zone" "app-dc" {
+  name   = "app.hyperboladc.net"
+  vpc_id = "${module.network.vpc_id}"
+}
+
 data "aws_route53_zone" "dc" {
   name         = "hyperboladc.net."
   private_zone = false
@@ -11,6 +16,15 @@ data "aws_route53_zone" "hyperbola-zone" {
 resource "aws_route53_record" "mysql-prod" {
   zone_id = "${data.aws_route53_zone.dc.id}"
   name    = "mysql-prod"
+  type    = "CNAME"
+  ttl     = 300
+
+  records = ["${module.hyperbola-app-mysql.mysql_endpoint}"]
+}
+
+resource "aws_route53_record" "mysql" {
+  zone_id = "${aws_route53_zone.app-dc.id}"
+  name    = "mysql"
   type    = "CNAME"
   ttl     = 300
 
