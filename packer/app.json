@@ -41,6 +41,63 @@
     {
       "type": "shell",
       "inline": [
+        "sudo mkdir -p /hyperbola/sdist",
+        "sudo chown -R ubuntu /hyperbola/sdist"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "dist",
+      "destination": "/hyperbola/sdist"
+    },
+    {
+      "type": "file",
+      "source": "document-root",
+      "destination": "/hyperbola/sdist"
+    },
+    {
+      "type": "file",
+      "source": "hyperbola",
+      "destination": "/hyperbola/sdist"
+    },
+    {
+      "type": "file",
+      "source": "MANIFEST.in",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "Pipfile",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "Pipfile.lock",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "README.md",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "manage.py",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "setup.cfg",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "setup.py",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "shell",
+      "inline": [
         "sudo apt-get -y install software-properties-common",
         "sudo apt-add-repository -y ppa:ansible/ansible",
         "sudo apt-get update",

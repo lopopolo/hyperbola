@@ -90,11 +90,12 @@ Vagrant.configure('2') do |config|
       v.memory = 2048
     end
 
-    %w[dist document-root hyperbola MANIFEST.in Pipfile Pipfile.lock README.md manage.py setup.py setup.cfg].each do |f|
+    %w[dist document-root hyperbola MANIFEST.in Pipfile Pipfile.lock README.md manage.py setup.cfg setup.py].each do |f|
       app.vm.provision 'file', source: f, destination: "/tmp/hyperbola/sdist/#{f}"
     end
     app.vm.provision 'shell', inline: <<~SHELL
       sudo rm -rf /hyperbola/sdist
+      sudo mkdir -p /hyperbola
       sudo mv /tmp/hyperbola/sdist /hyperbola/sdist
     SHELL
 
