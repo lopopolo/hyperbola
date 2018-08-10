@@ -2,8 +2,6 @@
 ansible = "*"
 ansible-lint = "==3.5.0rc1"
 bumpversion = "*"
-django-debug-toolbar = "*"
-django-debug-toolbar-template-timings = ">= 0.7"
 "flake8" = "*"
 isort = "*"
 "pep257" = "*"
