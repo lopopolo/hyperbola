@@ -29,7 +29,6 @@
     - "{{ app_python }}-venv"
   tags:
     - skip_ansible_lint
-# TODO(bionic): use ppa:pypa/ppa to install pipenv
 - name: Install hyperbola build deps
   apt: name={{ item }} state=present
   with_items:
@@ -57,20 +56,9 @@
   file:
     path: "{{ deploy_helper.new_release_path }}/{{ deploy_helper.unfinished_filename }}"
     state: touch
-- name: Fetch git tag
-  unarchive:
-    src: "{{ app_release_download_url }}"
-    dest: "{{ deploy_helper.new_release_path }}"
-    remote_src: True
-- name: Find unpacked archive name
-  find:
-    paths: "{{ deploy_helper.new_release_path }}"
-    patterns: "*hyperbola*"
-    file_type: directory
-  register: app_release
 - name: Set artifact source root
   set_fact:
-    app_source_root: "{{['path'] | map('extract',  app_release.files | first) | list | first }}"
+    app_source_root: "/hyperbola/sdist"
 - name: Create app virtualenv
   command: "{{ app_python }} -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
@@ -92,7 +80,7 @@
   tags:
     - skip_ansible_lint
 - name: Install app dependencies
-  command: pipenv install
+  command: pipenv install --deploy
   args:
     chdir: "{{ app_source_root }}"
     creates: "{{ deploy_helper.new_release_path }}/venv/**/*django*"

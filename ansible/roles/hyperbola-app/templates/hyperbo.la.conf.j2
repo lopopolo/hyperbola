@@ -1,5 +1,5 @@
 #jinja2: lstrip_blocks: "True"
-upstream app_gunicorn {
+upstream backend {
     server unix:/var/run/hyperbola-{{ hyperbola_environment }}/hyperbola.sock;
 }
 
@@ -10,7 +10,7 @@ server {
 
     location / {
         {% if item.ssl_enabled %}
-        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        include conf.d/base/directive-only/ssl/hsts.nginx.conf;
         {% endif %}
         return 301 https://{{ item.domain }}$request_uri;
     }
@@ -21,32 +21,30 @@ server {
     listen       80;
     server_name  {{ item.domain }};
 
+    root /hyperbola/sdist/document-root/;
+
     location / {
         {% if item.ssl_enabled %}
         if ($http_x_forwarded_proto != 'https') {
             return 301 https://$host$request_uri;
         }
-        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        include conf.d/base/directive-only/ssl/hsts.nginx.conf;
         {% endif %}
 
-        root /hyperbola/app/current/document-root/;
-        try_files  $uri @hyperbola_app;
+        try_files  $uri @backend;
 
         client_max_body_size  16M;
 
-        include conf.d/nginx-base-config/location/*.conf;
+        include conf.d/base/location/*.conf;
     }
 
     location /static {
-        root /hyperbola/app/current/document-root/;
-        error_page 404 /404.html;
-
-        include conf.d/nginx-base-config/location/static/*.conf;
+        include conf.d/base/location/static/*.conf;
     }
 
-    location @hyperbola_app {
+    location @backend {
         internal;
-        proxy_pass            http://app_gunicorn$request_uri;
+        proxy_pass            http://backend$request_uri;
         proxy_http_version    1.1;
         proxy_redirect        off;
         proxy_set_header      X-Real-IP         $remote_addr;
@@ -56,19 +54,19 @@ server {
         client_max_body_size  16M;
 
         {% if item.ssl_enabled %}
-        include conf.d/nginx-base-config/directive-only/ssl/hsts.nginx.conf;
+        include conf.d/base/directive-only/ssl/hsts.nginx.conf;
         {% endif %}
     }
 
     location = /healthz {
-        proxy_pass            http://app_gunicorn$request_uri;
+        proxy_pass            http://backend$request_uri;
         proxy_http_version    1.1;
         proxy_redirect        off;
         auth_basic            off;
         proxy_set_header      X-Forwarded-Host  {{ item.domain }};
     }
 
-    include conf.d/nginx-base-config/directive-only/*.conf;
+    include conf.d/base/directive-only/*.conf;
 }
 
 # health check server
@@ -77,15 +75,15 @@ server {
     listen       8888;
     server_name  {{ item.domain }};
 
-    include conf.d/nginx-base-config/location/*.conf;
+    include conf.d/base/location/*.conf;
 
     location = /healthz {
-        proxy_pass            http://app_gunicorn$request_uri;
+        proxy_pass            http://backend$request_uri;
         proxy_http_version    1.1;
         proxy_redirect        off;
         proxy_set_header      X-Forwarded-Host  {{ item.domain }};
     }
 
-    include conf.d/nginx-base-config/directive-only/*.conf;
+    include conf.d/base/directive-only/*.conf;
 }
 # vim: set ft=nginx:

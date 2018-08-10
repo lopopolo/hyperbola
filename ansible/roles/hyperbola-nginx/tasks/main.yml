@@ -41,7 +41,7 @@
   notify: reload nginx
 - name: Install hyperbola nginx base directives
   copy:
-    src: nginx-base-config
+    src: base
     dest: "{{ nginx_conf_path }}"
     mode: 0444
   notify: reload nginx
