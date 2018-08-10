@@ -63,6 +63,7 @@ virtualenv: venv/bin/activate Pipfile
 
 venv/bin/activate:
 	python -m venv venv
+	venv/bin/pip install -U pip setuptools
 
 ## clean
 
