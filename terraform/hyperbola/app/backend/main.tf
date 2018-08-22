@@ -8,7 +8,7 @@ variable "private_subnet_tier" {}
 variable "key_name" {}
 
 variable "instance_type" {
-  default = "t2.nano"
+  default = "t3.nano"
 }
 
 variable "size" {
