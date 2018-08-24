@@ -4,6 +4,13 @@
 
 ### MySQL
 
+Install MySQL:
+
+```bash
+brew install mysql@5.7
+brew link mysql@5.7
+```
+
 In a MySQL shell run:
 
 ```sql
@@ -23,7 +30,6 @@ pyenv install "$(cat .python-version)"
 ```bash
 brew install node yarn
 ```
-
 
 ## Setup
 
