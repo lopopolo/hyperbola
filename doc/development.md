@@ -4,17 +4,14 @@
 
 ### MySQL
 
-Install MySQL:
-
 ```bash
 brew install mysql@5.7
 brew link mysql@5.7
 ```
+### Vagrant
 
-In a MySQL shell run:
-
-```sql
-create database hyperbola;
+```bash
+brew cask install vagrant
 ```
 
 ### pyenv
@@ -52,19 +49,9 @@ ENVIRONMENT='dev'
 # $ python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'
 SECRET_KEY=''
 
-DB_HOST='127.0.0.1'
-DB_PORT='13306'
-DB_USER='app'
-DB_NAME='hyperbola'
 # Fill in from password vault
 DB_PASSWORD=''
 
 # Fill in from password vault
 ANSIBLE_VAULT_PASSWORD=''
-```
-
-## runserver
-
-```bash
-python -Wall manage.py runserver
 ```
