@@ -1,6 +1,6 @@
 # Hyperbola Environment-Specific Configuration
 
-This application attempts to emulate the [12 factor app](http://12factor.net/config)
+This application attempts to emulate the [12 factor app](https://12factor.net/config)
 and store config in the environment.
 
 As part of packaging a deployment, configuration parameters may be written to
@@ -20,15 +20,11 @@ present:
 # provisioning
 ANSIBLE_VAULT_PASSWORD='set-me'
 
-# environment
-ENVIRONMENT='production|local|dev'
+ENVIRONMENT='production|local|stage|dev'
 # venv/bin/python -c 'import django.core.management.utils as u; print(u.get_random_secret_key())'
 SECRET_KEY='set-me'
-
-# database
-DB_HOST='127.0.0.1'
-DB_PORT='3306'
-DB_USER='app'
 DB_PASSWORD='set-me'
-DB_NAME='hyperbola'
 ```
+
+In the [local development](development.md) dev environment, you should also set
+`ANSIBLE_VAULT_PASSWORD` to allow ansible to decrypt secrets during provisioning.
