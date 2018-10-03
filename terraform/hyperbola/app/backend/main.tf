@@ -7,10 +7,6 @@ variable "private_subnet_tier" {}
 
 variable "key_name" {}
 
-variable "instance_type" {
-  default = "t3.nano"
-}
-
 variable "size" {
   default = "1"
 }
@@ -165,11 +161,14 @@ data "aws_ami" "backend" {
 resource "aws_launch_configuration" "backend" {
   name_prefix     = "app-backend-"
   image_id        = "${data.aws_ami.backend.id}"
-  instance_type   = "${var.instance_type}"
+  instance_type   = "t3.nano"
   key_name        = "${var.key_name}"
   security_groups = ["${aws_security_group.backend.id}"]
 
   iam_instance_profile = "${var.iam_instance_profile}"
+
+  enable_monitoring = false    # disable 11 CloudWatch metrics per instance
+  spot_price        = "0.0052"
 
   lifecycle {
     create_before_destroy = true
