@@ -123,10 +123,6 @@
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
   args:
     creates: "{{ deploy_helper.new_release_path }}/document-root/static/staticfiles.json"
-- name: manage.py minimizetemplates
-  command: "{{ deploy_helper.new_release_path }}/venv/bin/python {{ deploy_helper.new_release_path }}/manage.py minimizetemplates -m"
-  args:
-    creates: "{{ deploy_helper.new_release_path }}/venv/**/_minimizer_archive/"
 - name: Install gunicorn config
   template:
     src: "gunicorn.py.j2"

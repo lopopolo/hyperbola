@@ -63,8 +63,6 @@ COPY --from=config-build /opt/gunicorn.py /hyperbola/gunicorn.py
 COPY --from=python-build /hyperbola/venv /hyperbola/venv
 COPY manage.py /hyperbola/
 
-RUN /hyperbola/venv/bin/python /hyperbola/manage.py minimizetemplates -m
-
 COPY --from=dist-build /opt/document-root /hyperbola/sdist/document-root
 COPY --from=dist-build /opt/dist /hyperbola/sdist/dist
 
