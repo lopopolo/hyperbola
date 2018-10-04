@@ -1,9 +1,6 @@
 from django.contrib import admin
 
-from .models import (
-    AboutMe, ContactType, EmailContact, IMContact, PhoneContact, Resume,
-    WebContact,
-)
+from .models import AboutMe, ContactType, EmailContact, IMContact, PhoneContact, Resume, WebContact
 
 
 class TypeAdmin(admin.ModelAdmin):

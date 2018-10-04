@@ -20,8 +20,7 @@ class LifeStreamItem(models.Model):
 
 
 class LifeStreamPicture(LifeStreamItem):
-    picture = StdImageField(upload_to=MakeUploadTo("lifestream"), variations={
-        "x1": (500, 500),
-        "x2": (1000, 1000),
-        "x3": (1500, 1500),
-    })
+    picture = StdImageField(
+        upload_to=MakeUploadTo("lifestream"),
+        variations={"x1": (500, 500), "x2": (1000, 1000), "x3": (1500, 1500)},
+    )

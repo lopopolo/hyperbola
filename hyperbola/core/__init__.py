@@ -11,6 +11,7 @@ def make_escape_function(autoescape=True):
         autoescape (bool): Whether or not this template tag should escape text
     """
     from django.utils.html import conditional_escape
+
     if autoescape:
         return conditional_escape
     return lambda x: x

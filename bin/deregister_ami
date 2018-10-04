@@ -18,26 +18,27 @@ from botocore.exceptions import ClientError
 
 class Ami(object):
     def __init__(self, json):
-        self.ami_id = json.get('ImageId')
-        self.name = json.get('Name')
-        self.creation_date = json.get('CreationDate')
-        self.state = json.get('State')
-        self.block_device_mappings = [BlockDevice(block_device)
-                                      for block_device
-                                      in json.get('BlockDeviceMappings', [])
-                                      if block_device.get('Ebs') is not None]
+        self.ami_id = json.get("ImageId")
+        self.name = json.get("Name")
+        self.creation_date = json.get("CreationDate")
+        self.state = json.get("State")
+        self.block_device_mappings = [
+            BlockDevice(block_device)
+            for block_device in json.get("BlockDeviceMappings", [])
+            if block_device.get("Ebs") is not None
+        ]
 
 
 class BlockDevice(object):
     def __init__(self, json):
-        ebs = json.get('Ebs')
+        ebs = json.get("Ebs")
         if ebs is None:
-            raise Exception('Error constructing BlockDevice')
-        self.device_name = json.get('DeviceName')
-        self.snapshot_id = ebs.get('SnapshotId')
-        self.volume_size = ebs.get('VolumeSize')
-        self.volume_type = ebs.get('VolumeType')
-        self.encrypted = ebs.get('Encrypted')
+            raise Exception("Error constructing BlockDevice")
+        self.device_name = json.get("DeviceName")
+        self.snapshot_id = ebs.get("SnapshotId")
+        self.volume_size = ebs.get("VolumeSize")
+        self.volume_type = ebs.get("VolumeType")
+        self.encrypted = ebs.get("Encrypted")
 
 
 class AmiFetcher(object):
@@ -59,7 +60,7 @@ class AmiFetcher(object):
 
     def _self_amis(self):
         amis = {}
-        for ami_json in self.ec2.describe_images(Owners=['self']).get('Images'):
+        for ami_json in self.ec2.describe_images(Owners=["self"]).get("Images"):
             ami = Ami(ami_json)
             amis[ami.ami_id] = ami
         return amis
@@ -68,20 +69,16 @@ class AmiFetcher(object):
         non_terminiated_instances = self.ec2.describe_instances(
             Filters=[
                 {
-                    'Name': 'instance-state-name',
-                    'Values': [
-                        'pending',
-                        'running',
-                        'shutting-down',
-                        'stopping',
-                        'stopped'
-                    ]
+                    "Name": "instance-state-name",
+                    "Values": ["pending", "running", "shutting-down", "stopping", "stopped"],
                 }
             ]
         )
-        amis = [i.get('ImageId', None)
-                for r in non_terminiated_instances.get('Reservations', [])
-                for i in r.get('Instances', [])]
+        amis = [
+            i.get("ImageId", None)
+            for r in non_terminiated_instances.get("Reservations", [])
+            for i in r.get("Instances", [])
+        ]
 
         return set(amis)
 
@@ -117,22 +114,19 @@ class AmiCleaner:
 
 
 def parse_args(args):
-    parser = argparse.ArgumentParser(description='Purge unused AMIs')
+    parser = argparse.ArgumentParser(description="Purge unused AMIs")
 
-    parser.add_argument('--from-ids',
-                        dest='from_ids',
-                        nargs='+',
-                        help='AMI id(s) you simply want to remove')
+    parser.add_argument(
+        "--from-ids", dest="from_ids", nargs="+", help="AMI id(s) you simply want to remove"
+    )
 
-    parser.add_argument('--dry-run',
-                        dest='dry_run',
-                        action='store_true',
-                        help='Show what would be removed')
+    parser.add_argument(
+        "--dry-run", dest="dry_run", action="store_true", help="Show what would be removed"
+    )
 
-    parser.add_argument('--execute',
-                        dest='execute',
-                        action="store_true",
-                        help="Execute the removal")
+    parser.add_argument(
+        "--execute", dest="execute", action="store_true", help="Execute the removal"
+    )
 
     return parser.parse_args(args)
 
@@ -142,12 +136,11 @@ def main(args):
     if not parsed_args:
         return 1
     if not parsed_args.execute ^ parsed_args.dry_run:
-        print('Exactly one of --execute or --dry-run must be specified',
-              file=sys.stderr)
+        print("Exactly one of --execute or --dry-run must be specified", file=sys.stderr)
         return 1
 
-    autoscaling = boto3.client('autoscaling')
-    ec2 = boto3.client('ec2')
+    autoscaling = boto3.client("autoscaling")
+    ec2 = boto3.client("ec2")
     cleaner = AmiCleaner(ec2=ec2, asg=autoscaling)
 
     if parsed_args.from_ids:
@@ -157,12 +150,12 @@ def main(args):
 
     if parsed_args.dry_run:
         for image in cleaner.fetcher.self_amis_from_ids(to_remove_amis):
-            print('Would remove ami {} ({})'.format(image.ami_id, image.name))
+            print("Would remove ami {} ({})".format(image.ami_id, image.name))
 
     if parsed_args.execute:
         failed_snaps = cleaner.remove_amis_from_ids(to_remove_amis)
         if failed_snaps:
-            print('Some snapshots failed to delete', file=sys.stderr)
+            print("Some snapshots failed to delete", file=sys.stderr)
             for snap in failed_snaps:
                 print(snap, file=sys.stderr)
             return 1
@@ -170,5 +163,5 @@ def main(args):
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

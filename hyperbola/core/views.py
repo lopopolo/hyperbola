@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def not_found(request):
-    return render(request, '404.html', status=404)
+    return render(request, "404.html", status=404)

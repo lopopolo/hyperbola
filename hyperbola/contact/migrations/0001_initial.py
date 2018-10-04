@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import hyperbola.core
+
 # import localflavor.us.models
 import stdimage.models
 
@@ -13,88 +14,131 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='AboutMe',
+            name="AboutMe",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', stdimage.models.StdImageField(upload_to=hyperbola.core.MakeUploadTo('about'))),
-                ('blurb', models.TextField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "photo",
+                    stdimage.models.StdImageField(upload_to=hyperbola.core.MakeUploadTo("about")),
+                ),
+                ("blurb", models.TextField()),
             ],
         ),
         migrations.CreateModel(
-            name='ContactType',
+            name="ContactType",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(max_length=100, unique=True)),
-                ('display_order', models.PositiveIntegerField(unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("type", models.CharField(max_length=100, unique=True)),
+                ("display_order", models.PositiveIntegerField(unique=True)),
             ],
-            options={
-                'ordering': ['display_order'],
-            },
+            options={"ordering": ["display_order"]},
         ),
         migrations.CreateModel(
-            name='EmailContact',
+            name="EmailContact",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('value', models.EmailField(max_length=254)),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contact.ContactType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("value", models.EmailField(max_length=254)),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="contact.ContactType"
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-                'ordering': ['type', 'name', 'value'],
-            },
+            options={"abstract": False, "ordering": ["type", "name", "value"]},
         ),
         migrations.CreateModel(
-            name='IMContact',
+            name="IMContact",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('value', models.CharField(max_length=255)),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contact.ContactType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("value", models.CharField(max_length=255)),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="contact.ContactType"
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-                'ordering': ['type', 'name', 'value'],
-            },
+            options={"abstract": False, "ordering": ["type", "name", "value"]},
         ),
         migrations.CreateModel(
-            name='PhoneContact',
+            name="PhoneContact",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
                 # ('value', localflavor.us.models.PhoneNumberField(max_length=20)),
-                ('value', models.CharField(max_length=20)),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contact.ContactType')),
+                ("value", models.CharField(max_length=20)),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="contact.ContactType"
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-                'ordering': ['type', 'name', 'value'],
-            },
+            options={"abstract": False, "ordering": ["type", "name", "value"]},
         ),
         migrations.CreateModel(
-            name='Resume',
+            name="Resume",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(auto_now_add=True, db_index=True)),
-                ('resume', models.FileField(upload_to=hyperbola.core.MakeUploadTo('resume'))),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("date", models.DateField(auto_now_add=True, db_index=True)),
+                ("resume", models.FileField(upload_to=hyperbola.core.MakeUploadTo("resume"))),
             ],
         ),
         migrations.CreateModel(
-            name='WebContact',
+            name="WebContact",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('value', models.URLField()),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contact.ContactType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("value", models.URLField()),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="contact.ContactType"
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-                'ordering': ['type', 'name', 'value'],
-            },
+            options={"abstract": False, "ordering": ["type", "name", "value"]},
         ),
     ]

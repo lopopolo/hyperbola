@@ -7,19 +7,15 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('lifestream', '0001_initial'),
-    ]
+    dependencies = [("lifestream", "0001_initial")]
 
     operations = [
         migrations.AlterField(
-            model_name='lifestreamitem',
-            name='blurb',
-            field=models.CharField(max_length=255),
+            model_name="lifestreamitem", name="blurb", field=models.CharField(max_length=255)
         ),
         migrations.AlterField(
-            model_name='lifestreampicture',
-            name='picture',
-            field=models.ImageField(upload_to='lifestream/photos/%Y/%m/%d/%H-%M/'),
+            model_name="lifestreampicture",
+            name="picture",
+            field=models.ImageField(upload_to="lifestream/photos/%Y/%m/%d/%H-%M/"),
         ),
     ]

@@ -8,19 +8,17 @@ import hyperbola.core
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('lifestream', '0002_auto_20160710_0402'),
-    ]
+    dependencies = [("lifestream", "0002_auto_20160710_0402")]
 
     operations = [
         migrations.AlterField(
-            model_name='lifestreamitem',
-            name='pub_date',
+            model_name="lifestreamitem",
+            name="pub_date",
             field=models.DateTimeField(auto_now_add=True, db_index=True),
         ),
         migrations.AlterField(
-            model_name='lifestreampicture',
-            name='picture',
-            field=models.ImageField(upload_to=hyperbola.core.MakeUploadTo('lifestream')),
+            model_name="lifestreampicture",
+            name="picture",
+            field=models.ImageField(upload_to=hyperbola.core.MakeUploadTo("lifestream")),
         ),
     ]

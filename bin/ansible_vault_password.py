@@ -17,15 +17,15 @@ class AnsiblePasswordNotSetException(Exception):
 
 def main():
     load_dotenv(find_dotenv())
-    ansible_password = os.environ.get('ANSIBLE_VAULT_PASSWORD', None)
+    ansible_password = os.environ.get("ANSIBLE_VAULT_PASSWORD", None)
     if ansible_password is None:
         raise AnsiblePasswordNotSetException()
     return ansible_password
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         print(main())
     except AnsiblePasswordNotSetException:
-        print('ANSIBLE_VAULT_PASSWORD not set', file=sys.stderr)
+        print("ANSIBLE_VAULT_PASSWORD not set", file=sys.stderr)
         sys.exit(1)

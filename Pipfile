@@ -3,9 +3,6 @@ ansible = "*"
 ansible-lint = "==3.5.0rc1"
 bumpversion = "*"
 "flake8" = "*"
-isort = "*"
-"pep257" = "*"
-"pep8" = "*"
 pylint = "*"
 
 [packages]

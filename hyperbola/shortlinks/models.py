@@ -9,4 +9,4 @@ class ShortLink(models.Model):
         return self.target
 
     def __str__(self):
-        return '{} - {}'.format(self.slug, self.target)
+        return "{} - {}".format(self.slug, self.target)

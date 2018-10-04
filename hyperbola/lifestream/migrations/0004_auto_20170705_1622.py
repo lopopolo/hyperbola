@@ -9,14 +9,14 @@ import stdimage.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('lifestream', '0003_auto_20161115_2340'),
-    ]
+    dependencies = [("lifestream", "0003_auto_20161115_2340")]
 
     operations = [
         migrations.AlterField(
-            model_name='lifestreampicture',
-            name='picture',
-            field=stdimage.models.StdImageField(upload_to=hyperbola.core.MakeUploadTo('lifestream')),
-        ),
+            model_name="lifestreampicture",
+            name="picture",
+            field=stdimage.models.StdImageField(
+                upload_to=hyperbola.core.MakeUploadTo("lifestream")
+            ),
+        )
     ]

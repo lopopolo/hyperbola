@@ -9,33 +9,38 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Blurb',
+            name="Blurb",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('body', models.TextField()),
-                ('display_order', models.IntegerField()),
-                ('display', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("body", models.TextField()),
+                ("display_order", models.IntegerField()),
+                ("display", models.BooleanField(default=True)),
             ],
-            options={
-                'ordering': ['display_order'],
-            },
+            options={"ordering": ["display_order"]},
         ),
         migrations.CreateModel(
-            name='Schedule',
+            name="Schedule",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('body', models.TextField()),
-                ('display_order', models.IntegerField()),
-                ('display', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("body", models.TextField()),
+                ("display_order", models.IntegerField()),
+                ("display", models.BooleanField(default=True)),
             ],
-            options={
-                'ordering': ['display_order'],
-            },
+            options={"ordering": ["display_order"]},
         ),
     ]

@@ -1,8 +1,8 @@
 import multiprocessing
 
-bind = 'unix:/var/run/hyperbola-{{ hyperbola_environment }}/hyperbola.sock'
+bind = "unix:/var/run/hyperbola-{{ hyperbola_environment }}/hyperbola.sock"
 workers = multiprocessing.cpu_count() + 1
-pidfile = '/var/run/hyperbola-{{ hyperbola_environment }}/gunicorn.pid'
-accesslog = '-'
-errorlog = '-'
+pidfile = "/var/run/hyperbola-{{ hyperbola_environment }}/gunicorn.pid"
+accesslog = "-"
+errorlog = "-"
 capture_output = True

@@ -11,12 +11,12 @@ class FQDNMiddleware(object):
 
     def __init__(self, get_response):
         self.get_response = get_response
-        self.comment = force_bytes('<!-- canonical hostname: {} -->'.format(socket.getfqdn()))
+        self.comment = force_bytes("<!-- canonical hostname: {} -->".format(socket.getfqdn()))
 
     def __call__(self, request):
         response = self.get_response(request)
 
-        if 'Content-Type' in response and 'text/html' in response['Content-Type']:
+        if "Content-Type" in response and "text/html" in response["Content-Type"]:
             try:
                 response.content = response.content + self.comment
             except ValueError:
@@ -27,11 +27,11 @@ class FQDNMiddleware(object):
 
 class HttpResponseServiceUnavailable(HttpResponse):
     status_code = 503
-    content_type = 'text/plain'
+    content_type = "text/plain"
 
     def __init__(self, *args, **kwargs):
         kwargs2 = kwargs.copy()
-        kwargs2['content_type'] = 'text/plain'
+        kwargs2["content_type"] = "text/plain"
         super().__init__(*args, **kwargs2)
 
 
@@ -39,11 +39,11 @@ class HttpResponseServiceUnavailable(HttpResponse):
 class HealthCheckMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
-        self.logger = logging.getLogger('healthz')
+        self.logger = logging.getLogger("healthz")
         self.cache_key = uuid.uuid4().hex
 
     def __call__(self, request):
-        if request.path == '/healthz' and request.method in ['GET', 'HEAD']:
+        if request.path == "/healthz" and request.method in ["GET", "HEAD"]:
             return self.healthz(request)
         return self.get_response(request)
 
@@ -54,28 +54,30 @@ class HealthCheckMiddleware(object):
         # being present.
         try:
             from django.db import connections
+
             for name in connections:
                 cursor = connections[name].cursor()
-                cursor.execute('SELECT 1;')
+                cursor.execute("SELECT 1;")
                 row = cursor.fetchone()
                 if row is None:
-                    return HttpResponseServiceUnavailable('KO: db: invalid response')
+                    return HttpResponseServiceUnavailable("KO: db: invalid response")
         except Exception as e:
             self.logger.exception(e)
-            return HttpResponseServiceUnavailable('KO: db: cannot connect to database.')
+            return HttpResponseServiceUnavailable("KO: db: cannot connect to database.")
 
         # Do a roundtrip SET and GET on a random key/value.
         # This can effectively check if each is online.
         try:
             from django.core.cache import caches
+
             for cache in caches.all():
                 cache_value = uuid.uuid4().hex
                 cache.set(self.cache_key, cache_value)
                 result = cache.get(self.cache_key)
                 if result != cache_value:
-                    return HttpResponseServiceUnavailable('KO: cache: round trip error.')
+                    return HttpResponseServiceUnavailable("KO: cache: round trip error.")
         except Exception as e:
             self.logger.exception(e)
-            return HttpResponseServiceUnavailable('KO: cache: cannot connect to cache.')
+            return HttpResponseServiceUnavailable("KO: cache: cannot connect to cache.")
 
-        return HttpResponse('OK', content_type='text/plain')
+        return HttpResponse("OK", content_type="text/plain")

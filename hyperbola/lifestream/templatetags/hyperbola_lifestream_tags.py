@@ -24,13 +24,13 @@ def hashtagize(blurb, autoescape=True):
     esc = make_escape_function(autoescape)
 
     def linkify(matchobj):
-        tag = matchobj.group('tag')
+        tag = matchobj.group("tag")
         url = reverse("lifestream:hashtag", args=[tag])
-        if 'leader' in matchobj.groupdict():
-            leader = matchobj.group('leader')
+        if "leader" in matchobj.groupdict():
+            leader = matchobj.group("leader")
         else:
-            leader = ''
+            leader = ""
         return '{leader}<a href="{url}">#{tag}</a>'.format(leader=leader, url=url, tag=tag)
 
-    result = re.sub(r'(?P<leader>(^|\s))#(?P<tag>\w+)', linkify, esc(blurb))
+    result = re.sub(r"(?P<leader>(^|\s))#(?P<tag>\w+)", linkify, esc(blurb))
     return mark_safe(result)

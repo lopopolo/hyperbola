@@ -15,7 +15,7 @@ class ContactType(models.Model):
         return "{} - {}".format(self.display_order, self.type)
 
     class Meta:
-        ordering = ['display_order']
+        ordering = ["display_order"]
 
 
 class Contact(models.Model):
@@ -42,7 +42,7 @@ class Contact(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['type', 'name', 'value']
+        ordering = ["type", "name", "value"]
 
 
 class EmailContact(Contact):
@@ -82,15 +82,14 @@ class Resume(models.Model):
 
 
 class AboutMe(models.Model):
-    photo = StdImageField(upload_to=MakeUploadTo("about"), variations={
-        'x1': (240, 240),
-        'x2': (480, 480),
-        'x3': (720, 720),
-    })
+    photo = StdImageField(
+        upload_to=MakeUploadTo("about"),
+        variations={"x1": (240, 240), "x2": (480, 480), "x3": (720, 720)},
+    )
     blurb = models.TextField()
 
     def __str__(self):
         display = ""
-        if self == self.__class__.objects.latest('id'):
+        if self == self.__class__.objects.latest("id"):
             display = "[DISPLAY]"
         return " ".join([display, "{:.80} ...".format(self.blurb)])

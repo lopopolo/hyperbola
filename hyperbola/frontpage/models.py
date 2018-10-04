@@ -8,7 +8,7 @@ class Blurb(models.Model):
     display = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ['display_order']
+        ordering = ["display_order"]
 
     def __str__(self):
         display = ""
@@ -23,7 +23,7 @@ class Schedule(models.Model):
     display = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ['display_order']
+        ordering = ["display_order"]
 
     def __str__(self):
         display = ""

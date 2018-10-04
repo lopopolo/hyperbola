@@ -3,9 +3,7 @@ import itertools
 from django.http import Http404, StreamingHttpResponse
 from django.shortcuts import render
 
-from .models import (
-    AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact,
-)
+from .models import AboutMe, EmailContact, IMContact, PhoneContact, Resume, WebContact
 
 
 def index(request):
@@ -15,8 +13,10 @@ def index(request):
         about = None
 
     contact_infos = itertools.chain(
-        EmailContact.objects.all(), PhoneContact.objects.all(),
-        WebContact.objects.all(), IMContact.objects.all()
+        EmailContact.objects.all(),
+        PhoneContact.objects.all(),
+        WebContact.objects.all(),
+        IMContact.objects.all(),
     )
 
     all_contacts = sorted(contact_infos, key=lambda k: k.type.display_order)
@@ -26,12 +26,11 @@ def index(request):
     except Resume.DoesNotExist:
         newest = None
 
-    return render(request, "contact_base.html", {
-        "name": "Ryan Lopopolo",
-        "contacts": all_contacts,
-        "resume": newest,
-        "about": about,
-    })
+    return render(
+        request,
+        "contact_base.html",
+        {"name": "Ryan Lopopolo", "contacts": all_contacts, "resume": newest, "about": about},
+    )
 
 
 def resume(request):

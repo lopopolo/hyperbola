@@ -10,27 +10,39 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='LifeStreamItem',
+            name="LifeStreamItem",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('pub_date', models.DateTimeField(auto_now=True, db_index=True)),
-                ('blurb', models.CharField(max_length=200)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("pub_date", models.DateTimeField(auto_now=True, db_index=True)),
+                ("blurb", models.CharField(max_length=200)),
             ],
-            options={
-                'ordering': ['-pub_date'],
-            },
+            options={"ordering": ["-pub_date"]},
         ),
         migrations.CreateModel(
-            name='LifeStreamPicture',
+            name="LifeStreamPicture",
             fields=[
-                ('lifestreamitem_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='lifestream.LifeStreamItem')),
-                ('picture', models.ImageField(upload_to=b'lifestream/photos/%Y/%m/%d/%H-%M/')),
+                (
+                    "lifestreamitem_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="lifestream.LifeStreamItem",
+                    ),
+                ),
+                ("picture", models.ImageField(upload_to=b"lifestream/photos/%Y/%m/%d/%H-%M/")),
             ],
-            bases=('lifestream.lifestreamitem',),
+            bases=("lifestream.lifestreamitem",),
         ),
     ]
