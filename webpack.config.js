@@ -1,16 +1,14 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 const plugins = () => [
   new CleanWebpackPlugin(
-    [
-      './dist/*',
-      './document-root/**/*.ico',
-      './document-root/**/*.png',
-    ],
+    ['./dist/*', './document-root/**/*.ico', './document-root/**/*.png'],
     {
       exclude: ['.gitignore'],
     },
@@ -43,14 +41,18 @@ const plugins = () => [
     onEnd: [
       {
         move: [
-          { source: './dist/icons/favicon.ico', destination: './document-root/favicon.ico' },
-          { source: './dist/icons/apple-touch-icon.png', destination: './document-root/apple-touch-icon.png' },
+          {
+            source: './dist/icons/favicon.ico',
+            destination: './document-root/favicon.ico',
+          },
+          {
+            source: './dist/icons/apple-touch-icon.png',
+            destination: './document-root/apple-touch-icon.png',
+          },
         ],
       },
       {
-        delete: [
-          './dist/icons',
-        ],
+        delete: ['./dist/icons'],
       },
     ],
   }),
@@ -69,6 +71,13 @@ module.exports = {
   plugins: plugins(),
   optimization: {
     concatenateModules: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
   },
   module: {
     rules: [
