@@ -10,17 +10,17 @@ or deployed in production and [Vagrant](/Vagrantfile) configurations. It depends
 
 ### Run
 
-* mysql
-* nginx
-* python3
+-   mysql
+-   nginx
+-   python3
 
 ### Build
 
-* make
-* nodejs
-* pipenv
-* webpack
-* yarn
+-   make
+-   nodejs
+-   pipenv
+-   webpack
+-   yarn
 
 # hyperbola-tools
 
@@ -30,15 +30,15 @@ Build and deployment tools for <https://hyperbo.la>.
 
 ### Build
 
-* ansible
-* make
-* packer
-* vagrant
+-   ansible
+-   make
+-   packer
+-   vagrant
 
 ### Deploy
 
-* AWS
-* terraform
+-   AWS
+-   terraform
 
 ## Local Development
 
