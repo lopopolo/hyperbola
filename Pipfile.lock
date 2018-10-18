@@ -16,11 +16,11 @@
     "default": {
         "awscli": {
             "hashes": [
-                "sha256:6399287c67781c6f8e224867c6340bc4e32c0d49eba0d41015291559565148df",
-                "sha256:c118eec69cd361c59281546ed494f3adccd9a03a156c63039fad84f2afd2266d"
+                "sha256:a9525fc122186707720c20f3a7c41f235f5b8ef85fdc60498deca3fb9b17076a",
+                "sha256:b9bd4a6821b63121aa5de93da3b88a2b1730c4457a44803fc6917bcae75dc512"
             ],
             "index": "pypi",
-            "version": "==1.16.35"
+            "version": "==1.16.36"
         },
         "bleach": {
             "hashes": [
@@ -39,17 +39,17 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:941c46528cc2460423fd217068660a0814730c5d78a6a6673f61c5b4fa398a05",
-                "sha256:ccbf7957711fd0621a45f699d550a1a7e1f2ba5e57418552e49ff63efffcadfd"
+                "sha256:077a653f14f1090a4bdc6afd4bee6e44f8f2ca3e442dd64df9652a6e96d741f3",
+                "sha256:fe75e8d76f81f86c0860e6c337812b261d774f9582f9ecbdb364d9e9bc589d29"
             ],
-            "version": "==1.9.25"
+            "version": "==1.9.26"
         },
         "botocore": {
             "hashes": [
-                "sha256:b221dedd255d0ba995b54ecdce04d1d539dbf682b48c15cdd0d84bff15f9f3c7",
-                "sha256:d93513ad498ec44a17bcbc00de39036934f865417ff4222211be08855b4ed0cd"
+                "sha256:b234cd935cc79013089742abd95e3c8246d9be7c68d3523cb910c86c5b2fab43",
+                "sha256:e9599b346a23c648957e955e045196da68013f7262f7c7d36f7a98232438461f"
             ],
-            "version": "==1.12.25"
+            "version": "==1.12.26"
         },
         "click": {
             "hashes": [
