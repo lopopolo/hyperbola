@@ -5,11 +5,12 @@
   become_user: root
   pre_tasks:
     - name: install ler53 packages
-      apt: state=present name={{ item }}
-      with_items:
-        - python3-pip
-        - python3-boto
-        - python3-openssl
+      apt:
+        state: present
+        name:
+          - python3-pip
+          - python3-boto
+          - python3-openssl
   roles:
   - role: hyperbola-lb
     hyperbola_environment: local

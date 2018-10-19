@@ -5,11 +5,12 @@
   become_user: root
   tasks:
     - name: base packages
-      apt: name={{ item }} state=present
-      with_items:
-      - mysql-server
-      - mysql-client
-      - python3-mysqldb
+      apt:
+        state: present
+        name:
+          - mysql-server
+          - mysql-client
+          - python3-mysqldb
     - name: Enable MySQL remote connections
       copy:
         content: "[mysqld]\nbind-address = 0.0.0.0"

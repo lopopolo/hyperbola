@@ -22,10 +22,10 @@
     - deb-src http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
 - name: Install nginx
   apt:
-    name: nginx
     state: present
-- name: Install snakeoil ssl certs for default ssl server
-  apt: name=ssl-cert state=present
+    name:
+      - nginx
+      - ssl-cert # snakeoil ssl certs for default ssl server
 
 # Default config
 - name: Remove default nginx vhost config file

@@ -22,21 +22,23 @@
 - name: Add deadsnakes ppa
   apt_repository: repo='ppa:deadsnakes/ppa'
 - name: Install python
-  apt: name={{ item }} state=latest
-  with_items:
-    - "{{ app_python }}"
-    - "{{ app_python }}-dev"
-    - "{{ app_python }}-venv"
+  apt:
+    state: latest
+    name:
+      - "{{ app_python }}"
+      - "{{ app_python }}-dev"
+      - "{{ app_python }}-venv"
   tags:
     - skip_ansible_lint
 - name: Install hyperbola build deps
-  apt: name={{ item }} state=present
-  with_items:
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - rsync
-    - libmysqlclient-dev
+  apt:
+    state: present
+    name:
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - rsync
+      - libmysqlclient-dev
 
 # install python app
 - name: Create directories
@@ -67,16 +69,16 @@
   pip:
     state: latest
     executable: pip3
-    name: pipenv
+    name:
+      - pipenv
   tags:
     - skip_ansible_lint
 - name: Update pip infra
   pip:
     state: latest
     executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
-    name: "{{ item }}"
-  with_items:
-    - setuptools
+    name:
+      - setuptools
   tags:
     - skip_ansible_lint
 - name: Install app dependencies

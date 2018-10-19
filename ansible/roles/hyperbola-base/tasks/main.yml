@@ -5,15 +5,17 @@
     update_cache: yes
     cache_valid_time: 3600
 - name: base packages
-  apt: name={{ item }} state=present
-  with_items:
-    - git
-    - ntp
-    - vim
+  apt:
+    state: present
+    name:
+      - git
+      - ntp
+      - vim
 - name: Global python packages
-  pip: name={{ item }} state=present
-  with_items:
-    - awscli
+  pip:
+    name:
+      - awscli
+    state: present
 - name: Lock root account # http://stackoverflow.com/a/39018859
   user:
     name: root
