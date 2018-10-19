@@ -4,17 +4,6 @@
   become_method: sudo
   become_user: root
   tasks:
-  - name: Get base packages from dpkg
-    command: dpkg --get-selections
-    args:
-      creates: /root/base-system-packages.txt
-    no_log: true # noise
-    register: dpkg_get_selections
-    notify: save base package manifest
-  - name: Set dpkg selections fact for handler
-    set_fact:
-      dpkg_base_packages: "{{ dpkg_get_selections.stdout }}"
-    no_log: true
   - name: Update apt cache
     apt:
       update_cache: true
@@ -34,7 +23,3 @@
     apt:
       name: acl
       state: present
-  handlers:
-  - name: save base package manifest
-    copy: content="{{ dpkg_base_packages }}" dest=/root/base-system-packages.txt
-    no_log: true
