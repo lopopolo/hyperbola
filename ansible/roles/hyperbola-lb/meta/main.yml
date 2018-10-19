@@ -1,9 +1,9 @@
 ---
 dependencies:
-- role: hyperbola-base
-- role: hyperbola-nginx
-  nginx_vhosts:
-  - domain: "local.hyperboladc.net"
-    index: "01"
-    ssl_enabled: true
-    template: roles/hyperbola-lb/templates/lb.conf.j2
+  - role: hyperbola-base
+  - role: hyperbola-nginx
+    nginx_vhosts:
+      - domain: "local.hyperboladc.net"
+        index: "01"
+        ssl_enabled: true
+        template: roles/hyperbola-lb/templates/lb.conf.j2

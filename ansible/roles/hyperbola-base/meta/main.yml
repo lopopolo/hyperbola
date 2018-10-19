@@ -1,11 +1,11 @@
 ---
 dependencies:
-- role: hswong3i.tzdata
-  tzdata_timezone: Etc/UTC
-- role: geerlingguy.security
-- role: geerlingguy.ntp
-  ntp_timezone: Etc/UTC
-  ntp_manage_config: true
-  ntp_servers:
-  - "169.254.169.123 prefer iburst"
-  when: hyperbola_environment == 'production'
+  - role: hswong3i.tzdata
+    tzdata_timezone: Etc/UTC
+  - role: geerlingguy.security
+  - role: geerlingguy.ntp
+    ntp_timezone: Etc/UTC
+    ntp_manage_config: true
+    ntp_servers:
+      - "169.254.169.123 prefer iburst"
+    when: hyperbola_environment == 'production'

@@ -46,7 +46,7 @@
     path: "{{ item }}"
     state: directory
   with_items:
-  - /hyperbola/app
+    - /hyperbola/app
 - name: Initialize the deploy root and gather facts
   deploy_helper:
     path: /hyperbola/app

@@ -4,16 +4,16 @@
   become_method: sudo
   become_user: root
   tasks:
-  - name: Install ansible dependencies
-    apt:
-      update_cache: true
-      cache_valid_time: 600
-      state: present
-      name:
-        - acl # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
-        - aptitude
-        - python3-apt
-        - python3-passlib
-        - python3-pip
-        - python3-simplejson
-        - python3-venv
+    - name: Install ansible dependencies
+      apt:
+        update_cache: true
+        cache_valid_time: 600
+        state: present
+        name:
+          - acl # required for some playbooks: https://docs.ansible.com/ansible/become.html#becoming-an-unprivileged-user
+          - aptitude
+          - python3-apt
+          - python3-passlib
+          - python3-pip
+          - python3-simplejson
+          - python3-venv

@@ -4,5 +4,5 @@
   become_method: sudo
   become_user: root
   roles:
-  - role: hyperbola-app
-    app_python: python3.7
+    - role: hyperbola-app
+      app_python: python3.7

@@ -1,6 +1,6 @@
 ---
 nginx_vhosts:
-- domain: example.com
-  index: "01"
-  ssl_enabled: true
-  template: path/to/example.com.conf.j2
+  - domain: example.com
+    index: "01"
+    ssl_enabled: true
+    template: path/to/example.com.conf.j2
