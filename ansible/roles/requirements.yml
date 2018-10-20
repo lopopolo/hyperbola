@@ -1,7 +1,4 @@
 ---
-- name: hswong3i.tzdata
-  src: https://github.com/pantarei/ansible-role-tzdata.git
-  version: 6.1.0
 - name: geerlingguy.security
   src: https://github.com/geerlingguy/ansible-role-security.git
   version: 1.7.0

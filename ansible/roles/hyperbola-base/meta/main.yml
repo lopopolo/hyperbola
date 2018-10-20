@@ -1,7 +1,5 @@
 ---
 dependencies:
-  - role: hswong3i.tzdata
-    tzdata_timezone: Etc/UTC
   - role: geerlingguy.security
   - role: geerlingguy.ntp
     ntp_timezone: Etc/UTC

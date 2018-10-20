@@ -1,6 +1,0 @@
----
-# handlers file for hswong3i.tzdata
-
-- name: update timezone
-  shell: |
-    dpkg-reconfigure --frontend noninteractive tzdata

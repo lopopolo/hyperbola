@@ -24,7 +24,7 @@ repos:
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
-        exclude: src|dist|geerlingguy|hswong3i|mprahl|\.bumpversion\.cfg
+        exclude: src|dist|geerlingguy|mprahl|\.bumpversion\.cfg
     -   id: flake8
         exclude: migrations
         language_version: python3
@@ -32,12 +32,12 @@ repos:
     -   id: mixed-line-ending
     -   id: name-tests-test
     -   id: trailing-whitespace
-        exclude: src|dist|geerlingguy|hswong3i|mprahl|\.bumpversion\.cfg
+        exclude: src|dist|geerlingguy|mprahl|\.bumpversion\.cfg
 -   repo: https://github.com/prettier/prettier
     rev: 1.14.3
     hooks:
     - id: prettier
-      exclude: dist|geerlingguy|hswong3i|mprahl|\.vscode
+      exclude: dist|geerlingguy|mprahl|\.vscode
 -   repo: https://github.com/ambv/black.git
     rev: 18.9b0
     hooks:
@@ -85,7 +85,7 @@ repos:
     -   id: shell-lint
         types: [shell]
         files: ''
-        exclude: geerlingguy|hswong3i
+        exclude: geerlingguy
 -   repo: local
     hooks:
     -   id: build-frontend

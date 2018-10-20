@@ -16,6 +16,9 @@
     name:
       - awscli
     state: present
+- name: set timezone to UTC
+  timezone:
+    name: Etc/UTC
 - name: Lock root account # http://stackoverflow.com/a/39018859
   user:
     name: root
