@@ -34,7 +34,7 @@
         "Project": "hyperbola",
         "Name": "app",
         "Environment": "production",
-        "Version": "0.139.0"
+        "Version": "0.140.0"
       },
       "associate_public_ip_address": true
     }
