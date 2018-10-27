@@ -9,10 +9,10 @@ level configs from `conf.d/nginx-base-config/base/*.conf`.
 
 `nginx-base-config` contains common configs for all sites deployed on hyperbo.la:
 
-* asset caching
-* health checks
-* security headers
-* SSL configuration
+-   asset caching
+-   health checks
+-   security headers
+-   SSL configuration
 
 When deploying a new site, include all `location` and `directive-only` configs by adding the
 following lines to the end of the server block:

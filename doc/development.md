@@ -8,6 +8,7 @@
 brew install mysql@5.7
 brew link mysql@5.7
 ```
+
 ### Vagrant
 
 ```bash

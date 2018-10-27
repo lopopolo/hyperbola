@@ -2,7 +2,7 @@
 
 This configuration borrows heavily from:
 
-- [hashicorp/best-practices aws](https://github.com/hashicorp/best-practices/tree/master/terraform/providers/aws)
+-   [hashicorp/best-practices aws](https://github.com/hashicorp/best-practices/tree/master/terraform/providers/aws)
 
 ## Architecture
 

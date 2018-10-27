@@ -4,39 +4,41 @@
     "aws_secret_key": "",
     "ansible_vault_password": "{{env `ANSIBLE_VAULT_PASSWORD`}}"
   },
-  "builders": [{
-    "name": "aws-us-west-2-hyperbola-app",
-    "type": "amazon-ebs",
-    "region": "us-west-2",
-    "vpc_id": "vpc-08d0186e",
-    "subnet_id": "subnet-dc043895",
-    "source_ami_filter": {
-      "filters": {
-        "virtualization-type": "hvm",
-        "name": "*ubuntu-bionic-18.04-amd64-server-*",
-        "root-device-type": "ebs"
+  "builders": [
+    {
+      "name": "aws-us-west-2-hyperbola-app",
+      "type": "amazon-ebs",
+      "region": "us-west-2",
+      "vpc_id": "vpc-08d0186e",
+      "subnet_id": "subnet-dc043895",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "*ubuntu-bionic-18.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
       },
-      "owners": ["099720109477"],
-      "most_recent": true
-    },
-    "instance_type": "c5.xlarge",
-    "spot_price": "0.17",
-    "ssh_username": "ubuntu",
-    "ssh_timeout": "10m",
-    "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_ami_name}}",
-    "ami_description": "hyperbola-app AMI",
-    "run_tags": {
-      "ami-create": "aws-us-west-2-hyperbola-app"
-    },
-    "tags": {
-      "ami": "aws-us-west-2-hyperbola-app",
-      "Project": "hyperbola",
-      "Name": "app",
-      "Environment": "production",
-      "Version": "0.138.0"
-    },
-    "associate_public_ip_address": true
-  }],
+      "instance_type": "c5.xlarge",
+      "spot_price": "0.17",
+      "ssh_username": "ubuntu",
+      "ssh_timeout": "10m",
+      "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_ami_name}}",
+      "ami_description": "hyperbola-app AMI",
+      "run_tags": {
+        "ami-create": "aws-us-west-2-hyperbola-app"
+      },
+      "tags": {
+        "ami": "aws-us-west-2-hyperbola-app",
+        "Project": "hyperbola",
+        "Name": "app",
+        "Environment": "production",
+        "Version": "0.139.0"
+      },
+      "associate_public_ip_address": true
+    }
+  ],
   "provisioners": [
     {
       "type": "shell",
@@ -115,7 +117,10 @@
       "playbook_file": "ansible/app.yml",
       "playbook_dir": "ansible",
       "inventory_file": "ansible/production.ini",
-      "extra_arguments": ["--limit=localhost", "--vault-password-file=/tmp/vault-password.txt"],
+      "extra_arguments": [
+        "--limit=localhost",
+        "--vault-password-file=/tmp/vault-password.txt"
+      ],
       "command": "ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook"
     }
   ]
