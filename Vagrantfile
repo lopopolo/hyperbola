@@ -144,15 +144,17 @@ Vagrant.configure('2') do |config|
 
     # Fixtures
     app.vm.provision 'fixtures', type: 'shell', inline: <<~SHELL
-      sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v5/local/database/hyperbola-app-2017-12-03T0126Z.json /tmp/hyperbola-seed.json
+      sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-27T2157Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
+      tar -xvzf /tmp/hyperbola-seed.json.tar.gz -C /tmp
       cd /hyperbola/app/current
       venv/bin/python manage.py migrate frontpage zero
       venv/bin/python manage.py migrate contact zero
       venv/bin/python manage.py migrate lifestream zero
+      venv/bin/python manage.py migrate blog zero
       venv/bin/python manage.py migrate
-      venv/bin/python manage.py loaddata /tmp/hyperbola-seed.json
+      venv/bin/python manage.py loaddata /tmp/hyperbola-app-*.json
       venv/bin/python manage.py createcachetable
-      rm /tmp/hyperbola-seed.json
+      rm /tmp/hyperbola*.json*
     SHELL
   end
 end

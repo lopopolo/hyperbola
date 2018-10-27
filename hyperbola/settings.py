@@ -206,6 +206,7 @@ INSTALLED_APPS = [
     "django_mysql",
     "django_s3_storage",
     "stdimage",
+    "hyperbola.blog",
     "hyperbola.contact",
     "hyperbola.core",
     "hyperbola.frontpage",

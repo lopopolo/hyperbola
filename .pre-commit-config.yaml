@@ -37,7 +37,7 @@ repos:
     rev: 1.14.3
     hooks:
     - id: prettier
-      exclude: dist|geerlingguy|mprahl|\.vscode
+      exclude: dist|geerlingguy|mprahl|\.vscode|\.html$
 -   repo: https://github.com/ambv/black.git
     rev: 18.9b0
     hooks:

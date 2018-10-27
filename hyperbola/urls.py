@@ -18,6 +18,7 @@ Including another URLconf
 from django.conf import settings
 from django.urls import include, path
 
+from .blog import urls as blog
 from .contact import urls as contact
 from .core.views import not_found
 from .frontpage import urls as frontpage
@@ -26,6 +27,7 @@ from .shortlinks import urls as shortlinks
 
 urlpatterns = [
     path("", include(frontpage)),
+    path("w/", include(blog)),
     path("contact/", include(contact)),
     path("lifestream/", include(lifestream)),
     path("s/", include(shortlinks)),

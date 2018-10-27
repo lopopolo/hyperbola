@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load hyperbola_core_tags %}
+
+{% block active_app %} blog {% endblock active_app %}
+{% block title %} {{ block.super }} :: {{ post.title|escape }} {% endblock title %}
+{% block section_title %} {{ post.title|escape }} {% endblock section_title %}
+{% block head %}
+{{ block.super }}
+<meta property="og:type" content="article" />
+<meta property="og:article:published_time" content="{{ post.publish_date|date:"Y-m-d" }}" />
+<meta property="og:article:modified_time" content="{{ post.publish_date|date:"Y-m-d" }}" />
+<meta property="og:article:author" content="https://www.facebook.com/ryan.lopopolo" />
+<meta property="og:title" content="{{ post.title|escape }}" />
+<meta property="og:description" content="{{ post.summary|escape }}" />
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="card-title text-center">{{ post.title|escape }}</h2>
+        <h6 class="card-subtitle text-center mb-2 text-muted">Ryan Lopopolo | {{ post.publish_date|date:"F d, Y" }}</h6>
+        <div class="card-text">{{ post.post_markdown|markdown }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
