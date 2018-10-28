@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+git ls-files -i --exclude-standard
+
+[ -z "$(git ls-files -i --exclude-standard)" ]

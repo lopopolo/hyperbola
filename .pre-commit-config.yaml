@@ -96,15 +96,9 @@ repos:
         exclude: geerlingguy
 -   repo: local
     hooks:
-    -   id: build-frontend
-        name: Frontend codegen
-        entry: make build
-        language: system
-        files: (src|dist|\.css$|\.js$|\.scss|\.svg$|\.png$|package\.json|yarn\.lock)
-        pass_filenames: false
     -   id: git-lint
-        name: Git linters
-        entry: make lint-git
-        language: system
+        name: Ignored files in git index
+        entry: ./bin/git-lint
+        language: script
         always_run: true
         pass_filenames: false
