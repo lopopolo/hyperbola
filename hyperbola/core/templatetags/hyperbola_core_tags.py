@@ -41,7 +41,13 @@ def fullurl(context, path):
 
 @register.filter
 def markdown(text):
-    # https://pythonhosted.org/Markdown/release-2.6.html#safe_mode-deprecated
+    tags = markdown_tags + ["pre"]
+    attrs = {**markdown_attrs, **{"div": ["class"], "span": ["class"]}}
     return mark_safe(
-        bleach.clean(markdown_render(text), markdown_tags, markdown_attrs, all_styles)
+        bleach.clean(
+            markdown_render(text, extensions=["codehilite", "fenced_code"]),
+            tags,
+            attrs,
+            all_styles,
+        )
     )

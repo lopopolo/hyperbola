@@ -19,3 +19,4 @@ pillow = "*"
 python-dotenv = {extras = ["cli"], version = "*"}
 pytz = "*"
 awscli = "*"
+pygments = "*"
