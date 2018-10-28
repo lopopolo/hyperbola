@@ -13,7 +13,7 @@ class LifeStreamItem(models.Model):
         return reverse("lifestream:entry_permalink", args=[str(self.id)])
 
     def __str__(self):
-        return "{} - {}".format(self.pk, self.blurb)
+        return f"{self.pk} - {self.blurb}"
 
     class Meta:
         ordering = ["-pub_date"]

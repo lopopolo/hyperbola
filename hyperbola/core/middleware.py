@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 
 
-class FQDNMiddleware(object):
+class FQDNMiddleware:
     """Inject the canonical hostname for the host that rendered the request."""
 
     def __init__(self, get_response):
@@ -36,7 +36,7 @@ class HttpResponseServiceUnavailable(HttpResponse):
 
 
 # https://www.ianlewis.org/en/kubernetes-health-checks-django
-class HealthCheckMiddleware(object):
+class HealthCheckMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.logger = logging.getLogger("healthz")

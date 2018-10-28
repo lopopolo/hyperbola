@@ -12,7 +12,7 @@ class ContactType(models.Model):
     display_order = models.PositiveIntegerField(unique=True)
 
     def __str__(self):
-        return "{} - {}".format(self.display_order, self.type)
+        return f"{self.display_order} - {self.type}"
 
     class Meta:
         ordering = ["display_order"]
@@ -78,7 +78,7 @@ class Resume(models.Model):
         return reverse("contact:resume_pdf")
 
     def __str__(self):
-        return "version {} as of {}".format(self.id, self.date)
+        return f"version {self.id} as of {self.date}"
 
 
 class AboutMe(models.Model):
@@ -92,4 +92,4 @@ class AboutMe(models.Model):
         display = ""
         if self == self.__class__.objects.latest("id"):
             display = "[DISPLAY]"
-        return " ".join([display, "{:.80} ...".format(self.blurb)])
+        return " ".join([display, f"{self.blurb:.80} ..."])

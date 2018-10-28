@@ -16,7 +16,7 @@ import boto3
 from botocore.exceptions import ClientError
 
 
-class Ami(object):
+class Ami:
     def __init__(self, json):
         self.ami_id = json.get("ImageId")
         self.name = json.get("Name")
@@ -29,7 +29,7 @@ class Ami(object):
         ]
 
 
-class BlockDevice(object):
+class BlockDevice:
     def __init__(self, json):
         ebs = json.get("Ebs")
         if ebs is None:
@@ -41,7 +41,7 @@ class BlockDevice(object):
         self.encrypted = ebs.get("Encrypted")
 
 
-class AmiFetcher(object):
+class AmiFetcher:
     def __init__(self, ec2, asg):
         self.ec2 = ec2
         self.asg = asg
@@ -95,14 +95,14 @@ class AmiCleaner:
 
         for ami in amis:
             self.ec2.deregister_image(ImageId=ami.ami_id)
-            print("{} ({}) deregistered".format(ami.ami_id, ami.name))
+            print(f"{ami.ami_id} ({ami.name}) deregistered")
             for block_device in ami.block_device_mappings:
                 try:
                     self.ec2.delete_snapshot(SnapshotId=block_device.snapshot_id)
                 except ClientError:
                     failed_snapshots.append(block_device.snapshot_id)
                 else:
-                    print("{} deleted".format(block_device.snapshot_id))
+                    print(f"{block_device.snapshot_id} deleted")
 
         return failed_snapshots
 
@@ -150,7 +150,7 @@ def main(args):
 
     if parsed_args.dry_run:
         for image in cleaner.fetcher.self_amis_from_ids(to_remove_amis):
-            print("Would remove ami {} ({})".format(image.ami_id, image.name))
+            print(f"Would remove ami {image.ami_id} ({image.name})")
 
     if parsed_args.execute:
         failed_snaps = cleaner.remove_amis_from_ids(to_remove_amis)

@@ -14,7 +14,7 @@ class Blurb(models.Model):
         display = ""
         if self.display:
             display = "[DISPLAY]"
-        return " ".join([display, "{} - {}".format(self.display_order, self.title)])
+        return " ".join([display, f"{self.display_order} - {self.title}"])
 
 
 class Schedule(models.Model):
@@ -29,4 +29,4 @@ class Schedule(models.Model):
         display = ""
         if self.display:
             display = "[DISPLAY]"
-        return " ".join([display, "{} - {:.80} ...".format(self.display_order, self.body)])
+        return " ".join([display, f"{self.display_order} - {self.body:.80} ..."])

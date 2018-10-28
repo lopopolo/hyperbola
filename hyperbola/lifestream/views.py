@@ -122,7 +122,7 @@ def hashtag(request, tag, page=1):
 
     # WARNING: MySQL does not recognize standard regexp character class
     # shorthand: http://dev.mysql.com/doc/refman/5.6/en/regexp.html
-    search = r"#{}([^[:alnum:]]|$)".format(tag)
+    search = fr"#{tag}([^[:alnum:]]|$)"
 
     posts = LifeStreamItem.objects.select_related("lifestreampicture").filter(blurb__iregex=search)
     if not posts.exists():
@@ -142,7 +142,7 @@ def hashtag(request, tag, page=1):
         request,
         "lifestream_paged.html",
         {
-            "content_header": "Results for #{}".format(tag),
+            "content_header": f"Results for #{tag}",
             "posts": pager,
             "dates": get_archive_range(),
             "links": PageLinks(newer=newer, older=older),

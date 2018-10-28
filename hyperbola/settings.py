@@ -25,7 +25,7 @@ class DotenvLoader(ConfigLoader):
 
         prop = environ.get(env, default)
         if prop is None:
-            raise ImproperlyConfigured("Environment variable {} not set".format(env))
+            raise ImproperlyConfigured(f"Environment variable {env} not set")
         if prop == "" and default is not None:
             return default
 
@@ -38,7 +38,7 @@ class Env(Enum):
     local = auto()
 
 
-class EnvironmentConfig(object):
+class EnvironmentConfig:
     """Compute environment-specific settings."""
 
     def __init__(self, loader):
@@ -95,12 +95,12 @@ class EnvironmentConfig(object):
     def debug(self):
         return False
 
-    class PathsConfig(object):
+    class PathsConfig:
         def __init__(self, environment):
             self.package = Path(__file__).resolve().parent
             self.root = Path("/hyperbola/sdist")
 
-    class DBConfig(object):
+    class DBConfig:
         def __init__(self, loader):
             self.host = "mysql.app.hyperboladc.net"
             self.port = "3306"
@@ -108,7 +108,7 @@ class EnvironmentConfig(object):
             self.password = loader.source("DB_PASSWORD")
             self.name = "hyperbola"
 
-    class ContentConfig(object):
+    class ContentConfig:
         def __init__(self, environment, root_path):
             self.static_root = root_path.joinpath("document-root", "static")
             self.static_dirs = [root_path.joinpath("dist")]
@@ -119,7 +119,7 @@ class EnvironmentConfig(object):
             elif environment in [Env.stage, Env.local]:
                 self.media_bucket_name = "local.hyperbolausercontent.net"
                 self.aws_region = "us-east-1"
-            self.media_url = "https://{}/".format(self.media_bucket_name)
+            self.media_url = f"https://{self.media_bucket_name}/"
 
 
 ENVIRONMENT = EnvironmentConfig(loader=DotenvLoader())

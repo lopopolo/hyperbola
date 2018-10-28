@@ -24,25 +24,21 @@ class Command(BaseCommand):
     S3_BACKUP_VERSION = getattr(settings, "HYPERBOLA_S3_BACKUP_VERSION", "v6")
     S3_BACKUP_TIMESTAMP = now.strftime("%Y-%m-%dT%H%MZ")
     S3_BACKUP_BUCKET = getattr(
-        settings,
-        "HYPERBOLA_S3_BACKUP_BUCKET",
-        "hyperbola-app-backup-{}".format(settings.ENVIRONMENT),
+        settings, "HYPERBOLA_S3_BACKUP_BUCKET", f"hyperbola-app-backup-{settings.ENVIRONMENT}"
     )
-    S3_BACKUP_KEY_PREFIX = Path("{}/{}".format(S3_BACKUP_VERSION, settings.ENVIRONMENT))
+    S3_BACKUP_KEY_PREFIX = Path(f"{S3_BACKUP_VERSION}/{settings.ENVIRONMENT}")
 
     def handle(self, *args, **options):
         s3 = boto3.resource("s3", settings.AWS_REGION)
 
-        dumpdata_file_name = "hyperbola-app-{}.json".format(self.S3_BACKUP_TIMESTAMP)
-        dumpdata_archive_name = "{}.tar.gz".format(dumpdata_file_name)
+        dumpdata_file_name = f"hyperbola-app-{self.S3_BACKUP_TIMESTAMP}.json"
+        dumpdata_archive_name = f"{dumpdata_file_name}.tar.gz"
         dumpdata_file_key = str(
             self.S3_BACKUP_KEY_PREFIX.joinpath("database", dumpdata_archive_name)
         )
 
         self.stdout.write("Preparing backup at {}".format(self.now.isoformat()))
-        self.stdout.write(
-            "Uploading backup to s3://{}/{}".format(self.S3_BACKUP_BUCKET, dumpdata_file_key)
-        )
+        self.stdout.write(f"Uploading backup to s3://{self.S3_BACKUP_BUCKET}/{dumpdata_file_key}")
         with io.StringIO() as out, io.BytesIO() as outgz:
             call_command(
                 "dumpdata",

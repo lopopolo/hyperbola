@@ -18,7 +18,7 @@ def make_escape_function(autoescape=True):
 
 
 @deconstructible
-class MakeUploadTo(object):
+class MakeUploadTo:
     """Make a Django FileField upload_to callable that names files with a uuid."""
 
     def __init__(self, prefix):

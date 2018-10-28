@@ -68,6 +68,8 @@ repos:
     rev: v1.9.1
     hooks:
     -   id: pyupgrade
+        args:
+        -   "--py36-plus"
 -   repo: https://github.com/antonbabenko/pre-commit-terraform.git
     rev: v1.7.3
     hooks:
