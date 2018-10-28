@@ -39,6 +39,11 @@
                   <strong>lifestream</strong>
                 </a>
               </li>
+              <li class="nav-item text-center">
+                <a class="nav-link align-bottom {% if request.resolver_match.app_name == "blog" %}active{% endif %}" href="{% url "blog:index" %}">
+                  <strong>blog</strong>
+                </a>
+              </li>
             </ul>
           </div>
           <label for="navbar-toggle-checkbox" class="navbar-toggle collapsed mt-auto mb-auto mx-1" data-toggle="collapse" data-target=".navbar-collapse">

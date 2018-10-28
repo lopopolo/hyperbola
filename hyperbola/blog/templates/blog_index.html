@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} {{ block.super }} :: Blog {% endblock title %}
+{% block section_title %} Blog :: Index {% endblock section_title %}
+
+{% block content %}
+{% for post in posts %}
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="{{ post.get_absolute_url }}">{{ post.title|escape }}</a>
+        </h2>
+        <h6 class="card-subtitle mb-2 text-muted">
+          <a href="{% url "contact:index" %}">Ryan Lopopolo</a> | {{ post.publish_date|date:"F d, Y" }}
+        </h6>
+        <div class="card-text">{{ post.summary|escape }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock content %}

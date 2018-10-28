@@ -2,7 +2,7 @@
 {% load hyperbola_core_tags %}
 
 {% block title %} {{ block.super }} :: {{ post.title|escape }} {% endblock title %}
-{% block section_title %} {{ post.title|escape }} {% endblock section_title %}
+{% block section_title %} Blog :: {{ post.title|escape }} {% endblock section_title %}
 {% block head %}
 {{ block.super }}
 <meta property="og:type" content="article" />
@@ -18,8 +18,12 @@
   <div class="col-md-8 offset-md-2">
     <div class="card mb-3">
       <div class="card-body">
-        <h2 class="card-title text-center">{{ post.title|escape }}</h2>
-        <h6 class="card-subtitle text-center mb-2 text-muted">Ryan Lopopolo | {{ post.publish_date|date:"F d, Y" }}</h6>
+        <h2 class="card-title text-center">
+          <a href="{{ post.get_absolute_url }}">{{ post.title|escape }}</a>
+        </h2>
+        <h6 class="card-subtitle text-center mb-2 text-muted">
+          <a href="{% url "contact:index" %}">Ryan Lopopolo</a> | {{ post.publish_date|date:"F d, Y" }}
+        </h6>
         <div class="card-text">{{ post.post_markdown|markdown }}</div>
       </div>
     </div>
