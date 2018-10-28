@@ -42,6 +42,12 @@ repos:
     rev: 18.9b0
     hooks:
     -   id: black
+-   repo: https://github.com/willthames/ansible-lint.git
+    rev: v3.5.1
+    hooks:
+    -   id: ansible-lint
+        types: [yaml]
+        files: ansible
 -   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.1.0
     hooks:
@@ -93,13 +99,6 @@ repos:
         entry: make build
         language: system
         files: (src|dist|\.css$|\.js$|\.scss|\.svg$|\.png$|package\.json|yarn\.lock)
-        pass_filenames: false
-    -   id: ansible-lint
-        name: Ansible playbook and role linters
-        entry: make lint-ansible
-        language: system
-        types: [yaml]
-        files: ansible
         pass_filenames: false
     -   id: git-lint
         name: Git linters

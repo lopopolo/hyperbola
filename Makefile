@@ -39,21 +39,12 @@ build-ami:
 ## Linters
 
 .PHONY: lint
-lint: lint-ansible lint-git
+lint: lint-git
 
 .PHONY: lint-git
 lint-git:
 	git ls-files -i --exclude-standard
 	[[ "$$(git ls-files -i --exclude-standard | wc -l | tr -d ' ')" == "0" ]]
-
-ANSIBLE_LINT_EXCLUDE := \
-	--exclude=ansible/roles/hswong3i.tzdata \
-	--exclude=ansible/roles/mprahl.lets-encrypt-route-53
-
-.PHONY: lint-ansible
-lint-ansible:
-	ansible-playbook -i ansible/local.ini --syntax-check --vault-password-file=bin/ansible_vault_password.py ansible/*.yml
-	ansible-lint $(ANSIBLE_LINT_EXCLUDE) ansible/*.yml
 
 ## Virtualenv
 

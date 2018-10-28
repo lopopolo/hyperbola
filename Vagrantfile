@@ -144,7 +144,7 @@ Vagrant.configure('2') do |config|
 
     # Fixtures
     app.vm.provision 'fixtures', type: 'shell', inline: <<~SHELL
-      sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-27T2157Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
+      sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-28T0501Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
       tar -xvzf /tmp/hyperbola-seed.json.tar.gz -C /tmp
       cd /hyperbola/app/current
       venv/bin/python manage.py migrate frontpage zero

@@ -1,6 +1,4 @@
 [dev-packages]
-ansible = "*"
-ansible-lint = "==3.5.0rc1"
 bumpversion = "*"
 "flake8" = "*"
 pylint = "*"

@@ -1,0 +1,3 @@
+exclude_paths:
+  - ./ansible/roles/mprahl.lets-encrypt-route-53/
+  - ./docker/ingress/ansible/roles/mprahl.lets-encrypt-route-53/
