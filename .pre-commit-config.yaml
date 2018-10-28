@@ -1,10 +1,10 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit
-    rev: v1.11.1
+    rev: v1.12.0
     hooks:
     -   id: validate_manifest
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v1.4.0-1
+    rev: v2.0.0
     hooks:
     -   id: check-added-large-files
     -   id: check-ast
@@ -34,7 +34,7 @@ repos:
     -   id: trailing-whitespace
         exclude: src|dist|geerlingguy|mprahl|\.bumpversion\.cfg
 -   repo: https://github.com/prettier/prettier
-    rev: 1.14.3
+    rev: 1.14.2
     hooks:
     - id: prettier
       exclude: dist|geerlingguy|mprahl|\.vscode|\.html$
@@ -65,7 +65,7 @@ repos:
         language: script
         types: [python]
 -   repo: https://github.com/asottile/pyupgrade.git
-    rev: v1.6.1
+    rev: v1.9.1
     hooks:
     -   id: pyupgrade
 -   repo: https://github.com/antonbabenko/pre-commit-terraform.git
