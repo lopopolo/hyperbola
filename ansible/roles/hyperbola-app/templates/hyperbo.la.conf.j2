@@ -10,7 +10,7 @@ server {
 
     location / {
         {% if item.ssl_enabled %}
-        include conf.d/base/directive-only/ssl/hsts.nginx.conf;
+        include conf.d/base/directive-only/ssl/hsts.conf;
         {% endif %}
         return 301 https://{{ item.domain }}$request_uri;
     }
@@ -28,7 +28,7 @@ server {
         if ($http_x_forwarded_proto != 'https') {
             return 301 https://$host$request_uri;
         }
-        include conf.d/base/directive-only/ssl/hsts.nginx.conf;
+        include conf.d/base/directive-only/ssl/hsts.conf;
         {% endif %}
 
         include conf.d/base/location/static/*.conf;
@@ -51,7 +51,7 @@ server {
         client_max_body_size  16M;
 
         {% if item.ssl_enabled %}
-        include conf.d/base/directive-only/ssl/hsts.nginx.conf;
+        include conf.d/base/directive-only/ssl/hsts.conf;
         {% endif %}
     }
 

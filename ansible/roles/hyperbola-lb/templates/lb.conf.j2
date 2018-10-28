@@ -10,8 +10,8 @@ server {
     ssl_certificate_key /etc/ssl/{{ item.domain }}/{{ item.domain }}.key;
     ssl_trusted_certificate /etc/ssl/{{ item.domain }}/{{ item.domain }}.pem;
 
-    include conf.d/base/directive-only/ssl/ssl.nginx.conf;
-    include conf.d/base/directive-only/ssl/ssl-stapling.nginx.conf;
+    include conf.d/base/directive-only/ssl/ssl.conf;
+    include conf.d/base/directive-only/ssl/ssl-stapling.conf;
 
     location / {
         proxy_pass            http://192.168.10.20:80$request_uri;

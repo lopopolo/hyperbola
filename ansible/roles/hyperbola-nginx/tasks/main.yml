@@ -35,7 +35,7 @@
   notify: reload nginx
 - name: Install default http and ssl servers
   copy:
-    src: sites/00-no-default.nginx.conf
+    src: sites/00-no-default.conf
     dest: "{{ nginx_vhost_path }}/00-no-default.conf"
     mode: 0444
   notify: reload nginx
