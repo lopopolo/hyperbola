@@ -49,17 +49,12 @@
     },
     {
       "type": "file",
-      "source": "dist",
-      "destination": "/hyperbola/sdist"
-    },
-    {
-      "type": "file",
-      "source": "document-root",
-      "destination": "/hyperbola/sdist"
-    },
-    {
-      "type": "file",
       "source": "hyperbola",
+      "destination": "/hyperbola/sdist"
+    },
+    {
+      "type": "file",
+      "source": "src",
       "destination": "/hyperbola/sdist"
     },
     {
@@ -89,12 +84,27 @@
     },
     {
       "type": "file",
+      "source": "package.json",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
       "source": "setup.cfg",
       "destination": "/hyperbola/sdist/"
     },
     {
       "type": "file",
       "source": "setup.py",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "webpack.config.js",
+      "destination": "/hyperbola/sdist/"
+    },
+    {
+      "type": "file",
+      "source": "yarn.lock",
       "destination": "/hyperbola/sdist/"
     },
     {

@@ -196,7 +196,7 @@ ENV/
 # hyperbola overrides
 
 ### Vagrant ###
-ubuntu-xenial-16.04-cloudimg-console.log
+ubuntu-*-cloudimg-console.log
 
 ### Terraform ###
 terraform.tfstate.*.backup
@@ -206,4 +206,3 @@ terraform.tfstate.*.backup
 !.python-version
 !env/
 !ENV/
-!dist/

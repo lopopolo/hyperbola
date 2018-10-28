@@ -34,7 +34,6 @@
     "babel-preset-env": "^1.6.1",
     "base64-inline-loader": "^1.1.1",
     "bootstrap": "^4.1.1",
-    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
@@ -43,11 +42,6 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-react": "^7.4.0",
-    "file-loader": "^2.0.0",
-    "filemanager-webpack-plugin": "^2.0.5",
-    "glob": "^7.1.2",
-    "glob-all": "^3.1.0",
-    "ignore-loader": "^0.1.2",
     "jquery": "^3.3.1",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.9.0",
@@ -55,14 +49,11 @@
     "popper.js": "^1.14.3",
     "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
-    "resolve-url-loader": "^3.0.0",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.23.0",
-    "stylefmt": "^6.0.0",
     "svgo": "^1.0.1",
     "svgo-loader": "^2.1.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
-    "url-loader": "^1.0.1",
     "webapp-webpack-plugin": "^2.1.0",
     "webpack": "^4.0.0",
     "webpack-cli": "^3.0.3"
@@ -107,6 +98,7 @@
     }
   },
   "scripts": {
+    "build": "webpack --mode production",
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
   }
 }

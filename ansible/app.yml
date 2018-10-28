@@ -6,3 +6,4 @@
   roles:
     - role: hyperbola-app
       app_python: python3.7
+      app_node: node_10.x # https://github.com/nodesource/distributions

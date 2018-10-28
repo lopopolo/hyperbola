@@ -21,7 +21,7 @@ server {
     listen       80;
     server_name  {{ item.domain }};
 
-    root /hyperbola/sdist/document-root/;
+    root /hyperbola/app/current/assets/;
 
     location / {
         {% if item.ssl_enabled %}
@@ -31,15 +31,12 @@ server {
         include conf.d/base/directive-only/ssl/hsts.nginx.conf;
         {% endif %}
 
+        include conf.d/base/location/static/*.conf;
         try_files  $uri @backend;
 
         client_max_body_size  16M;
 
         include conf.d/base/location/*.conf;
-    }
-
-    location /static {
-        include conf.d/base/location/static/*.conf;
     }
 
     location @backend {

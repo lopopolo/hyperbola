@@ -46,7 +46,7 @@ class EnvironmentConfig:
         self.path = self.PathsConfig(self.environment)
         self.secret_key = loader.source("SECRET_KEY")
         self.db = self.DBConfig(loader)
-        self.content = self.ContentConfig(self.environment, self.path.root)
+        self.content = self.ContentConfig(self.environment, self.path)
 
     def __str__(self):
         return self.environment.name
@@ -98,7 +98,8 @@ class EnvironmentConfig:
     class PathsConfig:
         def __init__(self, environment):
             self.package = Path(__file__).resolve().parent
-            self.root = Path("/hyperbola/sdist")
+            self.root = Path(__file__).resolve().parent.parent.parent.parent.parent.parent
+            self.sdist = Path("/hyperbola/sdist")
 
     class DBConfig:
         def __init__(self, loader):
@@ -109,10 +110,10 @@ class EnvironmentConfig:
             self.name = "hyperbola"
 
     class ContentConfig:
-        def __init__(self, environment, root_path):
-            self.static_root = root_path.joinpath("document-root", "static")
-            self.static_dirs = [root_path.joinpath("dist")]
-            self.static_url = "/static/"
+        def __init__(self, environment, paths):
+            self.static_root = paths.root.joinpath("assets")
+            self.static_dirs = [paths.sdist.joinpath("dist")]
+            self.static_url = "/"
             if environment is Env.production:
                 self.media_bucket_name = "www.hyperbolausercontent.net"
                 self.aws_region = "us-west-2"

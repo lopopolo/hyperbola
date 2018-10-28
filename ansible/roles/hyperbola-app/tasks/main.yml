@@ -30,6 +30,21 @@
       - "{{ app_python }}-venv"
   tags:
     - skip_ansible_lint
+- name: Add node ecosystem signing keys
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items:
+    - "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    - "https://dl.yarnpkg.com/debian/pubkey.gpg"
+- name: Add node ecosystem repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+    - deb https://deb.nodesource.com/{{ app_node }} {{ ansible_distribution_release }} main
+    - deb-src https://deb.nodesource.com/{{ app_node }} {{ ansible_distribution_release }} main
+    - deb https://dl.yarnpkg.com/debian/ stable main
 - name: Install hyperbola build deps
   apt:
     state: present
@@ -39,6 +54,8 @@
       - libffi-dev
       - rsync
       - libmysqlclient-dev
+      - nodejs
+      - yarn
 
 # install python app
 - name: Create directories
@@ -98,24 +115,30 @@
     SKIP_GIT_SDIST: 1
     SKIP_GENERATE_AUTHORS: 1
     SKIP_WRITE_GIT_CHANGELOG: 1
+- name: Install asset pipeline dependencies
+  command: yarn install
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ app_source_root }}/node_modules/.bin/webpack"
+- name: Build static assets
+  command: yarn run build
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ app_source_root }}/dist/favicon.ico"
+- name: Add humans.txt and robots.txt
+  copy:
+    src: "{{ item }}"
+    dest: "{{ app_source_root }}/dist/{{ item }}"
+  with_items:
+    - humans.txt
+    - robots.txt
 - name: copy source artifacts to deploy root
   synchronize:
     src: "{{ item }}"
     dest: "{{ deploy_helper.new_release_path }}"
   with_items:
-    - "{{ app_source_root }}/dist"
-    - "{{ app_source_root }}/document-root"
     - "{{ app_source_root }}/manage.py"
   delegate_to: "{{ inventory_hostname }}"
-- name: Set artifact root
-  set_fact:
-    app_artifact_root: "{{ deploy_helper.new_release_path }}"
-- name: Generate settings.SECRET_KEY
-  command: "{{ deploy_helper.new_release_path }}/venv/bin/python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'"
-  register: app_django_secret_key
-  no_log: True
-  tags:
-    - skip_ansible_lint
 - name: Install 12factor environment
   template:
     src: "dotenv.j2"
@@ -124,7 +147,7 @@
 - name: manage.py collectstatic
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
   args:
-    creates: "{{ deploy_helper.new_release_path }}/document-root/static/staticfiles.json"
+    creates: "{{ deploy_helper.new_release_path }}/assets/staticfiles.json"
 - name: Install gunicorn config
   template:
     src: "gunicorn.py.j2"

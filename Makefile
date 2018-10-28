@@ -1,8 +1,8 @@
 SHELL := /bin/bash
-export PATH := ./bin:./venv/bin:$(shell yarn bin):$(PATH)
+export PATH := ./venv/bin:$(PATH)
 
 .PHONY: all
-all: lint build
+all:
 
 ## Development environment
 
@@ -18,15 +18,11 @@ hooks:
 install_roles:
 	ansible-galaxy install -r ansible/roles/requirements.yml -p ansible/roles/ --force
 
-## Build
-
-.PHONY: build
-build:
-	webpack --mode production
-
 .PHONY: fixtures
 fixtures:
 	vagrant provision --provision-with fixtures app-local
+
+## Release
 
 .PHONY: release
 release:

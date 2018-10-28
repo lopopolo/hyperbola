@@ -9,16 +9,18 @@ def verbose(ansible)
 end
 
 SDIST_FILES = %w[
-  dist
-  document-root
   hyperbola
+  src
   MANIFEST.in
   Pipfile
   Pipfile.lock
   README.md
   manage.py
+  package.json
   setup.cfg
   setup.py
+  webpack.config.js
+  yarn.lock
 ].freeze
 
 # rubocop:disable Metrics/BlockLength

@@ -1,7 +1,7 @@
-@import "./variables";
-@import "./bootstrap";
-@import "./header";
-@import "./pygments.solarized-dark";
+@import "variables";
+@import "bootstrap";
+@import "header";
+@import "syntax";
 
 .hyperbola-section-title {
     background-color: $hyperbola-bg-light;
