@@ -156,6 +156,11 @@ data "aws_ami" "backend" {
     name   = "tag:ami"
     values = ["aws-us-west-2-hyperbola-app"]
   }
+
+  filter {
+    name   = "tag:Version"
+    values = ["0.144.0"]
+  }
 }
 
 resource "aws_launch_configuration" "backend" {
