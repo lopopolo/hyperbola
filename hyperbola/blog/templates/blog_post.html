@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load hyperbola_core_tags %}
 
-{% block active_app %} blog {% endblock active_app %}
 {% block title %} {{ block.super }} :: {{ post.title|escape }} {% endblock title %}
 {% block section_title %} {{ post.title|escape }} {% endblock section_title %}
 {% block head %}
