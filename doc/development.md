@@ -42,17 +42,6 @@ vagrant up
 
 ## .env
 
-To configure hyperbola for dev, set the following parameters in `.env`:
-
-```
-ENVIRONMENT='dev'
-# Generate with:
-# $ python -c 'import django.core.management.utils; print(django.core.management.utils.get_random_secret_key())'
-SECRET_KEY=''
-
-# Fill in from password vault
-DB_PASSWORD=''
-
-# Fill in from password vault
-ANSIBLE_VAULT_PASSWORD=''
-```
+In addition to the variables specified in [.env configuration](/doc/configuration.md),
+you should also set `ANSIBLE_VAULT_PASSWORD` to allow ansible to decrypt secrets during
+provisioning.
