@@ -4,15 +4,22 @@
 # vi: set ft=ruby :
 # vi: set expandtab :
 
-# https://stackoverflow.com/a/38203497
-# Function to check whether VM was already provisioned
-def provisioned?(vm_name = 'default', provider = 'virtualbox')
-  File.exist?(".vagrant/machines/#{vm_name}/#{provider}/action_provision")
-end
-
 def verbose(ansible)
   # ansible.verbose = 'v'
 end
+
+SDIST_FILES = %w[
+  dist
+  document-root
+  hyperbola
+  MANIFEST.in
+  Pipfile
+  Pipfile.lock
+  README.md
+  manage.py
+  setup.cfg
+  setup.py
+].freeze
 
 # rubocop:disable Metrics/BlockLength
 Vagrant.configure('2') do |config|
@@ -47,7 +54,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'lb' => ['lb-local'],
         'lb:vars' => {
-          'ansible_python_interpreter' => '/usr/bin/python3',
+          'ansible_python_interpreter' => '/usr/bin/python3'
         },
         'all_groups:children' => ['lb']
       }
@@ -63,7 +70,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.define 'mysql-local' do |mysql|
     mysql.vm.network 'private_network', ip: '192.168.10.30'
-    mysql.vm.network 'forwarded_port', guest: 3306, host: 13306
+    mysql.vm.network 'forwarded_port', guest: 3306, host: 13_306
 
     mysql.vm.provider 'virtualbox' do |v|
       v.memory = 512
@@ -76,7 +83,7 @@ Vagrant.configure('2') do |config|
       ansible.groups = {
         'mysql' => ['mysql-local'],
         'mysql:vars' => {
-          'ansible_python_interpreter' => '/usr/bin/python3',
+          'ansible_python_interpreter' => '/usr/bin/python3'
         },
         'all_groups:children' => ['mysql']
       }
@@ -90,8 +97,9 @@ Vagrant.configure('2') do |config|
       v.memory = 2048
     end
 
-    %w[dist document-root hyperbola MANIFEST.in Pipfile Pipfile.lock README.md manage.py setup.cfg setup.py].each do |f|
-      app.vm.provision 'file', source: f, destination: "/tmp/hyperbola/sdist/#{f}"
+    SDIST_FILES.each do |f|
+      app.vm.provision 'file', source: f,
+                               destination: "/tmp/hyperbola/sdist/#{f}"
     end
     app.vm.provision 'shell', inline: <<~SHELL
       sudo rm -rf /hyperbola/sdist
@@ -158,3 +166,4 @@ Vagrant.configure('2') do |config|
     SHELL
   end
 end
+# rubocop:enable Metrics/BlockLength
