@@ -9,7 +9,7 @@ const plugins = () => [
     filename: "[name].bundle.css"
   }),
   new WebappWebpackPlugin({
-    logo: path.resolve(__dirname, "src/logo.png"),
+    logo: path.resolve(__dirname, "src/logo.svg"),
     prefix: "",
     cache: false
   })

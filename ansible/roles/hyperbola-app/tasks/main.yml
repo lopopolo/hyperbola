@@ -56,6 +56,8 @@
       - libmysqlclient-dev
       - nodejs
       - yarn
+      - imagemagick
+      - graphicsmagick
 
 # install python app
 - name: Create directories
