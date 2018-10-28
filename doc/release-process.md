@@ -1,24 +1,5 @@
 # Release Process
 
-## Local Dev
-
-```bash
-python -Wall manage.py runserver
-```
-
-### Smoke Test
-
-Verify that [frontpage](http://127.0.0.1:8000/), [contact](http://127.0.0.1:8000/contact/), and
-[lifestream](http://127.0.0.1:8000/lifestream/) pages function correctly.
-
-## Cut Release Tag
-
-```bash
-make release
-git push
-git push --tags
-```
-
 ## Deploy To Vagrant
 
 ```bash
@@ -28,20 +9,39 @@ vagrant provision
 
 ### Smoke Test
 
-Verify that [frontpage](http://app-local.hyperboladc.net/), [contact](http://app-local.hyperboladc.net/contact/), and
-[lifestream](http://app-local.hyperboladc.net/lifestream/) pages function correctly.
+Verify that [frontpage](https://local.hyperboladc.net/), [contact](https://local.hyperboladc.net/contact/),
+[lifestream](https://local.hyperboladc.net/lifestream/), and [blog](https://local.hyperboladc.net/w/)
+pages function correctly.
 
-## AWS Deploy
+## Cut Release Tag
 
 ```bash
-# build image
-make build-ami
-# roll ASG
-pushd terraform/env/app-prod-northwest
-terraform plan
-terraform apply
-popd
-# cleanup old AMIs
-bin/deregister_ami --dry-run
-bin/deregister_ami --execute
+make release
+git push
+git push --tags
 ```
+
+## Deploy To AWS
+
+1. Build Image
+    ```bash
+    make build-ami
+    ```
+2. Roll ASG
+    ```bash
+    pushd terraform/env/app-prod-northwest
+    terraform plan
+    terraform apply
+    popd
+    ```
+3. Cleanup old AMIs
+    ```bash
+    bin/deregister_ami --dry-run
+    bin/deregister_ami --execute
+    ```
+
+### Smoke Test
+
+Verify that [frontpage](https://hyperbo.la/), [contact](https://hyperbo.la/contact/),
+[lifestream](https://hyperbo.la/lifestream/), and [blog](https://hyperbo.la/w/) pages
+function correctly.
