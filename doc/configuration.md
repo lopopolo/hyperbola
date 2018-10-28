@@ -13,18 +13,11 @@ the python process.
 All artifacts should contain a declaration of what type of deployment it is,
 i.e.: production vs. local vs. dev.
 
-The hyperbola deployment depends on the following environment variables being
+The hyperbola app depends on the following environment variables being
 present:
 
-```
-# provisioning
-ANSIBLE_VAULT_PASSWORD='set-me'
-
-ENVIRONMENT='production|local|stage|dev'
-# venv/bin/python -c 'import django.core.management.utils as u; print(u.get_random_secret_key())'
-SECRET_KEY='set-me'
-DB_PASSWORD='set-me'
-```
-
-In the [local development](development.md) dev environment, you should also set
-`ANSIBLE_VAULT_PASSWORD` to allow ansible to decrypt secrets during provisioning.
+| Env Variable | Value |
+|-|-|
+| ENVIRONMENT | One of: production, local, stage, dev |
+| SECRET_KEY | Generate with `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'` |
+| DB_PASSWORD | Database password |
