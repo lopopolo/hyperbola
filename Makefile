@@ -45,12 +45,8 @@ venv/bin/activate:
 ## clean
 
 .PHONY: clean
-clean: clean-pyc
-	find . -name '.DS_Store' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
-
-.PHONY: clean-pyc
-clean-pyc:
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '__pycache__' -exec rm -rf {} +
+clean:
+	@find . -name '.DS_Store' -delete
+	@rm -rf *.egg *.egg-info .cache .coverage .tox build dist docs/build htmlcov
+	@find . -type d -name __pycache__ -exec rm -rf {} \;
+	@find . -type f -name '*.pyc' -or -name '*.pyo' -delete
