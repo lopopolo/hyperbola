@@ -1,5 +1,6 @@
 # Django settings for hyperbola
 
+from datetime import timedelta
 from enum import Enum, auto
 from os import environ
 from pathlib import Path
@@ -70,7 +71,7 @@ class EnvironmentConfig:
         return True
 
     @property
-    def enable_perf_optimizations(self):
+    def enable_optimizations(self):
         return True
 
     @property
@@ -123,80 +124,18 @@ class EnvironmentConfig:
             self.media_url = f"https://{self.media_bucket_name}/"
 
 
+# Deployment
+# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+
 ENVIRONMENT = EnvironmentConfig(loader=DotenvLoader())
+
+SECRET_KEY = ENVIRONMENT.secret_key
 
 DEBUG = ENVIRONMENT.debug
 
 ALLOWED_HOSTS = ENVIRONMENT.allowed_hosts
 
-USE_X_FORWARDED_HOST = True
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": ENVIRONMENT.db.name,
-        "USER": ENVIRONMENT.db.user,
-        "PASSWORD": ENVIRONMENT.db.password,
-        "HOST": ENVIRONMENT.db.host,
-        "PORT": ENVIRONMENT.db.port,
-        "ATOMIC_REQUESTS": True,
-        "OPTIONS": {
-            # Create database with:
-            # > create database hyperbola character set UTF8mb4 collate utf8mb4_unicode_ci;
-            "charset": "utf8mb4"
-        },
-        "TEST": {"CHARSET": "utf8mb4", "COLLATION": "utf8mb4_unicode_ci"},
-    }
-}
-
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "hyperbola_app_cache",
-    }
-}
-
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
-
-if ENVIRONMENT.enable_perf_optimizations:
-    CONN_MAX_AGE = 5 * 60
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "Etc/UTC"
-
-USE_I18N = False
-
-USE_L10N = False
-
-USE_TZ = True
-
-# Media and Static Files
-
-DEFAULT_FILE_STORAGE = "django_s3_storage.storage.S3Storage"
-
-AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
-AWS_S3_BUCKET_AUTH = False
-AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
-AWS_REGION = ENVIRONMENT.content.aws_region
-
-MEDIA_URL = ENVIRONMENT.content.media_url
-
-STATIC_ROOT = str(ENVIRONMENT.content.static_root)
-
-STATIC_URL = ENVIRONMENT.content.static_url
-
-STATICFILES_DIRS = list(map(str, ENVIRONMENT.content.static_dirs))
-
-STATICFILES_STORAGE = "hyperbola.core.static.HyperbolaManifestStorage"
-
-FILE_UPLOAD_PERMISSIONS = 0o644
-
-SECRET_KEY = ENVIRONMENT.secret_key
+# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.auth",
@@ -227,46 +166,67 @@ MIDDLEWARE = [
     "hyperbola.core.middleware.FQDNMiddleware",
 ]
 
-_template_loader = [
-    "django.template.loaders.filesystem.Loader",
-    "django.template.loaders.app_directories.Loader",
-]
-if ENVIRONMENT.enable_perf_optimizations:
-    _template_loader = [("django.template.loaders.cached.Loader", _template_loader)]
+ROOT_URLCONF = "hyperbola.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [str(ENVIRONMENT.path.package.joinpath("templates"))],
+        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ],
-            "loaders": _template_loader,
+            ]
         },
     }
 ]
 
-ROOT_URLCONF = "hyperbola.urls"
-
 WSGI_APPLICATION = "hyperbola.wsgi.application"
 
-# Security
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_SSL_REDIRECT = ENVIRONMENT.is_secure
-SECURE_REDIRECT_EXEMPT = ["healthz"]
-SESSION_COOKIE_SECURE = ENVIRONMENT.is_secure
-CSRF_COOKIE_SECURE = ENVIRONMENT.is_secure
-CSRF_COOKIE_HTTPONLY = True
-X_FRAME_OPTIONS = "DENY"
+
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": ENVIRONMENT.db.name,
+        "USER": ENVIRONMENT.db.user,
+        "PASSWORD": ENVIRONMENT.db.password,
+        "HOST": ENVIRONMENT.db.host,
+        "PORT": ENVIRONMENT.db.port,
+        "ATOMIC_REQUESTS": True,
+        "CONN_MAX_AGE": timedelta(minutes=5).seconds if ENVIRONMENT.enable_optimizations else 0,
+        "OPTIONS": {
+            # Create database with:
+            # > create database hyperbola character set UTF8mb4 collate utf8mb4_unicode_ci;
+            "charset": "utf8mb4"
+        },
+        "TEST": {"CHARSET": "utf8mb4", "COLLATION": "utf8mb4_unicode_ci"},
+    }
+}
+
+
+# Cache
+# https://docs.djangoproject.com/en/2.1/topics/cache/
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "hyperbola_app_cache",
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+SESSION_CACHE_ALIAS = "default"
+
 
 # Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -278,7 +238,77 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# logging
+
+# Internationalization
+# https://docs.djangoproject.com/en/2.1/topics/i18n/
+
+LANGUAGE_CODE = "en-us"
+
+TIME_ZONE = "UTC"
+
+USE_I18N = False
+
+USE_L10N = False
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+STATIC_ROOT = str(ENVIRONMENT.content.static_root)
+
+STATIC_URL = ENVIRONMENT.content.static_url
+
+STATICFILES_DIRS = list(map(str, ENVIRONMENT.content.static_dirs))
+
+STATICFILES_STORAGE = "hyperbola.core.static.HyperbolaManifestStorage"
+
+
+# Media
+# https://docs.djangoproject.com/en/2.1/topics/files/
+
+AWS_S3_BUCKET_NAME = ENVIRONMENT.content.media_bucket_name
+
+AWS_S3_BUCKET_AUTH = False
+
+AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
+
+AWS_REGION = ENVIRONMENT.content.aws_region
+
+DEFAULT_FILE_STORAGE = "django_s3_storage.storage.S3Storage"
+
+MEDIA_URL = ENVIRONMENT.content.media_url
+
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+
+# Security
+# https://docs.djangoproject.com/en/2.1/topics/security/
+
+USE_X_FORWARDED_HOST = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+SECURE_SSL_REDIRECT = ENVIRONMENT.is_secure
+
+SECURE_REDIRECT_EXEMPT = ["healthz"]
+
+SESSION_COOKIE_SECURE = ENVIRONMENT.is_secure
+
+CSRF_COOKIE_SECURE = ENVIRONMENT.is_secure
+
+CSRF_COOKIE_HTTPONLY = True
+
+X_FRAME_OPTIONS = "DENY"
+
+
+# Logging
+# https://docs.djangoproject.com/en/2.1/topics/logging/
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""
-Management command entrypoint for hyperbola project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.11/ref/django-admin/
-"""
 
 import os
 import sys
