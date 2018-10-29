@@ -47,11 +47,8 @@ class AmiFetcher:
         self.asg = asg
 
     def unused_amis(self):
-        self_amis = self._self_amis()
-        for in_use_ami_id in self._in_use_amis():
-            if in_use_ami_id in self_amis:
-                del self_amis[in_use_ami_id]
-        return self_amis
+        in_use_amis = self._in_use_amis()
+        return [ami for ami in self._self_amis() if ami not in in_use_amis]
 
     def self_amis_from_ids(self, ami_ids=None):
         if ami_ids is None:
@@ -59,11 +56,13 @@ class AmiFetcher:
         return [ami for (ami_id, ami) in self._self_amis().items() if ami_id in ami_ids]
 
     def _self_amis(self):
-        amis = {}
-        for ami_json in self.ec2.describe_images(Owners=["self"]).get("Images"):
-            ami = Ami(ami_json)
-            amis[ami.ami_id] = ami
-        return amis
+        return {
+            ami.ami_id: ami
+            for ami in [
+                Ami(ami_json)
+                for ami_json in self.ec2.describe_images(Owners=["self"]).get("Images")
+            ]
+        }
 
     def _in_use_amis(self):
         non_terminiated_instances = self.ec2.describe_instances(
