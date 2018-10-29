@@ -32,16 +32,6 @@ release:
 build-ami:
 	env $$(dotenv get ANSIBLE_VAULT_PASSWORD) packer build packer/app.json
 
-## Linters
-
-.PHONY: lint
-lint: lint-git
-
-.PHONY: lint-git
-lint-git:
-	git ls-files -i --exclude-standard
-	[[ "$$(git ls-files -i --exclude-standard | wc -l | tr -d ' ')" == "0" ]]
-
 ## Virtualenv
 
 .PHONY: virtualenv
