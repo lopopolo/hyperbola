@@ -1,0 +1,32 @@
+---
+- name: Add node ecosystem signing keys
+  apt_key:
+    url: "{{ item.url }}"
+    id: "{{ item.key }}"
+    state: present
+  with_items:
+    - url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+      key: "9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280"
+    - url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
+      key: "72ECF46A56B4AD39C907BBB71646B01B86E50310"
+- name: Add node ecosystem repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+    - deb https://deb.nodesource.com/{{ app_node }} {{ ansible_distribution_release }} main
+    - deb-src https://deb.nodesource.com/{{ app_node }} {{ ansible_distribution_release }} main
+    - deb https://dl.yarnpkg.com/debian/ stable main
+- name: Install hyperbola build deps
+  apt:
+    state: present
+    name:
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - rsync
+      - libmysqlclient-dev
+      - nodejs
+      - yarn
+      - imagemagick
+      - graphicsmagick

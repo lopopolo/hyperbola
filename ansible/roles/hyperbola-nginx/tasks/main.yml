@@ -10,8 +10,8 @@
 # Packages
 - name: Add nginx signing key
   apt_key:
-    url: https://nginx.org/keys/nginx_signing.key
-    id: 7BD9BF62
+    url: "https://nginx.org/keys/nginx_signing.key"
+    id: "573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62"
     state: present
 - name: Add nginx repository
   apt_repository:

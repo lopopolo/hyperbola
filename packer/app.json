@@ -109,13 +109,11 @@
     },
     {
       "type": "shell",
-      "inline": [
-        "sudo apt-get -y install software-properties-common",
-        "sudo apt-add-repository -y ppa:ansible/ansible",
-        "sudo apt-get update",
-        "sudo apt-get -y install ansible",
-        "echo {{user `ansible_vault_password`}} > /tmp/vault-password.txt"
-      ]
+      "environment_vars": [
+        "ANSIBLE_VAULT_PASSWORD={{user `ansible_vault_password`}}"
+      ],
+      "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
+      "script": "packer/scripts/ansible.sh"
     },
     {
       "type": "ansible-local",
@@ -128,6 +126,11 @@
         "--vault-password-file=/tmp/vault-password.txt"
       ],
       "command": "ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -E bash '{{.Path}}'",
+      "script": "packer/scripts/cleanup.sh"
     }
   ]
 }
