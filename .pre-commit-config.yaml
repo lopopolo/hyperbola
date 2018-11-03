@@ -19,25 +19,24 @@ repos:
     -   id: check-vcs-permalinks
     -   id: check-xml
     -   id: check-yaml
-        exclude: vars|(lb|mysql)-local.yml|ingress.yml|cloudformation
+        exclude: vars|(lb|mysql)-local.yml|cloudformation
     -   id: debug-statements
     -   id: detect-aws-credentials
     -   id: detect-private-key
     -   id: end-of-file-fixer
-        exclude: geerlingguy|mprahl|\.bumpversion\.cfg
+        exclude: \.bumpversion\.cfg
     -   id: flake8
-        exclude: migrations
         language_version: python3
     -   id: forbid-new-submodules
     -   id: mixed-line-ending
     -   id: name-tests-test
     -   id: trailing-whitespace
-        exclude: geerlingguy|mprahl|\.bumpversion\.cfg
+        exclude: \.bumpversion\.cfg
 -   repo: https://github.com/prettier/prettier
     rev: 1.14.2
     hooks:
     - id: prettier
-      exclude: geerlingguy|mprahl|\.vscode|\.html$
+      exclude: \.vscode|\.html$
 -   repo: https://github.com/ambv/black.git
     rev: 18.9b0
     hooks:
@@ -79,21 +78,18 @@ repos:
     -   id: eslint
         name: eslint
         types: [javascript]
-        exclude: min\.js$|dist
         entry: node_modules/.bin/eslint --ext js
         language: system
 -   repo: https://github.com/pre-commit/mirrors-csslint.git
     rev: v1.0.5
     hooks:
     -   id: csslint
-        exclude: min\.css$|dist
 -   repo: https://github.com/detailyang/pre-commit-shell
     rev: 1.0.4
     hooks:
     -   id: shell-lint
         types: [shell]
         files: ''
-        exclude: geerlingguy
 -   repo: local
     hooks:
     -   id: git-lint

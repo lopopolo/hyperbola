@@ -126,6 +126,7 @@
       "type": "ansible-local",
       "playbook_file": "ansible/app.yml",
       "playbook_dir": "ansible",
+      "galaxy_file": "ansible/requirements.yml",
       "inventory_file": "ansible/production.ini",
       "extra_arguments": [
         "--limit=localhost",

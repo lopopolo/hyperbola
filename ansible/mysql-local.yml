@@ -3,37 +3,22 @@
   become: true
   become_method: sudo
   become_user: root
-  tasks:
-    - name: base packages
-      apt:
-        state: present
-        name:
-          - mysql-server
-          - mysql-client
-          - python3-mysqldb
-    - name: Enable MySQL remote connections
-      copy:
-        content: "[mysqld]\nbind-address = 0.0.0.0"
-        dest: /etc/mysql/mysql.conf.d/mysqld.overrides.cnf
-    - name: Drop database
-      mysql_db:
-        name: hyperbola
-        state: absent
-    - name: Create database
-      mysql_db:
-        name: hyperbola
-        encoding: utf8mb4
-        collation: utf8mb4_unicode_ci
-        state: present
-    - name: Create app MySQL user
-      mysql_user:
-        name: app
-        password: "{{ db_password }}"
-        host: "{{ item }}"
-        priv: 'hyperbola.*:ALL'
-        state: present
-      vars:
-        db_password: !vault |
+  pre_tasks:
+    - name: Disable MySQL AppArmor profile
+      file:
+        src: /etc/apparmor.d/usr.sbin.mysqld
+        dest: /etc/apparmor.d/disable/usr.sbin.mysqld
+        state: link
+        force: true
+        follow: false
+    - name: Disable AppArmor
+      systemd:
+        name: apparmor
+        state: stopped
+        enabled: false
+  roles:
+    - role: geerlingguy.mysql
+      db_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           32323362646632646364363736643830316139343138613032303964353333663934376435316337
           3165366231386461633839663333643863383734633639330a363234613066303532363738373461
@@ -41,9 +26,19 @@
           3164306234653361360a303037353236383466613562353231623730653835393534636235393962
           35333333396566336163323164353930636563666434373861613337383538313138333237336336
           3833306162333062653239653436313331386164633131303935
-      with_items:
-        - '10.0.2.0/255.255.255.0' # dev via forwarded port
-        - '192.168.10.20' # app-local
+      mysql_users:
+        - name: app
+          host: '192.168.10.20' # app-local
+          password: "{{ db_password }}"
+          priv: 'hyperbola.*:ALL'
+      mysql_databases:
+        - name: hyperbola
+          state: absent
+        - name: hyperbola
+          encoding: utf8mb4
+          collation: utf8mb4_unicode_ci
+          state: present
+  tasks:
     - name: Test for MySQL timezone support
       command: mysql -NBe "SELECT COUNT(*) FROM mysql.time_zone"
       register: mysql_timezones_count
@@ -55,4 +50,6 @@
       tags:
         - skip_ansible_lint
     - name: Restart MySQL
-      systemd: state=restarted name=mysql
+      systemd:
+        name: mysql
+        state: restarted
