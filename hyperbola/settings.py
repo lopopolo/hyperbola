@@ -203,7 +203,8 @@ DATABASES = {
         "OPTIONS": {
             # Create database with:
             # > create database hyperbola character set UTF8mb4 collate utf8mb4_unicode_ci;
-            "charset": "utf8mb4"
+            "charset": "utf8mb4",
+            "connect_timeout": timedelta(seconds=5).seconds,
         },
         "TEST": {"CHARSET": "utf8mb4", "COLLATION": "utf8mb4_unicode_ci"},
     }
