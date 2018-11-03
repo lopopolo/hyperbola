@@ -1,4 +1,6 @@
 ---
+- name: Ansible setup
+  include_tasks: ansible.yml
 - name: apt update && apt upgrade
   apt:
     upgrade: yes

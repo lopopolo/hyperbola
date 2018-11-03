@@ -119,11 +119,6 @@
     },
     {
       "type": "ansible-local",
-      "playbook_file": "ansible/provision.yml",
-      "command": "ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook"
-    },
-    {
-      "type": "ansible-local",
       "playbook_file": "ansible/app.yml",
       "playbook_dir": "ansible",
       "galaxy_file": "ansible/requirements.yml",

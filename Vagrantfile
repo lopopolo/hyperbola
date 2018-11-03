@@ -28,17 +28,6 @@ def ansible_provision(box, host_type)
   box.vm.provision 'ansible-playbook-password', type: 'shell', inline: <<~SHELL
     env #{`venv/bin/dotenv get ANSIBLE_VAULT_PASSWORD`.strip} printenv ANSIBLE_VAULT_PASSWORD > /tmp/vault-password.txt
   SHELL
-  box.vm.provision 'bootstrap', type: :ansible_local do |ansible|
-    ansible.install_mode = :pip
-    ansible.playbook = 'ansible/provision.yml'
-    ansible.groups = {
-      host_type => ["#{host_type}-local"],
-      "#{host_type}:vars" => {
-        'ansible_python_interpreter' => '/usr/bin/python3'
-      },
-      'all_groups:children' => [host_type]
-    }
-  end
   box.vm.provision 'provision', type: :ansible_local do |ansible|
     ansible.playbook =
       if File.exist?("ansible/#{host_type}-local.yml")
