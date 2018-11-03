@@ -11,7 +11,6 @@
     state: present
     name:
       - git
-      - ntp
       - vim
 - name: Global python packages
   pip:
@@ -20,7 +19,7 @@
     state: present
 - name: set timezone to UTC
   timezone:
-    name: Etc/UTC
+    name: UTC
 - name: Lock root account # http://stackoverflow.com/a/39018859
   user:
     name: root
