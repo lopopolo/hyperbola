@@ -159,7 +159,7 @@ data "aws_ami" "backend" {
 
   filter {
     name   = "tag:Version"
-    values = ["0.147.0"]
+    values = ["0.147.1"]
   }
 }
 
@@ -210,7 +210,7 @@ resource "aws_autoscaling_group" "backend" {
 
   tag {
     key                 = "Version"
-    value               = "0.147.0"
+    value               = "0.147.1"
     propagate_at_launch = true
   }
 
