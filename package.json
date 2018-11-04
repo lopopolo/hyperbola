@@ -51,6 +51,7 @@
     "prettier-eslint": "^8.8.2",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.23.0",
+    "svg-url-loader": "^2.3.2",
     "svgo": "^1.0.1",
     "svgo-loader": "^2.1.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
