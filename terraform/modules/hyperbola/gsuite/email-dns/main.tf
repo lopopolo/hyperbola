@@ -6,7 +6,7 @@ variable "dkim" {}
 # G Suite MX record values: https://support.google.com/a/answer/174125?hl=en
 # G Suite TXT record values: https://support.google.com/a/answer/2716802?hl=en
 
-resource "aws_route53_record" "mx-records" {
+resource "aws_route53_record" "mx" {
   zone_id = "${var.zone_id}"
   name    = "${var.zone_name}"
   type    = "MX"
@@ -21,7 +21,7 @@ resource "aws_route53_record" "mx-records" {
   ]
 }
 
-resource "aws_route53_record" "root-txt-records" {
+resource "aws_route53_record" "txt" {
   zone_id = "${var.zone_id}"
   name    = "${var.zone_name}"
   type    = "TXT"
@@ -30,7 +30,7 @@ resource "aws_route53_record" "root-txt-records" {
   records = "${concat(list("v=spf1 include:_spf.google.com ~all"), formatlist("google-site-verification=%s", split(",", var.google_site_verifcation_keys)))}"
 }
 
-resource "aws_route53_record" "dkim-txt-record" {
+resource "aws_route53_record" "dkim" {
   zone_id = "${var.zone_id}"
   name    = "google._domainkey"
   type    = "TXT"
