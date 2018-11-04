@@ -10,6 +10,6 @@ Create one VPC per environment. An environment is composed of a (region, app, en
 airport code.
 
 | AWS region | Airport code |
-|------------|--------------|
+| ---------- | ------------ |
 | us-east-1  | IAD          |
 | us-west-2  | PDX          |
