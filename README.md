@@ -2,49 +2,33 @@
 
 This is the magic of <https://hyperbo.la>.
 
-hyperbo.la is a django website. It can be [run locally](/doc/local-development.md)
-or deployed in production and [Vagrant](/Vagrantfile) configurations. It depends on [Ansible](/ansible),
+hyperbo.la is Ryan Lopopolo's personal website. Primary content consistes of a [blog](https://hyperbo.la/w/),
+[contact page](https://hyperbo.la/contact/), and Twitter-like [lifestream](https://hyperbo.la/lifestream/).
+
+hyperbo.la is built with [Django](https://www.djangoproject.com/). It can be [run locally](/doc/development.md)
+via [Vagrant](/Vagrantfile) or deployed to AWS in a production configuration. It depends on [Ansible](/ansible),
 [Packer](/packer), and [Terraform](/terraform) configuration in this repo.
 
 ## Dependencies
-
-### Run
 
 -   mysql
 -   nginx
 -   python3
 
-### Build
+## Build
 
--   make
--   nodejs
--   pipenv
--   webpack
--   yarn
+Building a deployment of hyperbo.la happens self contained on the target host (Vagrant or AMI builder).
+Build dependencies are [installed with Ansible](/ansible/roles/hyperbola-app/tasks/build-setup.yml).
+Ansible also tries to [purge build dependencies](ansible/roles/hyperbola-app/tasks/build-cleanup.yml) from
+the target host upon a successful deploy.
 
-# hyperbola-tools
+The python build is managed by [pipenv](https://pipenv.readthedocs.io/en/latest/) and the static assets
+build is managed by [webpack](https://webpack.js.org/).
 
-Build and deployment tools for <https://hyperbo.la>.
+## Deploy
 
-## Dependencies
+To [deploy to AWS](/doc/release-process.md):
 
-### Build
-
--   ansible
--   make
--   packer
--   vagrant
-
-### Deploy
-
--   AWS
--   terraform
-
-## Local Development
-
-Local development is done using Vagrant. Vagrant will provision a VM using
-ansible.
-
-## Building Images with Ansible
-
-Ansible + Vagrant + Packer can be used to build images for hyperbola-app.
+-   Cut a release
+-   Build an AMI with packer
+-   Perform a blue-green deployment with terraform
