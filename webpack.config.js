@@ -4,10 +4,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const WebappWebpackPlugin = require("webapp-webpack-plugin");
 
-const plugins = () => [
-  new MiniCssExtractPlugin({
-    filename: "[name].bundle.css"
-  }),
+const plugins = [
+  new MiniCssExtractPlugin(),
   new WebappWebpackPlugin({
     logo: path.resolve(__dirname, "src/logo.svg"),
     prefix: "",
@@ -16,24 +14,18 @@ const plugins = () => [
 ];
 
 module.exports = {
-  entry: "main",
+  context: path.resolve(__dirname),
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js"
+    path: path.resolve(__dirname, "dist")
   },
-  resolve: {
-    modules: ["node_modules", "src"],
-    extensions: [".js"]
-  },
-  plugins: plugins(),
+  plugins,
   optimization: {
-    concatenateModules: true,
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
         parallel: true
       }),
-      new OptimizeCSSAssetsPlugin({})
+      new OptimizeCSSAssetsPlugin()
     ]
   },
   module: {
