@@ -35,6 +35,8 @@ def ansible_provision(box, host_type)
       else
         "ansible/#{host_type}.yml"
       end
+    ansible.playbook_command =
+      'ANSIBLE_CALLBACK_WHITELIST=profile_tasks ansible-playbook'
     ansible.galaxy_role_file = 'ansible/requirements.yml'
     ansible.galaxy_roles_path = '/home/vagrant/.ansible'
     ansible.vault_password_file = '/tmp/vault-password.txt'
@@ -54,9 +56,6 @@ end
 # rubocop:disable Metrics/BlockLength
 Vagrant.configure('2') do |config|
   config.vm.box = 'ubuntu/bionic64'
-
-  # enable detailed task timing information during ansible runs
-  ENV['ANSIBLE_CALLBACK_WHITELIST'] = 'profile_tasks'
 
   config.vm.define 'lb-local' do |lb|
     lb.vm.network 'private_network', ip: LB_IP
