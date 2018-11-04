@@ -1,11 +1,19 @@
 const path = require("path");
+const glob = require("glob");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
 const WebappWebpackPlugin = require("webapp-webpack-plugin");
 
 const plugins = [
   new MiniCssExtractPlugin(),
+  new PurgecssPlugin({
+    paths: glob.sync(
+      `${path.resolve(__dirname)}/hyperbola/**/templates/*.html`,
+      { nodir: true }
+    )
+  }),
   new WebappWebpackPlugin({
     logo: path.resolve(__dirname, "src/logo.svg"),
     prefix: "",
