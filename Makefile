@@ -1,6 +1,3 @@
-SHELL := /bin/bash
-export PATH := ./venv/bin:$(PATH)
-
 .PHONY: all
 all:
 
@@ -14,10 +11,6 @@ hooks:
 	pre-commit install
 	pre-commit install-hooks
 
-.PHONY: install_roles
-install_roles:
-	ansible-galaxy install -r ansible/roles/requirements.yml -p ansible/roles/ --force
-
 .PHONY: fixtures
 fixtures:
 	vagrant provision --provision-with fixtures app-local
@@ -26,11 +19,11 @@ fixtures:
 
 .PHONY: release
 release:
-	bumpversion minor
+	venv/bin/bumpversion minor
 
 .PHONY: build-ami
 build-ami:
-	env $$(dotenv get ANSIBLE_VAULT_PASSWORD) packer build packer/app.json
+	venv/bin/dotenv run packer build packer/app.json
 
 ## Virtualenv
 
