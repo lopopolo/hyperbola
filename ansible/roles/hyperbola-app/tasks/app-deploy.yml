@@ -1,0 +1,95 @@
+---
+- name: Initialize the deploy root and gather facts
+  deploy_helper:
+    path: "{{ app_deploy_root }}"
+- name: Create new release path
+  file:
+    path: "{{ deploy_helper.new_release_path }}"
+    state: directory
+- name: Add an unfinished file, to allow cleanup on successful finalize
+  file:
+    path: "{{ deploy_helper.new_release_path }}/{{ deploy_helper.unfinished_filename }}"
+    state: touch
+- name: Create app virtualenv
+  command: "{{ app_python }} -m venv {{ deploy_helper.new_release_path }}/venv"
+  args:
+    creates: "{{ deploy_helper.new_release_path }}/venv/bin/python"
+- name: Update pip infra
+  pip:
+    state: latest
+    executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
+    name: setuptools
+  tags:
+    - skip_ansible_lint
+- name: Install app dependencies
+  command: pipenv install --deploy
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ deploy_helper.new_release_path }}/venv/**/*django*"
+  environment:
+    VIRTUAL_ENV: "{{ deploy_helper.new_release_path }}/venv"
+- name: Install app
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python setup.py install"
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ deploy_helper.new_release_path }}/venv/**/*hyperbola*"
+  environment:
+    PBR_VERSION: "{{ app_version }}"
+    SKIP_GIT_SDIST: 1
+    SKIP_GENERATE_AUTHORS: 1
+    SKIP_WRITE_GIT_CHANGELOG: 1
+- name: Install asset pipeline dependencies
+  command: yarn install
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ app_source_root }}/node_modules/.bin/webpack"
+- name: Build static assets
+  command: yarn run build
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ app_source_root }}/dist/favicon.ico"
+- name: Add humans.txt and robots.txt
+  copy:
+    src: "{{ item }}"
+    dest: "{{ app_source_root }}/dist/{{ item }}"
+  with_items:
+    - humans.txt
+    - robots.txt
+- name: copy source artifacts to deploy root
+  synchronize:
+    src: "{{ item }}"
+    dest: "{{ deploy_helper.new_release_path }}"
+  with_items:
+    - "{{ app_source_root }}/manage.py"
+  delegate_to: "{{ inventory_hostname }}"
+- name: Install 12factor environment
+  template:
+    src: "dotenv.j2"
+    dest: "{{ deploy_helper.new_release_path }}/.env"
+    mode: 0444
+- name: manage.py collectstatic
+  command: "{{ deploy_helper.new_release_path }}/venv/bin/python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
+  args:
+    creates: "{{ deploy_helper.new_release_path }}/assets/staticfiles.json"
+- name: Install gunicorn config
+  template:
+    src: "gunicorn.py.j2"
+    dest: "{{ deploy_helper.new_release_path }}/gunicorn.py"
+    mode: a=r
+- name: Set owner of deployment to hyperbola-app:hyperbola-app
+  file:
+    dest: "{{ deploy_helper.new_release_path }}"
+    owner: hyperbola-app
+    group: hyperbola-app
+    mode: a=rX
+    recurse: true
+- name: Remove source root
+  file:
+    state: absent
+    path: "{{ app_source_root }}/"
+- name: Finalize the deploy, removing the unfinished file and switching the symlink
+  deploy_helper:
+    path: /hyperbola/app
+    release: "{{ deploy_helper.new_release }}"
+    state: finalize
+  notify: restart app

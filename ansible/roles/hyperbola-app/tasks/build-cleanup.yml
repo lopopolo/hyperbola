@@ -1,4 +1,9 @@
 ---
+- name: Uninstall python build deps
+  pip:
+    state: absent
+    executable: pip3
+    name: pipenv
 - name: Uninstall hyperbola build deps
   apt:
     state: absent

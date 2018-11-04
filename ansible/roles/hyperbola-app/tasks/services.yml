@@ -1,0 +1,27 @@
+---
+- name: Install systemd units
+  copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/system
+    mode: 0444
+  with_items:
+    - hyperbola-app@.service
+    - hyperbola-app-backup@.service
+    - hyperbola-app-backup@.timer
+  notify: reload systemd units
+- name: Enable app instantiated units
+  systemd:
+    name: "{{ item.unit }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled }}"
+    daemon_reload: true
+  with_items:
+    - unit: "hyperbola-app@{{ hyperbola_environment }}.service"
+      enabled: true
+      state: "{% if hyperbola_environment == 'production' %}stopped{% else %}started{% endif %}"
+    - unit: "hyperbola-app-backup@{{ hyperbola_environment }}.service"
+      enabled: false
+      state: stopped
+    - unit: "hyperbola-app-backup@{{ hyperbola_environment }}.timer"
+      enabled: true
+      state: stopped

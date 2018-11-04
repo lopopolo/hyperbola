@@ -30,3 +30,8 @@
       - yarn
       - imagemagick
       - graphicsmagick
+- name: Install python build deps
+  pip:
+    state: present
+    executable: pip3
+    name: pipenv
