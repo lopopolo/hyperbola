@@ -1,3 +1,9 @@
 ENVIRONMENT='{{ hyperbola_environment }}'
 SECRET_KEY='{{ app_secrets.secret_key }}'
 DB_PASSWORD='{{ app_secrets.db_password }}'
+{% if app_secrets.aws_access_key is defined %}
+AWS_ACCESS_KEY_ID='{{ app_secrets.aws_access_key }}'
+{% endif %}
+{% if app_secrets.aws_secret_access_key is defined %}
+AWS_SECRET_ACCESS_KEY='{{ app_secrets.aws_secret_access_key }}'
+{% endif %}

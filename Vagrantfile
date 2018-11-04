@@ -103,15 +103,6 @@ Vagrant.configure('2') do |config|
 
     ansible_provision(app, 'app')
 
-    # AWS creds
-    app.vm.provision 'file', source: '~/.aws', destination: '/tmp/aws-creds'
-    app.vm.provision 'shell', inline: <<~SHELL
-      rm -rf /home/hyperbola-app/.aws
-      mv /tmp/aws-creds/ /home/hyperbola-app/.aws
-      chown -R hyperbola-app:hyperbola-app /home/hyperbola-app/.aws
-      chmod -R u=rX,go=X /home/hyperbola-app
-    SHELL
-
     # Service discovery
     app.vm.provision 'shell', inline: <<~SHELL
       if ! grep -q 'mysql.app.hyperboladc.net' /etc/hosts; then
@@ -121,9 +112,9 @@ Vagrant.configure('2') do |config|
 
     # Fixtures
     app.vm.provision 'fixtures', type: 'shell', inline: <<~SHELL
-      sudo -H -u hyperbola-app aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-28T0501Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
-      tar -xvzf /tmp/hyperbola-seed.json.tar.gz -C /tmp
       cd /hyperbola/app/current
+      venv/bin/dotenv run aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-28T0501Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
+      tar -xvzf /tmp/hyperbola-seed.json.tar.gz -C /tmp
       venv/bin/python manage.py migrate frontpage zero
       venv/bin/python manage.py migrate contact zero
       venv/bin/python manage.py migrate lifestream zero

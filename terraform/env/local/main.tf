@@ -74,6 +74,28 @@ module "iam_r53" {
 EOF
 }
 
+module "iam_vagrant" {
+  source = "../../aws/util/iam"
+
+  name  = "local-app-s3"
+  users = "local-app"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement":[{
+    "Effect": "Allow",
+    "Action": "s3:*",
+    "Resource": ["${module.hyperbola-app-aws.media_bucket_arn}",
+                 "${module.hyperbola-app-aws.media_bucket_arn}/*",
+                 "${module.hyperbola-app-aws.backup_bucket_arn}",
+                 "${module.hyperbola-app-aws.backup_bucket_arn}/*"]
+    }
+  ]
+}
+EOF
+}
+
 output "config" {
   value = <<CONFIG
 
@@ -83,6 +105,13 @@ Route53 IAM:
   Access IDs: ${join("\n              ", formatlist("%s", split(",", module.iam_r53.access_ids)))}
 
   Secret Keys: ${join("\n               ", formatlist("%s", split(",", module.iam_r53.secret_keys)))}
+
+Vagrant S3 IAM:
+  Vagrant S3 Users: ${join("\n               ", formatlist("%s", split(",", module.iam_vagrant.users)))}
+
+  Access IDs: ${join("\n              ", formatlist("%s", split(",", module.iam_vagrant.access_ids)))}
+
+  Secret Keys: ${join("\n               ", formatlist("%s", split(",", module.iam_vagrant.secret_keys)))}
 
 CONFIG
 }

@@ -79,3 +79,7 @@ resource "aws_s3_bucket" "media" {
 output "media_bucket" {
   value = "${aws_s3_bucket.media.bucket}"
 }
+
+output "media_bucket_arn" {
+  value = "${aws_s3_bucket.media.arn}"
+}
