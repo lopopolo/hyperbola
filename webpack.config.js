@@ -36,12 +36,8 @@ module.exports = {
         loader: "babel-loader"
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
         test: /\.(png|jpe?g|gif)$/,
