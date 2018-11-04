@@ -18,13 +18,12 @@
   include_tasks: build-setup.yml
 - name: Add deadsnakes ppa # https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
   apt_repository: repo='ppa:deadsnakes/ppa'
-- name: Install python
+- name: Install runtime deps
   apt:
     state: latest
     name:
       - "{{ app_python }}"
-      - "{{ app_python }}-dev"
-      - "{{ app_python }}-venv"
+      - libmysqlclient20
   tags:
     - skip_ansible_lint
 - name: Deploy app

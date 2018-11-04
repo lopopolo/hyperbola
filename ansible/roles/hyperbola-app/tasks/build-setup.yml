@@ -25,6 +25,8 @@
       - libssl-dev
       - libffi-dev
       - rsync
+      - "{{ app_python }}-dev"
+      - "{{ app_python }}-venv"
       - libmysqlclient-dev
       - nodejs
       - yarn

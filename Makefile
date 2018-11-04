@@ -23,7 +23,7 @@ release:
 
 .PHONY: build-ami
 build-ami:
-	venv/bin/dotenv run packer build packer/app.json
+	bin/dotenv-exec packer build packer/app.json
 
 ## Virtualenv
 
