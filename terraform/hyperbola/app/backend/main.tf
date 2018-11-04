@@ -159,7 +159,7 @@ data "aws_ami" "backend" {
 
   filter {
     name   = "tag:Version"
-    values = ["0.145.0"]
+    values = ["0.146.0"]
   }
 }
 
