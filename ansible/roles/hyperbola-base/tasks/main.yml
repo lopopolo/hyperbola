@@ -10,6 +10,7 @@
   apt:
     state: present
     name:
+      - chrony
       - git
       - vim
 - name: Global python packages
@@ -20,6 +21,20 @@
 - name: set timezone to UTC
   timezone:
     name: UTC
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html#configure-amazon-time-service-ubuntu
+- name: Configure chrony for Amazon Time Sync Service
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: "server 169.254.169.123 prefer iburst"
+    insertbefore: BOF
+    line: "{% if hyperbola_environment != 'production' %}# {% endif %}server 169.254.169.123 prefer iburst"
+  notify: restart chrony
+- name: Document chrony config for Amazon Time Sync Service
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    insertbefore: "server 169.254.169.123 prefer iburst"
+    line: "# Amazon Time Sync Service: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html"
+  notify: restart chrony
 - name: Lock root account # http://stackoverflow.com/a/39018859
   user:
     name: root

@@ -3,6 +3,5 @@
   version: 2.9.4
 - src: geerlingguy.security
   version: 1.7.0
-- src: influxdata.chrony
 - src: mprahl.lets-encrypt-route-53
   version: v4.2.1

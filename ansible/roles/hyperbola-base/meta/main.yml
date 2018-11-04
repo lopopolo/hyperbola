@@ -1,5 +1,3 @@
 ---
 dependencies:
   - role: geerlingguy.security
-  - role: influxdata.chrony
-    when: hyperbola_environment == 'production'
