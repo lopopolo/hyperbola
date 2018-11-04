@@ -39,7 +39,7 @@ resource "aws_route53_record" "local" {
   records = ["${aws_route53_record.lb-local.fqdn}"]
 }
 
-module "hyperbola-app-aws" {
+module "base" {
   source = "../modules/hyperbola/app/base"
   env    = "local"
   bucket = "local"
@@ -86,10 +86,10 @@ module "iam_vagrant" {
   "Statement":[{
     "Effect": "Allow",
     "Action": "s3:*",
-    "Resource": ["${module.hyperbola-app-aws.media_bucket_arn}",
-                 "${module.hyperbola-app-aws.media_bucket_arn}/*",
-                 "${module.hyperbola-app-aws.backup_bucket_arn}",
-                 "${module.hyperbola-app-aws.backup_bucket_arn}/*"]
+    "Resource": ["${module.base.media_bucket_arn}",
+                 "${module.base.media_bucket_arn}/*",
+                 "${module.base.backup_bucket_arn}",
+                 "${module.base.backup_bucket_arn}/*"]
     }
   ]
 }
