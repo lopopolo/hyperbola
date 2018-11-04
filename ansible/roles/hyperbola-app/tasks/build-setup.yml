@@ -35,3 +35,8 @@
     state: present
     executable: pip3
     name: pipenv
+- name: Install asset pipeline dependencies
+  command: yarn install
+  args:
+    chdir: "{{ app_source_root }}"
+    creates: "{{ app_source_root }}/node_modules/.bin/webpack"

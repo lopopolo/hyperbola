@@ -38,11 +38,6 @@
     SKIP_GIT_SDIST: 1
     SKIP_GENERATE_AUTHORS: 1
     SKIP_WRITE_GIT_CHANGELOG: 1
-- name: Install asset pipeline dependencies
-  command: yarn install
-  args:
-    chdir: "{{ app_source_root }}"
-    creates: "{{ app_source_root }}/node_modules/.bin/webpack"
 - name: Build static assets
   command: yarn run build
   args:
