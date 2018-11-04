@@ -149,14 +149,14 @@ resource "aws_security_group" "main_db_access" {
   }
 }
 
-output "mysql_endpoint" {
+output "endpoint" {
   value = "${aws_db_instance.main_rds_instance.address}"
 }
 
-output "mysql_port" {
+output "port" {
   value = "3306"
 }
 
-output "mysql_security_group_id" {
+output "security_group_id" {
   value = "${aws_security_group.main_db_access.id}"
 }

@@ -20,13 +20,13 @@ terraform {
   }
 }
 
-module "hyperbola-app-base" {
+module "base" {
   source = "../modules/hyperbola/app/base"
   env    = "${var.env}"
   bucket = "www"
 }
 
-module "hyperbola-app-mysql" {
+module "mysql" {
   source = "../modules/hyperbola/app/mysql"
   env    = "${var.env}"
   name   = "${var.name}-mysql"
@@ -37,7 +37,7 @@ module "hyperbola-app-mysql" {
   database_password = "${var.app_database_password}"
 }
 
-module "hyperbola-app-backend" {
+module "backend" {
   source   = "../modules/hyperbola/app/backend"
   name     = "${var.name}"
   env      = "${var.env}"
@@ -47,25 +47,25 @@ module "hyperbola-app-backend" {
   public_subnet_tier  = "${module.network.public_subnet_tier}"
   private_subnet_tier = "${module.network.private_subnet_tier}"
 
-  iam_instance_profile       = "${module.hyperbola-app-base.app_instance_profile}"
+  iam_instance_profile       = "${module.base.app_instance_profile}"
   s3_endpoint_prefix_list_id = "${module.network.s3_endpoint_prefix_list_id}"
 
-  mysql_port              = "${module.hyperbola-app-mysql.mysql_port}"
-  mysql_security_group_id = "${module.hyperbola-app-mysql.mysql_security_group_id}"
+  mysql_port              = "${module.mysql.port}"
+  mysql_security_group_id = "${module.mysql.security_group_id}"
 }
 
 output "mysql_endpoint" {
-  value = "${module.hyperbola-app-mysql.mysql_endpoint}"
+  value = "${module.mysql.endpoint}"
 }
 
 output "backup_bucket" {
-  value = "${module.hyperbola-app-base.backup_bucket}"
+  value = "${module.base.backup_bucket}"
 }
 
 output "media_bucket" {
-  value = "${module.hyperbola-app-base.media_bucket}"
+  value = "${module.base.media_bucket}"
 }
 
 output "backend_alb_dns" {
-  value = "${module.hyperbola-app-backend.alb_dns}"
+  value = "${module.backend.alb_dns}"
 }
