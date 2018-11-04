@@ -106,14 +106,14 @@ module "tier" {
   source = "../../../aws/network/subnet_tier"
 }
 
-module "mysql-subnets" {
+module "subnets" {
   source = "../../../aws/network/private_subnet"
 
   name   = "${var.name}"
   vpc_id = "${data.aws_vpc.current.id}"
   azs    = "${var.azs}"
 
-  subnet_tier       = "${module.tier.private-mysql-rds}"
+  subnet_tier       = "${module.tier.private_mysql_rds}"
   nat_enabled       = "false"
   nat_gateway_ids   = ""
   egress_gateway_id = ""
@@ -122,7 +122,7 @@ module "mysql-subnets" {
 resource "aws_db_subnet_group" "main_db_subnet_group" {
   name_prefix = "app-mysql-subnet-group-"
   description = "RDS subnet group"
-  subnet_ids  = ["${split(",", module.mysql-subnets.subnet_ids)}"]
+  subnet_ids  = ["${split(",", module.subnets.subnet_ids)}"]
 
   tags {
     Environment = "${var.env}"

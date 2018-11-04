@@ -6,6 +6,6 @@ output "private" {
   value = "2"
 }
 
-output "private-mysql-rds" {
+output "private_mysql_rds" {
   value = "5"
 }
