@@ -37,42 +37,24 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: {
-              minimize: true
-            }
-          },
-          "sass-loader"
-        ]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: {
-              minimize: true
-            }
-          }
-        ]
+        use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
-        test: /\.(jpe?g|png|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        test: /\.(png|jpe?g|gif)$/,
         use: {
-          loader: "base64-inline-loader",
+          loader: "url-loader",
           options: {
-            limit: 2048,
-            name: "[name].[ext]"
+            limit: 8192
           }
         }
       },
       {
-        test: /\.(svg)(\?[a-z0-9=&.]+)?$/,
-        use: ["base64-inline-loader", "svgo-loader"]
+        test: /\.svg$/,
+        use: ["url-loader", "svgo-loader"]
       }
     ]
   }
