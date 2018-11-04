@@ -1,5 +1,5 @@
 module "hyperbola-email-dns" {
-  source = "../../hyperbola/gsuite/email-dns"
+  source = "../modules/hyperbola/gsuite/email-dns"
 
   zone_id                      = "${aws_route53_zone.hyperbola-zone.zone_id}"
   zone_name                    = "${aws_route53_zone.hyperbola-zone.name}"
@@ -8,7 +8,7 @@ module "hyperbola-email-dns" {
 }
 
 module "hyperbolausercontent-email-dns" {
-  source = "../../hyperbola/gsuite/email-dns"
+  source = "../modules/hyperbola/gsuite/email-dns"
 
   zone_id                      = "${aws_route53_zone.hyperbolausercontent-net-public.zone_id}"
   zone_name                    = "${aws_route53_zone.hyperbolausercontent-net-public.name}"
@@ -17,7 +17,7 @@ module "hyperbolausercontent-email-dns" {
 }
 
 module "hyperboladc-email-dns" {
-  source = "../../hyperbola/gsuite/email-dns"
+  source = "../modules/hyperbola/gsuite/email-dns"
 
   zone_id                      = "${aws_route53_zone.hyperboladc-net-public.zone_id}"
   zone_name                    = "${aws_route53_zone.hyperboladc-net-public.name}"
@@ -26,7 +26,7 @@ module "hyperboladc-email-dns" {
 }
 
 module "frklftio-email-dns" {
-  source = "../../hyperbola/gsuite/email-dns"
+  source = "../modules/hyperbola/gsuite/email-dns"
 
   zone_id                      = "${aws_route53_zone.frklftio-public.zone_id}"
   zone_name                    = "${aws_route53_zone.frklftio-public.name}"

@@ -7,7 +7,7 @@ variable "azs" {
 }
 
 module "network" {
-  source      = "../../aws/network"
+  source      = "../modules/aws/network"
   name        = "${var.name}"
   vpc_cidr    = "${var.vpc_cidr}"
   azs         = "${var.azs}"

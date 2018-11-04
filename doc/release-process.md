@@ -29,7 +29,7 @@ git push --tags
     ```
 2. Roll ASG
     ```bash
-    pushd terraform/env/app-prod-northwest
+    pushd terraform/app-prod-pdx
     terraform plan
     terraform apply
     popd

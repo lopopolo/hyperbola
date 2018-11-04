@@ -40,13 +40,13 @@ resource "aws_route53_record" "local" {
 }
 
 module "hyperbola-app-aws" {
-  source = "../../hyperbola/app/base"
+  source = "../modules/hyperbola/app/base"
   env    = "local"
   bucket = "local"
 }
 
 module "iam_r53" {
-  source = "../../aws/util/iam"
+  source = "../modules/aws/util/iam"
 
   name  = "local-route53"
   users = "local-lb"
@@ -75,7 +75,7 @@ EOF
 }
 
 module "iam_vagrant" {
-  source = "../../aws/util/iam"
+  source = "../modules/aws/util/iam"
 
   name  = "local-app-s3"
   users = "local-app"

@@ -19,7 +19,7 @@ terraform {
 }
 
 module "iam_admin" {
-  source = "../../aws/util/iam"
+  source = "../modules/aws/util/iam"
 
   name  = "${var.name}-admin"
   users = "${var.iam_admins}"
