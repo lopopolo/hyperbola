@@ -1,6 +1,9 @@
 resource "aws_route53_zone" "app_dc" {
-  name   = "app.hyperboladc.net"
-  vpc_id = "${module.network.vpc_id}"
+  name = "app.hyperboladc.net"
+
+  vpc {
+    vpc_id = "${module.network.vpc_id}"
+  }
 }
 
 data "aws_route53_zone" "hyperbola" {
