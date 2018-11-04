@@ -1,4 +1,8 @@
 ---
+- name: Clean pip, pipenv, and yarn caches
+  file:
+    state: absent
+    path: "/root/.cache/"
 - name: Uninstall python build deps
   pip:
     state: absent
