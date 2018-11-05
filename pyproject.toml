@@ -65,6 +65,7 @@ pytz = "^2018.7"
 awscli = "^1.16"
 pygments = "^2.2"
 python-dotenv = "^0.9.1"
+ssm-parameter-store = "^18.7"
 
 [tool.poetry.dev-dependencies]
 bumpversion = "^0.5.3"

@@ -10,6 +10,10 @@ terraform {
   }
 }
 
+variable "app_secret_key" {}
+
+variable "app_database_password" {}
+
 data "aws_route53_zone" "dc" {
   name         = "hyperboladc.net."
   private_zone = false
@@ -43,6 +47,14 @@ module "base" {
   source = "../modules/hyperbola/app/base"
   env    = "local"
   bucket = "local"
+}
+
+module "secrets" {
+  source = "../modules/hyperbola/app/secrets"
+  env    = "local"
+
+  secret_key        = "${var.app_secret_key}"
+  database_password = "${var.app_database_password}"
 }
 
 module "iam_r53" {
