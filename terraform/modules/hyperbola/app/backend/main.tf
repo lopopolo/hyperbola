@@ -189,7 +189,7 @@ resource "aws_launch_template" "backend" {
   }
 }
 
-resource "aws_autoscaling_group" "backend2" {
+resource "aws_autoscaling_group" "backend" {
   name_prefix           = "app-backend-asg-"
   desired_capacity      = "${var.size}"
   min_size              = "${var.size}"
@@ -217,7 +217,7 @@ resource "aws_autoscaling_policy" "backend-scaleup" {
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = 1
   cooldown               = 300
-  autoscaling_group_name = "${aws_autoscaling_group.backend2.name}"
+  autoscaling_group_name = "${aws_autoscaling_group.backend.name}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaleup" {
@@ -231,7 +231,7 @@ resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaleup" {
   threshold           = 60
 
   dimensions = {
-    "AutoScalingGroupName" = "${aws_autoscaling_group.backend2.name}"
+    "AutoScalingGroupName" = "${aws_autoscaling_group.backend.name}"
   }
 
   actions_enabled = true
@@ -244,7 +244,7 @@ resource "aws_autoscaling_policy" "backend-scaledown" {
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = -1
   cooldown               = 300
-  autoscaling_group_name = "${aws_autoscaling_group.backend2.name}"
+  autoscaling_group_name = "${aws_autoscaling_group.backend.name}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaledown" {
@@ -258,7 +258,7 @@ resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaledown" {
   threshold           = 20
 
   dimensions = {
-    "AutoScalingGroupName" = "${aws_autoscaling_group.backend2.name}"
+    "AutoScalingGroupName" = "${aws_autoscaling_group.backend.name}"
   }
 
   actions_enabled = true
