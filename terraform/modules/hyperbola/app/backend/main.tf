@@ -211,70 +211,13 @@ resource "aws_autoscaling_group" "backend2" {
   ]
 }
 
-resource "aws_launch_configuration" "backend" {
-  name_prefix     = "app-backend-"
-  image_id        = "${data.aws_ami.backend.id}"
-  instance_type   = "t3.nano"
-  key_name        = "${var.key_name}"
-  security_groups = ["${aws_security_group.backend.id}"]
-
-  iam_instance_profile = "${var.iam_instance_profile}"
-
-  enable_monitoring = false    # disable 11 CloudWatch metrics per instance
-  spot_price        = "0.0052"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_autoscaling_group" "backend" {
-  name                  = "${aws_launch_configuration.backend.name}"
-  launch_configuration  = "${aws_launch_configuration.backend.name}"
-  desired_capacity      = "${var.size}"
-  min_size              = "${var.size}"
-  max_size              = "${2 * var.size + 1}"
-  wait_for_elb_capacity = "${var.size}"
-
-  availability_zones  = ["${data.aws_subnet.private.*.availability_zone}"]
-  vpc_zone_identifier = ["${data.aws_subnet.private.*.id}"]
-  target_group_arns   = ["${aws_alb_target_group.backend.arn}"]
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tag {
-    key                 = "Name"
-    value               = "${var.name}-backend"
-    propagate_at_launch = true
-  }
-
-  tag {
-    key                 = "Environment"
-    value               = "${var.env}"
-    propagate_at_launch = true
-  }
-
-  tag {
-    key                 = "Version"
-    value               = "0.147.1"
-    propagate_at_launch = true
-  }
-
-  depends_on = [
-    "aws_security_group_rule.backend-to-mysql",
-    "aws_security_group_rule.mysql-from-backend",
-  ]
-}
-
 resource "aws_autoscaling_policy" "backend-scaleup" {
   name                   = "${var.name}-backend-scaleup-policy"
   policy_type            = "SimpleScaling"
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = 1
   cooldown               = 300
-  autoscaling_group_name = "${aws_autoscaling_group.backend.name}"
+  autoscaling_group_name = "${aws_autoscaling_group.backend2.name}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaleup" {
@@ -288,7 +231,7 @@ resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaleup" {
   threshold           = 60
 
   dimensions = {
-    "AutoScalingGroupName" = "${aws_autoscaling_group.backend.name}"
+    "AutoScalingGroupName" = "${aws_autoscaling_group.backend2.name}"
   }
 
   actions_enabled = true
@@ -301,7 +244,7 @@ resource "aws_autoscaling_policy" "backend-scaledown" {
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = -1
   cooldown               = 300
-  autoscaling_group_name = "${aws_autoscaling_group.backend.name}"
+  autoscaling_group_name = "${aws_autoscaling_group.backend2.name}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaledown" {
@@ -315,7 +258,7 @@ resource "aws_cloudwatch_metric_alarm" "backend-cpu-scaledown" {
   threshold           = 20
 
   dimensions = {
-    "AutoScalingGroupName" = "${aws_autoscaling_group.backend.name}"
+    "AutoScalingGroupName" = "${aws_autoscaling_group.backend2.name}"
   }
 
   actions_enabled = true
