@@ -187,6 +187,21 @@ resource "aws_launch_template" "backend" {
       max_price = "0.0052"
     }
   }
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags {
+      Name        = "${var.name}-backend"
+      Environment = "${var.env}"
+      Version     = "0.147.1"
+    }
+  }
+
+  tags {
+    Name        = "${var.name}-backend"
+    Environment = "${var.env}"
+  }
 }
 
 resource "aws_autoscaling_group" "backend" {
@@ -271,4 +286,8 @@ output "alb_zone_id" {
 
 output "alb_dns" {
   value = "${aws_alb.alb.dns_name}"
+}
+
+output "backend_asg" {
+  value = "${aws_autoscaling_group.backend.name}"
 }

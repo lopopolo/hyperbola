@@ -23,25 +23,31 @@ git push --tags
 
 ## Deploy To AWS
 
-1. Build Image
-    ```bash
-    make build-ami
-    ```
-2. Roll ASG
-    ```bash
-    pushd terraform/app-prod-pdx
-    terraform plan
-    terraform apply
-    popd
-    ```
-3. Cleanup old AMIs
-    ```bash
-    bin/deregister_ami --dry-run
-    bin/deregister_ami --execute
-    ```
+```bash
+make build-ami # build image
+pushd terraform/app-prod-pdx
+terraform plan
+terraform apply # update launch template
+popd
+bin/cycle-asg # launch new instances with the new image
+# smoke test
+bin/deregister_ami --dry-run
+bin/deregister_ami --execute # cleanup old images
+```
 
 ### Smoke Test
 
 Verify that [frontpage](https://hyperbo.la/), [contact](https://hyperbo.la/contact/),
 [lifestream](https://hyperbo.la/lifestream/), and [blog](https://hyperbo.la/w/) pages
 function correctly.
+
+### Rollback a Bad Deploy
+
+```bash
+git revert
+pushd terraform/app-prod-pdx
+terraform plan
+terraform apply # update launch template
+popd
+bin/cycle-asg # launch new instances with the old image
+```

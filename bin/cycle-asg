@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -e
+set -u
+set -o pipefail
+
+describe () {
+    aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names "$1"
+}
+
+set_desired () {
+    echo "Setting $1 desired capacity to $2"
+    aws autoscaling set-desired-capacity --auto-scaling-group-name "$1" --desired-capacity "$2"
+}
+
+count_bootstrapped() {
+    describe "$1" | jq '.AutoScalingGroups[0].Instances | map(select(.LifecycleState == "InService")) | length'
+}
+
+asg="$(terraform output -module=backend backend_asg)"
+
+size="$(describe "$asg" | jq '.AutoScalingGroups[0].Instances | length')"
+cycle="$(( size + 1 ))"
+
+echo "ASG:          $asg"
+echo "Current size: $size"
+echo ""
+echo "Temporarily increasing size to $cycle until all existing hosts are cycled out."
+
+for _ in $(seq 1 "$size"); do
+    set_desired "$asg" "$cycle"
+    scaled="$(count_bootstrapped "$asg")"
+    while [[ "$scaled" != "$cycle" ]]; do
+        echo "Waiting for $asg to bootstrap to $cycle Healthy InService hosts ..."
+        sleep 10
+        scaled="$(count_bootstrapped "$asg")"
+    done
+    set_desired "$asg" "$size"
+done
+
+describe "$asg" |  jq '.AutoScalingGroups[0].Instances'
