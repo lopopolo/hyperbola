@@ -12,7 +12,9 @@ const plugins = [
     paths: glob.sync(
       `${path.resolve(__dirname)}/hyperbola/**/templates/*.html`,
       { nodir: true }
-    )
+    ),
+    whitelistPatterns: [/^code$/],
+    whitelistPatternsChildren: [/^syntax$/]
   }),
   new WebappWebpackPlugin({
     logo: path.resolve(__dirname, "src/logo.svg"),
