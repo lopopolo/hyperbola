@@ -17,7 +17,9 @@ count_bootstrapped() {
     describe "$1" | jq '.AutoScalingGroups[0].Instances | map(select(.LifecycleState == "InService")) | length'
 }
 
-asg="$(terraform output -module=backend backend_asg)"
+unset CDPATH
+
+asg="$(cd terraform/app-prod-pdx && terraform output -module=backend backend_asg)"
 
 size="$(describe "$asg" | jq '.AutoScalingGroups[0].Instances | length')"
 cycle="$(( size + 1 ))"
