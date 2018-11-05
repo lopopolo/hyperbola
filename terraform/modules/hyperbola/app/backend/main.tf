@@ -163,6 +163,54 @@ data "aws_ami" "backend" {
   }
 }
 
+resource "aws_launch_template" "backend" {
+  name_prefix            = "app-backend-lc-"
+  image_id               = "${data.aws_ami.backend.id}"
+  instance_type          = "t3.nano"
+  ebs_optimized          = true
+  key_name               = "${var.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.backend.id}"]
+
+  iam_instance_profile {
+    name = "${var.iam_instance_profile}"
+  }
+
+  monitoring {
+    # disable 11 CloudWatch metrics per instance
+    enabled = false
+  }
+
+  instance_market_options {
+    market_type = "spot"
+
+    spot_options {
+      max_price = "0.0052"
+    }
+  }
+}
+
+resource "aws_autoscaling_group" "backend2" {
+  name_prefix           = "app-backend-asg-"
+  desired_capacity      = "${var.size}"
+  min_size              = "${var.size}"
+  max_size              = "${2 * var.size + 1}"
+  wait_for_elb_capacity = "${var.size}"
+
+  availability_zones  = ["${data.aws_subnet.private.*.availability_zone}"]
+  vpc_zone_identifier = ["${data.aws_subnet.private.*.id}"]
+  target_group_arns   = ["${aws_alb_target_group.backend.arn}"]
+
+  launch_template {
+    id      = "${aws_launch_template.backend.id}"
+    version = "$$Latest"
+  }
+
+  depends_on = [
+    "aws_security_group_rule.backend-to-mysql",
+    "aws_security_group_rule.mysql-from-backend",
+  ]
+}
+
 resource "aws_launch_configuration" "backend" {
   name_prefix     = "app-backend-"
   image_id        = "${data.aws_ami.backend.id}"
