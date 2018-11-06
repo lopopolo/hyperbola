@@ -20,7 +20,7 @@ resource "aws_ssm_parameter" "database_password" {
   name        = "/app/${var.env}/DB_PASSWORD"
   description = "App database password"
   type        = "SecureString"
-  value       = "${var.secret_key}"
+  value       = "${var.database_password}"
 
   tags {
     Environment = "${var.env}"

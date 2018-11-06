@@ -10,6 +10,10 @@ terraform {
   }
 }
 
+variable "env" {
+  default = "local"
+}
+
 variable "app_secret_key" {}
 
 variable "app_database_password" {}
@@ -45,13 +49,13 @@ resource "aws_route53_record" "local" {
 
 module "base" {
   source = "../modules/hyperbola/app/base"
-  env    = "local"
+  env    = "${var.env}"
   bucket = "local"
 }
 
 module "secrets" {
   source = "../modules/hyperbola/app/secrets"
-  env    = "local"
+  env    = "${var.env}"
 
   secret_key        = "${var.app_secret_key}"
   database_password = "${var.app_database_password}"
@@ -79,7 +83,9 @@ module "iam_r53" {
         "route53:GetHostedZoneCount",
         "route53:ListHostedZonesByName"
       ],
-      "Resource": "*"
+      "Resource": [
+        "arn:aws:route53:::hostedzone/${data.aws_route53_zone.dc.id}"
+      ]
     }
   ]
 }
@@ -95,13 +101,31 @@ module "iam_vagrant" {
   policy = <<EOF
 {
   "Version": "2012-10-17",
-  "Statement":[{
-    "Effect": "Allow",
-    "Action": "s3:*",
-    "Resource": ["${module.base.media_bucket_arn}",
-                 "${module.base.media_bucket_arn}/*",
-                 "${module.base.backup_bucket_arn}",
-                 "${module.base.backup_bucket_arn}/*"]
+  "Statement": [
+    {
+      "Sid" : "AllowMediaBucketPermissions",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "${module.base.media_bucket_arn}",
+        "${module.base.media_bucket_arn}/*",
+        "${module.base.backup_bucket_arn}",
+        "${module.base.backup_bucket_arn}/*"
+      ]
+    },
+    {
+      "Sid" : "AllowSecretsAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath"
+      ],
+      "Resource": [
+        "arn:aws:ssm:*:*:parameter/app/${var.env}",
+        "arn:aws:ssm:*:*:parameter/app/${var.env}/",
+        "arn:aws:ssm:*:*:parameter/app/${var.env}/*"
+      ]
     }
   ]
 }
