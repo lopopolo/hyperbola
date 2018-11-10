@@ -60,8 +60,8 @@ repos:
     hooks:
     -   id: pylint
         name: pylint
-        entry: venv/bin/pylint
-        language: script
+        entry: python -m pylint.__main__
+        language: system
         types: [python]
 -   repo: https://github.com/asottile/pyupgrade.git
     rev: v1.10.1
@@ -78,9 +78,9 @@ repos:
     hooks:
     -   id: eslint
         name: eslint
-        types: [javascript]
-        entry: node_modules/.bin/eslint --ext js
+        entry: yarn run eslint
         language: system
+        types: [javascript]
 -   repo: https://github.com/pre-commit/mirrors-csslint.git
     rev: v1.0.5
     hooks:
