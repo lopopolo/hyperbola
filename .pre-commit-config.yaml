@@ -60,8 +60,8 @@ repos:
     hooks:
     -   id: pylint
         name: pylint
-        entry: venv/bin/pylint
-        language: script
+        entry: python -m pylint.__main__
+        language: system
         types: [python]
 -   repo: https://github.com/asottile/pyupgrade.git
     rev: v1.10.1

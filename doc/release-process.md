@@ -16,23 +16,19 @@ pages function correctly.
 ## Cut Release Tag
 
 ```bash
-make release
-git push
-git push --tags
+inv release
 ```
 
 ## Deploy To AWS
 
+The `deploy` task performs the following actions:
+
+-   Build an AMI using Packer.
+-   Update launch template to use new AMI with Terraform.
+-   Cycle the backend ASG to pick up the new AMI.
+
 ```bash
-make build-ami # build image
-pushd terraform/app-prod-pdx
-terraform plan
-terraform apply # update launch template
-popd
-bin/cycle-asg # launch new instances with the new image
-# smoke test
-bin/deregister_ami --dry-run
-bin/deregister_ami --execute # cleanup old images
+inv deploy
 ```
 
 ### Smoke Test
@@ -43,11 +39,23 @@ function correctly.
 
 ### Rollback a Bad Deploy
 
+The `deploy.rollback` task performs the following actions:
+
+-   Revert the HEAD commit (assumed to be a version bump commit).
+-   Update launch template to use new AMI with Terraform.
+-   Cycle the backend ASG to pick up the old AMI.
+
 ```bash
-git revert
-pushd terraform/app-prod-pdx
-terraform plan
-terraform apply # update launch template
-popd
-bin/cycle-asg # launch new instances with the old image
+inv deploy.rollback
+```
+
+### Cleanup
+
+The `deploy.finalize` task performs the following actions:
+
+-   Delete unused AMIs.
+-   Delete unused snapshots.
+
+```bash
+inv deploy.finalize
 ```

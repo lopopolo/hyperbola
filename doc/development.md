@@ -5,8 +5,9 @@
 ### MySQL
 
 ```bash
-brew install mysql@5.7
-brew link mysql@5.7
+brew install mysql-connector-c
+brew unlink mysql-connector-c
+brew install mysql
 ```
 
 ### Vagrant
@@ -34,9 +35,9 @@ brew install node yarn
 ```bash
 git clone git@github.com:lopopolo/hyperbola.git
 cd hyperbola
-yarn install
-make virtualenv
-source venv/bin/activate
+env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pipenv install --dev
+pipenv shell
+inv init
 vagrant up
 ```
 
