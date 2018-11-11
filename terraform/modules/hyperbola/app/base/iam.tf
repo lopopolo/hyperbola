@@ -34,15 +34,25 @@ resource "aws_iam_role_policy" "app" {
   policy = <<EOF
 {
   "Version": "2012-10-17",
-  "Statement":[
+  "Statement": [
     {
-      "Sid" : "AllowMediaBucketPermissions",
+      "Sid" : "AllowAppBucketPermissions",
       "Effect": "Allow",
-      "Action": "s3:*",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
       "Resource": [
         "${aws_s3_bucket.media.arn}",
+        "${aws_s3_bucket.backup.arn}"
+      ]
+    },
+    {
+      "Sid" : "AllowAppBucketContentPermissions",
+      "Effect": "Allow",
+      "Action": "s3:*Object*",
+      "Resource": [
         "${aws_s3_bucket.media.arn}/*",
-        "${aws_s3_bucket.backup.arn}",
         "${aws_s3_bucket.backup.arn}/*"
       ]
     },
@@ -50,13 +60,9 @@ resource "aws_iam_role_policy" "app" {
       "Sid" : "AllowSecretsAccess",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter",
-        "ssm:GetParameters",
         "ssm:GetParametersByPath"
       ],
       "Resource": [
-        "arn:aws:ssm:*:*:parameter/app/${var.env}",
-        "arn:aws:ssm:*:*:parameter/app/${var.env}/",
         "arn:aws:ssm:*:*:parameter/app/${var.env}/*"
       ]
      }

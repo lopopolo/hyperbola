@@ -103,13 +103,23 @@ module "iam_vagrant" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid" : "AllowMediaBucketPermissions",
+      "Sid" : "AllowAppBucketPermissions",
       "Effect": "Allow",
-      "Action": "s3:*",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
       "Resource": [
         "${module.base.media_bucket_arn}",
+        "${module.base.backup_bucket_arn}"
+      ]
+    },
+    {
+      "Sid" : "AllowAppBucketContentPermissions",
+      "Effect": "Allow",
+      "Action": "s3:*Object*",
+      "Resource": [
         "${module.base.media_bucket_arn}/*",
-        "${module.base.backup_bucket_arn}",
         "${module.base.backup_bucket_arn}/*"
       ]
     },
@@ -117,13 +127,9 @@ module "iam_vagrant" {
       "Sid" : "AllowSecretsAccess",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter",
-        "ssm:GetParameters",
         "ssm:GetParametersByPath"
       ],
       "Resource": [
-        "arn:aws:ssm:*:*:parameter/app/${var.env}",
-        "arn:aws:ssm:*:*:parameter/app/${var.env}/",
         "arn:aws:ssm:*:*:parameter/app/${var.env}/*"
       ]
     }
