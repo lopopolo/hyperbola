@@ -40,11 +40,12 @@ resource "aws_security_group" "ssm" {
 }
 
 resource "aws_vpc_endpoint" "ssm" {
-  vpc_id             = "${data.aws_vpc.this.id}"
-  service_name       = "${data.aws_vpc_endpoint_service.ssm.service_name}"
-  vpc_endpoint_type  = "Interface"
-  subnet_ids         = ["${data.aws_subnet_ids.private.ids}"]
-  security_group_ids = ["${aws_security_group.ssm.id}"]
+  vpc_id              = "${data.aws_vpc.this.id}"
+  service_name        = "${data.aws_vpc_endpoint_service.ssm.service_name}"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = ["${data.aws_subnet_ids.private.ids}"]
+  security_group_ids  = ["${aws_security_group.ssm.id}"]
+  private_dns_enabled = true
 }
 
 resource "aws_security_group" "backend" {
