@@ -319,7 +319,7 @@ version = "2.7.5"
 six = ">=1.5"
 
 [[package]]
-category = "main"
+category = "dev"
 description = "Add .env support to your django/flask apps in development and deployments"
 name = "python-dotenv"
 optional = false
@@ -428,7 +428,7 @@ python-versions = "*"
 version = "1.10.11"
 
 [metadata]
-content-hash = "48a8b620314d6ea2931c6b8de8c750d4d7ad3369d8c22ac76138fb324fd2b7b0"
+content-hash = "e75525cf7bce05daa1215bfdd82ee6666256dd2fc44469fe7d85283f45ffbf1a"
 python-versions = "^3.7"
 
 [metadata.hashes]

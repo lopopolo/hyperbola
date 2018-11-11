@@ -15,24 +15,6 @@ class ConfigLoader:
         return Env[environ.get("ENVIRONMENT")]
 
 
-class DotenvLoader(ConfigLoader):
-    def __init__(self):
-        from dotenv import load_dotenv
-
-        load_dotenv()
-
-    def source(self, config, default=None):
-        from django.core.exceptions import ImproperlyConfigured
-
-        prop = environ.get(config, default)
-        if prop is None:
-            raise ImproperlyConfigured(f"{config} not found in environment")
-        if prop == "" and default is not None:
-            return default
-
-        return prop
-
-
 class ParameterStoreLoader(ConfigLoader):
     def __init__(self):
         from ssm_parameter_store import EC2ParameterStore

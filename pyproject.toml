@@ -64,7 +64,6 @@ pillow = "^5.3"
 pytz = "^2018.7"
 awscli = "^1.16"
 pygments = "^2.2"
-python-dotenv = "^0.9.1"
 ssm-parameter-store = "^18.7"
 
 [tool.poetry.dev-dependencies]
@@ -73,6 +72,7 @@ flake8 = "^3.6"
 pylint = "^2.1"
 invoke = "^1.2"
 pydocstyle = "^3.0"
+python-dotenv = "^0.9.1"
 
 [build-system]
 requires = ["poetry>=0.12", "setuptools", "wheel"]
