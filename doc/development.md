@@ -16,15 +16,16 @@ brew install mysql
 brew cask install vagrant
 ```
 
-### pyenv
+### Python
 
 ```bash
 brew install pyenv
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 pyenv install "$(cat .python-version)"
+pip install poetry
 ```
 
-### node + yarn
+### Node
 
 ```bash
 brew install node yarn
@@ -35,8 +36,8 @@ brew install node yarn
 ```bash
 git clone git@github.com:lopopolo/hyperbola.git
 cd hyperbola
-env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" pipenv install --dev
-pipenv shell
+poetry install
+poetry shell
 inv init
 vagrant up
 ```

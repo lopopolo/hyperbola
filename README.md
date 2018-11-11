@@ -22,7 +22,7 @@ Build dependencies are [installed with Ansible](/ansible/roles/hyperbola-app/tas
 Ansible also tries to [purge build dependencies](ansible/roles/hyperbola-app/tasks/build-cleanup.yml) from
 the target host upon a successful deploy.
 
-The python build is managed by [pipenv](https://pipenv.readthedocs.io/en/latest/) and the static assets
+The python build is managed by [poetry](https://poetry.eustace.io/) and the static assets
 build is managed by [webpack](https://webpack.js.org/).
 
 ## Deploy

@@ -7,14 +7,11 @@
 SDIST_FILES = %w[
   hyperbola
   src
-  MANIFEST.in
-  Pipfile
-  Pipfile.lock
   README.md
   manage.py
   package.json
-  setup.cfg
-  setup.py
+  poetry.lock
+  pyproject.toml
   webpack.config.js
   yarn.lock
 ].freeze
@@ -26,7 +23,7 @@ APP_IP = '192.168.10.20'
 # rubocop:disable Metrics/MethodLength
 def ansible_provision(box, host_type)
   box.vm.provision 'ansible-playbook-password', type: 'shell', inline: <<~SHELL
-    env #{`venv/bin/dotenv get ANSIBLE_VAULT_PASSWORD`.strip} printenv ANSIBLE_VAULT_PASSWORD > /tmp/vault-password.txt
+    echo #{`./bin/ansible_vault_password.py`.strip} > /tmp/vault-password.txt
   SHELL
   box.vm.provision 'provision', type: :ansible_local do |ansible|
     ansible.playbook =
@@ -87,7 +84,7 @@ Vagrant.configure('2') do |config|
     app.vm.network 'private_network', ip: APP_IP
 
     app.vm.provider 'virtualbox' do |v|
-      # t3.nano only has 512, but more memory is needed to run pipenv
+      # t3.nano only has 512, but more memory is needed to install dependencies
       v.memory = 2048
     end
 
@@ -113,7 +110,10 @@ Vagrant.configure('2') do |config|
     # Fixtures
     app.vm.provision 'fixtures', type: 'shell', inline: <<~SHELL
       cd /hyperbola/app/current
-      venv/bin/dotenv run aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-28T0501Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
+      export ENVIRONMENT=local
+      set -a
+      source .env
+      aws s3 cp s3://hyperbola-app-backup-local/v6/local/database/hyperbola-app-2018-10-28T0501Z.json.tar.gz /tmp/hyperbola-seed.json.tar.gz
       tar -xvzf /tmp/hyperbola-seed.json.tar.gz -C /tmp
       venv/bin/python manage.py migrate frontpage zero
       venv/bin/python manage.py migrate contact zero

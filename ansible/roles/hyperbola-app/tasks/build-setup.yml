@@ -36,7 +36,7 @@
   pip:
     state: present
     executable: pip3
-    name: pipenv
+    name: poetry
 - name: Install asset pipeline dependencies
   command: yarn install
   args:

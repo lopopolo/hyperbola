@@ -1,5 +1,5 @@
 ---
-- name: Clean pip, pipenv, and yarn caches
+- name: Clean pip and yarn caches
   file:
     state: absent
     path: "/root/.cache/"
@@ -7,7 +7,7 @@
   pip:
     state: absent
     executable: pip3
-    name: pipenv
+    name: poetry
 - name: Uninstall hyperbola build deps
   apt:
     state: absent
