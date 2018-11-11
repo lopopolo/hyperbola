@@ -10,34 +10,15 @@
   file:
     path: "{{ deploy_helper.new_release_path }}/{{ deploy_helper.unfinished_filename }}"
     state: touch
+- name: Install 12factor environment
+  template:
+    src: "dotenv.j2"
+    dest: "{{ deploy_helper.new_release_path }}/.env"
+    mode: 0444
 - name: Create app virtualenv
   command: "{{ app_python }} -m venv {{ deploy_helper.new_release_path }}/venv"
   args:
     creates: "{{ deploy_helper.new_release_path }}/venv/bin/python"
-- name: Update pip infra
-  pip:
-    state: latest
-    executable: "{{ deploy_helper.new_release_path }}/venv/bin/pip"
-    name: setuptools
-  tags:
-    - skip_ansible_lint
-- name: Install app dependencies
-  command: pipenv install --deploy
-  args:
-    chdir: "{{ app_source_root }}"
-    creates: "{{ deploy_helper.new_release_path }}/venv/**/*django*"
-  environment:
-    VIRTUAL_ENV: "{{ deploy_helper.new_release_path }}/venv"
-- name: Install app
-  command: "{{ deploy_helper.new_release_path }}/venv/bin/python setup.py install"
-  args:
-    chdir: "{{ app_source_root }}"
-    creates: "{{ deploy_helper.new_release_path }}/venv/**/*hyperbola*"
-  environment:
-    PBR_VERSION: "{{ app_version }}"
-    SKIP_GIT_SDIST: 1
-    SKIP_GENERATE_AUTHORS: 1
-    SKIP_WRITE_GIT_CHANGELOG: 1
 - name: Build static assets
   command: yarn run build
   args:
@@ -55,17 +36,25 @@
     src: "{{ item }}"
     dest: "{{ deploy_helper.new_release_path }}"
   with_items:
+    - "{{ app_source_root }}/hyperbola"
+    - "{{ app_source_root }}/README.md"
     - "{{ app_source_root }}/manage.py"
+    - "{{ app_source_root }}/poetry.lock"
+    - "{{ app_source_root }}/pyproject.toml"
   delegate_to: "{{ inventory_hostname }}"
-- name: Install 12factor environment
-  template:
-    src: "dotenv.j2"
-    dest: "{{ deploy_helper.new_release_path }}/.env"
-    mode: 0444
+- name: Install app + dependencies
+  command: poetry install --no-dev
+  args:
+    chdir: "{{ deploy_helper.new_release_path }}"
+    creates: "{{ deploy_helper.new_release_path }}/venv/**/*django*"
+  environment:
+    VIRTUAL_ENV: "{{ deploy_helper.new_release_path }}/venv"
 - name: manage.py collectstatic
   command: "{{ deploy_helper.new_release_path }}/venv/bin/python {{ deploy_helper.new_release_path }}/manage.py collectstatic --no-input"
   args:
     creates: "{{ deploy_helper.new_release_path }}/assets/staticfiles.json"
+  environment:
+    ENVIRONMENT: "{{ hyperbola_environment }}"
 - name: Install gunicorn config
   template:
     src: "gunicorn.py.j2"

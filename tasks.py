@@ -5,10 +5,7 @@ from invoke import Collection, task
 def init(ctx):
     ctx.run("pre-commit install")
     ctx.run("pre-commit install-hooks")
-    ctx.run(
-        "pipenv install --dev",
-        env={"LDFLAGS": "-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib"},
-    )
+    ctx.run("poetry install")
     ctx.run("yarn install")
 
 

@@ -59,21 +59,6 @@
     },
     {
       "type": "file",
-      "source": "MANIFEST.in",
-      "destination": "/hyperbola/sdist/"
-    },
-    {
-      "type": "file",
-      "source": "Pipfile",
-      "destination": "/hyperbola/sdist/"
-    },
-    {
-      "type": "file",
-      "source": "Pipfile.lock",
-      "destination": "/hyperbola/sdist/"
-    },
-    {
-      "type": "file",
       "source": "README.md",
       "destination": "/hyperbola/sdist/"
     },
@@ -89,12 +74,12 @@
     },
     {
       "type": "file",
-      "source": "setup.cfg",
+      "source": "poetry.lock",
       "destination": "/hyperbola/sdist/"
     },
     {
       "type": "file",
-      "source": "setup.py",
+      "source": "pyproject.toml",
       "destination": "/hyperbola/sdist/"
     },
     {

@@ -99,7 +99,7 @@ class EnvironmentConfig:
     class PathsConfig:
         def __init__(self, environment):
             self.package = Path(__file__).resolve().parent
-            self.root = Path(__file__).resolve().parent.parent.parent.parent.parent.parent
+            self.root = self.package.parent
             self.sdist = Path("/hyperbola/sdist")
 
     class DBConfig:
