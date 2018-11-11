@@ -6,6 +6,8 @@ variable "env" {
   default = "production"
 }
 
+variable "app_secret_key" {}
+
 variable "app_database_password" {}
 
 terraform {
@@ -24,6 +26,14 @@ module "base" {
   source = "../modules/hyperbola/app/base"
   env    = "${var.env}"
   bucket = "www"
+}
+
+module "secrets" {
+  source = "../modules/hyperbola/app/secrets"
+  env    = "${var.env}"
+
+  secret_key        = "${var.app_secret_key}"
+  database_password = "${var.app_database_password}"
 }
 
 module "mysql" {

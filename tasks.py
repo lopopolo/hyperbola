@@ -20,6 +20,13 @@ def fixtures(ctx):
     ctx.run("vagrant provision --provision-with fixtures app-local", pty=True)
 
 
+@task
+def generate_secret_key(_ctx):
+    from django.core.management.utils import get_random_secret_key
+
+    print(get_random_secret_key())
+
+
 @task(help={"bump": "Version part to bump. One of {major, minor, patch}."})
 def release(ctx, bump="minor"):
     ctx.run(f"bumpversion {bump}")
@@ -87,6 +94,7 @@ def finalize(ctx):
 namespace = Collection(
     init,
     fixtures,
+    generate_secret_key,
     clean,
     release,
     Collection("deploy", deploy, ami, update_launch_template, cycle_asg, rollback, finalize),
