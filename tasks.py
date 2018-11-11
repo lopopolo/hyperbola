@@ -30,7 +30,8 @@ def generate_secret_key(_ctx):
 @task(help={"bump": "Version part to bump. One of {major, minor, patch}."})
 def release(ctx, bump="minor"):
     ctx.run(f"bumpversion {bump}")
-    ctx.run("git push --follow-tags")
+    ctx.run("git push")
+    ctx.run("git push --tags")
 
 
 @task
