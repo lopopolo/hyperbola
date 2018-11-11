@@ -87,9 +87,10 @@ def rollback(ctx):
 
 
 @task
-def finalize(ctx):
+def finalize(ctx, dry_run=False):
     ctx.run("./bin/deregister_ami --dry-run")
-    ctx.run("./bin/deregister_ami --execute")
+    if not dry_run:
+        ctx.run("./bin/deregister_ami --execute")
 
 
 namespace = Collection(

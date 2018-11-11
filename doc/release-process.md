@@ -57,5 +57,6 @@ The `deploy.finalize` task performs the following actions:
 -   Delete unused snapshots.
 
 ```bash
+inv deploy.finalize --dry-run
 inv deploy.finalize
 ```
