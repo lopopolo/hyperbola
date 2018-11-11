@@ -3,6 +3,18 @@ variable "s3_endpoint_prefix_list_id" {}
 variable "mysql_port" {}
 variable "mysql_security_group_id" {}
 
+data "aws_vpc_endpoint_service" "ssm" {
+  service = "ssm"
+}
+
+resource "aws_vpc_endpoint" "ssm" {
+  vpc_id             = "${data.aws_vpc.this.id}"
+  service_name       = "${data.aws_vpc_endpoint_service.ssm.service_name}"
+  vpc_endpoint_type  = "Interface"
+  subnet_ids         = ["${data.aws_subnet_ids.private.ids}"]
+  security_group_ids = ["${aws_security_group.backend.id}"]
+}
+
 resource "aws_security_group" "backend" {
   name_prefix = "app-backend-sg-"
   vpc_id      = "${var.vpc_id}"

@@ -53,8 +53,8 @@ module "nat" {
   public_subnet_tier = "${module.public_subnet.tier}"
 }
 
-module "s3" {
-  source = "./s3"
+module "endpoints" {
+  source = "./endpoints"
 
   vpc_id              = "${module.vpc.vpc_id}"
   private_subnet_tier = "${module.private_subnet.tier}"
@@ -132,7 +132,7 @@ output "nat_gateway_ids" {
   value = "${module.nat.nat_gateway_ids}"
 }
 
-# S3
+# VPC Endpoints
 output "s3_endpoint_prefix_list_id" {
-  value = "${module.s3.s3_endpoint_prefix_list_id}"
+  value = "${module.endpoints.s3_endpoint_prefix_list_id}"
 }

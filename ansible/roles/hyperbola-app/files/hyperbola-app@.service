@@ -10,6 +10,7 @@ User=hyperbola-app
 Group=hyperbola-app
 Environment=ENVIRONMENT=%i
 Environment=PYTHONWARNINGS=all
+EnvironmentFile=-/hyperbola/app/current/.env
 # Run ExecStartPre with root-permissions
 PermissionsStartOnly=true
 ExecStartPre=-/bin/mkdir /var/run/hyperbola-%i

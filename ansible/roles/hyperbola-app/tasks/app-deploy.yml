@@ -55,6 +55,8 @@
     creates: "{{ deploy_helper.new_release_path }}/assets/staticfiles.json"
   environment:
     ENVIRONMENT: "{{ hyperbola_environment }}"
+    AWS_ACCESS_KEY_ID: "{{ app_secrets.aws_access_key | default(omit) }}"
+    AWS_SECRET_ACCESS_KEY: "{{ app_secrets.aws_secret_access_key | default(omit) }}"
 - name: Install gunicorn config
   template:
     src: "gunicorn.py.j2"

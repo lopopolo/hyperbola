@@ -13,12 +13,12 @@ variable "size" {
 
 variable "iam_instance_profile" {}
 
-data "aws_vpc" "selected" {
+data "aws_vpc" "this" {
   id = "${var.vpc_id}"
 }
 
 data "aws_subnet_ids" "public" {
-  vpc_id = "${data.aws_vpc.selected.id}"
+  vpc_id = "${data.aws_vpc.this.id}"
 
   tags {
     Network = "${var.public_subnet_tier}"
@@ -31,7 +31,7 @@ data "aws_subnet" "public" {
 }
 
 data "aws_subnet_ids" "private" {
-  vpc_id = "${data.aws_vpc.selected.id}"
+  vpc_id = "${data.aws_vpc.this.id}"
 
   tags {
     Network = "${var.private_subnet_tier}"
@@ -45,7 +45,7 @@ data "aws_subnet" "private" {
 
 resource "aws_security_group" "alb" {
   name_prefix = "app-alb-sg-"
-  vpc_id      = "${data.aws_vpc.selected.id}"
+  vpc_id      = "${data.aws_vpc.this.id}"
 
   ingress {
     protocol         = "tcp"
@@ -138,7 +138,7 @@ resource "aws_alb_target_group" "backend" {
   name_prefix = "apptg-"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = "${data.aws_vpc.selected.id}"
+  vpc_id      = "${data.aws_vpc.this.id}"
 
   deregistration_delay = 30
 

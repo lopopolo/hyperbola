@@ -12,25 +12,32 @@ class ConfigLoader:
 
     @property
     def environment(self):
-        return Env[self.source("ENVIRONMENT")]
+        return Env[environ.get("ENVIRONMENT")]
 
 
-class DotenvLoader(ConfigLoader):
+class ParameterStoreLoader(ConfigLoader):
     def __init__(self):
-        from dotenv import find_dotenv, load_dotenv
+        from ssm_parameter_store import EC2ParameterStore
 
-        load_dotenv(find_dotenv())
+        store = EC2ParameterStore(region_name=self._region)
+        self.parameters = store.get_parameters_by_path(
+            f"/app/{self.environment.name}/", recursive=True, decrypt=True
+        )
 
-    def source(self, env, default=None):
+    def source(self, config, default=None):
         from django.core.exceptions import ImproperlyConfigured
 
-        prop = environ.get(env, default)
+        prop = self.parameters.get(config, default)
         if prop is None:
-            raise ImproperlyConfigured(f"Environment variable {env} not set")
-        if prop == "" and default is not None:
-            return default
+            raise ImproperlyConfigured(f"{config} not found in parameter store")
 
         return prop
+
+    @property
+    def _region(self):
+        if self.environment in [Env.stage, Env.local]:
+            return "us-east-1"
+        return "us-west-2"
 
 
 class Env(Enum):
@@ -42,8 +49,9 @@ class Env(Enum):
 class EnvironmentConfig:
     """Compute environment-specific settings."""
 
-    def __init__(self, loader):
+    def __init__(self, *, loader):
         self.environment = loader.environment
+        self.aws = self.AWSConfig(self.environment)
         self.path = self.PathsConfig(self.environment)
         self.secret_key = loader.source("SECRET_KEY")
         self.db = self.DBConfig(loader)
@@ -96,6 +104,13 @@ class EnvironmentConfig:
     def debug(self):
         return False
 
+    class AWSConfig:
+        def __init__(self, environment):
+            if environment is Env.production:
+                self.region = "us-west-2"
+            elif environment in [Env.stage, Env.local]:
+                self.region = "us-east-1"
+
     class PathsConfig:
         def __init__(self, environment):
             self.package = Path(__file__).resolve().parent
@@ -117,17 +132,15 @@ class EnvironmentConfig:
             self.static_url = "/"
             if environment is Env.production:
                 self.media_bucket_name = "www.hyperbolausercontent.net"
-                self.aws_region = "us-west-2"
             elif environment in [Env.stage, Env.local]:
                 self.media_bucket_name = "local.hyperbolausercontent.net"
-                self.aws_region = "us-east-1"
             self.media_url = f"https://{self.media_bucket_name}/"
 
 
 # Deployment
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-ENVIRONMENT = EnvironmentConfig(loader=DotenvLoader())
+ENVIRONMENT = EnvironmentConfig(loader=ParameterStoreLoader())
 
 SECRET_KEY = ENVIRONMENT.secret_key
 
@@ -275,7 +288,7 @@ AWS_S3_BUCKET_AUTH = False
 
 AWS_S3_PUBLIC_URL = ENVIRONMENT.content.media_url
 
-AWS_REGION = ENVIRONMENT.content.aws_region
+AWS_REGION = ENVIRONMENT.aws.region
 
 DEFAULT_FILE_STORAGE = "django_s3_storage.storage.S3Storage"
 

@@ -2,15 +2,19 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
-    "ansible_vault_password": "{{env `ANSIBLE_VAULT_PASSWORD`}}"
+    "ansible_vault_password": "{{env `ANSIBLE_VAULT_PASSWORD`}}",
+    "build_vpc_id": "{{env `BUILD_VPC_ID`}}",
+    "build_subnet_id": "{{env `BUILD_SUBNET_ID`}}",
+    "build_instance_profile": "{{env `BUILD_INSTANCE_PROFILE`}}"
   },
   "builders": [
     {
       "name": "aws-us-west-2-hyperbola-app",
       "type": "amazon-ebs",
       "region": "us-west-2",
-      "vpc_id": "vpc-08d0186e",
-      "subnet_id": "subnet-dc043895",
+      "vpc_id": "{{user `build_vpc_id`}}",
+      "subnet_id": "{{user `build_subnet_id`}}",
+      "iam_instance_profile": "{{user `build_instance_profile`}}",
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",

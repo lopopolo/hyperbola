@@ -15,12 +15,12 @@ resource "aws_iam_role" "app" {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Sid": "AppAssumeRole",
+      "Effect": "Allow",
       "Action": "sts:AssumeRole",
       "Principal": {
         "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
+      }
     }
   ]
 }
@@ -34,14 +34,32 @@ resource "aws_iam_role_policy" "app" {
   policy = <<EOF
 {
   "Version": "2012-10-17",
-  "Statement":[{
-    "Effect": "Allow",
-    "Action": "s3:*",
-    "Resource": ["${aws_s3_bucket.media.arn}",
-                 "${aws_s3_bucket.media.arn}/*",
-                 "${aws_s3_bucket.backup.arn}",
-                 "${aws_s3_bucket.backup.arn}/*"]
-    }
+  "Statement":[
+    {
+      "Sid" : "AllowMediaBucketPermissions",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "${aws_s3_bucket.media.arn}",
+        "${aws_s3_bucket.media.arn}/*",
+        "${aws_s3_bucket.backup.arn}",
+        "${aws_s3_bucket.backup.arn}/*"
+      ]
+    },
+    {
+      "Sid" : "AllowSecretsAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath"
+      ],
+      "Resource": [
+        "arn:aws:ssm:*:*:parameter/app/${var.env}",
+        "arn:aws:ssm:*:*:parameter/app/${var.env}/",
+        "arn:aws:ssm:*:*:parameter/app/${var.env}/*"
+      ]
+     }
   ]
 }
 EOF

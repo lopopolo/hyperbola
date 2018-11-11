@@ -6,4 +6,6 @@ Type=oneshot
 User=hyperbola-app
 Group=hyperbola-app
 Environment=ENVIRONMENT=%i
+Environment=PYTHONWARNINGS=all
+EnvironmentFile=-/hyperbola/app/current/.env
 ExecStart=/hyperbola/app/current/venv/bin/python /hyperbola/app/current/manage.py hyperbola_database_backup
