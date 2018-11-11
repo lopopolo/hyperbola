@@ -1,6 +1,12 @@
 from invoke import Collection, task
 
 
+def terraform_output(ctx, *, module, prop):
+    with ctx.cd("terraform/app-prod-pdx"):
+        result = ctx.run(f"terraform output -module={module} {prop}")
+        return result.stdout.strip()
+
+
 @task
 def init(ctx):
     ctx.run("pre-commit install")
@@ -33,9 +39,20 @@ def clean(ctx, bytecode=True, node=False):
 
 @task
 def ami(ctx):
+    import os
+    import random
     from dotenv import load_dotenv
 
     load_dotenv()
+    vpc = terraform_output(ctx, module="network", prop="vpc_id")
+    subnet = random.choice(
+        terraform_output(ctx, module="network.public_subnet", prop="subnet_ids").split(",")
+    )
+    instance_profile = terraform_output(ctx, module="base", prop="app_instance_profile")
+    os.environ.setdefault("BUILD_VPC_ID", vpc)
+    os.environ.setdefault("BUILD_SUBNET_ID", subnet)
+    os.environ.setdefault("BUILD_INSTANCE_PROFILE", instance_profile)
+
     ctx.run("packer build packer/app.json", pty=True)
 
 
@@ -47,9 +64,7 @@ def update_launch_template(ctx):
 
 @task
 def cycle_asg(ctx):
-    with ctx.cd("terraform/app-prod-pdx"):
-        result = ctx.run("terraform output -module=backend backend_asg")
-        asg = result.stdout.strip()
+    asg = terraform_output(ctx, module="backend", prop="backend_asg")
     ctx.run(f"./bin/cycle_asg --asg-name {asg}", pty=True)
 
 
