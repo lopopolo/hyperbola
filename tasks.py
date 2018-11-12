@@ -54,7 +54,7 @@ def ami(ctx):
     load_dotenv()
     vpc = terraform_output(ctx, module="network", prop="vpc_id")
     subnet = random.choice(
-        terraform_output(ctx, module="network.public_subnet", prop="subnet_ids").split(",")
+        terraform_output(ctx, module="network.management", prop="build_subnet_ids").split(",")
     )
     instance_profile = terraform_output(ctx, module="base", prop="app_instance_profile")
     os.environ.setdefault("BUILD_VPC_ID", vpc)

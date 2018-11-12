@@ -122,7 +122,7 @@ module "subnets" {
 resource "aws_db_subnet_group" "main_db_subnet_group" {
   name_prefix = "app-mysql-subnet-group-"
   description = "RDS subnet group"
-  subnet_ids  = ["${split(",", module.subnets.subnet_ids)}"]
+  subnet_ids  = ["${module.subnets.subnet_ids}"]
 
   tags {
     Environment = "${var.env}"
