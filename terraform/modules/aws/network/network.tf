@@ -27,8 +27,9 @@ module "public_subnet" {
   vpc_id = "${module.vpc.vpc_id}"
   azs    = "${var.azs}"
 
-  subnet_tier       = "${module.tier.public}"
-  egress_gateway_id = "${module.vpc.egress_gateway_id}"
+  subnet_tier         = "${module.tier.public}"
+  internet_gateway_id = "${module.vpc.internet_gateway_id}"
+  egress_gateway_id   = "${module.vpc.egress_gateway_id}"
 }
 
 module "private_subnet" {
@@ -53,16 +54,19 @@ module "nat" {
   public_subnet_tier = "${module.public_subnet.tier}"
 }
 
-module "endpoints" {
-  source = "./endpoints"
+module "management" {
+  source = "./management"
 
+  name                = "${var.name}-management"
   vpc_id              = "${module.vpc.vpc_id}"
-  private_subnet_tier = "${module.private_subnet.tier}"
+  azs                 = "${var.azs}"
+  internet_gateway_id = "${module.vpc.internet_gateway_id}"
+  egress_gateway_id   = "${module.vpc.egress_gateway_id}"
+  s3_route_tables     = "${concat(module.public_subnet.route_table, module.private_subnet.route_table)}"
 }
 
 resource "aws_network_acl" "acl" {
-  vpc_id     = "${module.vpc.vpc_id}"
-  subnet_ids = ["${concat(split(",", module.public_subnet.subnet_ids), split(",", module.private_subnet.subnet_ids))}"]
+  vpc_id = "${module.vpc.vpc_id}"
 
   ingress {
     protocol   = "-1"
@@ -134,5 +138,9 @@ output "nat_gateway_ids" {
 
 # VPC Endpoints
 output "s3_endpoint_prefix_list_id" {
-  value = "${module.endpoints.s3_endpoint_prefix_list_id}"
+  value = "${module.management.s3_endpoint_prefix_list_id}"
+}
+
+output "ssm_security_group_id" {
+  value = "${module.management.ssm_security_group_id}"
 }

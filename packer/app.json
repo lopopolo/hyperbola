@@ -15,6 +15,11 @@
       "vpc_id": "{{user `build_vpc_id`}}",
       "subnet_id": "{{user `build_subnet_id`}}",
       "iam_instance_profile": "{{user `build_instance_profile`}}",
+      "security_group_filter": {
+        "filters": {
+          "tag:Class": "management"
+        }
+      },
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",

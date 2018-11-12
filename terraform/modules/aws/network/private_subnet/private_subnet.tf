@@ -3,9 +3,7 @@
 # subnet
 #--------------------------------------------------------------
 
-variable "name" {
-  default = "private"
-}
+variable "name" {}
 
 variable "vpc_id" {}
 variable "azs" {}
@@ -21,17 +19,17 @@ variable "egress_gateway_id" {}
 
 variable "subnet_tier" {}
 
-data "aws_vpc" "current" {
+data "aws_vpc" "this" {
   id = "${var.vpc_id}"
 }
 
 resource "aws_subnet" "private" {
-  vpc_id            = "${data.aws_vpc.current.id}"
-  cidr_block        = "${cidrsubnet(cidrsubnet(data.aws_vpc.current.cidr_block, 3, var.subnet_tier), 5, count.index)}"
+  vpc_id            = "${data.aws_vpc.this.id}"
+  cidr_block        = "${cidrsubnet(cidrsubnet(data.aws_vpc.this.cidr_block, 3, var.subnet_tier), 5, count.index)}"
   availability_zone = "${element(split(",", var.azs), count.index)}"
   count             = "${length(split(",", var.azs))}"
 
-  ipv6_cidr_block                 = "${cidrsubnet(cidrsubnet(data.aws_vpc.current.ipv6_cidr_block, 3, var.subnet_tier), 5, count.index)}"
+  ipv6_cidr_block                 = "${cidrsubnet(cidrsubnet(data.aws_vpc.this.ipv6_cidr_block, 3, var.subnet_tier), 5, count.index)}"
   assign_ipv6_address_on_creation = true
 
   tags {
@@ -45,7 +43,7 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_route_table" "private" {
-  vpc_id = "${data.aws_vpc.current.id}"
+  vpc_id = "${data.aws_vpc.this.id}"
   count  = "${length(split(",", var.azs))}"
 
   tags {
@@ -92,10 +90,14 @@ resource "aws_route_table_association" "private" {
 }
 
 output "subnet_ids" {
-  value = "${join(",", aws_subnet.private.*.id)}"
+  value = "${aws_subnet.private.*.id}"
 }
 
 output "tier" {
   value      = "subnet-tier-${var.subnet_tier}"
   depends_on = ["aws_subnet.private"]
+}
+
+output "route_table" {
+  value = "${aws_route_table.private.*.id}"
 }

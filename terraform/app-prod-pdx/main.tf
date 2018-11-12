@@ -59,6 +59,7 @@ module "backend" {
 
   iam_instance_profile       = "${module.base.app_instance_profile}"
   s3_endpoint_prefix_list_id = "${module.network.s3_endpoint_prefix_list_id}"
+  ssm_security_group_id      = "${module.network.ssm_security_group_id}"
 
   mysql_port              = "${module.mysql.port}"
   mysql_security_group_id = "${module.mysql.security_group_id}"
