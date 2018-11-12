@@ -61,35 +61,44 @@ module "secrets" {
   database_password = "${var.app_database_password}"
 }
 
+data "aws_iam_policy_document" "lb" {
+  statement {
+    sid = "AllowRecordSetsPermissions"
+
+    actions = [
+      "route53:GetHostedZone",
+      "route53:ListHostedZones",
+      "route53:ChangeResourceRecordSets",
+      "route53:ListResourceRecordSets",
+      "route53:GetChange",
+      "route53:GetHostedZoneCount",
+      "route53:ListHostedZonesByName",
+    ]
+
+    resources = [
+      "arn:aws:route53:::hostedzone/${data.aws_route53_zone.dc.id}",
+    ]
+  }
+}
+
 module "iam_r53" {
   source = "../modules/aws/util/iam"
 
   name  = "local-route53"
   users = "local-lb"
 
-  policy = <<EOF
-{
-  "Version"  : "2012-10-17",
-  "Statement": [
-    {
-      "Sid" : "AllowRecordSetsPermissions",
-      "Effect": "Allow",
-      "Action": [
-        "route53:GetHostedZone",
-        "route53:ListHostedZones",
-        "route53:ChangeResourceRecordSets",
-        "route53:ListResourceRecordSets",
-        "route53:GetChange",
-        "route53:GetHostedZoneCount",
-        "route53:ListHostedZonesByName"
-      ],
-      "Resource": [
-        "arn:aws:route53:::hostedzone/${data.aws_route53_zone.dc.id}"
-      ]
-    }
-  ]
+  policy = "${data.aws_iam_policy_document.lb.json}"
 }
-EOF
+
+module "app_policy" {
+  source = "../modules/hyperbola/app/iam"
+
+  env = "${var.env}"
+
+  bucket_arns = [
+    "${module.base.media_bucket_arn}",
+    "${module.base.backup_bucket_arn}",
+  ]
 }
 
 module "iam_vagrant" {
@@ -98,44 +107,7 @@ module "iam_vagrant" {
   name  = "local-app-s3"
   users = "local-app"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid" : "AllowAppBucketPermissions",
-      "Effect": "Allow",
-      "Action": [
-        "s3:ListBucket",
-        "s3:GetBucketLocation"
-      ],
-      "Resource": [
-        "${module.base.media_bucket_arn}",
-        "${module.base.backup_bucket_arn}"
-      ]
-    },
-    {
-      "Sid" : "AllowAppBucketContentPermissions",
-      "Effect": "Allow",
-      "Action": "s3:*Object*",
-      "Resource": [
-        "${module.base.media_bucket_arn}/*",
-        "${module.base.backup_bucket_arn}/*"
-      ]
-    },
-    {
-      "Sid" : "AllowSecretsAccess",
-      "Effect": "Allow",
-      "Action": [
-        "ssm:GetParametersByPath"
-      ],
-      "Resource": [
-        "arn:aws:ssm:*:*:parameter/app/${var.env}/*"
-      ]
-    }
-  ]
-}
-EOF
+  policy = "${module.app_policy.document}"
 }
 
 output "config" {
