@@ -1,4 +1,3 @@
----
 dependencies:
   - role: hyperbola-base
   - role: hyperbola-nginx

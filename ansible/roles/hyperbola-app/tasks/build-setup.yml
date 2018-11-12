@@ -1,4 +1,3 @@
----
 - name: Add node ecosystem signing keys
   apt_key:
     url: "{{ item.url }}"

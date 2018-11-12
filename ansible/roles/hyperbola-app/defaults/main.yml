@@ -1,4 +1,3 @@
----
 app_nginx_domain: ~
 app_deploy_root: "/hyperbola/app"
 app_source_root: "/hyperbola/sdist"

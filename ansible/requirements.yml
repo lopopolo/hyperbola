@@ -1,4 +1,3 @@
----
 - src: geerlingguy.mysql
   version: 2.9.4
 - src: geerlingguy.security

@@ -1,4 +1,3 @@
----
 - name: Ansible setup
   include_tasks: ansible.yml
 - name: apt update && apt upgrade
@@ -44,7 +43,7 @@
     dest: /etc/sudoers
     line: "{{ item }}"
     state: present
-    validate: 'visudo -cf %s'
+    validate: "visudo -cf %s"
   with_items:
     - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo -l"
     - "ALL ALL=(ALL) NOPASSWD: /usr/bin/sudo --list"

@@ -1,4 +1,3 @@
----
 # Variable setup
 - name: Include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
@@ -52,6 +51,5 @@
     src: "{{ item.template }}"
     dest: "{{ nginx_vhost_path }}/{{ item.index }}-{{ item.domain }}.conf"
     mode: 0444
-  with_items:
-    "{{ nginx_vhosts }}"
+  with_items: "{{ nginx_vhosts }}"
   notify: reload nginx

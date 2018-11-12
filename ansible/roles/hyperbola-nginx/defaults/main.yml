@@ -1,4 +1,3 @@
----
 nginx_vhosts:
   - domain: example.com
     index: "01"

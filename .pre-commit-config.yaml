@@ -1,104 +1,104 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit
+  - repo: https://github.com/pre-commit/pre-commit
     rev: v1.12.0
     hooks:
-    -   id: validate_manifest
--   repo: https://github.com/pre-commit/pre-commit-hooks.git
+      - id: validate_manifest
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
     rev: v2.0.0
     hooks:
-    -   id: check-added-large-files
-    -   id: check-ast
+      - id: check-added-large-files
+      - id: check-ast
         language_version: python3
-    -   id: check-byte-order-marker
-    -   id: check-case-conflict
-    -   id: check-docstring-first
-    -   id: check-executables-have-shebangs
-    -   id: check-json
-    -   id: check-merge-conflict
-    -   id: check-symlinks
-    -   id: check-vcs-permalinks
-    -   id: check-xml
-    -   id: check-yaml
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: check-yaml
         exclude: vars|(lb|mysql)-local.yml|cloudformation
-    -   id: debug-statements
-    -   id: detect-aws-credentials
-    -   id: detect-private-key
-    -   id: end-of-file-fixer
+      - id: debug-statements
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      - id: end-of-file-fixer
         exclude: \.bumpversion\.cfg
-    -   id: flake8
+      - id: flake8
         args:
           - "--max-line-length=99"
         language_version: python3
-    -   id: forbid-new-submodules
-    -   id: mixed-line-ending
-    -   id: name-tests-test
-    -   id: trailing-whitespace
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+      - id: name-tests-test
+      - id: trailing-whitespace
         exclude: \.bumpversion\.cfg
--   repo: https://github.com/prettier/prettier
-    rev: 1.14.2
+  - repo: https://github.com/prettier/prettier
+    rev: 1.15.2
     hooks:
-    - id: prettier
-      exclude: \.vscode|\.html$
--   repo: https://github.com/ambv/black.git
+      - id: prettier
+        exclude: \.vscode|\.html$
+  - repo: https://github.com/ambv/black.git
     rev: 18.9b0
     hooks:
-    -   id: black
--   repo: https://github.com/willthames/ansible-lint.git
+      - id: black
+  - repo: https://github.com/willthames/ansible-lint.git
     rev: v3.5.1
     hooks:
-    -   id: ansible-lint
+      - id: ansible-lint
         types: [yaml]
         files: ansible
--   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.1.0
     hooks:
-    -   id: python-safety-dependencies-check
+      - id: python-safety-dependencies-check
         always_run: true
--   repo: local
+  - repo: local
     hooks:
-    -   id: pydocstyle
+      - id: pydocstyle
         name: pydocstyle
         entry: pydocstyle --add-ignore D100,D101,D102,D103,D104,D105,D106,D107
         language: system
         types: [python]
--   repo: local
+  - repo: local
     hooks:
-    -   id: pylint
+      - id: pylint
         name: pylint
         entry: python -m pylint.__main__
         language: system
         types: [python]
--   repo: https://github.com/asottile/pyupgrade.git
+  - repo: https://github.com/asottile/pyupgrade.git
     rev: v1.10.1
     hooks:
-    -   id: pyupgrade
+      - id: pyupgrade
         args:
-        -   "--py36-plus"
--   repo: https://github.com/antonbabenko/pre-commit-terraform.git
+          - "--py36-plus"
+  - repo: https://github.com/antonbabenko/pre-commit-terraform.git
     rev: v1.7.3
     hooks:
-    -   id: terraform_fmt
-    -   id: terraform_validate_with_variables
--   repo: local
+      - id: terraform_fmt
+      - id: terraform_validate_with_variables
+  - repo: local
     hooks:
-    -   id: eslint
+      - id: eslint
         name: eslint
         entry: yarn run eslint
         language: system
         types: [javascript]
--   repo: https://github.com/pre-commit/mirrors-csslint.git
+  - repo: https://github.com/pre-commit/mirrors-csslint.git
     rev: v1.0.5
     hooks:
-    -   id: csslint
--   repo: https://github.com/detailyang/pre-commit-shell
+      - id: csslint
+  - repo: https://github.com/detailyang/pre-commit-shell
     rev: 1.0.4
     hooks:
-    -   id: shell-lint
+      - id: shell-lint
         types: [shell]
-        files: ''
--   repo: local
+        files: ""
+  - repo: local
     hooks:
-    -   id: git-lint
+      - id: git-lint
         name: Ignored files in git index
         entry: ./bin/git-lint
         language: script
