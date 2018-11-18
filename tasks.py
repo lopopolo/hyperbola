@@ -73,7 +73,7 @@ def update_launch_template(ctx):
 @task
 def cycle_asg(ctx):
     asg = terraform_output(ctx, module="backend", prop="backend_asg")
-    ctx.run(f"./bin/cycle_asg --asg-name {asg}", pty=True)
+    ctx.run(f"./vendor/aws-autoscaling-rollout.py --autoscaler {asg}", pty=True)
 
 
 @task(post=[ami, update_launch_template, cycle_asg], default=True)
