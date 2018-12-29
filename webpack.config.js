@@ -19,7 +19,8 @@ const plugins = [
   new WebappWebpackPlugin({
     logo: path.resolve(__dirname, "src/logo.svg"),
     prefix: "",
-    cache: false
+    cache: false,
+    inject: false
   })
 ];
 
