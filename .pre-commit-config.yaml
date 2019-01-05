@@ -1,11 +1,11 @@
 exclude: "^vendor/"
 repos:
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v1.12.0
+    rev: v1.13.0
     hooks:
       - id: validate_manifest
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v2.0.0
+    rev: v2.1.0
     hooks:
       - id: check-added-large-files
       - id: check-ast
@@ -36,7 +36,7 @@ repos:
       - id: trailing-whitespace
         exclude: \.bumpversion\.cfg
   - repo: https://github.com/prettier/prettier
-    rev: 1.15.2
+    rev: 1.15.3
     hooks:
       - id: prettier
         exclude: \.vscode|\.html$
@@ -45,7 +45,7 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/willthames/ansible-lint.git
-    rev: v3.5.1
+    rev: v4.0.1
     hooks:
       - id: ansible-lint
         types: [yaml]
@@ -65,13 +65,13 @@ repos:
         language: system
         types: [python]
   - repo: https://github.com/asottile/pyupgrade.git
-    rev: v1.10.1
+    rev: v1.11.0
     hooks:
       - id: pyupgrade
         args:
           - "--py36-plus"
   - repo: https://github.com/antonbabenko/pre-commit-terraform.git
-    rev: v1.7.3
+    rev: v1.8.1
     hooks:
       - id: terraform_fmt
       - id: terraform_validate_with_variables
