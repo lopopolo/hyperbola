@@ -1,3 +1,12 @@
+galaxy_info:
+  author: Ryan Lopopolo <rjl@hyperbo.la>
+  description: Install nginx config for development load balancer.
+  license: MIT
+  min_ansible_version: 2.7
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 18.04
 dependencies:
   - role: hyperbola-base
   - role: hyperbola-nginx

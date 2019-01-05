@@ -1,2 +1,11 @@
+galaxy_info:
+  author: Ryan Lopopolo <rjl@hyperbo.la>
+  description: Install base config for hyperbo.la roles.
+  license: MIT
+  min_ansible_version: 2.7
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 18.04
 dependencies:
   - role: geerlingguy.security
