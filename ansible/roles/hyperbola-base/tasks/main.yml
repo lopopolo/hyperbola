@@ -17,9 +17,6 @@
     name:
       - awscli
     state: present
-- name: set timezone to UTC
-  timezone:
-    name: UTC
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html#configure-amazon-time-service-ubuntu
 - name: Configure chrony for Amazon Time Sync Service
   lineinfile:
