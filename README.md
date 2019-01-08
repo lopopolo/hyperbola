@@ -2,7 +2,7 @@
 
 This is the magic of <https://hyperbo.la>.
 
-hyperbo.la is Ryan Lopopolo's personal website. Primary content consistes of a [blog](https://hyperbo.la/w/),
+hyperbo.la is Ryan Lopopolo's personal website. Primary content consists of a [blog](https://hyperbo.la/w/),
 [contact page](https://hyperbo.la/contact/), and Twitter-like [lifestream](https://hyperbo.la/lifestream/).
 
 hyperbo.la is built with [Django](https://www.djangoproject.com/). It can be [run locally](/doc/development.md)
