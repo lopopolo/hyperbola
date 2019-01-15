@@ -58,7 +58,7 @@
     "svgo-loader": "^2.1.0",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^1.1.2",
-    "webapp-webpack-plugin": "^2.4.0",
+    "webapp-webpack-plugin": "^2.5.0",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.0.3"
   },
