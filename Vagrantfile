@@ -5,8 +5,8 @@
 # vi: set expandtab :
 
 SDIST_FILES = %w[
-  hyperbola
-  src
+  hyperbola/
+  src/
   README.md
   manage.py
   package.json
@@ -89,8 +89,9 @@ Vagrant.configure('2') do |config|
     end
 
     SDIST_FILES.each do |f|
-      app.vm.provision 'file', source: f,
-                               destination: "/tmp/hyperbola/sdist/#{f}"
+      dest = +'/tmp/hyperbola/sdist/'
+      dest << f if f[-1] != '/'
+      app.vm.provision 'file', source: f, destination: dest
     end
     app.vm.provision 'shell', inline: <<~SHELL
       sudo rm -rf /hyperbola/sdist
