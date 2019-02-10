@@ -63,16 +63,24 @@ module "secrets" {
 
 data "aws_iam_policy_document" "lb" {
   statement {
-    sid = "AllowRecordSetsPermissions"
+    sid = "AllowGlobalRecordSetsPermissions"
 
     actions = [
-      "route53:GetHostedZone",
+      "route53:GetChange",
       "route53:ListHostedZones",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    sid = "AllowChangePermissions"
+
+    actions = [
       "route53:ChangeResourceRecordSets",
       "route53:ListResourceRecordSets",
-      "route53:GetChange",
-      "route53:GetHostedZoneCount",
-      "route53:ListHostedZonesByName",
     ]
 
     resources = [
