@@ -44,6 +44,7 @@ vagrant up
 
 ## .env
 
-In addition to the variables specified in [.env configuration](/doc/configuration.md),
-you should also set `ANSIBLE_VAULT_PASSWORD` to allow ansible to decrypt secrets during
+In addition to the variables specified in
+[.env configuration](/doc/configuration.md), you should also set
+`ANSIBLE_VAULT_PASSWORD` to allow ansible to decrypt secrets during
 provisioning.

@@ -6,8 +6,8 @@ This configuration borrows heavily from:
 
 ## Architecture
 
-Create one VPC per environment. An environment is composed of a (region, app, env) tuple. Name env after the closest
-airport code.
+Create one VPC per environment. An environment is composed of a (region, app,
+env) tuple. Name env after the closest airport code.
 
 | AWS region | Airport code |
 | ---------- | ------------ |

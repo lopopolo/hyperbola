@@ -9,9 +9,10 @@ vagrant provision
 
 ### Smoke Test
 
-Verify that [frontpage](https://local.hyperboladc.net/), [contact](https://local.hyperboladc.net/contact/),
-[lifestream](https://local.hyperboladc.net/lifestream/), and [blog](https://local.hyperboladc.net/w/)
-pages function correctly.
+Verify that [frontpage](https://local.hyperboladc.net/),
+[contact](https://local.hyperboladc.net/contact/),
+[lifestream](https://local.hyperboladc.net/lifestream/), and
+[blog](https://local.hyperboladc.net/w/) pages function correctly.
 
 ## Cut Release Tag
 
@@ -33,9 +34,10 @@ inv deploy
 
 ### Smoke Test
 
-Verify that [frontpage](https://hyperbo.la/), [contact](https://hyperbo.la/contact/),
-[lifestream](https://hyperbo.la/lifestream/), and [blog](https://hyperbo.la/w/) pages
-function correctly.
+Verify that [frontpage](https://hyperbo.la/),
+[contact](https://hyperbo.la/contact/),
+[lifestream](https://hyperbo.la/lifestream/), and [blog](https://hyperbo.la/w/)
+pages function correctly.
 
 ### Rollback a Bad Deploy
 
