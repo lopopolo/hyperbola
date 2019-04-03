@@ -36,7 +36,7 @@
     "css-loader": "^2.1.0",
     "eslint": "^5.11.1",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^3.0.1",
@@ -98,7 +98,8 @@
       "react/jsx-one-expression-per-line": "off",
       "react/jsx-props-no-multi-spaces": "off",
       "react/jsx-tag-spacing": "off",
-      "react/jsx-wrap-multilines": "off"
+      "react/jsx-wrap-multilines": "off",
+      "react/self-closing-comp": "off"
     }
   },
   "scripts": {
