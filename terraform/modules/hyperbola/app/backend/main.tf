@@ -159,7 +159,7 @@ data "aws_ami" "backend" {
 
   filter {
     name   = "tag:Version"
-    values = ["0.150.1"]
+    values = ["0.151.0"]
   }
 }
 
@@ -194,7 +194,7 @@ resource "aws_launch_template" "backend" {
     tags {
       Name        = "${var.name}-backend"
       Environment = "${var.env}"
-      Version     = "0.150.1"
+      Version     = "0.151.0"
     }
   }
 
