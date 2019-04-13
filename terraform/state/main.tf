@@ -1,5 +1,5 @@
 terraform {
-  required_version = "> 0.9.7"
+  required_version = "~> 0.11"
 
   backend "s3" {
     bucket         = "hyperbola-terraform-state"

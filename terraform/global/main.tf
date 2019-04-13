@@ -1,13 +1,6 @@
-variable "name" {
-  default = "hyperbola-global"
-}
-
-variable "iam_admins" {
-  default = "hyperbola-admin-2"
-}
-
 terraform {
   required_version = "> 0.9.7"
+  required_version = "~> 0.11"
 
   backend "s3" {
     bucket         = "hyperbola-terraform-state"
@@ -16,6 +9,14 @@ terraform {
     encrypt        = true
     dynamodb_table = "terraform_statelock"
   }
+}
+
+variable "name" {
+  default = "hyperbola-global"
+}
+
+variable "iam_admins" {
+  default = "hyperbola-admin-2"
 }
 
 module "iam_admin" {

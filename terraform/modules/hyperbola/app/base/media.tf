@@ -2,8 +2,9 @@ variable "env" {}
 variable "bucket" {}
 
 provider "aws" {
-  region = "us-east-1"
-  alias  = "cloudfront-acm-region"
+  region  = "us-east-1"
+  version = "~> 2.6.0"
+  alias   = "cloudfront-acm-region"
 }
 
 data "aws_acm_certificate" "cdn" {

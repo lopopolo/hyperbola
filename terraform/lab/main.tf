@@ -1,3 +1,15 @@
+terraform {
+  required_version = "~> 0.11"
+
+  backend "s3" {
+    bucket         = "hyperbola-terraform-state"
+    region         = "us-east-1"
+    key            = "terraform/lab/terraform.tfstate"
+    encrypt        = true
+    dynamodb_table = "terraform_statelock"
+  }
+}
+
 variable "name" {
   default = "lab"
 }
@@ -12,18 +24,6 @@ variable "vpc_cidr" {
 
 variable "azs" {
   default = "us-west-2a,us-west-2b,us-west-2c"
-}
-
-terraform {
-  required_version = "> 0.9.7"
-
-  backend "s3" {
-    bucket         = "hyperbola-terraform-state"
-    region         = "us-east-1"
-    key            = "terraform/lab/terraform.tfstate"
-    encrypt        = true
-    dynamodb_table = "terraform_statelock"
-  }
 }
 
 module "network" {
