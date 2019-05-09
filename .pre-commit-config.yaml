@@ -1,11 +1,11 @@
 exclude: "^vendor/"
 repos:
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v1.15.1
+    rev: v1.16.1
     hooks:
       - id: validate_manifest
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v2.1.0
+    rev: v2.2.1
     hooks:
       - id: check-added-large-files
       - id: check-ast
@@ -36,12 +36,12 @@ repos:
       - id: trailing-whitespace
         exclude: \.bumpversion\.cfg
   - repo: https://github.com/prettier/prettier
-    rev: 1.16.2
+    rev: 1.17.0
     hooks:
       - id: prettier
         exclude: \.vscode|\.html$
   - repo: https://github.com/prettier/prettier
-    rev: 1.16.2
+    rev: 1.17.0
     hooks:
       - id: prettier
         name: prettier - markdown
@@ -72,7 +72,7 @@ repos:
         language: system
         types: [python]
   - repo: https://github.com/asottile/pyupgrade.git
-    rev: v1.14.0
+    rev: v1.16.3
     hooks:
       - id: pyupgrade
         args:
