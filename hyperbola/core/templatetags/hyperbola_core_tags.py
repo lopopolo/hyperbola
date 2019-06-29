@@ -42,7 +42,7 @@ def fullurl(context, path):
 @register.filter
 def markdown(text):
     tags = markdown_tags + ["pre"]
-    attrs = {**markdown_attrs, **{"div": ["class"], "span": ["class"]}}
+    attrs = {**markdown_attrs, **{"div": ["class"], "span": ["class"], "img": ["class", "srcset"]}}
     ext_opts = {"codehilite": {"css_class": "syntax"}}
     return mark_safe(
         bleach.clean(
