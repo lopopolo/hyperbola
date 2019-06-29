@@ -13,7 +13,7 @@ const plugins = [
       `${path.resolve(__dirname)}/hyperbola/**/templates/*.html`,
       { nodir: true }
     ),
-    whitelistPatterns: [/^code$/, /mx-auto/, /d-block/],
+    whitelistPatterns: [/^code$/, /mx-auto/, /mw-100/, /d-block/],
     whitelistPatternsChildren: [/^syntax$/]
   }),
   new WebappWebpackPlugin({
