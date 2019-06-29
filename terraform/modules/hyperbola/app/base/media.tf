@@ -3,7 +3,7 @@ variable "bucket" {}
 
 provider "aws" {
   region  = "us-east-1"
-  version = "~> 2.6.0"
+  version = "~> 2.17.0"
   alias   = "cloudfront-acm-region"
 }
 
@@ -52,7 +52,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  tags {
+  tags = {
     Environment = "${var.env}"
   }
 
@@ -71,7 +71,7 @@ resource "aws_s3_bucket" "media" {
     enabled = true
   }
 
-  tags {
+  tags = {
     Name        = "hyperbola-app media files for ${var.env}"
     Environment = "${var.env}"
   }

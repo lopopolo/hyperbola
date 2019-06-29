@@ -1,6 +1,4 @@
 terraform {
-  required_version = "~> 0.11"
-
   backend "s3" {
     bucket         = "hyperbola-terraform-state"
     region         = "us-east-1"

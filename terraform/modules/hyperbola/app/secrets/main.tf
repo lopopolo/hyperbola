@@ -10,7 +10,7 @@ resource "aws_ssm_parameter" "secret_key" {
   type        = "SecureString"
   value       = "${var.secret_key}"
 
-  tags {
+  tags = {
     Environment = "${var.env}"
     Project     = "app"
   }
@@ -22,7 +22,7 @@ resource "aws_ssm_parameter" "database_password" {
   type        = "SecureString"
   value       = "${var.database_password}"
 
-  tags {
+  tags = {
     Environment = "${var.env}"
     Project     = "app"
   }

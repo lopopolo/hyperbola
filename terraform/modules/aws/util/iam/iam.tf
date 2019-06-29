@@ -29,7 +29,7 @@ resource "aws_iam_access_key" "key" {
 resource "aws_iam_group_membership" "membership" {
   name  = "${var.name}"
   group = "${aws_iam_group.group.name}"
-  users = ["${aws_iam_user.user.*.name}"]
+  users = aws_iam_user.user.*.name
 }
 
 output "users" {

@@ -12,7 +12,7 @@ resource "aws_vpc" "this" {
 
   assign_generated_ipv6_cidr_block = true
 
-  tags {
+  tags = {
     Name = "${var.name}"
   }
 
@@ -24,7 +24,7 @@ resource "aws_vpc" "this" {
 resource "aws_internet_gateway" "this" {
   vpc_id = "${aws_vpc.this.id}"
 
-  tags {
+  tags = {
     Name = "${var.name}"
   }
 }

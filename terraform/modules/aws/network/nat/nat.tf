@@ -20,7 +20,7 @@ data "aws_vpc" "selected" {
 data "aws_subnet_ids" "public" {
   vpc_id = "${data.aws_vpc.selected.id}"
 
-  tags {
+  tags = {
     Network = "${var.public_subnet_tier}"
   }
 }

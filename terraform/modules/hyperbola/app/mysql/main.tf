@@ -36,9 +36,9 @@ resource "aws_db_instance" "main_rds_instance" {
 
   maintenance_window      = "sun:10:18-sun:10:48" # UTC
   backup_retention_period = 10
-  backup_window           = "09:22-09:52"         # UTC
+  backup_window           = "09:22-09:52" # UTC
 
-  tags {
+  tags = {
     Name        = "${var.name}"
     Environment = "${var.env}"
   }
@@ -93,7 +93,7 @@ resource "aws_db_parameter_group" "main_rds_instance" {
     value = "utf8mb4_unicode_ci"
   }
 
-  tags {
+  tags = {
     Environment = "${var.env}"
   }
 
@@ -122,9 +122,9 @@ module "subnets" {
 resource "aws_db_subnet_group" "main_db_subnet_group" {
   name_prefix = "app-mysql-subnet-group-"
   description = "RDS subnet group"
-  subnet_ids  = ["${module.subnets.subnet_ids}"]
+  subnet_ids  = module.subnets.subnet_ids
 
-  tags {
+  tags = {
     Environment = "${var.env}"
   }
 
@@ -139,7 +139,7 @@ resource "aws_security_group" "main_db_access" {
   description = "Allow access to the database"
   vpc_id      = "${data.aws_vpc.current.id}"
 
-  tags {
+  tags = {
     Name        = "${var.name}-sg"
     Environment = "${var.env}"
   }

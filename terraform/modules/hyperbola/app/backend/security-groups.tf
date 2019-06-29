@@ -8,7 +8,7 @@ resource "aws_security_group" "backend" {
   name_prefix = "app-backend-sg-"
   vpc_id      = "${var.vpc_id}"
 
-  tags {
+  tags = {
     Name        = "${var.name}-backend-sg"
     Environment = "${var.env}"
   }

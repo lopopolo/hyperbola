@@ -20,27 +20,27 @@ data "aws_vpc" "this" {
 data "aws_subnet_ids" "public" {
   vpc_id = "${data.aws_vpc.this.id}"
 
-  tags {
+  tags = {
     Network = "${var.public_subnet_tier}"
   }
 }
 
 data "aws_subnet" "public" {
-  count = "${length(data.aws_subnet_ids.public.ids)}"
-  id    = "${data.aws_subnet_ids.public.ids[count.index]}"
+  count = length(data.aws_subnet_ids.public.ids)
+  id    = sort(data.aws_subnet_ids.public.ids)[count.index]
 }
 
 data "aws_subnet_ids" "private" {
   vpc_id = "${data.aws_vpc.this.id}"
 
-  tags {
+  tags = {
     Network = "${var.private_subnet_tier}"
   }
 }
 
 data "aws_subnet" "private" {
-  count = "${length(data.aws_subnet_ids.private.ids)}"
-  id    = "${data.aws_subnet_ids.private.ids[count.index]}"
+  count = length(data.aws_subnet_ids.private.ids)
+  id    = sort(data.aws_subnet_ids.private.ids)[count.index]
 }
 
 resource "aws_security_group" "alb" {
@@ -77,7 +77,7 @@ resource "aws_security_group" "alb" {
     security_groups = ["${aws_security_group.backend.id}"]
   }
 
-  tags {
+  tags = {
     Name        = "${var.name}-alb-sg"
     Environment = "${var.env}"
   }
@@ -91,7 +91,7 @@ resource "aws_alb" "alb" {
   name_prefix = "applb-"
   internal    = false
 
-  subnets         = ["${data.aws_subnet.public.*.id}"]
+  subnets         = data.aws_subnet.public.*.id
   security_groups = ["${aws_security_group.alb.id}"]
   ip_address_type = "dualstack"
 
@@ -99,7 +99,7 @@ resource "aws_alb" "alb" {
     create_before_destroy = true
   }
 
-  tags {
+  tags = {
     Name        = "${var.name}-alb"
     Environment = "${var.env}"
   }
@@ -152,14 +152,9 @@ data "aws_ami" "backend" {
   most_recent = true
   owners      = ["self"]
 
-  filter {
-    name   = "tag:ami"
-    values = ["aws-us-west-2-hyperbola-app"]
-  }
-
-  filter {
-    name   = "tag:Version"
-    values = ["0.153.0"]
+  tags = {
+    ami     = "aws-us-west-2-hyperbola-app"
+    Version = "0.153.0"
   }
 }
 
@@ -191,14 +186,14 @@ resource "aws_launch_template" "backend" {
   tag_specifications {
     resource_type = "instance"
 
-    tags {
+    tags = {
       Name        = "${var.name}-backend"
       Environment = "${var.env}"
       Version     = "0.153.0"
     }
   }
 
-  tags {
+  tags = {
     Name        = "${var.name}-backend"
     Environment = "${var.env}"
   }
@@ -211,13 +206,13 @@ resource "aws_autoscaling_group" "backend" {
   max_size              = "${2 * var.size + 1}"
   wait_for_elb_capacity = "${var.size}"
 
-  availability_zones  = ["${data.aws_subnet.private.*.availability_zone}"]
-  vpc_zone_identifier = ["${data.aws_subnet.private.*.id}"]
+  availability_zones  = data.aws_subnet.private.*.availability_zone
+  vpc_zone_identifier = data.aws_subnet.private.*.id
   target_group_arns   = ["${aws_alb_target_group.backend.arn}"]
 
   launch_template {
     id      = "${aws_launch_template.backend.id}"
-    version = "$$Latest"
+    version = "$Latest"
   }
 
   depends_on = [

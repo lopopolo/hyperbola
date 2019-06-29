@@ -104,7 +104,7 @@ resource "aws_network_acl" "acl" {
     to_port         = 0
   }
 
-  tags {
+  tags = {
     Name = "${var.name}-all"
   }
 }
@@ -129,6 +129,10 @@ output "public_subnet_tier" {
 
 output "private_subnet_tier" {
   value = "${module.private_subnet.tier}"
+}
+
+output "build_subnet_ids" {
+  value = "${module.management.build_subnet_ids}"
 }
 
 # NAT

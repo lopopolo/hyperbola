@@ -25,7 +25,7 @@ resource "aws_subnet" "public" {
   ipv6_cidr_block                 = "${cidrsubnet(cidrsubnet(data.aws_vpc.this.ipv6_cidr_block, 3, var.subnet_tier), 5, count.index)}"
   assign_ipv6_address_on_creation = true
 
-  tags {
+  tags = {
     Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
     Network = "subnet-tier-${var.subnet_tier}"
   }
@@ -39,6 +39,7 @@ resource "aws_subnet" "public" {
 
 resource "aws_route_table" "public" {
   vpc_id = "${data.aws_vpc.this.id}"
+  count  = "${length(split(",", var.azs))}"
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -50,15 +51,15 @@ resource "aws_route_table" "public" {
     gateway_id      = "${var.internet_gateway_id}"
   }
 
-  tags {
+  tags = {
     Name = "${var.name}.${element(split(",", var.azs), count.index)}"
   }
 }
 
 resource "aws_route_table_association" "public" {
   count          = "${length(split(",", var.azs))}"
-  subnet_id      = "${element(aws_subnet.public.*.id, count.index)}"
-  route_table_id = "${aws_route_table.public.id}"
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public[count.index].id
 }
 
 output "subnet_ids" {

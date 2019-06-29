@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "backup" {
   bucket = "hyperbola-app-backup-${var.env}"
   acl    = "private"
 
-  tags {
+  tags = {
     Environment = "${var.env}"
   }
 }

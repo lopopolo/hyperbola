@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "this" {
       "s3:GetBucketLocation",
     ]
 
-    resources = ["${formatlist("%s", var.bucket_arns)}"]
+    resources = formatlist("%s", var.bucket_arns)
   }
 
   statement {
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "this" {
       "s3:*Object*",
     ]
 
-    resources = ["${formatlist("%s/*", var.bucket_arns)}"]
+    resources = formatlist("%s/*", var.bucket_arns)
   }
 
   statement {

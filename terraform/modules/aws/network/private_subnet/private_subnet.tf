@@ -32,7 +32,7 @@ resource "aws_subnet" "private" {
   ipv6_cidr_block                 = "${cidrsubnet(cidrsubnet(data.aws_vpc.this.ipv6_cidr_block, 3, var.subnet_tier), 5, count.index)}"
   assign_ipv6_address_on_creation = true
 
-  tags {
+  tags = {
     Name    = "${var.name}.${element(split(",", var.azs), count.index)}"
     Network = "subnet-tier-${var.subnet_tier}"
   }
@@ -46,7 +46,7 @@ resource "aws_route_table" "private" {
   vpc_id = "${data.aws_vpc.this.id}"
   count  = "${length(split(",", var.azs))}"
 
-  tags {
+  tags = {
     Name = "${var.name}.${element(split(",", var.azs), count.index)}"
   }
 
@@ -58,7 +58,7 @@ resource "aws_route_table" "private" {
 resource "aws_route" "nat_gateway" {
   count = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
 
-  route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
+  route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = "${element(split(",", var.nat_gateway_ids), count.index)}"
 
@@ -70,7 +70,7 @@ resource "aws_route" "nat_gateway" {
 resource "aws_route" "ipv6_egress_gateway" {
   count = "${var.nat_enabled == "true" ? length(split(",", var.azs)) : 0}"
 
-  route_table_id         = "${element(aws_route_table.private.*..id, count.index)}"
+  route_table_id         = aws_route_table.private[count.index].id
   destination_cidr_block = "::/0"
   egress_only_gateway_id = "${var.egress_gateway_id}"
 
@@ -81,8 +81,8 @@ resource "aws_route" "ipv6_egress_gateway" {
 
 resource "aws_route_table_association" "private" {
   count          = "${length(split(",", var.azs))}"
-  subnet_id      = "${element(aws_subnet.private.*.id, count.index)}"
-  route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private[count.index].id
 
   lifecycle {
     create_before_destroy = true

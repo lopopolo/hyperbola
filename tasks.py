@@ -1,9 +1,9 @@
 from invoke import Collection, task
 
 
-def terraform_output(ctx, *, module, prop):
+def terraform_output(ctx, *, prop):
     with ctx.cd("terraform/app-prod-pdx"):
-        result = ctx.run(f"terraform output -module={module} {prop}")
+        result = ctx.run(f"terraform output {prop}")
         return result.stdout.strip()
 
 
@@ -52,11 +52,9 @@ def ami(ctx):
     from dotenv import load_dotenv
 
     load_dotenv()
-    vpc = terraform_output(ctx, module="network", prop="vpc_id")
-    subnet = random.choice(
-        terraform_output(ctx, module="network.management", prop="build_subnet_ids").split(",")
-    )
-    instance_profile = terraform_output(ctx, module="base", prop="app_instance_profile")
+    vpc = terraform_output(ctx, prop="vpc_id")
+    subnet = random.choice(terraform_output(ctx, prop="build_subnet_ids").split(","))
+    instance_profile = terraform_output(ctx, prop="app_instance_profile")
     os.environ.setdefault("BUILD_VPC_ID", vpc)
     os.environ.setdefault("BUILD_SUBNET_ID", subnet)
     os.environ.setdefault("BUILD_INSTANCE_PROFILE", instance_profile)
@@ -72,7 +70,7 @@ def update_launch_template(ctx):
 
 @task
 def cycle_asg(ctx):
-    asg = terraform_output(ctx, module="backend", prop="backend_asg")
+    asg = terraform_output(ctx, prop="backend_asg")
     ctx.run(f"./vendor/aws-autoscaling-rollout.py --autoscaler {asg}", pty=True)
 
 

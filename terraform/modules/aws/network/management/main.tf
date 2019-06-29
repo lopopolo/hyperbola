@@ -99,7 +99,7 @@ resource "aws_security_group" "this" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags {
+  tags = {
     Class = "management"
   }
 }
@@ -111,7 +111,7 @@ data "aws_vpc_endpoint_service" "s3" {
 resource "aws_vpc_endpoint" "s3" {
   vpc_id          = "${var.vpc_id}"
   service_name    = "${data.aws_vpc_endpoint_service.s3.service_name}"
-  route_table_ids = ["${concat(var.s3_route_tables, module.public_subnet.route_table, module.private_subnet.route_table)}"]
+  route_table_ids = concat(var.s3_route_tables, module.public_subnet.route_table, module.private_subnet.route_table)
 }
 
 data "aws_vpc_endpoint_service" "ssm" {
@@ -137,7 +137,7 @@ resource "aws_vpc_endpoint" "ssm" {
   vpc_id              = "${var.vpc_id}"
   service_name        = "${data.aws_vpc_endpoint_service.ssm.service_name}"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = ["${module.private_subnet.subnet_ids}"]
+  subnet_ids          = module.private_subnet.subnet_ids
   security_group_ids  = ["${aws_security_group.ssm.id}"]
   private_dns_enabled = true
 }
