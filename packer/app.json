@@ -43,7 +43,7 @@
         "Project": "hyperbola",
         "Name": "app",
         "Environment": "production",
-        "Version": "0.154.0"
+        "Version": "0.155.0"
       },
       "associate_public_ip_address": true
     }

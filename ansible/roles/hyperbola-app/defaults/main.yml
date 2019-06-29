@@ -1,4 +1,4 @@
 app_nginx_domain: ~
 app_deploy_root: "/hyperbola/app"
 app_source_root: "/hyperbola/sdist"
-app_version: 0.154.0
+app_version: 0.155.0
