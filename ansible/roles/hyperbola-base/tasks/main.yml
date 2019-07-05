@@ -2,7 +2,7 @@
   include_tasks: ansible.yml
 - name: apt update && apt upgrade
   apt:
-    upgrade: yes
+    upgrade: "yes"
     update_cache: yes
     cache_valid_time: 3600
 - name: base packages
