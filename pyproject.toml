@@ -52,7 +52,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.7"
 bleach = "^3.0"
-bleach-whitelist = "^0.0.9"
+bleach-whitelist = "^0.0.10"
 django = "^2.2"
 django-mysql = "^3.0.0"
 django-s3-storage = "^0.12.4"
@@ -71,7 +71,7 @@ bumpversion = "^0.5.3"
 flake8 = "^3.6"
 pylint = "^2.1"
 invoke = "^1.2"
-pydocstyle = "^3.0"
+pydocstyle = "^4.0"
 python-dotenv = "^0.10.1"
 
 [build-system]
