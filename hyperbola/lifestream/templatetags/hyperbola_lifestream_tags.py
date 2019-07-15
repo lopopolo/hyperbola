@@ -20,6 +20,7 @@ def hashtagize(blurb, autoescape=True):
         blurb (str): The lifestream entry to scan for #hashtags
         autoescape (bool): Whether or not this template tag should escape blurb
             before inserting hashtag link markup.
+
     """
     esc = make_escape_function(autoescape)
 

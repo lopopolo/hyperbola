@@ -21,6 +21,7 @@ def anti_spamize(email, autoescape=True):
             href value and text.
         autoescape (bool): Whether or not this template tag should escape blurb
             before inserting hashtag link markup.
+
     """
     esc = make_escape_function(autoescape)
 
