@@ -45,13 +45,7 @@ def markdown(text):
     tags = markdown_tags + ["pre"]
     attrs = {**markdown_attrs, **{"div": ["class"], "span": ["class"], "img": ["class", "srcset"]}}
     ext_opts = {"codehilite": {"css_class": "syntax"}}
-    return mark_safe(
-        bleach.clean(
-            markdown_render(
-                text, extensions=["codehilite", "fenced_code"], extension_configs=ext_opts
-            ),
-            tags,
-            attrs,
-            all_styles,
-        )
+    rendered = markdown_render(
+        text, extensions=["codehilite", "fenced_code", "footnotes"], extension_configs=ext_opts
     )
+    return mark_safe(bleach.clean(rendered, tags, attrs, all_styles))
