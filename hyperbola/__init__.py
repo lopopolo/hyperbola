@@ -1,2 +1,2 @@
 __all__ = ("settings", "urls", "wsgi")
-__version__ = "0.155.0"
+__version__ = "0.156.0"
