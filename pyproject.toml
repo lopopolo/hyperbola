@@ -64,7 +64,7 @@ pillow = "^6.0.0"
 pytz = "*"
 awscli = "^1.16"
 pygments = "^2.2"
-ssm-parameter-store = "^18.7"
+ssm-parameter-store = "^19.5"
 
 [tool.poetry.dev-dependencies]
 bumpversion = "^0.5.3"
