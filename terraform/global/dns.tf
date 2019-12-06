@@ -15,13 +15,14 @@ resource "aws_route53_zone" "hyperboladc" {
 }
 
 output "hyperbola_zone_id" {
-  value = "${aws_route53_zone.hyperbola.zone_id}"
+  value = aws_route53_zone.hyperbola.zone_id
 }
 
 output "hyperbolausercontent_zone_id" {
-  value = "${aws_route53_zone.hyperbolausercontent.zone_id}"
+  value = aws_route53_zone.hyperbolausercontent.zone_id
 }
 
 output "hyperboladc_zone_id" {
-  value = "${aws_route53_zone.hyperboladc.zone_id}"
+  value = aws_route53_zone.hyperboladc.zone_id
 }
+
