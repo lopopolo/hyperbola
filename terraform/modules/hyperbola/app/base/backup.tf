@@ -3,14 +3,15 @@ resource "aws_s3_bucket" "backup" {
   acl    = "private"
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
 output "backup_bucket" {
-  value = "${aws_s3_bucket.backup.bucket}"
+  value = aws_s3_bucket.backup.bucket
 }
 
 output "backup_bucket_arn" {
-  value = "${aws_s3_bucket.backup.arn}"
+  value = aws_s3_bucket.backup.arn
 }
+

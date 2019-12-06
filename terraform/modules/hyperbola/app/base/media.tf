@@ -1,5 +1,8 @@
-variable "env" {}
-variable "bucket" {}
+variable "env" {
+}
+
+variable "bucket" {
+}
 
 provider "aws" {
   region  = "us-east-1"
@@ -8,14 +11,14 @@ provider "aws" {
 }
 
 data "aws_acm_certificate" "cdn" {
-  provider = "aws.cloudfront-acm-region"
+  provider = aws.cloudfront-acm-region
   domain   = "*.hyperbolausercontent.net"
   statuses = ["ISSUED"]
 }
 
 resource "aws_cloudfront_distribution" "cdn" {
   origin {
-    domain_name = "${aws_s3_bucket.media.bucket_domain_name}"
+    domain_name = aws_s3_bucket.media.bucket_domain_name
     origin_id   = "s3-media"
   }
 
@@ -53,11 +56,11 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${data.aws_acm_certificate.cdn.arn}"
+    acm_certificate_arn      = data.aws_acm_certificate.cdn.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }
@@ -73,14 +76,15 @@ resource "aws_s3_bucket" "media" {
 
   tags = {
     Name        = "hyperbola-app media files for ${var.env}"
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
 
 output "media_bucket" {
-  value = "${aws_s3_bucket.media.bucket}"
+  value = aws_s3_bucket.media.bucket
 }
 
 output "media_bucket_arn" {
-  value = "${aws_s3_bucket.media.arn}"
+  value = aws_s3_bucket.media.arn
 }
+
