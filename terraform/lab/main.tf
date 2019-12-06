@@ -26,9 +26,10 @@ variable "azs" {
 
 module "network" {
   source      = "../modules/aws/network"
-  name        = "${var.name}"
-  vpc_cidr    = "${var.vpc_cidr}"
-  azs         = "${var.azs}"
+  name        = var.name
+  vpc_cidr    = var.vpc_cidr
+  azs         = var.azs
   nat_enabled = "false"
-  region      = "${var.region}"
+  region      = var.region
 }
+
