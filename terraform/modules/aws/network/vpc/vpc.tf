@@ -55,4 +55,3 @@ output "internet_gateway_id" {
 output "egress_gateway_id" {
   value = aws_egress_only_internet_gateway.this.id
 }
-

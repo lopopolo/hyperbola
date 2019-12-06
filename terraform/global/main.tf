@@ -71,4 +71,3 @@ output "iam_admin_access_ids" {
 output "iam_admin_secret_keys" {
   value = module.iam_admin.secret_keys
 }
-

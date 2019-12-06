@@ -32,4 +32,3 @@ module "network" {
   nat_enabled = "false"
   region      = var.region
 }
-

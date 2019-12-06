@@ -159,4 +159,3 @@ output "s3_endpoint_prefix_list_id" {
 output "ssm_security_group_id" {
   value = module.management.ssm_security_group_id
 }
-

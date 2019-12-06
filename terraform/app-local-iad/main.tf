@@ -156,4 +156,3 @@ Vagrant S3 IAM:
 CONFIG
 
 }
-

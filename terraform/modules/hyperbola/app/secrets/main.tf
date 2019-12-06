@@ -30,4 +30,3 @@ resource "aws_ssm_parameter" "database_password" {
     Project     = "app"
   }
 }
-

@@ -26,4 +26,3 @@ resource "aws_route53_record" "cdn-AAAA" {
     evaluate_target_health = false
   }
 }
-

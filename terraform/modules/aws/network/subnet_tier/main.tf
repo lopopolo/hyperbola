@@ -17,4 +17,3 @@ output "management_private" {
 output "private_mysql_rds" {
   value = "5"
 }
-

@@ -25,4 +25,3 @@ output "hyperbolausercontent_zone_id" {
 output "hyperboladc_zone_id" {
   value = aws_route53_zone.hyperboladc.zone_id
 }
-
