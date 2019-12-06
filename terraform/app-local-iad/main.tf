@@ -12,9 +12,11 @@ variable "env" {
   default = "local"
 }
 
-variable "app_secret_key" {}
+variable "app_secret_key" {
+}
 
-variable "app_database_password" {}
+variable "app_database_password" {
+}
 
 data "aws_route53_zone" "dc" {
   name         = "hyperboladc.net."
@@ -22,7 +24,7 @@ data "aws_route53_zone" "dc" {
 }
 
 resource "aws_route53_record" "app-local" {
-  zone_id = "${data.aws_route53_zone.dc.zone_id}"
+  zone_id = data.aws_route53_zone.dc.zone_id
   name    = "app-local"
   type    = "A"
   ttl     = "300"
@@ -30,7 +32,7 @@ resource "aws_route53_record" "app-local" {
 }
 
 resource "aws_route53_record" "lb-local" {
-  zone_id = "${data.aws_route53_zone.dc.zone_id}"
+  zone_id = data.aws_route53_zone.dc.zone_id
   name    = "lb-local"
   type    = "A"
   ttl     = "300"
@@ -38,25 +40,25 @@ resource "aws_route53_record" "lb-local" {
 }
 
 resource "aws_route53_record" "local" {
-  zone_id = "${data.aws_route53_zone.dc.zone_id}"
+  zone_id = data.aws_route53_zone.dc.zone_id
   name    = "local"
   type    = "CNAME"
   ttl     = "300"
-  records = ["${aws_route53_record.lb-local.fqdn}"]
+  records = [aws_route53_record.lb-local.fqdn]
 }
 
 module "base" {
   source = "../modules/hyperbola/app/base"
-  env    = "${var.env}"
+  env    = var.env
   bucket = "local"
 }
 
 module "secrets" {
   source = "../modules/hyperbola/app/secrets"
-  env    = "${var.env}"
+  env    = var.env
 
-  secret_key        = "${var.app_secret_key}"
-  database_password = "${var.app_database_password}"
+  secret_key        = var.app_secret_key
+  database_password = var.app_database_password
 }
 
 data "aws_iam_policy_document" "lb" {
@@ -93,17 +95,17 @@ module "iam_r53" {
   name  = "local-route53"
   users = "local-lb"
 
-  policy = "${data.aws_iam_policy_document.lb.json}"
+  policy = data.aws_iam_policy_document.lb.json
 }
 
 module "app_policy" {
   source = "../modules/hyperbola/app/iam"
 
-  env = "${var.env}"
+  env = var.env
 
   bucket_arns = [
-    "${module.base.media_bucket_arn}",
-    "${module.base.backup_bucket_arn}",
+    module.base.media_bucket_arn,
+    module.base.backup_bucket_arn,
   ]
 }
 
@@ -113,25 +115,45 @@ module "iam_vagrant" {
   name  = "local-app-s3"
   users = "local-app"
 
-  policy = "${module.app_policy.document}"
+  policy = module.app_policy.document
 }
 
 output "config" {
   value = <<CONFIG
 
 Route53 IAM:
-  Route53 Users: ${join("\n               ", formatlist("%s", split(",", module.iam_r53.users)))}
+  Route53 Users: ${join(
+  "\n               ",
+  formatlist("%s", split(",", module.iam_r53.users)),
+  )}
 
-  Access IDs: ${join("\n              ", formatlist("%s", split(",", module.iam_r53.access_ids)))}
+  Access IDs: ${join(
+  "\n              ",
+  formatlist("%s", split(",", module.iam_r53.access_ids)),
+  )}
 
-  Secret Keys: ${join("\n               ", formatlist("%s", split(",", module.iam_r53.secret_keys)))}
+  Secret Keys: ${join(
+  "\n               ",
+  formatlist("%s", split(",", module.iam_r53.secret_keys)),
+  )}
 
 Vagrant S3 IAM:
-  Vagrant S3 Users: ${join("\n               ", formatlist("%s", split(",", module.iam_vagrant.users)))}
+  Vagrant S3 Users: ${join(
+  "\n               ",
+  formatlist("%s", split(",", module.iam_vagrant.users)),
+  )}
 
-  Access IDs: ${join("\n              ", formatlist("%s", split(",", module.iam_vagrant.access_ids)))}
+  Access IDs: ${join(
+  "\n              ",
+  formatlist("%s", split(",", module.iam_vagrant.access_ids)),
+  )}
 
-  Secret Keys: ${join("\n               ", formatlist("%s", split(",", module.iam_vagrant.secret_keys)))}
+  Secret Keys: ${join(
+  "\n               ",
+  formatlist("%s", split(",", module.iam_vagrant.secret_keys)),
+)}
 
 CONFIG
+
 }
+
