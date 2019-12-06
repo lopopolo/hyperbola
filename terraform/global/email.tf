@@ -24,12 +24,3 @@ module "hyperboladc_email_dns" {
   google_site_verifcation_keys = "MBJltQtisR_DfhKzGfjs4mjMRpPK-1nRugHrza1elAA"
   dkim                         = "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgw9GWNAV7pI++w0j2kBrSkZbU9+v0cULWem5c1n2AavdmSp+JP0WNXww3bi72pxI2Vrq0iTlmSVxERCLMhnHx1jHEg+iz/JsngVF9ShSYHfs0oz89hVGzA9nX/pC+DH0r066BHtB5DiTcH5MHLLcMjJMjHbw6C/LnAygUMac4pGPlaj56V+TTZpr/dEm5zkzhb+i500SROmnwAy5CsCymPXE3jcoOLeCh1MkJGZgH7hxgBxusii3Z1jvtVHodRWXp7P2UYmHJTCWtTpCribewkRluRGsNao5Ssxtql+16PqNJzY/VpeW1G9Qv77KS9iBZvQpCXALAZnfU637UoNKxwIDAQAB"
 }
-
-module "frklftio_email_dns" {
-  source = "../modules/hyperbola/gsuite/email-dns"
-
-  zone_id                      = "${aws_route53_zone.frklftio.zone_id}"
-  zone_name                    = "${aws_route53_zone.frklftio.name}"
-  google_site_verifcation_keys = "rNj-6ZSpuqMoU3YR8jmU1dnOpB5scULtxdMEAF1SnLw"
-  dkim                         = "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi2QjW7NhvfFPpLYXl6FnhcHExsm9dgAJWPU1+m9b1ZhKM7mhMtoD399hI+L2eoFlqKslTzCalaUJpHIL2ZIPUAOjAgDsNrEzVsPCqOGS16rdO9D3sPznAxir7r0MsXOuEx2ci1YoD4SKXwzp0okOYVvSmQud4rdp5uKQg8/HBLWXuOhQRQE2rk1lx1SrQGnYt9NsYtNSYPsjdd2SfNLvYPzgDWQTfsj7cRKxv0zT3eI7rPY7z8Gsk1pf1etm4QIyFnG4unysMHaBGseXCYxV8g2FMF0OtjU2x1jV9yigOENJyt87DVh4AN3tT9UZdJUeOWd8eNCvH7hyCiBgbGJ0fwIDAQAB"
-}
