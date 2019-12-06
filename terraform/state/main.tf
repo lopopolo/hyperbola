@@ -36,3 +36,4 @@ resource "aws_dynamodb_table" "terraform_statelock" {
     prevent_destroy = true
   }
 }
+
