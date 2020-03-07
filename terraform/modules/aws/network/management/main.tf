@@ -6,7 +6,7 @@ variable "internet_gateway_id" {}
 variable "egress_gateway_id" {}
 
 variable "s3_route_tables" {
-  type = "list"
+  type = list
 }
 
 module "tier" {
@@ -41,7 +41,7 @@ module "private_subnet" {
 resource "aws_security_group" "this" {
   name_prefix = "management-sg-"
   description = "Management Domain Security Group"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   egress {
     from_port       = 80
