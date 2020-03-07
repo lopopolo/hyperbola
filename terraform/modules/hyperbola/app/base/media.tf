@@ -6,7 +6,7 @@ variable "bucket" {
 
 provider "aws" {
   region  = "us-east-1"
-  version = "~> 2.17.0"
+  version = "~> 2"
   alias   = "cloudfront-acm-region"
 }
 

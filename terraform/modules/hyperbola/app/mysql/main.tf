@@ -38,6 +38,8 @@ resource "aws_db_instance" "main_rds_instance" {
   backup_retention_period = 10
   backup_window           = "09:22-09:52" # UTC
 
+  ca_cert_identifier = "rds-ca-2019"
+
   tags = {
     Name        = "${var.name}"
     Environment = "${var.env}"
