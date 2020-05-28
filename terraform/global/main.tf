@@ -16,25 +16,24 @@ variable "iam_admins" {
   default = "hyperbola-admin-2"
 }
 
+data "aws_iam_policy_document" "admin" {
+  statement {
+    sid = 1
+
+    effect = "Allow"
+
+    actions   = ["*"]
+    resources = ["*"]
+  }
+}
+
 module "iam_admin" {
   source = "../modules/aws/util/iam"
 
   name  = "${var.name}-admin"
   users = var.iam_admins
 
-  policy = <<EOF
-{
-  "Version"  : "2012-10-17",
-  "Statement": [
-    {
-      "Effect"  : "Allow",
-      "Action"  : "*",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-
+  policy = data.aws_iam_policy_document.admin.json
 }
 
 output "config" {
