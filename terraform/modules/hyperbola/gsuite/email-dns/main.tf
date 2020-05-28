@@ -7,8 +7,8 @@ variable "dkim" {}
 # G Suite TXT record values: https://support.google.com/a/answer/2716802?hl=en
 
 resource "aws_route53_record" "mx" {
-  zone_id = "${var.zone_id}"
-  name    = "${var.zone_name}"
+  zone_id = var.zone_id
+  name    = var.zone_name
   type    = "MX"
   ttl     = "300"
 
@@ -22,16 +22,16 @@ resource "aws_route53_record" "mx" {
 }
 
 resource "aws_route53_record" "txt" {
-  zone_id = "${var.zone_id}"
-  name    = "${var.zone_name}"
+  zone_id = var.zone_id
+  name    = var.zone_name
   type    = "TXT"
   ttl     = "300"
 
-  records = "${concat(list("v=spf1 include:_spf.google.com ~all"), formatlist("google-site-verification=%s", split(",", var.google_site_verifcation_keys)))}"
+  records = concat(list("v=spf1 include:_spf.google.com ~all"), formatlist("google-site-verification=%s", split(",", var.google_site_verifcation_keys)))
 }
 
 resource "aws_route53_record" "dkim" {
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
   name    = "google._domainkey"
   type    = "TXT"
   ttl     = "300"
