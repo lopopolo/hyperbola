@@ -10,5 +10,5 @@ resource "aws_iam_account_password_policy" "this" {
 }
 
 resource "aws_iam_account_alias" "this" {
-  account_alias = "hyperbola"
+  account_alias = "hyperbola-mainland"
 }
