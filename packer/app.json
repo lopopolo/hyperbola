@@ -31,6 +31,8 @@
       },
       "instance_type": "c5.xlarge",
       "spot_price": "0.17",
+      "associate_public_ip_address": true,
+      "ssh_interface": "public_ip",
       "ssh_username": "ubuntu",
       "ssh_timeout": "10m",
       "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_resource_name}}",
@@ -44,8 +46,7 @@
         "Name": "app",
         "Environment": "production",
         "Version": "0.158.1"
-      },
-      "associate_public_ip_address": true
+      }
     }
   ],
   "provisioners": [
