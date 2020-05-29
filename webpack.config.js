@@ -8,32 +8,32 @@ const plugins = [new MiniCssExtractPlugin()];
 module.exports = {
   context: path.resolve(__dirname),
   output: {
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
   },
   plugins,
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()]
+    minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()],
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: "babel-loader",
       },
       {
         test: /\.s?css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: new RegExp(path.resolve(__dirname, "src", "assets")),
         use: {
           loader: "file-loader",
           options: {
-            name: "[name].[ext]"
-          }
-        }
+            name: "[name].[ext]",
+          },
+        },
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -41,14 +41,14 @@ module.exports = {
         use: {
           loader: "url-loader",
           options: {
-            limit: 8192
-          }
-        }
+            limit: 8192,
+          },
+        },
       },
       {
         test: /\.svg$/i,
-        use: ["file-loader", "svgo-loader"]
-      }
-    ]
-  }
+        use: ["file-loader", "svgo-loader"],
+      },
+    ],
+  },
 };
