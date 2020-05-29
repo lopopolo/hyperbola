@@ -1,11 +1,11 @@
 exclude: "^vendor/"
 repos:
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v2.1.1
+    rev: v2.4.0
     hooks:
       - id: validate_manifest
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v2.5.0
+    rev: v3.1.0
     hooks:
       - id: check-added-large-files
       - id: check-ast
@@ -26,9 +26,6 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
         exclude: \.bumpversion\.cfg
-      - id: flake8
-        args:
-          - "--max-line-length=99"
         language_version: python3
       - id: forbid-new-submodules
       - id: mixed-line-ending
@@ -40,7 +37,7 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/willthames/ansible-lint.git
-    rev: v4.2.0
+    rev: v4.3.0a1
     hooks:
       - id: ansible-lint
         types: [yaml]
@@ -59,14 +56,18 @@ repos:
         entry: python -m pylint.__main__
         language: system
         types: [python]
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.2
+    hooks:
+      - id: flake8
   - repo: https://github.com/asottile/pyupgrade.git
-    rev: v2.1.0
+    rev: v2.4.4
     hooks:
       - id: pyupgrade
         args:
           - "--py36-plus"
   - repo: https://github.com/antonbabenko/pre-commit-terraform.git
-    rev: v1.27.0
+    rev: v1.31.0
     hooks:
       - id: terraform_fmt
   - repo: local
