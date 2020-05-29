@@ -154,7 +154,7 @@ data "aws_ami" "backend" {
 
   tags = {
     ami     = "aws-us-west-2-hyperbola-app"
-    Version = "0.158.1"
+    Version = "0.159.0"
   }
 }
 
@@ -189,7 +189,7 @@ resource "aws_launch_template" "backend" {
     tags = {
       Name        = "${var.name}-backend"
       Environment = "${var.env}"
-      Version     = "0.158.1"
+      Version     = "0.159.0"
     }
   }
 
