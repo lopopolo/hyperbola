@@ -45,7 +45,7 @@
         "Project": "hyperbola",
         "Name": "app",
         "Environment": "production",
-        "Version": "0.158.1"
+        "Version": "0.158.0"
       }
     }
   ],

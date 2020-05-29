@@ -22,7 +22,7 @@ exclude = '''
 
 [tool.poetry]
 name = "hyperbola"
-version = "0.158.1"
+version = "0.158.0"
 description = "hyperbo.la website of Ryan Lopopolo."
 authors = ["Ryan Lopopolo <rjl@hyperbo.la>"]
 license = "MIT"
