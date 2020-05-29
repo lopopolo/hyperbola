@@ -5,7 +5,7 @@ variable "env" {}
 variable "database_password" {}
 
 data "aws_vpc" "current" {
-  id = "${var.vpc_id}"
+  id = var.vpc_id
 }
 
 resource "aws_db_instance" "main_rds_instance" {
@@ -17,12 +17,12 @@ resource "aws_db_instance" "main_rds_instance" {
 
   name     = "hyperbola"
   username = "app"
-  password = "${var.database_password}"
+  password = var.database_password
   port     = "3306"
 
-  vpc_security_group_ids = ["${aws_security_group.main_db_access.id}"]
-  db_subnet_group_name   = "${aws_db_subnet_group.main_db_subnet_group.name}"
-  parameter_group_name   = "${aws_db_parameter_group.main_rds_instance.id}"
+  vpc_security_group_ids = [aws_security_group.main_db_access.id]
+  db_subnet_group_name   = aws_db_subnet_group.main_db_subnet_group.name
+  parameter_group_name   = aws_db_parameter_group.main_rds_instance.id
 
   multi_az            = false
   storage_type        = "gp2"
@@ -41,8 +41,8 @@ resource "aws_db_instance" "main_rds_instance" {
   ca_cert_identifier = "rds-ca-2019"
 
   tags = {
-    Name        = "${var.name}"
-    Environment = "${var.env}"
+    Name        = var.name
+    Environment = var.env
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_db_parameter_group" "main_rds_instance" {
   }
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 
   lifecycle {
@@ -111,11 +111,11 @@ module "tier" {
 module "subnets" {
   source = "../../../aws/network/private_subnet"
 
-  name   = "${var.name}"
-  vpc_id = "${data.aws_vpc.current.id}"
-  azs    = "${var.azs}"
+  name   = var.name
+  vpc_id = data.aws_vpc.current.id
+  azs    = var.azs
 
-  subnet_tier       = "${module.tier.private_mysql_rds}"
+  subnet_tier       = module.tier.private_mysql_rds
   nat_enabled       = "false"
   nat_gateway_ids   = ""
   egress_gateway_id = ""
@@ -127,7 +127,7 @@ resource "aws_db_subnet_group" "main_db_subnet_group" {
   subnet_ids  = module.subnets.subnet_ids
 
   tags = {
-    Environment = "${var.env}"
+    Environment = var.env
   }
 
   lifecycle {
@@ -139,11 +139,11 @@ resource "aws_db_subnet_group" "main_db_subnet_group" {
 resource "aws_security_group" "main_db_access" {
   name_prefix = "app-mysql-sg-"
   description = "Allow access to the database"
-  vpc_id      = "${data.aws_vpc.current.id}"
+  vpc_id      = data.aws_vpc.current.id
 
   tags = {
     Name        = "${var.name}-sg"
-    Environment = "${var.env}"
+    Environment = var.env
   }
 
   lifecycle {
@@ -152,7 +152,7 @@ resource "aws_security_group" "main_db_access" {
 }
 
 output "endpoint" {
-  value = "${aws_db_instance.main_rds_instance.address}"
+  value = aws_db_instance.main_rds_instance.address
 }
 
 output "port" {
@@ -160,5 +160,5 @@ output "port" {
 }
 
 output "security_group_id" {
-  value = "${aws_security_group.main_db_access.id}"
+  value = aws_security_group.main_db_access.id
 }

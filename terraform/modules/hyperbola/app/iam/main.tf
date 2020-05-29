@@ -1,7 +1,7 @@
 variable "env" {}
 
 variable "bucket_arns" {
-  type = "list"
+  type = list
 }
 
 data "aws_iam_policy_document" "this" {

@@ -17,25 +17,25 @@ module "public_subnet" {
   source = "../public_subnet"
 
   name   = "${var.name}-public"
-  vpc_id = "${var.vpc_id}"
-  azs    = "${var.azs}"
+  vpc_id = var.vpc_id
+  azs    = var.azs
 
-  subnet_tier         = "${module.tier.management_public}"
-  internet_gateway_id = "${var.internet_gateway_id}"
-  egress_gateway_id   = "${var.egress_gateway_id}"
+  subnet_tier         = module.tier.management_public
+  internet_gateway_id = var.internet_gateway_id
+  egress_gateway_id   = var.egress_gateway_id
 }
 
 module "private_subnet" {
   source = "../private_subnet"
 
   name   = "${var.name}-private"
-  vpc_id = "${var.vpc_id}"
-  azs    = "${var.azs}"
+  vpc_id = var.vpc_id
+  azs    = var.azs
 
-  subnet_tier       = "${module.tier.management_private}"
+  subnet_tier       = module.tier.management_private
   nat_enabled       = "false"
   nat_gateway_ids   = ""
-  egress_gateway_id = "${var.egress_gateway_id}"
+  egress_gateway_id = var.egress_gateway_id
 }
 
 resource "aws_security_group" "this" {
@@ -47,14 +47,14 @@ resource "aws_security_group" "this" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.ssm.id}"]
+    security_groups = [aws_security_group.ssm.id]
   }
 
   egress {
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.ssm.id}"]
+    security_groups = [aws_security_group.ssm.id]
   }
 
   egress {
@@ -109,8 +109,8 @@ data "aws_vpc_endpoint_service" "s3" {
 }
 
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id          = "${var.vpc_id}"
-  service_name    = "${data.aws_vpc_endpoint_service.s3.service_name}"
+  vpc_id          = var.vpc_id
+  service_name    = data.aws_vpc_endpoint_service.s3.service_name
   route_table_ids = concat(var.s3_route_tables, module.public_subnet.route_table, module.private_subnet.route_table)
 }
 
@@ -121,7 +121,7 @@ data "aws_vpc_endpoint_service" "ssm" {
 resource "aws_security_group" "ssm" {
   name_prefix = "ssm-sg-"
   description = "SSM VPC Endpoint Security Group"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 }
 
 resource "aws_security_group_rule" "ssm_endpoint_from_management" {
@@ -129,27 +129,27 @@ resource "aws_security_group_rule" "ssm_endpoint_from_management" {
   protocol                 = "-1"
   from_port                = 0
   to_port                  = 0
-  security_group_id        = "${aws_security_group.ssm.id}"
-  source_security_group_id = "${aws_security_group.this.id}"
+  security_group_id        = aws_security_group.ssm.id
+  source_security_group_id = aws_security_group.this.id
 }
 
 resource "aws_vpc_endpoint" "ssm" {
-  vpc_id              = "${var.vpc_id}"
-  service_name        = "${data.aws_vpc_endpoint_service.ssm.service_name}"
+  vpc_id              = var.vpc_id
+  service_name        = data.aws_vpc_endpoint_service.ssm.service_name
   vpc_endpoint_type   = "Interface"
   subnet_ids          = module.private_subnet.subnet_ids
-  security_group_ids  = ["${aws_security_group.ssm.id}"]
+  security_group_ids  = [aws_security_group.ssm.id]
   private_dns_enabled = true
 }
 
 output "s3_endpoint_prefix_list_id" {
-  value = "${aws_vpc_endpoint.s3.prefix_list_id}"
+  value = aws_vpc_endpoint.s3.prefix_list_id
 }
 
 output "ssm_security_group_id" {
-  value = "${aws_security_group.ssm.id}"
+  value = aws_security_group.ssm.id
 }
 
 output "build_subnet_ids" {
-  value = "${join(",", module.public_subnet.subnet_ids)}"
+  value = join(",", module.public_subnet.subnet_ids)
 }
