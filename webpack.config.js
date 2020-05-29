@@ -1,17 +1,9 @@
 const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const WebappWebpackPlugin = require("webapp-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
-const plugins = [
-  new MiniCssExtractPlugin(),
-  new WebappWebpackPlugin({
-    logo: path.resolve(__dirname, "src/logo.svg"),
-    prefix: "",
-    cache: false
-  })
-];
+const plugins = [new MiniCssExtractPlugin()];
 
 module.exports = {
   context: path.resolve(__dirname),
@@ -20,13 +12,8 @@ module.exports = {
   },
   plugins,
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true
-      }),
-      new OptimizeCSSAssetsPlugin()
-    ]
+    minimize: true,
+    minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()]
   },
   module: {
     rules: [
@@ -40,7 +27,17 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
       },
       {
-        test: /\.(png|jpe?g|gif)$/,
+        test: new RegExp(path.resolve(__dirname, "src", "assets")),
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]"
+          }
+        }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        exclude: new RegExp(path.resolve(__dirname, "src", "assets")),
         use: {
           loader: "url-loader",
           options: {
@@ -49,8 +46,8 @@ module.exports = {
         }
       },
       {
-        test: /\.svg$/,
-        use: ["svg-url-loader", "svgo-loader"]
+        test: /\.svg$/i,
+        use: ["file-loader", "svgo-loader"]
       }
     ]
   }
