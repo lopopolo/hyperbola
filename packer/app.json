@@ -33,7 +33,7 @@
       "spot_price": "0.17",
       "ssh_username": "ubuntu",
       "ssh_timeout": "10m",
-      "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_ami_name}}",
+      "ami_name": "hyperbola-app {{isotime \"2006-01-02T15:04:05Z07:00\" | clean_resource_name}}",
       "ami_description": "hyperbola-app AMI",
       "run_tags": {
         "ami-create": "aws-us-west-2-hyperbola-app"
