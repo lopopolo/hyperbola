@@ -1,0 +1,9 @@
+**/*
+
+!*.js
+!*.json
+!*.md
+
+terraform/
+venv/
+.venv/

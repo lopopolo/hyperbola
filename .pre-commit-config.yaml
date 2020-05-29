@@ -35,18 +35,6 @@ repos:
       - id: name-tests-test
       - id: trailing-whitespace
         exclude: \.bumpversion\.cfg
-  - repo: https://github.com/prettier/prettier
-    rev: 1.19.1
-    hooks:
-      - id: prettier
-        exclude: \.vscode|\.html$
-  - repo: https://github.com/prettier/prettier
-    rev: 1.19.1
-    hooks:
-      - id: prettier
-        name: prettier - markdown
-        entry: prettier --write --prose-wrap always
-        types: [markdown]
   - repo: https://github.com/ambv/black.git
     rev: 19.10b0
     hooks:
@@ -85,9 +73,14 @@ repos:
     hooks:
       - id: eslint
         name: eslint
-        entry: yarn run eslint
+        entry: npx eslint
         language: system
         types: [javascript]
+      - id: prettier
+        name: prettier
+        entry: npx prettier
+        language: system
+        always_run: true
   - repo: https://github.com/pre-commit/mirrors-csslint.git
     rev: v1.0.5
     hooks:
