@@ -19,6 +19,11 @@ resource "aws_iam_group_policy" "policy" {
 resource "aws_iam_user" "user" {
   count = length(split(",", var.users))
   name  = element(split(",", var.users), count.index)
+
+  tags = {
+    project    = "aws"
+    managed_by = "terraform"
+  }
 }
 
 resource "aws_iam_access_key" "key" {
@@ -41,5 +46,5 @@ output "access_ids" {
 }
 
 output "secret_keys" {
-  value = "${join(",", aws_iam_access_key.key.*.secret)}"
+  value = join(",", aws_iam_access_key.key.*.secret)
 }
