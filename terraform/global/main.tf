@@ -13,7 +13,7 @@ variable "name" {
 }
 
 variable "iam_admins" {
-  default = "hyperbola-admin-2"
+  default = ["hyperbola-admin-2"]
 }
 
 data "aws_iam_policy_document" "admin" {
@@ -42,17 +42,17 @@ output "config" {
 Admin IAM:
   Admin Users: ${join(
   "\n               ",
-  formatlist("%s", split(",", module.iam_admin.users)),
+  formatlist("%s", module.iam_admin.users),
   )}
 
   Access IDs: ${join(
   "\n              ",
-  formatlist("%s", split(",", module.iam_admin.access_ids)),
+  formatlist("%s", module.iam_admin.access_ids),
   )}
 
   Secret Keys: ${join(
   "\n               ",
-  formatlist("%s", split(",", module.iam_admin.secret_keys)),
+  formatlist("%s", module.iam_admin.secret_keys),
 )}
 
 CONFIG

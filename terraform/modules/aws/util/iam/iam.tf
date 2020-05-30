@@ -2,9 +2,17 @@
 # This module is used to create an AWS IAM group and its users
 #--------------------------------------------------------------
 
-variable "name" {}
-variable "users" {}
-variable "policy" {}
+variable "name" {
+  type = string
+}
+
+variable "users" {
+  type = list(string)
+}
+
+variable "policy" {
+  type = string
+}
 
 resource "aws_iam_group" "group" {
   name = var.name
@@ -17,8 +25,8 @@ resource "aws_iam_group_policy" "policy" {
 }
 
 resource "aws_iam_user" "user" {
-  count = length(split(",", var.users))
-  name  = element(split(",", var.users), count.index)
+  count = length(var.users)
+  name  = element(var.users, count.index)
 
   tags = {
     project    = "aws"
@@ -27,7 +35,7 @@ resource "aws_iam_user" "user" {
 }
 
 resource "aws_iam_access_key" "key" {
-  count = length(split(",", var.users))
+  count = length(var.users)
   user  = element(aws_iam_user.user.*.name, count.index)
 }
 
@@ -38,13 +46,13 @@ resource "aws_iam_group_membership" "membership" {
 }
 
 output "users" {
-  value = join(",", aws_iam_access_key.key.*.user)
+  value = aws_iam_access_key.key.*.user
 }
 
 output "access_ids" {
-  value = join(",", aws_iam_access_key.key.*.id)
+  value = aws_iam_access_key.key.*.id
 }
 
 output "secret_keys" {
-  value = join(",", aws_iam_access_key.key.*.secret)
+  value = aws_iam_access_key.key.*.secret
 }
