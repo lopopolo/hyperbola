@@ -13,7 +13,7 @@ variable "name" {
 }
 
 variable "iam_admins" {
-  default = ["hyperbola-admin-2"]
+  default = ["hyperbola-admin-2", "lopopolo"]
 }
 
 data "aws_iam_policy_document" "admin" {
