@@ -93,7 +93,9 @@ module "iam_r53" {
   source = "../modules/aws/util/iam"
 
   name  = "local-route53"
-  users = "local-lb"
+  users = [
+    "local-lb",
+  ]
 
   policy = data.aws_iam_policy_document.lb.json
 }
@@ -113,7 +115,9 @@ module "iam_vagrant" {
   source = "../modules/aws/util/iam"
 
   name  = "local-app-s3"
-  users = "local-app"
+  users = [
+    "local-app",
+  ]
 
   policy = module.app_policy.document
 }
@@ -124,33 +128,33 @@ output "config" {
 Route53 IAM:
   Route53 Users: ${join(
   "\n               ",
-  formatlist("%s", split(",", module.iam_r53.users)),
+  formatlist("%s", module.iam_r53.users),
   )}
 
   Access IDs: ${join(
   "\n              ",
-  formatlist("%s", split(",", module.iam_r53.access_ids)),
+  formatlist("%s", module.iam_r53.access_ids),
   )}
 
   Secret Keys: ${join(
   "\n               ",
-  formatlist("%s", split(",", module.iam_r53.secret_keys)),
+  formatlist("%s", module.iam_r53.secret_keys),
   )}
 
 Vagrant S3 IAM:
   Vagrant S3 Users: ${join(
   "\n               ",
-  formatlist("%s", split(",", module.iam_vagrant.users)),
+  formatlist("%s", module.iam_vagrant.users),
   )}
 
   Access IDs: ${join(
   "\n              ",
-  formatlist("%s", split(",", module.iam_vagrant.access_ids)),
+  formatlist("%s", module.iam_vagrant.access_ids),
   )}
 
   Secret Keys: ${join(
   "\n               ",
-  formatlist("%s", split(",", module.iam_vagrant.secret_keys)),
+  formatlist("%s", module.iam_vagrant.secret_keys),
 )}
 
 CONFIG
