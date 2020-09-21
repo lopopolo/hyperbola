@@ -1,6 +1,10 @@
 # hyperbo.la
 
-This is the magic of <https://hyperbo.la>.
+**Archived**: This project used to serve lopopolo's personal site. It has been
+replaced with a static site whose sources are located at
+[`lopopolo/hyperbola-static`](https://github.com/lopopolo/hyperbola-static).
+
+This was the magic of <https://hyperbo.la>.
 
 hyperbo.la is Ryan Lopopolo's personal website. Primary content consists of a
 [blog](https://hyperbo.la/w/), [contact page](https://hyperbo.la/contact/), and
